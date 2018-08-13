@@ -1,0 +1,526 @@
+/*header start*/
+/* line 2, index.less */
+header {
+  border-bottom: 1px solid #f40;
+  text-align: center;
+}
+/* line 7, index.less */
+.header-mid {
+  display: inline-block;
+  width: 90%;
+  position: relative;
+  font-size: 14px;
+  text-align: left;
+}
+/* line 14, index.less */
+.logo {
+  display: inline-block;
+  width: 300px;
+  height: 36px;
+  vertical-align: top;
+}
+/* line 20, index.less */
+#logo {
+  max-height: 100%;
+}
+/* line 23, index.less */
+.notice-wrap {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 60%;
+  height: 20px;
+  line-height: 20px;
+  display: inline-block;
+  vertical-align: top;
+}
+/* line 40, index.less */
+.member-wrap {
+  float: right;
+  line-height: 30px;
+}
+/* line 44, index.less */
+.member-wrap:hover {
+  color: #f40;
+}
+/* line 47, index.less */
+.icon-mhead {
+  font-size: 26px;
+}
+/*header end*/
+/*main start*/
+/* line 52, index.less */
+#main {
+  min-height: 580px;
+  padding-bottom: 200px;
+}
+/* line 56, index.less */
+.main-left {
+  position: relative;
+  width: 70%;
+  float: right;
+}
+/* line 61, index.less */
+.nav-ad {
+  display: inline-block;
+  width: 100%;
+}
+/* line 65, index.less */
+.ad {
+  width: 90%;
+  height: 80px;
+  float: right;
+  overflow: hidden;
+}
+/* line 71, index.less */
+.nav-wrap {
+  position: relative;
+  width: 10%;
+  float: left;
+}
+/* line 76, index.less */
+.show-nav {
+  z-index: 9999;
+  text-align: center;
+  -webkit-transition: all 0.5s;
+          transition: all 0.5s;
+}
+/* line 81, index.less */
+.nav-item {
+  display: block;
+  width: 80px;
+  margin: 6px auto 0;
+  line-height: 32px;
+}
+/* line 87, index.less */
+#current-nav,
+.nav-item:hover {
+  background: #f40;
+  border-radius: 8px;
+  color: #fff;
+}
+/* line 92, index.less */
+nav {
+  position: absolute;
+  width: 100%;
+  display: none;
+  background: rgba(225, 225, 225, 0.9);
+  border-radius: 8px;
+  z-index: 9999;
+}
+/*slide start*/
+/* line 101, index.less */
+.slide-wrap {
+  position: relative;
+  overflow: hidden;
+}
+/* line 105, index.less */
+.slide-body {
+  height: 300px;
+}
+/* line 108, index.less */
+.slide-order {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: column nowrap;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  position: absolute;
+  width: 60px;
+  height: 300px;
+  right: 0;
+  top: 0;
+  background: rgba(200, 200, 200, 0.8);
+}
+/* line 118, index.less */
+.slide-order li {
+  position: relative;
+  -webkit-box-flex: 1;
+  -webkit-flex: auto;
+      -ms-flex: auto;
+          flex: auto;
+  line-height: 60px;
+  cursor: pointer;
+  text-align: center;
+  -webkit-transition: all 0.5s;
+          transition: all 0.5s;
+}
+/* line 126, index.less */
+.slide-order .on {
+  background: #f40;
+  color: #fff;
+}
+/* line 131, index.less */
+.slide-order .on .triangle {
+  border-right-color: #f40;
+}
+/*news start*/
+/* line 135, index.less */
+.news-wrap {
+  margin-top: 10px;
+  text-align: left;
+  overflow: hidden;
+}
+/* line 140, index.less */
+.news-left,
+.news-right {
+  float: left;
+  width: 50%;
+}
+/* line 144, index.less */
+.newstrong::before,
+.nav-strong::before {
+  display: inline-block;
+  content: "";
+  width: 6px;
+  height: 20px;
+  background: #f40;
+  vertical-align: top;
+  margin-right: 6px;
+}
+/* line 153, index.less */
+.newstext-sort,
+.newsimg-sort {
+  margin: 10px;
+}
+/* line 156, index.less */
+.news-link {
+  display: block;
+  line-height: 28px;
+}
+/* line 160, index.less */
+.news-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  max-width: 500px;
+}
+/* line 167, index.less */
+.newstext-sort h1 {
+  display: inline-block;
+  width: 70%;
+}
+/* line 171, index.less */
+.newstext-sort time {
+  float: right;
+}
+/* line 174, index.less */
+.newsimg-sort li {
+  margin-bottom: 10px;
+  overflow: hidden;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 2px;
+}
+/* line 180, index.less */
+.news-img {
+  width: 150px;
+  height: 130px;
+  float: left;
+  margin-right: 15px;
+}
+/* line 186, index.less */
+.news-art {
+  line-height: 30px;
+}
+/* line 189, index.less */
+.news-bigimg {
+  max-width: 200px;
+  height: 150px;
+  float: left;
+  margin-right: 15px;
+}
+/*right aside start*/
+/* line 197, index.less */
+.main-right {
+  width: 29%;
+  float: left;
+  overflow-y: auto;
+}
+/*friendly nav start*/
+/* line 203, index.less */
+.fnav-item {
+  float: left;
+  padding: 5px 10px;
+}
+/**/
+/* line 208, index.less */
+.about-us,
+.us-desc {
+  margin-top: 10px;
+}
+/*footer start*/
+/* line 212, index.less */
+.footer-wrap {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  padding: 50px 0;
+  background: #f40;
+}
+/* line 219, index.less */
+.footer-mid {
+  text-align: center;
+}
+/* line 222, index.less */
+.search-wrap {
+  display: inline-block;
+  width: 50%;
+}
+/* line 226, index.less */
+.key-search {
+  width: 90%;
+  line-height: 30px;
+  padding-left: 5px;
+  background: #fff;
+  border-radius: 8px 0 0 8px;
+}
+/* line 233, index.less */
+.submit-search {
+  float: right;
+  width: 10%;
+  line-height: 30px;
+  color: #fff;
+  background: #333;
+  border-radius: 0px 8px 8px 0;
+}
+/* line 242, index.less */
+.big-triangle {
+  position: absolute;
+  border: 130px solid transparent;
+  border-top-color: #fff;
+  left: 50%;
+  top: 0;
+  z-index: -1;
+  -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+/* line 251, index.less */
+.quick-wrap {
+  float: right;
+}
+/* line 254, index.less */
+.gotop {
+  font-size: 26px;
+  color: #fff;
+  /*display: inline-block;*/
+  border-radius: 5px;
+  background: #333;
+  cursor: pointer;
+}
+/*list page start*/
+/* line 263, index.less */
+.news-list-list {
+  margin-bottom: 20px !important;
+}
+/*content page start*/
+/* line 271, index.less */
+section.content-wrap {
+  margin-top: 15px;
+}
+/* line 274, index.less */
+.crumbs-nav b {
+  font-weight: normal;
+}
+/* line 277, index.less */
+article.content {
+  margin-top: 20px;
+  font-size: 16px;
+}
+/* line 281, index.less */
+h1.content-title {
+  font-size: 20px;
+  text-align: center;
+}
+/* line 285, index.less */
+.pulish {
+  text-align: center;
+  line-height: 40px;
+  color: #888;
+}
+/* line 290, index.less */
+.content-footer {
+  margin-top: 36px;
+}
+/* line 293, index.less */
+.tags-wrap {
+  display: inline-block;
+  color: #bbb;
+}
+/* line 297, index.less */
+.tags-icon {
+  color: #bbb;
+  font-size: 20px;
+  cursor: pointer;
+}
+/* line 302, index.less */
+.tags {
+  color: #3a5ab5;
+  padding: 0 8px;
+}
+/* line 306, index.less */
+.icon-text {
+  font-size: 14px;
+  margin: 0 5px;
+}
+/* comment */
+/* line 311, index.less */
+.comment-wrap {
+  margin-top: 35px;
+}
+/* line 314, index.less */
+.comment-all-num {
+  line-height: 50px;
+  margin-left: 5px;
+}
+/* line 318, index.less */
+.all-num {
+  font: 22px/24px Georgia;
+  color: #f40;
+}
+/* line 322, index.less */
+.comment-writer-wrap {
+  position: relative;
+  vertical-align: middle;
+  padding-left: 50px;
+  border-top: 3px solid transparent;
+}
+/* line 328, index.less */
+.myphoto {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+/* line 333, index.less */
+.comment-wrap input {
+  line-height: 35px;
+  height: 35px;
+}
+/* line 337, index.less */
+.input-commnet-content {
+  border: 1px solid #888;
+  width: 100%;
+  text-indent: 6px;
+}
+/* line 342, index.less */
+.submit-comment {
+  position: absolute;
+  width: 100px;
+  top: 0;
+  right: 0;
+  background: #333;
+  color: #fff;
+}
+/* line 350, index.less */
+.comment-list-wrap {
+  margin-top: 30px;
+}
+/* line 353, index.less */
+.comment-li {
+  border-top: 1px solid #ddd;
+  padding: 15px 0;
+}
+/* line 357, index.less */
+.uphoto {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+/* line 362, index.less */
+.comment-detail {
+  display: inline-block;
+  width: 100%;
+  padding-left: 50px;
+  margin-top: -40px;
+}
+/* line 368, index.less */
+.uname {
+  max-width: 80%;
+  margin-right: 10px;
+}
+/* line 372, index.less */
+.ucomment {
+  margin: 10px 0;
+}
+/* line 375, index.less */
+.reply {
+  color: #3a5ab5;
+}
+/* line 378, index.less */
+.comment-form {
+  position: relative;
+  border-top: 10px solid transparent;
+}
+/* line 382, index.less */
+.reply-li {
+  padding-top: 15px;
+}
+/* line 385, index.less */
+.rep-hide {
+  display: none;
+}
+/* line 388, index.less */
+.report-article,
+.report-comment {
+  display: none;
+  width: 480px;
+  max-height: 600px;
+  background: #fff;
+  padding: 15px;
+  line-height: 40px;
+}
+/* line 396, index.less */
+.rep-t {
+  font-size: 16px;
+}
+/* line 399, index.less */
+.report-ul {
+  padding: 10px 15px;
+}
+/* line 402, index.less */
+input[type=checkbox] {
+  float: right;
+  width: 15px;
+  height: 15px;
+}
+/* line 407, index.less */
+textarea {
+  margin-top: 10px;
+  width: 100%;
+  height: 150px;
+  line-height: 24px;
+  color: #666;
+  text-indent: 6px;
+}
+/* line 415, index.less */
+.report-cc {
+  border: 1px solid #ddd;
+  width: 75px;
+  height: 30px;
+  background: #ddd;
+  border-radius: 5px;
+  margin: 0 10px;
+}
+/* line 423, index.less */
+.like-btn {
+  position: relative;
+}
+/* line 426, index.less */
+.like-animate {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  -webkit-transition: all 1s;
+          transition: all 1s;
+}
+/* line 432, index.less */
+.like-animate-up {
+  opacity: 0;
+  bottom: 20px;
+  color: #f40;
+}
+/*less*/

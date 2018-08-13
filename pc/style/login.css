@@ -1,0 +1,70 @@
+header{
+	text-align: center;
+}
+.logo{
+	width: 100px;
+}
+.mid-wrap{
+	min-width: 1020px;
+	margin: 0 auto;
+	padding-top: 150px;
+	background: #eee;
+	text-align: center;
+}
+.login-wap{
+	display: inline-block;
+	padding: 20px 50px;
+	background: #fff;
+	text-align: left;
+}
+input:not([type="checkbox"]){
+	line-height: 36px;
+	background: #fff;
+	border: 1px solid #eee;
+	padding-left: 8px;
+	margin-bottom: 10px;
+	width: 300px;
+}
+.getcode,.createcode{
+    position: absolute;
+    right: 0px;
+    top: 0;
+    line-height: 38px;  
+    text-align: center; 
+}
+.createcode{
+	font-size: 16px;
+	width: 60px;
+	background: #ddd;
+	cursor: pointer;
+}
+.getcode{
+	width: 85px;
+    border-left: 1px solid #eee;
+}
+input[type="checkbox"]{
+	width: 15px;
+	height: 15px;
+	vertical-align: sub;
+}
+.agreefile{
+	color: #f40;
+}
+.submit,.submit2{
+	margin-top: 10px;
+	text-align: center;
+	background: #ddd!important;
+}
+.other-login{
+	margin-top: 10px;
+	text-align: center;
+}
+.other-login-item{
+	font-size: 46px;
+	border: 1px solid #ddd;
+	border-radius: 50%;
+	margin-right: 5px;
+}
+.other-login-item:hover{
+	color: #f40;
+}

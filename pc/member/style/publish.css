@@ -1,0 +1,40 @@
+th{
+	width:10%;
+}
+td{
+	width: 90%;
+}
+.publish-wrap{
+	max-width: 80%;
+	margin: 150px auto 0;
+}
+.publish-table>tr>th,.publish-table>tr>td{
+	border: 1px solid #eee;
+}
+.p-tr{
+	line-height: 50px;
+}
+input[type="text"]{
+    line-height: 30px;
+    width: 50%;
+    border: 1px solid #eee;
+    margin: 10px;
+    border-radius: 5px;
+}
+/* upload images thumb*/
+.x-thumb{
+	width: 100px;
+	height: 100px;
+}
+.x-thumb-wrap{
+	margin-left: 10px;
+}
+.submit{
+	display: block;
+	margin: 10px auto;
+	width: 80px;
+	line-height: 30px;
+	border-radius: 8px;
+	background: #f40;
+	color: #fff;
+}

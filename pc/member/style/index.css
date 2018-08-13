@@ -1,0 +1,77 @@
+header{
+	border-bottom: 1px solid #f40;
+}
+#logo{
+	height: 100px;
+}
+.member-head {
+    margin: 30px 0 50px;
+}
+.mem-photo-wrap {
+    width: 10%;
+    margin-right: 20px;
+}
+img.mem-photo{
+
+}
+span.name {
+    font-size: 16px;
+    font-weight: 600;
+}
+sup.grade {
+    margin-left: 5px;
+    color: #f40;
+}
+.btn-a,.btn-b {
+    display: inline-block;
+    background: #ddd;
+    padding: 5px 10px;
+    margin: 10px 20px 0 0;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+}
+em.num {
+    font-weight: 600;
+    margin-left: 5px;
+}
+.btn-b {
+	background: #fe0;
+}
+.switch{
+	width: 80px;
+	line-height: 50px;
+	cursor:pointer;
+	float: left;
+	text-align: center;
+}
+.switch:hover{
+	color: #f40;
+}
+.current{
+	color: #f40;
+	border-bottom: 1px solid #f40;
+}
+.switch-wrap{
+	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #ddd;
+}
+.article-list{
+	line-height: 36px;
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;
+}
+.arc-img{
+    width: 150px;
+    height: 130px;
+    float: left;
+    margin-right: 15px;
+}
+.arc-title{
+	width: 60%;
+  	font-size: 16px;
+}
+.delete{
+    font-size: 20px;
+    cursor: pointer;
+}

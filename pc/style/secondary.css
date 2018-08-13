@@ -1,0 +1,36 @@
+@charset "utf-8";
+.explain-page{
+	background: #ddd;
+}
+header{
+    margin-top: 10px;
+}
+.logo.fl {
+    width: 150px;
+    height: 40px;
+    margin-right: 20px;
+}
+.nav-a {
+	line-height: 40px;
+    height: 100%;
+    display: inline-block;
+    float: left;
+    padding: 0 10px;
+}
+.current{
+	color: #fff;
+	background: #666;
+}
+.main{
+	margin-top: 20px;
+	padding: 50px 20px;
+	background: #fff;
+	box-shadow: 0 0 10px 5px #eee;
+}
+h1{
+	font-size: 20px;
+	padding-bottom: 30px;
+}
+.footer-wrap{
+	margin-top: 80px;
+}

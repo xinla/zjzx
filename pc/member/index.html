@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge，chrome=1">
+    <meta name="renderer" content="webkit">
+	<title>会员中心</title>
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+	<!--[if lt IE 9]>
+  	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  	<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" type="text/css" href="../public/style/reset.css">
+	<link rel="stylesheet" href="style/index.css">
+	<script src="../public/js/jquery.min.js" type="text/javascript"></script>
+	<script src="../public/js/vue.js" type="text/javascript"></script>
+</head>
+<body>
+	<div class="vuel">	
+	<header id="header" class="">
+		<div class="size">
+			<div class="logo">
+				<img id="logo" src="http://imglf1.ph.126.net/Re9FjZ0i7lKkHczXoij53w==/3752061439653360841.jpg" alt="">
+			</div>
+		</div>
+	</header><!-- /header -->
+	<div class="size">
+		<div class="member-head bfc-o">
+			<div class="mem-photo-wrap fl">
+				<img class="mem-photo " src="http://imglf1.ph.126.net/Re9FjZ0i7lKkHczXoij53w==/3752061439653360841.jpg" alt="">
+			</div>
+			<ul class="member-data fl">
+				<li class="">
+					<span class="name">直击真相官微</span><sup class="grade"><a href="identify.html">认证</a></sup>
+				</li>
+				<li>
+					<span class="btn-a article">文章<em class="num">66</em></span><span class="btn-a focus">关注<em class="num">6</em></span><span class="btn-a fans">粉丝<em class="num">6</em></span>
+				</li>
+				<li>
+					<a href="score.html" class="btn-b">积分<em class="num">1000</em></a>
+				</li>
+			</ul>
+			<div class="fr">
+				<a href="publish.html" class="btn-a">发布真相</a>
+			</div>
+		</div>
+		<div class="member-body">
+			<div class="article-wrap">
+				<ul class="bfc-o switch-wrap ">
+					<li class="publish switch current">发布</li>
+					<li class="collect switch">收藏</li>
+				</ul>
+				<div>
+					<ul class="publish-wrap">
+						<li class="article-list bfc-o" v-for="(item,index) in pubArticle">
+							<img :src="item.img" alt="" class="arc-img">
+							<div class="">
+								<i class="iconfont fr delete" @click="delArc(index);" title="删除">&#xe7c3;</i>
+								<a :href="item.href">
+									<h1 class="bfc-d arc-title oe">{{ item.title }}</h1>
+								</a>
+								<p>
+									<span><var class="num">{{ item.comment }}</var>评论</span>								
+									<span><var class="num">{{ item.collect }}</var>收藏</span>			
+								</p>
+								<time datetime="2011-01-12" class="">{{ item.time }}</time>
+							</div>
+						</li>
+					</ul>
+					<ul class="collect-wrap hide">
+						<li class="article-list bfc-o" v-for="(item,index) in pubArticle">
+							<img :src="item.img" alt="" class="arc-img">
+							<div class="">
+								<i class="iconfont fr delete" @click="delArc(index);" title="删除">&#xe7c3;</i>
+								<a :href="item.href">
+									<h1 class="bfc-d arc-title oe">{{ item.title }}</h1>
+								</a>
+								<p>
+									<span><var class="num">{{ item.comment }}</var>评论</span>								
+									<span><var class="num">{{ item.collect }}</var>收藏</span>			
+								</p>
+								<time datetime="2011-01-12" class="">{{ item.time }}</time>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="ff-wrap hide">
+				<ul class="bfc-o switch-wrap ">
+					<li class="focus-s switch current">关注</li>
+					<li class="fans-s switch">粉丝</li>
+				</ul>
+				<div>
+					<ul class="focus-wrap">
+						<li class="article-list bfc-o" v-for="(item,index) in focus">
+							<a href="">
+								<img :src="item.photo" alt="" class="arc-img">
+								<div>
+									<span>{{ item.uName }}</span>
+									<span>{{ item.focus }}</span>关注
+									<span>{{ item.collect }}</span>收藏									
+								</div>
+							</a>
+						</li>
+					</ul>
+					<ul class="fans-wrap">
+						<li class="article-list bfc-o" v-for="(item,index) in focus">
+							<a href="">
+								<img :src="item.photo" alt="" class="arc-img">
+								<div>
+									<span>{{ item.uName }}</span>
+									<span>{{ item.focus }}</span>关注
+									<span>{{ item.collect }}</span>收藏									
+								</div>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	<script src="js/common.js" type="text/javascript"></script>
+	<script>
+		new Vue({
+			el:".vuel",
+			data:{
+				pubArticle:[
+					{
+						img:"http://imglf1.ph.126.net/Re9FjZ0i7lKkHczXoij53w==/3752061439653360841.jpg",
+						href:"http://www.baidu.com",
+						title:"发布发布发布发布发布发布发布发布发布发布发布发布发布发布",
+						uName:"新华社",
+						comment:255,
+						collect:200,
+						time:"2015-8-8"
+					},
+					{
+						img:"http://img.zcool.cn/community/01635d571ed29832f875a3994c7836.png@900w_1l_2o_100sh.jpg",
+						href:"http://www.baidu.com",
+						title:"发布发布发布发布发布发布发布发布发布发布发布发布发布发布",
+						uId:"新华社",
+						comment:255,
+						collect:200,
+						time:"2015-8-8"
+					}],
+				focus:[
+				{
+					photo:"http://imglf1.ph.126.net/Re9FjZ0i7lKkHczXoij53w==/3752061439653360841.jpg",
+					uName:"新华社",
+					focus:22,
+					public:1000,
+					collect:500
+				},{
+					photo:"http://imglf1.ph.126.net/Re9FjZ0i7lKkHczXoij53w==/3752061439653360841.jpg",
+					uName:"新华社",
+					focus:22,
+					public:1000,
+					collect:500
+				},{
+					photo:"http://imglf1.ph.126.net/Re9FjZ0i7lKkHczXoij53w==/3752061439653360841.jpg",
+					uName:"新华社",
+					focus:22,
+					public:1000,
+					collect:500
+				}]				
+			},
+			methods:{
+				delArc(index){
+					this.pubArticle.splice(index,1);
+				}
+			}
+		})
+	</script>
+</body>
+</html>
