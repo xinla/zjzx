@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/view/home'
+import detail from '@/view/detail'
 import one from '@/components/news/one'
 import two from '@/components/news/two'
 import three from '@/components/news/three'
@@ -19,6 +20,11 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/detail',
+      name: 'detail',
+      component: detail
     },
     {
     	path: '/one',
