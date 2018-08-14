@@ -6,7 +6,7 @@
 		<v-carousel></v-carousel> -->
 	</div>
 </template>
-
+ 
 <script>
 	import vHeader from '@/components/vHeader'
 	// import vNav from '@/components/vNav'

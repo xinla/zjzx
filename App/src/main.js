@@ -4,9 +4,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import '@/assets/reset.css'
+import '@/assets/css/reset.css'
 import '@/assets/font/iconfont.css'
-import '@/assets/swiper.css'
+import '@/assets/css/swiper.css'
+import '@/assets/js/rem.js'
 Vue.config.productionTip = false
 
 

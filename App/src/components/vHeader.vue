@@ -2,16 +2,16 @@
 	<div class="header">
 		<div class="headerBox">
 			<div class="logo">
-				<img src="@/assets/logo.png" alt="">
+				<img src="@/assets/images/logo.png" alt="">
 			</div>
-			<div class="search">
+			<!-- <div class="search">
 				<i class="iconfont icon-search"></i>
 				<input type="text" placeholder="请输入搜索关键词~">
 			</div>
 			<div class="issue">
 				<i class="iconfont icon-dfabu"></i>
 				<span class="fabu">	发布</span>
-			</div> 
+			</div>  -->
 		</div>
 		
 	</div>
@@ -23,48 +23,60 @@
 	}
 </script>
 
-<style lang="css" scoped>
+<style scoped>
 	.header {
 		width: 100%;
-		height: 4.4rem;
+		height: 0.88rem;
 		position: fixed;
 		top: 0;
 		z-index: 99;
 	}
 	.headerBox {
 		position: relative;
-		height: 4.4rem;
+		height: 0.88rem;
 		background-color: #ec414d;
 	}
-
 	.logo {
 		position: absolute;
-		top: 0;
-		left: 1rem;
-		width: 10rem;
+		left: 0.2rem;
+		width: 2rem;
 		height: 100%;
 	}
 	.logo img {
-		margin-top: .9rem;
+		margin-top: 0.15rem;
 	}
-
+	/*.logo {
+		position: absolute;
+		left: 0.71rem;
+		width: 7.14rem;
+		height: 100%;
+	}
+	.logo img {
+		margin-top: 0.43rem;
+	}
 	.issue {
-		width: 5rem;
+		width: 3.57rem;
 		height: 100%;
 		position: absolute;
 		top: 0;
 		right: 0;
 		z-index: 999;
 		text-align: center;
-		font-size: 1.5rem;
+		font-size: 14px;
 		color: #fff;
 	}
-
 	.issue .icon-dfabu {
 		display: block;
-		font-size: 1.8rem;
-		padding-top: .5rem;
-	} 
+		font-size: 16px;
+		padding-top: 0.36rem;
+	}
+	.search {
+		width: 100%;
+		height: 2rem;
+	}*/
+	
+
+/*	
 
 	.search {
 		width: 100%;
@@ -90,31 +102,6 @@
 		padding-right: 1rem;
 	}
 
-
-	/*
-	.search {
-		width: 100%;
-		height: 30px;
-		position: relative;
-		padding-left: 130px;
-		padding-right: 60px;
-		top: 7px;
-	}
-	.search i {
-		position: absolute;
-		top: 6px;
-		padding-left: 8px;
-		font-size: 18px;
-		color: #999;
-	}
-	.search input {
-		width: 100%;
-		height: 100%;
-		border-radius: 14px;
-		padding-left: 35px;
-		padding-right: 15px;
-	}*/
-
-
+*/
 
 </style>
