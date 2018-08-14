@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
   <head>
     <meta charset="utf-8">
-    <!-- <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport"> -->
     <meta ame="viewport">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge，chrome=1">
     <meta name="renderer" content="webkit">
@@ -15,24 +14,6 @@
     <link rel="icon" href="static/favicon.ico" type="image/x-icon">
     <style>
     </style>
-    <script>
-      (function (doc, win) {
-          var docEl = doc.documentElement,
-            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-            recalc = function () {
-                var clientWidth = docEl.clientWidth;
-                if (!clientWidth) return;
-                if (clientWidth >= 640) {
-                    docEl.style.fontSize = '100px';
-                } else {
-                    docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';
-                }
-            };
-          if (!doc.addEventListener) return;
-          win.addEventListener(resizeEvt, recalc, false);
-          doc.addEventListener('DOMContentLoaded', recalc, false);
-      })(document, window);
-    </script> 
     <title>直击真相</title>
 
   </head>

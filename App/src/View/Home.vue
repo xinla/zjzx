@@ -1,21 +1,18 @@
 <!-- 首页新闻页面 -->
 <template>
 	<div>
-		<v-header></v-header>
-		<!-- <v-nav></v-nav>
-		<v-carousel></v-carousel> -->
+		<z-header></z-header>
+		<z-nav></z-nav>
 	</div>
 </template>
  
 <script>
-	import vHeader from '@/components/vHeader'
-	// import vNav from '@/components/vNav'
-	// import vCarousel from '@/components/vCarousel'
+	import zHeader from '@/components/HeaderBar/index'
+	import zNav from '@/components/NavBar/index'
 	export default {
 		components:{
-			vHeader,
-			// vNav, 
-			// vCarousel
+			zHeader,
+			zNav, 
 		}
 	}
 </script>
