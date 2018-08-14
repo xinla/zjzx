@@ -28,5 +28,8 @@ FastClick.attach(document.body);
 /* eslint-disable no-new */
 new Vue({
   router,
-  render: h => h(App)
+  render: h => h(App),
+  data: {
+  	eventHub: new Vue()
+  }
 }).$mount('#app');

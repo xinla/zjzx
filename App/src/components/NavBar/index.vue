@@ -1,48 +1,49 @@
 <template>
-	<div class="nav">
-		<ul class="nav-list">
-			<li class="item" v-for="(item,index) in navList" :class="{'active': nowIndex===index}">
-				{{item.title}}
-			</li>
-		</ul>
+	<div class="footer-nav">
+		<div class="footer-menu">
+			<div class="footer-item">
+				<i class="iconfont icon-index footer-icon"></i>
+				<span class="footer-text">首页</span>
+			</div>
+			<div class="footer-item">
+				<i class="iconfont icon-xiaoxi footer-icon"></i>
+				<span class="footer-text">消息</span>
+			</div>
+			<div class="footer-item">
+				<i class="iconfont icon-video footer-icon"></i>
+				<span class="footer-text">视频</span>
+			</div>
+			<div class="footer-item">
+				<i class="iconfont icon-wode footer-icon"></i>
+				<span class="footer-text">我的</span>
+			</div>
+		</div>
 	</div>
 </template>
-<script>
-	export default {
-		data() {
-			return {
-				navList: [
-					{title: "头条"},
-					{title: "推荐"},
-					{title: "财经"},
-					{title: "寻人"},
-					{title: "娱乐"},
-					{title: "体育"},
-					{title: "军事"},
-					{title: "教育"},
-				],
-				nowIndex:0
-			}
-		}
-	}
-</script>
-
 <style lang="css" scoped>
-	.nav {
-		margin-top: 0.88rem;
-		font-size: 0.28rem;
-		height: 0.66rem;
-	}
-	.nav-list {
+	.footer-nav {
 		width: 100%;
-		overflow: hidden;
-	}
-	.item {
-		width: 20%;
-		height: 0.66rem;
-		line-height: 0.66rem;
-		display: inline-block;
+		position: fixed;
+		left: 0;
+		bottom: 0;
 		text-align: center;
-
+		font-size: 0.12rem;
+		overflow: hidden;
+		background-color: #fff;
+		box-shadow: 0 0 5px #ccc;
+		height: 0.5rem;
+	}
+	.footer-item {
+		display: block;
+		float: left;
+		width: 25%;
+		height: 100%;
+		color: #999;
+	}
+	.footer-icon {
+		display: block;
+		font-size: 0.22rem;
+		padding-top: 0.04rem;
+		padding-bottom: .02rem;
 	}
 </style>
