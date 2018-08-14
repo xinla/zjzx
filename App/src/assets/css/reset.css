@@ -70,11 +70,11 @@ img,a{-webkit-touch-callout:none;}
 
 /* common class */
 /*bfc model*/
-.bfc-o { overflow: hidden;}
+.bfc-o { overflow: hidden;position: relative;}
 .bfc-d { display: inline-block; vertical-align: top;}
 .bfc-p { position: absolute; }
 .fl { float: left; position: relative; }
-.fr { float: right;position: relative; }
+.fr { float: right; position: relative; }
 .al { text-align:left; }
 .ac { text-align:center; }
 .ar { text-align:right; }

@@ -1,25 +1,144 @@
 <template>
 	<div >
 		<top></top>
-		<section class="content-wrap">
-			<h1>各界都我届时将佛哦哦件拼接色哦你</h1>
-			<div>
-				<img src="" alt="" class="uphoto">
-				<div class="publisher">
-					
+		<div class="detail">
+			<section class="content-wrap">
+				<h1>{{ article.title}}</h1>
+				<div class="publisher bfc-o">
+					<img :src="article.uImg" alt="" class="uphoto">
+					<div>
+						<div class="uname">
+							{{ article.uName }}
+						</div>
+						<div class="ts">
+							<time datetime="2011-01-12">{{ article.time }}</time>
+							<span>{{ article.sort }}</span>
+						</div>
+					</div>
+					<button type="button" class="focus bfc-p" @click="">关注+</button>
 				</div>
-				<button type="button" class="focus">关注</button>
+				<div class="content">
+					{{ article.content}}
+				</div>
+				<div class="key-wrap">
+					关键词：<span class="key" v-for="item in article.keywords">{{ item }}</span>
+				</div>
+			</section>
+			<div class="btn-a-wrap bfc-o">
+				<button type="button" class="btn-a"><i class="iconfont icon2">&#xe7c8;</i>{{ article.like}}</button>
+				<button type="button" class="btn-a"><i class="iconfont icon2">&#xe7c3;</i>不喜欢</button>
+				<button type="button" class="btn-a"><i class="iconfont icon3">&#xe883;</i>微信</button>
+				<button type="button" class="btn-a"><i class="iconfont icon3">&#xe882;</i>QQ</button>
 			</div>
-			<div class="content">
-				
-			</div>
-			<div class="key-wrap">
-				关键词：<span class="key"></span>
-			</div>
-			<div>
-				<button type="button" class="btn-a"><i class="iconfont"></i>66</button>
-			</div>
-		</section>
+			<div class="comment-list-wrap">
+					<ul class="">
+						<li class="comment-li bfc-o">
+							<div class="uphoto-wrap fl">
+								<img class="uphoto" src="http://imglf1.ph.126.net/Re9FjZ0i7lKkHczXoij53w==/3752061439653360841.jpg" alt="">
+							</div>
+							<div class="comment-detail">				
+								<p><span class="uname oe bfc-d">直击真相</span><time datetime="2011-01-12">2011-01-12</time></p>
+								<p class="ucomment">直击真相直击真相直击真相直击真相</p>
+								<div>
+									<div>
+										<button type="button" class="reply reply-btn">回复</button>&nbsp;-&nbsp;<button type="button" class="reply reply-sh">
+											<span class="rep-show"><var>120</var>条回复<i class="iconfont">&#xe7f6;</i></span>
+											<span class="rep-hide">收起回复<i class="iconfont">&#xe7f4;</i></span>
+										</button>
+										<div class="like-wrap fr">
+											<var>125</var><button type="button" class="like-btn"><i class="iconfont tags-icon">&#xe7c8;</i><i class="iconfont tags-icon like-animate">&#xe7c8;</i></button>
+											<i class="iconfont tags-icon report-comment-btn ">&#xe77e;</i>
+										</div>
+									</div>											
+									<ul class="reply-wrap">
+										<li class="reply-li bfc-o">
+											<div class="uphoto-wrap fl">
+												<img class="uphoto" src="http://imglf1.ph.126.net/Re9FjZ0i7lKkHczXoij53w==/3752061439653360841.jpg" alt="">
+											</div>
+											<div class="comment-detail">				
+												<p><span class="uname oe bfc-d">直击真相</span><time datetime="2011-01-12">2011-01-12</time></p>	
+												<p class="ucomment">直击真相直击真相直击真相直击真相</p>
+												<div>
+													<div>
+														<button type="button" class="reply reply-btn">回复</button>&nbsp;-&nbsp;<button type="button" class="reply reply-num">条回复</button>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="reply-li bfc-o">
+											<div class="uphoto-wrap fl">
+												<img class="uphoto" src="http://imglf1.ph.126.net/Re9FjZ0i7lKkHczXoij53w==/3752061439653360841.jpg" alt="">
+											</div>
+											<div class="comment-detail">				
+												<p><span class="uname oe bfc-d">直击真相</span><time datetime="2011-01-12">2011-01-12</time></p>	
+												<p class="ucomment">直击真相直击真相直击真相直击真相</p>
+												<div>
+													<div>
+														<button type="button" class="reply reply-btn">回复</button>&nbsp;-&nbsp;<button type="button" class="reply reply-num">条回复</button>
+													</div>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<ul class="">
+						<li class="comment-li bfc-o">
+							<div class="uphoto-wrap fl">
+								<img class="uphoto" src="http://imglf1.ph.126.net/Re9FjZ0i7lKkHczXoij53w==/3752061439653360841.jpg" alt="">
+							</div>
+							<div class="comment-detail">				
+								<p><span class="uname oe bfc-d">馨心馨心</span><time datetime="2011-01-12">2011-01-12</time></p>
+								<p class="ucomment">馨心馨心馨心馨心馨心馨心馨心馨心馨心馨心</p>
+								<div>
+									<div>
+										<button type="button" class="reply reply-btn">回复</button>&nbsp;-&nbsp;<button type="button" class="reply reply-sh">
+											<span class="rep-show"><var>120</var>条回复<i class="iconfont">&#xe7f6;</i></span>
+											<span class="rep-hide">收起回复<i class="iconfont">&#xe7f4;</i></span>
+										</button>
+										<div class="like-wrap fr">
+											<var>125</var><button type="button" class="like-btn"><i class="iconfont tags-icon">&#xe7c8;</i><i class="iconfont tags-icon like-animate">&#xe7c8;</i></button>
+											<i class="iconfont tags-icon report-comment-btn ">&#xe77e;</i>
+										</div>
+									</div>											
+									<ul class="reply-wrap">
+										<li class="reply-li bfc-o">
+											<div class="uphoto-wrap fl">
+												<img class="uphoto" src="http://imglf1.ph.126.net/Re9FjZ0i7lKkHczXoij53w==/3752061439653360841.jpg" alt="">
+											</div>
+											<div class="comment-detail">				
+												<p><span class="uname oe bfc-d">直击真相</span><time datetime="2011-01-12">2011-01-12</time></p>	
+												<p class="ucomment">直击真相直击真相直击真相直击真相</p>
+												<div>
+													<div>
+														<button type="button" class="reply reply-btn">回复</button>&nbsp;-&nbsp;<button type="button" class="reply reply-num">条回复</button>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="reply-li bfc-o">
+											<div class="uphoto-wrap fl">
+												<img class="uphoto" src="http://imglf1.ph.126.net/Re9FjZ0i7lKkHczXoij53w==/3752061439653360841.jpg" alt="">
+											</div>
+											<div class="comment-detail">				
+												<p><span class="uname oe bfc-d">直击真相</span><time datetime="2011-01-12">2011-01-12</time></p>	
+												<p class="ucomment">直击真相直击真相直击真相直击真相</p>
+												<div>
+													<div>
+														<button type="button" class="reply reply-btn">回复</button>&nbsp;-&nbsp;<button type="button" class="reply reply-num">条回复</button>
+													</div>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+		</div>
 	</div>
 </template>
 
@@ -35,12 +154,13 @@ export default {
 				uImg:"http://img.zcool.cn/community/0195be57cd70d90000012e7eb0dae8.jpg@1280w_1l_2o_100sh.jpg",
 				uName:"小白读财经",
 				time:'2018-8-14',
+				title:"小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经",
 				sort:"财经",
 				content:`小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经
 				小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经
 
 				小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经`,
-				keywoeds:['银行',"财经"],
+				keywords:['银行',"财经"],
 				like:"100",
 				commentNum:'66',
 				comment:[{
@@ -70,4 +190,77 @@ export default {
 </script>
 
 <style scoped>
+	.detail{
+		background: #eee;
+	    color: #555;
+	}
+	.content-wrap{
+		padding: 0 15px;
+	}
+	h1{
+	    padding: 15px 0;
+	    line-height: 30px;
+	    font-size: 18px;
+	}
+	.uphoto {
+	    width: 0.55rem;
+	    height: 0.55rem;
+	    border-radius: 50%;
+	    float: left;
+	    margin-right: 15px;
+	}
+	.uname {
+	    color: #333;
+	    font-size: 16px;
+	}
+	.ts {
+	    color: #888;
+	}
+	.focus{
+	    top: 0;
+	    right: 0;
+	    color: #fff;
+	    background: #f25d5d;
+	    width: 1rem;
+	    border-radius: 5px;
+	    line-height: 0.45rem;
+	}
+	.content {
+	    margin: 0.3rem 0;
+	    line-height: 25px;
+	    font-size: 16px;
+	}
+	.key {
+	    display: inline-block;
+	    background: #ddd;
+	    margin-right: 10px;
+	    width: 60px;
+	    line-height: 26px;
+	    text-align: center;
+	    border-radius: 14px;
+	}
+	.btn-a-wrap {
+	    padding: 10px 15px;
+	    margin-top: 15px;
+	    background: #fff;
+	}
+	.btn-a {
+	    border-radius: 10px;
+	    border: 1px solid #ddd;
+	    line-height: 30px;
+	    padding: 0 10px;
+	    margin-right: 10px;
+	    float: left;
+        color: #666;
+	}
+	.icon2,.icon3 {
+	    font-size: 24px;
+	    vertical-align:sub ;
+	}
+	.icon3{
+		color: #2cbf57;
+	}
+	.comment-list-wrap {
+	    padding: 25px 15px;
+	}
 </style>
