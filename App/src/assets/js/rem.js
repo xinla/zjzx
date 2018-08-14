@@ -34,7 +34,7 @@
                     doc.head.appendChild(metaEl);
                   }
                    metaEl.setAttribute('content', `width=device-width,user-scalable=no,initial-scale=${scales},maximum-scale=${scales},minimum-scale=${scales}`);
-                   doc.documentElement.style.fontSize = normal ? '50px' : `${_baseFontSize / 2 * dpr * _fontscale}px`;
+                   doc.documentElement.style.fontSize = normal ? '100px' : `${_baseFontSize  * dpr * _fontscale}px`;
                 };
                 aa(false, bafontSize, 1);
             };
