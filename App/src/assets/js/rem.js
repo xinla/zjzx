@@ -1,15 +1,33 @@
 'use strict';
+//@normal：是否采用高清
+//@baseFontSize：字体基值
+//@fontscale：是否应用字体放大
  (function (doc, win) {
           var docEl = doc.documentElement,
             resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
             recalc = function () {
                 var clientWidth = docEl.clientWidth,
-                    bafontSize=200;
+                    bafontSize=200,
+                    dpr = win.devicePixelRatio || 1;
                 if (!clientWidth) return;
-                if (clientWidth >= 640) {
-                    bafontSize = 100;
-                } else {
-                    bafontSize = 100 * (clientWidth / 640);
+                if (dpr == 1) {
+                  if (clientWidth >= 640) {
+                      bafontSize = 100;
+                  } else {
+                      bafontSize = 100 * (clientWidth / 640);
+                  }                 
+                } else if (dpr == 2) {
+                  if (clientWidth >= 1280) {
+                      bafontSize = 200;
+                  } else {
+                      bafontSize = 100 * (clientWidth / 1280);
+                  }
+                } else if (dpr == 3) {
+                  if (clientWidth >= 1920) {
+                      bafontSize = 300;
+                  } else {
+                      bafontSize = 100 * (clientWidth / 1920);
+                  }
                 }
                 let aa=function(normal, baseFontSize, fontscale){
                   const _baseFontSize = baseFontSize || 100;
@@ -20,7 +38,6 @@
                   const UCversion = ua.match(/U3\/((\d+|\.){5,})/i);
                   const isUCHd = UCversion && parseInt(UCversion[1].split('.').join(''), 10) >= 80;
                   const isIos = navigator.appVersion.match(/(iphone|ipad|ipod)/gi);
-                  let dpr = win.devicePixelRatio || 1;
                   if (!isIos && !(matches && matches[1] > 534) && !isUCHd) {
                     // 如果非iOS, 非Android4.3以上, 非UC内核, 就不执行高清, dpr设为1;
                     dpr = 1;
