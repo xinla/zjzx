@@ -60,7 +60,7 @@
 
 <style lang="css" scoped>
 	.nav {
-		margin-top: 0.44rem;
+		margin-top: 0.88rem;
 		width: 100%;
 		overflow: hidden;
 		
@@ -77,10 +77,10 @@
 	}
 	.nav-item {
 		display: inline-block;
-		height: 0.36rem;
-		line-height: 0.36rem;
-		font-size: 0.16rem;
-		width: 0.54rem;
+		height: 0.72rem;
+		line-height: 0.72rem;
+		font-size: 0.32rem;
+		width: 1.08rem;
 	}
 	::-webkit-scrollbar {
 	    display: none;
@@ -89,15 +89,15 @@
 		position: absolute;
 		right: 0;
 		top: 0;
-		width: .4rem;
-		height: .36rem;
-		line-height: .36rem;
+		width: .8rem;
+		height: .72rem;
+		line-height: .72rem;
 		text-align: center;
 		background-color: #fff;
 		box-shadow:-4px 0px 6px #cccccc;
 	}
 	.add-nav i {
-		font-size: 0.20rem;
+		font-size: 0.40rem;
 		color: #ec414d;
 	}
 </style>

@@ -61,7 +61,7 @@
 </script>
 <style>
 	div{
-		font-size: 0.14rem;
+		font-size: 0.28rem;
 	}
 	.swiper-box{
 		background-color: #fff;

@@ -27,11 +27,11 @@
 		left: 0;
 		bottom: 0;
 		text-align: center;
-		font-size: 0.12rem;
+		font-size: 0.24rem;
 		overflow: hidden;
 		background-color: #fff;
 		box-shadow: 0 0 5px #ccc;
-		height: 0.5rem;
+		height: 1rem;
 	}
 	.footer-item {
 		display: block;
@@ -42,8 +42,8 @@
 	}
 	.footer-icon {
 		display: block;
-		font-size: 0.22rem;
-		padding-top: 0.04rem;
-		padding-bottom: .02rem;
+		font-size: 0.44rem;
+		padding-top: 0.08rem;
+		padding-bottom: .04rem;
 	}
 </style>

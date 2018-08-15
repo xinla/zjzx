@@ -24,70 +24,70 @@
 <style scoped>
 	.header {
 		width: 100%;
-		height: 0.44rem;
+		height: 0.88rem;
 		position: fixed;
 		top: 0;
 		z-index: 99;
 	}
 	.headerBox {
 		position: relative;
-		height: 0.44rem;
+		height: 0.88rem;
 		background-color: #ec414d;
 	}
 	.logo {
 		position: absolute;
-		left: 0.1rem;
-		width: 1.0rem;
+		left: 0.2rem;
+		width: 2.0rem;
 		height: 100%;
 	}
 	.logo img {
-		margin-top: 0.1rem
+		margin-top: 0.2rem
 		;
 	}
 	
 	.issue {
-		width: .5rem;
+		width: 1rem;
 		height: 100%;
 		position: absolute;
-		right: 0.1rem;
+		right: 0.2rem;
 		top: 0;
 		z-index: 999;
 		text-align: center;
-		font-size: 0.14rem;
+		font-size: 0.28rem;
 		color: #fff;
 	}
 	.issue .icon-dfabu {
 		display: block;
-		font-size: 0.16rem;
-		padding-top: 0.05rem;
+		font-size: 0.32rem;
+		padding-top: 0.1rem;
 	}
 	.search {
 		width: 100%;
-		height: 0.3rem;
-		line-height: .3rem;
+		height: 0.6rem;
+		line-height: .6rem;
 		position: relative;
-		top: 0.06rem;
-		padding-left: 1.2rem;
-		padding-right: .6rem;
+		top: 0.12rem;
+		padding-left: 2.4rem;
+		padding-right: 1.2rem;
 	}
 	.search i {
-		width: .3rem;
-		height: .3rem;
+		width: .6rem;
+		height: .6rem;
 		/*background-color: #ff0;*/
 		position: absolute;
-		top: 0.01rem;
-		padding-left: 0.1rem;
-		font-size: .16rem;
+		top: 0.02rem;
+		padding-left: 0.2rem;
+		font-size: .32rem;
 		color: #999;
 	}
 	.search input {
 		width: 100%;
 		height: 100%;
-		padding-left: 0.3rem;
-		padding-right: 0.1rem;
+		padding-left: 0.6rem;
+		padding-right: 0.2rem;
 		background-color: #fff;
-		border-radius: 0.14rem;
-		font-size: 0.14rem;
+		border-radius: 0.28rem;
+		font-size: 0.20rem;
 	}
 
 </style>

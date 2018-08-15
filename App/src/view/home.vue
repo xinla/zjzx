@@ -4,7 +4,7 @@
 		<z-header></z-header>
 		<z-tab></z-tab>
 		<z-nav></z-nav>
-		<!-- <z-swiper></z-swiper> -->
+		<z-swiper></z-swiper>
 	</div>
 </template>
  
