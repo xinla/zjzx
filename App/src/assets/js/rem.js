@@ -14,19 +14,19 @@
                   if (clientWidth >= 640) {
                       bafontSize = 100;
                   } else {
-                      bafontSize = 100 * (clientWidth / 640);
+                      bafontSize = 100 * (clientWidth / 375);
                   }                 
                 } else if (dpr == 2) {
                   if (clientWidth >= 1280) {
                       bafontSize = 200;
                   } else {
-                      bafontSize = 100 * (clientWidth / 1280);
+                      bafontSize = 100 * (clientWidth / 750);
                   }
                 } else if (dpr == 3) {
                   if (clientWidth >= 1920) {
                       bafontSize = 300;
                   } else {
-                      bafontSize = 100 * (clientWidth / 1920);
+                      bafontSize = 100 * (clientWidth / 1125);
                   }
                 }
                 let aa=function(normal, baseFontSize, fontscale){
