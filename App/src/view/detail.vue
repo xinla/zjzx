@@ -143,7 +143,7 @@
 </template>
 
 <script>
-import top from '../components/common/top'
+import top from '@/components/common/top'
 export default {
 	components:{
 		top,

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/view/home'
+import home from '@/view/home'
 import detail from '@/view/detail'
 import one from '@/components/news/one'
 import two from '@/components/news/two'
@@ -18,8 +18,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: Home
+      name: 'home',
+      component: home
     },
     {
       path: '/detail',
