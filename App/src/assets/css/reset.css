@@ -53,11 +53,11 @@ img,a{-webkit-touch-callout:none;}
  /* iconfont*/
 @font-face {
   font-family: 'iconfont';  /* project id 773620 */
-  src: url('//at.alicdn.com/t/font_773620_cguim5ljhwc.eot');
-  src: url('//at.alicdn.com/t/font_773620_cguim5ljhwc.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_773620_cguim5ljhwc.woff') format('woff'),
-  url('//at.alicdn.com/t/font_773620_cguim5ljhwc.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_773620_cguim5ljhwc.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_773620_v74adecklml.eot');
+  src: url('//at.alicdn.com/t/font_773620_v74adecklml.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_773620_v74adecklml.woff') format('woff'),
+  url('//at.alicdn.com/t/font_773620_v74adecklml.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_773620_v74adecklml.svg#iconfont') format('svg');
 }
 .iconfont {
 	font-family:"iconfont" !important;
@@ -141,4 +141,11 @@ img,a{-webkit-touch-callout:none;}
 .clearfix:after,.clearfix:before{content:"";display:table;/*创建匿名的表格单元，触发bfc*/}
 .clearfix:after{clear:both;/*清除浮动*/}
 .clearfix{zoom:1;/*为IE6，7的兼容性设置*/}
+
+[data-dpr="2"] body{
+  font-size: 28px;
+}
+[data-dpr="3"] body{
+  font-size: 42px;
+}
 /*init end*/

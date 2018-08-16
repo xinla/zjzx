@@ -6,7 +6,7 @@
           var docEl = doc.documentElement,
             resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
             recalc = function () {
-                var clientWidth = docEl.clientWidth,
+                var clientWidth = win.innerWidth || docEl.clientWidth || doc.body.clientWidth,
                     bafontSize=200,
                     dpr = win.devicePixelRatio || 1,
                     isInt = dpr.toString().match(/^[1-9]\d$/);
@@ -36,7 +36,6 @@
                 let aa = function(normal, baseFontSize, fontscale){
                   const _baseFontSize = baseFontSize || 100;
                   const _fontscale = fontscale || 1;
-
                   const ua = navigator.userAgent;
                   const matches = ua.match(/Android[\S\s]+AppleWebkit\/(\d{3})/i);
                   const UCversion = ua.match(/U3\/((\d+|\.){5,})/i);

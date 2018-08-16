@@ -1,12 +1,14 @@
 <template>
 	<div class="nav">
+		<div class="empty">		
+		</div>
 		<ul class="nav-list">
 			<li v-for="(item,index) in navList" class="nav-item">
 				{{item.title}}
 			</li>
 		</ul>
 		<div class="add-nav">
-			<i class="iconfont icon-add"></i>
+			<i class="iconfont">&#xe800;</i>
 		</div>
 	</div>
 </template>
@@ -59,28 +61,26 @@
 </script>
 
 <style lang="css" scoped>
+	.empty{
+		height: 3.4em;
+	}
 	.nav {
-		margin-top: 0.88rem;
 		width: 100%;
-		overflow: hidden;
-		
+		overflow: hidden;	
 		text-align: center;
 		position: fixed;
 		left: 0;
-		z-index: 999;
-		font-size: 0;
+		z-index: 99;
 		background-color: #fff;
-		white-space: nowrap;
 	}
 	.nav-list {
 		overflow-x: auto;
+		white-space: nowrap;
 	}
 	.nav-item {
-		display: inline-block;
-		height: 0.72rem;
-		line-height: 0.72rem;
-		font-size: 0.32rem;
-		width: 1.08rem;
+	    display: inline-block;
+	    width: 3em;
+	    line-height: 2.5em;
 	}
 	::-webkit-scrollbar {
 	    display: none;
@@ -88,16 +88,17 @@
 	.add-nav {
 		position: absolute;
 		right: 0;
-		top: 0;
-		width: .8rem;
-		height: .72rem;
-		line-height: .72rem;
+		top: 3.4em;
+		width: 3em;
+		line-height: 2.5em;
 		text-align: center;
 		background-color: #fff;
-		box-shadow:-4px 0px 6px #cccccc;
+		box-shadow:-.28em 0px 1em #cccccc;
 	}
 	.add-nav i {
-		font-size: 0.40rem;
+		display: inline-block;
+		vertical-align: top;
+		font-size: 1.5em;
 		color: #ec414d;
 	}
 </style>

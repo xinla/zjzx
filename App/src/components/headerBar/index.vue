@@ -1,18 +1,20 @@
 <template>
 	<div class="header">
-		<div class="headerBox">
-			<div class="logo">
-				<img src="@/assets/images/logo.png" alt="">
-			</div>
-			<div class="search">
-				<i class="iconfont icon-search"></i>
-				<input type="text" placeholder="请输入搜索关键词~">
-			</div>
-			<div class="issue">
-				<i class="iconfont icon-dfabu"></i>
-				<span class="fabu">	发布</span>
-			</div> 
+		<div class="logo">
+			<img src="@/assets/images/logo.png" alt="">
 		</div>
+		<div class="search">
+			<input type="text" class="" placeholder="请输入搜索关键词~">
+			<i class="iconfont">&#xeafe;</i>
+		</div>
+		<div class="issue">
+			<i class="iconfont">&#xe7f9;</i>
+			<ul class="quick-nav">
+				<li class="quick-nav-ietm">发布图文</li>
+				<li class="quick-nav-ietm">发布图文</li>
+				<li class="quick-nav-ietm">发布图文</li>
+			</ul>
+		</div> 
 	</div>
 </template>
 <script>
@@ -24,70 +26,66 @@
 <style scoped>
 	.header {
 		width: 100%;
-		height: 0.88rem;
 		position: fixed;
 		top: 0;
-		z-index: 99;
-	}
-	.headerBox {
-		position: relative;
-		height: 0.88rem;
+		z-index: 9999;
 		background-color: #ec414d;
+		line-height: 3.4em;
 	}
-	.logo {
-		position: absolute;
-		left: 0.2rem;
-		width: 2.0rem;
+	.header>div{
+		float: left;
 		height: 100%;
+		text-align:center;
+		position: relative;
+	}
+	.logo{
+		width: 20%;
 	}
 	.logo img {
-		margin-top: 0.2rem
-		;
+		width: 90%;
 	}
-	
 	.issue {
-		width: 1rem;
-		height: 100%;
-		position: absolute;
-		right: 0.2rem;
-		top: 0;
-		z-index: 999;
-		text-align: center;
-		font-size: 0.28rem;
+		width: 10%;
+	}
+	.iconfont{
+		vertical-align: top;
+	}
+	.issue i{
 		color: #fff;
 	}
-	.issue .icon-dfabu {
-		display: block;
-		font-size: 0.32rem;
-		padding-top: 0.1rem;
+	[data-dpr="1"] .iconfont {
+		font-size: 24px;
+	}
+	[data-dpr="2"] .iconfont {
+		font-size: 48px;
+	}
+	[data-dpr="3"] .iconfont {
+		font-size: 72px;
 	}
 	.search {
-		width: 100%;
-		height: 0.6rem;
-		line-height: .6rem;
-		position: relative;
-		top: 0.12rem;
-		padding-left: 2.4rem;
-		padding-right: 1.2rem;
+		width: 70%;
 	}
 	.search i {
-		width: .6rem;
-		height: .6rem;
-		/*background-color: #ff0;*/
-		position: absolute;
-		top: 0.02rem;
-		padding-left: 0.2rem;
-		font-size: .32rem;
 		color: #999;
+		position: absolute;
+		top: 0;
+		right: 0;
 	}
 	.search input {
-		width: 100%;
-		height: 100%;
-		padding-left: 0.6rem;
-		padding-right: 0.2rem;
-		background-color: #fff;
-		border-radius: 0.28rem;
-		font-size: 0.20rem;
+	    width: 100%;
+	    background: #fff;
+	    line-height: 2.3em;
+	    border-radius: 0.2rem;
+	    vertical-align: baseline;
+        text-indent: 2%;
 	}
-
+	.quick-nav {
+	    position: absolute;
+	    width: 200%;
+	    right: 0;
+	    background: #8e8b8b;
+	    line-height: 2em;
+	    border-radius: 0 0 .5em .5em;
+	    color: #fff;
+	}
 </style>
