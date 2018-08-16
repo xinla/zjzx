@@ -8,28 +8,32 @@
             recalc = function () {
                 var clientWidth = docEl.clientWidth,
                     bafontSize=200,
-                    dpr = win.devicePixelRatio || 1;
+                    dpr = win.devicePixelRatio || 1,
+                    isInt = dpr.toString().match(/^[1-9]\d$/);
+                if (!isInt) {
+                  dpr  = Math.floor(dpr);
+                }
                 if (!clientWidth) return;
                 if (dpr == 1) {
-                  if (clientWidth >= 640) {
+                  if (clientWidth >= 750) {
                       bafontSize = 100;
                   } else {
-                      bafontSize = 100 * (clientWidth / 640);
+                      bafontSize = 100 * (clientWidth / 750);
                   }                 
                 } else if (dpr == 2) {
-                  if (clientWidth >= 1280) {
-                      bafontSize = 200;
+                  if (clientWidth >= 1500) {
+                      bafontSize = 100;
                   } else {
-                      bafontSize = 100 * (clientWidth / 1280);
+                      bafontSize = 100 * (clientWidth / 1500);
                   }
                 } else if (dpr == 3) {
-                  if (clientWidth >= 1920) {
-                      bafontSize = 300;
+                  if (clientWidth >= 2250) {
+                      bafontSize = 100;
                   } else {
-                      bafontSize = 100 * (clientWidth / 1920);
+                      bafontSize = 100 * (clientWidth / 2250);
                   }
                 }
-                let aa=function(normal, baseFontSize, fontscale){
+                let aa = function(normal, baseFontSize, fontscale){
                   const _baseFontSize = baseFontSize || 100;
                   const _fontscale = fontscale || 1;
 
@@ -45,6 +49,7 @@
                   let scales = normal ? 1 : 1 / dpr;
 
                   let metaEl = doc.querySelector('meta[name="viewport"]');
+                  docEl.setAttribute('data-dpr',dpr);
                   if (!metaEl) {
                     metaEl = doc.createElement('meta');
                     metaEl.setAttribute('name', 'viewport');

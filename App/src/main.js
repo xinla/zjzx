@@ -7,7 +7,7 @@ import router from './router'
 import '@/assets/css/reset.css'
 import '@/assets/font/iconfont.css'
 import '@/assets/css/swiper.css'
-import '@/assets/js/rem.js'
+// import '@/assets/js/rem.js'
 
 Vue.config.productionTip = false
 

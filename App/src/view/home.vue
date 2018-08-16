@@ -9,6 +9,7 @@
 </template>
  
 <script>
+	import '@/assets/js/rem.js'	
 	import zHeader from '@/components/headerBar/index'
 	import zTab from '@/components/tabBar/index'
 	// import zSwiper from '@/components/Swiper/index'

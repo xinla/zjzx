@@ -30,7 +30,7 @@
 				<button type="button" class="btn-a"><i class="iconfont icon3">&#xe883;</i>微信</button>
 				<button type="button" class="btn-a"><i class="iconfont icon3">&#xe882;</i>QQ</button>
 			</div>
-			<div class="comment-list-wrap">
+			<div class="comment">
 					<ul class="">
 						<li class="comment-li bfc-o">
 							<div class="uphoto-wrap fl">
@@ -46,10 +46,14 @@
 											<span class="rep-hide">收起回复<i class="iconfont">&#xe7f4;</i></span>
 										</button>
 										<div class="like-wrap fr">
-											<var>125</var><button type="button" class="like-btn"><i class="iconfont tags-icon">&#xe7c8;</i><i class="iconfont tags-icon like-animate">&#xe7c8;</i></button>
-											<i class="iconfont tags-icon report-comment-btn ">&#xe77e;</i>
+											<var>125</var><button type="button" class="like-btn"><i class="iconfont icon2">&#xe7c8;</i><i class="iconfont icon2 like-animate">&#xe7c8;</i></button>
+											<i class="iconfont icon2 report-comment-btn ">&#xe77e;</i>
 										</div>
-									</div>											
+									</div>	
+									<form action="" method="get" accept-charset="utf-8" class="comment-form">
+										<input type="text" class="input-commnet-content" name="" maxlength="100" placeholder="留下你的高见，一百字以内">
+										<input type="submit" name="submit" class="submit-comment" value="回复">
+									</form>										
 									<ul class="reply-wrap">
 										<li class="reply-li bfc-o">
 											<div class="uphoto-wrap fl">
@@ -99,8 +103,8 @@
 											<span class="rep-hide">收起回复<i class="iconfont">&#xe7f4;</i></span>
 										</button>
 										<div class="like-wrap fr">
-											<var>125</var><button type="button" class="like-btn"><i class="iconfont tags-icon">&#xe7c8;</i><i class="iconfont tags-icon like-animate">&#xe7c8;</i></button>
-											<i class="iconfont tags-icon report-comment-btn ">&#xe77e;</i>
+											<var>125</var><button type="button" class="like-btn"><i class="iconfont icon2">&#xe7c8;</i><i class="iconfont icon2 like-animate">&#xe7c8;</i></button>
+											<i class="iconfont icon2 report-comment-btn ">&#xe77e;</i>
 										</div>
 									</div>											
 									<ul class="reply-wrap">
@@ -256,11 +260,76 @@ export default {
 	.icon2,.icon3 {
 	    font-size: 24px;
 	    vertical-align:sub ;
+	    cursor: pointer;
+	    color: #666;
 	}
 	.icon3{
 		color: #2cbf57;
 	}
-	.comment-list-wrap {
+	/* comment */
+	.comment {
 	    padding: 25px 15px;
+	}
+	.comment-li {
+	    border-top: 1px solid #ddd;
+	    padding: 15px 0;
+	}
+	.comment .uname {
+	    max-width: 80%;
+	    margin-right: 10px;
+	}
+	.ucomment {
+	    margin: 10px 0;
+	}
+	.comment-detail {
+	    display: inline-block;
+	    width: 100%;
+	    padding-left: 50px;
+	    margin-top: -40px;
+	}
+	.reply {
+	    color: #3a5ab5;
+	}
+	.reply-li {
+	    padding-top: 15px;
+	}
+	.like-btn {
+	    position: relative;
+	}
+	.like-animate {
+	    position: absolute;
+	    left: 0;
+	    bottom: 0;
+	    -webkit-transition: all 1s;
+	    transition: all 1s;
+	}
+	.like-animate-up {
+	    opacity: 0;
+	    bottom: 20px;
+	    color: #f40;
+	}
+	.rep-hide {
+	    display: none;
+	}
+	.comment-form {
+	    position: relative;
+	    border-top: 10px solid transparent;
+	}
+	.input-commnet-content {
+	    border: 1px solid #888;
+	    width: 100%;
+	    text-indent: 6px;
+	}
+	.submit-comment {
+	    position: absolute;
+	    width: 100px;
+	    top: 0;
+	    right: 0;
+	    background: #333;
+	    color: #fff;
+	}
+	.comment input {
+	    line-height: 35px;
+	    height: 35px;
 	}
 </style>
