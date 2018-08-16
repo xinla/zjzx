@@ -4,7 +4,7 @@
 		<z-header></z-header>
 		<z-tab></z-tab>
 		<z-nav></z-nav>
-		<z-swiper></z-swiper>
+		<!-- <z-swiper></z-swiper> -->
 	</div>
 </template>
  
@@ -14,12 +14,20 @@
 	import zTab from '@/components/tabBar/index'
 	// import zSwiper from '@/components/Swiper/index'
 	import zNav from '@/components/navBar/index'
+	import config from '@/lib/config/config'
+	import homeService from '@/service/homeService'
 	export default {
 		components:{
 			zHeader,
 			zTab,
 			// zSwiper
 			zNav
+		},
+		created () {
+			// debugger;
+			console.log(homeService);
+			homeService.use(this.$http).test(function(data){
+			})			
 		}
 	}
 </script>
