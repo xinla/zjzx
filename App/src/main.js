@@ -9,7 +9,7 @@ import router from './router'
 import '@/assets/css/reset.css'
 import '@/assets/font/iconfont.css'
 import '@/assets/css/swiper.css'
-import '@/assets/js/rem.js'
+// import '@/assets/js/rem.js'
 // import config from './lib/config/config.js'
 // Vue.use(config)
 // import config from '@/lib/config/config'
