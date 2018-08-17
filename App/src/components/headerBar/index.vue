@@ -30,7 +30,7 @@
 		top: 0;
 		z-index: 9999;
 		background-color: #ec414d;
-		line-height: 3.4em;
+		line-height: 3.5em;
 	}
 	.header>div{
 		float: left;

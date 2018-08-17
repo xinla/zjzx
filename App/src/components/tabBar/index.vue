@@ -62,7 +62,7 @@
 
 <style lang="css" scoped>
 	.empty{
-		height: 3.4em;
+		height: 3.5em;
 	}
 	.nav {
 		width: 100%;
@@ -76,6 +76,8 @@
 	.nav-list {
 		overflow-x: auto;
 		white-space: nowrap;
+	    border-bottom: 1px solid #ddd;
+	    background: #eee;
 	}
 	.nav-item {
 	    display: inline-block;
