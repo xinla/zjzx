@@ -17,9 +17,6 @@ request.test = function(call){
 
 }
 
-
-
-
 service.use = function (reqUtil) {
 	requestUtil = reqUtil;
 	return request;
