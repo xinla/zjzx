@@ -9,7 +9,7 @@
 </template>
  
 <script>
-	import '@/assets/js/rem.js'	
+	// import '@/assets/js/rem.js'	
 	import zHeader from '@/components/headerBar/index'
 	import zTab from '@/components/tabBar/index'
 	// import zSwiper from '@/components/Swiper/index'
@@ -25,8 +25,9 @@
 		},
 		created () {
 			// debugger;
-			console.log(homeService);
-			homeService.use(this.$http).test(function(data){
+			// console.log(homeService);
+				homeService.use(this.$http).test(function(data){
+					console.log(data);
 			})			
 		}
 	}

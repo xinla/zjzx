@@ -19,52 +19,25 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: home
+      component: (resolve)=>{
+        require(['@/view/home.vue'],resolve)
+      }
     },
+    //新闻详情页面
     {
       path: '/detail',
       name: 'detail',
-      component: detail
+       component: (resolve)=>{
+        require(['@/view/detail.vue'],resolve)
+      }
     },
+    //搜索页面
     {
-    	path: '/one',
-    	name: 'one',
-    	component: one
-    },
-     {
-    	path: '/two',
-    	name: 'two',
-    	component: two
-    },
-     {
-    	path: '/three',
-    	name: 'three',
-    	component: three
-    },
-     {
-    	path: '/four',
-    	name: 'four',
-    	component: four
-    },
-     {
-    	path: '/five',
-    	name: 'five',
-    	component: five
-    },
-     {
-    	path: '/six',
-    	name: 'six',
-    	component: six
-    },
-     {
-    	path: '/seven',
-    	name: 'seven',
-    	component: seven
-    },
-     {
-    	path: '/eight',
-    	name: 'eight',
-    	component: eight
-    },
+      path: '/search',
+      name: 'search',
+      component: (resolve)=>{
+        require(['@/view/search.vue'],resolve)
+      }
+    }
   ]
 })

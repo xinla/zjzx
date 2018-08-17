@@ -215,7 +215,7 @@ export default {
 	}
 	.uname {
 	    color: #333;
-	    font-size: 16px;
+	    font-size: 0.32rem;
 	}
 	.ts {
 	    color: #888;
