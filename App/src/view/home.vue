@@ -132,7 +132,7 @@
 	    	window.removeEventListener(resizeEvt, this.recalc, false);
 	    	document.removeEventListener('DOMContentLoaded', this.recalc, false);
 
-
+	    	document.querySelector('html').setAttribute("data-dpr",1);
 	    	document.querySelector('meta[name="viewport"]').setAttribute("content","width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no");
 	    	window.addEventListener(resizeEvt, this.subRecalc, false);
 	    	document.addEventListener('DOMContentLoaded', this.subRecalc, false);
