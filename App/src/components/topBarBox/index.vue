@@ -4,39 +4,73 @@
 			<i class="iconfont">&#xe68c;</i>
 		</div>
 		<div class="top-bar-body">
-			<div class="top-mychannel top-body-head clearfix">
+			<div class="top-mychannel clearfix">
 				<h2>我的频道</h2>
 				<span>点击进入频道</span>
 				<a href="javascript:void(0)">编辑</a>
 			</div>
 			<div class="top-mychannel-content">
 				<ul class="top-mychannel-list clearfix">
-					<li class="top-mychannel-item">关注</li>
-					<li class="top-mychannel-item">推荐</li>
-					<li class="top-mychannel-item">热点</li>
-					<li class="top-mychannel-item">池州</li>
-					<li class="top-mychannel-item">视频</li>
-					<li class="top-mychannel-item">图片</li>
-					<li class="top-mychannel-item">娱乐</li>
-					<li class="top-mychannel-item">问答</li>
-					<li class="top-mychannel-item">科技</li>
-					<li class="top-mychannel-item">懂车帝</li>
-					<li class="top-mychannel-item">财经</li>
-					<li class="top-mychannel-item">军事</li>
-					<li class="top-mychannel-item">体育</li>
-					<li class="top-mychannel-item">国际</li>
-					<li class="top-mychannel-item">健康</li>
-					<li class="top-mychannel-item">房产</li>
-					<li class="top-mychannel-item">小视频</li>
-					<li class="top-mychannel-item">新时代</li>
-					<li class="top-mychannel-item">时尚</li>
+					<li class="top-mychannel-item" v-for="(item,index) in newList">{{item.title}}</li>
+				</ul>
+			</div>
+			<div class="top-channel-tuijian">
+				<h2>频道推荐</h2>
+				<span>点击添加频道</span>
+			</div>
+			<div class="top-channel-content">
+				<ul class="top-channel-list clearfix">
+					<li><span>+</span>特卖</li>
+					<li><span>+</span>多带点</li>
+					<li><span>+</span>特卖</li>
+					<li><span>+</span>特卖</li>
+					<li><span>+</span>特卖</li>
+					<li><span>+</span>特卖</li>
+					<li><span>+</span>特卖</li>
+					<li><span>+</span>特卖</li>
+					<li><span>+</span>特卖</li>
+					<li><span>+</span>特卖</li>
+					<li><span>+</span>特卖</li>
+					<li><span>+</span>特卖</li>
+					<li><span>+</span>特卖</li>
+					<li><span>+</span>特卖</li>
 				</ul>
 			</div>
 		</div>
 	</div>
 </template>
 
-
+<script>
+	export default {
+		data() {
+			return{
+				newList:[
+					{title: '推荐', id: 0},
+				    {title: '视频', id: 1},
+				    {title: '热点', id: 2},
+				    {title: '社会', id: 3},
+				    {title: '娱乐', id: 4},
+				    {title: '军事', id: 5},
+				    {title: '科技', id: 6},
+				    {title: '汽车', id: 7},
+				    {title: '体育', id: 8},
+				    {title: '财经', id: 9},
+				    {title: '国际', id: 10},
+				    {title: '时尚', id: 11},
+				    {title: '游戏', id: 12},
+				    {title: '旅游', id: 13},
+				    {title: '历史', id: 14},
+				    {title: '探索', id: 15},
+				    {title: '美食', id: 16},
+				    {title: '育儿', id: 17},
+				    {title: '养生', id: 18},
+				    {title: '故事', id: 19},
+				    {title: '美文', id: 20}
+				]
+			}
+		}
+	}
+</script>
 <style scoped>
 	[data-dpr="1"] .iconfont {
 		font-size: 24px;
@@ -74,7 +108,6 @@
 	.top-mychannel h2{
 		float: left;
 		display: inline-block;
-		
 	}
 
 	[data-dpr="1"] h2 {
@@ -112,7 +145,8 @@
 		border-radius: .5em;
 	}
 
-	.top-mychannel-content li {
+	.top-mychannel-content li,
+	.top-channel-list li{
 		float: left;
 		width: 23%;
 		height: 2.9em;
@@ -122,7 +156,25 @@
 		margin-right: 2.6%;
 		margin-bottom: 2.6%;
 	}
-	.top-mychannel-content li:nth-child(4n+4) {
+	.top-mychannel-content li:nth-child(4n+4),
+	.top-channel-list li:nth-child(4n+4) {
 		margin-right: 0;
+	}
+	.top-channel-tuijian {
+		margin: .5em 0;
+		height: 2em;
+	}
+	.top-channel-tuijian h2 {
+		display: inline-block;
+	}
+	.top-channel-tuijian span {
+		color: #999;
+	}
+
+	.top-channel-list li{
+		text-align: center;
+		background-color: #fff;
+		box-shadow:0px 0px 3px #333333;
+		border-radius: .3em;
 	}
 </style>
