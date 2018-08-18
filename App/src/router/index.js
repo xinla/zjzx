@@ -38,6 +38,13 @@ export default new Router({
       component: (resolve)=>{
         require(['@/view/search.vue'],resolve)
       }
+    },
+    {
+      path: '/topBarBox',
+      name: 'topBarBox',
+      component: (resolve)=>{
+        require(['@/components/topBarBox/index.vue'],resolve)
+      }
     }
   ]
 })
