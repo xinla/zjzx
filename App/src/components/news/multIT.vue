@@ -1,5 +1,6 @@
 <template>
 	<div class="text-wrap bfc-o">
+		<router-link :to="{ name:'detail'}">
 		<h1>test测试test测试test测试test测试test测试test测试test测试test测试test测试</h1>
 		<div class="img-wrap bfc-o">
 			<img src="http://img.zcool.cn/community/0195be57cd70d90000012e7eb0dae8.jpg@1280w_1l_2o_100sh.jpg" alt="">
@@ -11,6 +12,7 @@
 			<span><var>30</var>评论</span>
 			<span>30分钟前</span>
 		</p>
+		</router-link>
 	</div>
 </template>
 <script>

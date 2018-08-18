@@ -147,6 +147,7 @@
 </template>
 
 <script>
+
 import top from '@/components/common/top'
 export default {
 	components:{
@@ -189,7 +190,7 @@ export default {
 				}]
 			}
 		}
-	}
+	},
 }
 </script>
 
