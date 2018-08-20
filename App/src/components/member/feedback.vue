@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<div class="tabbar bfc-o">
-			<div class="tablist current-tab" @click="showFeedback()">意见反馈</div>
-			<div class="tablist" @click="showQuestion()">常见问题</div>
+			<div :class="['tablist', {'current-tab':showF}]" @click="showFeedback()">意见反馈</div>
+			<div :class="['tablist', {'current-tab':showQ}]" @click="showQuestion()">常见问题</div>
 		</div>
 		<div class="main">
 			<div class="feedback-box" v-show="showF">
@@ -71,6 +71,8 @@ export default{
 	.tabbar {
 	    background: #ddd;
 	    margin-right: -1px;
+        position: absolute;
+	    width: 100%;
 	}
 	.tablist{
 		width: 50%;
@@ -82,12 +84,12 @@ export default{
 	.current-tab{
 		background: #eee;
 	}
-	.main,footer{
+	.main{
 		margin: 0 10px;
+		padding-top: 50px;
 	}
 	.qa-list{
 		line-height: 20px;
-		padding-bottom: 10px;
 	}
 	.qa-left{
 		vertical-align: top;
@@ -100,7 +102,6 @@ export default{
 	}
 	.feedback-box {
 	    line-height: 30px;
-	    margin-top: 10px;
 	}
 	.feedback-box p{
 	    text-indent: 6px;

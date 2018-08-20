@@ -74,5 +74,12 @@ export default new Router({
         require(['@/components/member/feedback.vue'],resolve)
       }
     },
+    {
+      path:'/member/wallet',
+      name:'/member/wallet',
+      component: (resolve)=>{
+        require(['@/components/member/wallet.vue'],resolve)
+      }
+    },
   ]
 })
