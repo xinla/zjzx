@@ -52,6 +52,27 @@ export default new Router({
       component: (resolve)=>{
         require(['@/view/member.vue'],resolve)
       }
-    }
+    },
+    {
+      path:'/member/focus',
+      name:'/member/focus',
+      component: (resolve)=>{
+        require(['@/components/member/focus.vue'],resolve)
+      }
+    },
+    {
+      path:'/member/messages',
+      name:'/member/messages',
+      component: (resolve)=>{
+        require(['@/components/member/messages.vue'],resolve)
+      }
+    },
+    {
+      path:'/member/feedback',
+      name:'/member/feedback',
+      component: (resolve)=>{
+        require(['@/components/member/feedback.vue'],resolve)
+      }
+    },
   ]
 })

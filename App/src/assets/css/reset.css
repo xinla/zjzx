@@ -19,7 +19,7 @@ legend { color:#000; }/*for ie6*/
 a:hover{ color: #f40; }
 li{ list-style: none; }
 a{ color:inherit; }
-html,body{background-color: #f4f5f6;}
+html,body{background-color: #f4f5f6;width:100%;height: 100%;}
 /*click outline for firefox*/
 button::-moz-focus-inner,
 input[type="reset"]::-moz-focus-inner,
