@@ -20,20 +20,7 @@
 			</div>
 			<div class="top-channel-content">
 				<ul class="top-channel-list clearfix">
-					<li><span>+</span>特卖</li>
-					<li><span>+</span>多带点</li>
-					<li><span>+</span>特卖</li>
-					<li><span>+</span>特卖</li>
-					<li><span>+</span>特卖</li>
-					<li><span>+</span>特卖</li>
-					<li><span>+</span>特卖</li>
-					<li><span>+</span>特卖</li>
-					<li><span>+</span>特卖</li>
-					<li><span>+</span>特卖</li>
-					<li><span>+</span>特卖</li>
-					<li><span>+</span>特卖</li>
-					<li><span>+</span>特卖</li>
-					<li><span>+</span>特卖</li>
+					<li v-for="(item,index) in newList"><span>+</span>{{item.title}}</li>
 				</ul>
 			</div>
 		</div>
@@ -174,7 +161,7 @@
 	.top-channel-list li{
 		text-align: center;
 		background-color: #fff;
-		box-shadow:0px 0px 3px #333333;
+		 box-shadow:.07em -0.03em .4em .2em #f1f1f1;
 		border-radius: .3em;
 	}
 </style>
