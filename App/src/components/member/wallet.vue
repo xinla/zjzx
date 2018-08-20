@@ -1,13 +1,13 @@
 <template>
 	<div>
-	aa
+		
 	</div>
 </template>
 
 <script>
-	
+
 </script>
 
-<style scoped>
-	
+<style rel="stylesheet" scoped>
+
 </style>

@@ -1,31 +1,127 @@
 <template>
 	<div>
-		<div class="tabbar">
-			<div class="tablist">意见反馈</div>
-			<div class="tablist">常见问题</div>
+		<div class="tabbar bfc-o">
+			<div class="tablist current-tab" @click="showFeedback()">意见反馈</div>
+			<div class="tablist" @click="showQuestion()">常见问题</div>
 		</div>
-		<div class="feedback-box">
-			feedback
-		</div>
-		<ul class="qa">
-			<li class="q-list">
-				Q：常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题
-			</li>
-			<li class="a">
-				A：回答回答回答回答回答回答回答回答回答回答回答回答回答回答
-			</li>
-		</ul>
-		<div class="footer">
-			<input type="text" placeholder="期待您的意见...">
-			<input type="submit" name="" value="提交">
+		<div class="main">
+			<div class="feedback-box" v-show="showF">
+					<p>问题和意见</p>
+					<textarea name="" placeholder="描述" required ></textarea>
+					<input type="file" name="" value="上传图片" accept="image/*" placeholder="上传图片">
+					<div class="thumb">
+						<img src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">
+						<img src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">
+					</div>
+					<button type="submit">发送</button>
+			</div>
+			<table class="qa" v-show="showQ">
+				<tr class="qa-list">
+					<td class="qa-left">
+						Q：
+					</td>
+					<td class="q">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</td>
+				</tr>
+				<tr class="qa-list">
+					<td class="qa-left">
+						A：
+					</td>
+					<td>回答回答回答回答回答回答回答回答回答回答回答回答回答回答</td>
+				</tr>
+				<tr class="qa-list">
+					<td class="qa-left">
+						Q：
+					</td>
+					<td class="q">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</td>
+				</tr>
+				<tr class="qa-list">
+					<td class="qa-left">
+						A：
+					</td>
+					<td>回答回答回答回答回答回答回答回答回答回答回答回答回答回答</td>
+				</tr>
+			</table>		
 		</div>
 	</div>
 </template>
 
-<script type="ecmascript-6">
-
+<script>
+export default{
+	data(){
+		return {
+			showF:true,
+			showQ:false,
+		}
+	},
+	methods:{
+		showFeedback(){
+			this.showF = true;
+			this.showQ = false;
+		},
+		showQuestion(){
+			this.showF = false;
+			this.showQ = true;
+		},
+	}
+}
 </script>
 
-<style rel="stylesheet" scoped>
 
+<style rel="stylesheet" scoped>
+	.tabbar {
+	    background: #ddd;
+	    margin-right: -1px;
+	}
+	.tablist{
+		width: 50%;
+		float: left;
+		border-right: 1px solid #eee;
+		text-align: center;
+		padding: 10px 0;
+	}
+	.current-tab{
+		background: #eee;
+	}
+	.main,footer{
+		margin: 0 10px;
+	}
+	.qa-list{
+		line-height: 20px;
+		padding-bottom: 10px;
+	}
+	.qa-left{
+		vertical-align: top;
+	}
+	.q{
+		font-weight: 600;
+	}
+	.qa td{
+		padding-bottom: 10px;
+	}
+	.feedback-box {
+	    line-height: 30px;
+	    margin-top: 10px;
+	}
+	.feedback-box p{
+	    text-indent: 6px;
+	}
+	textarea{
+	    width: 100%;
+	    min-height: 100px;
+	    color: #666;
+	    text-indent: 6px;
+	    border: 1px solid #bbb;
+	}
+	.thumb img{
+		width: 100px;
+		height: 100px;
+		margin-right: 5px;
+	}
+	button {
+	    display: block;
+	    width: 70px;
+	    line-height: 30px;
+	    margin: 15px auto;
+	    border-radius: 8px;
+	}
 </style>
