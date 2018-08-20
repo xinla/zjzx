@@ -45,6 +45,13 @@ export default new Router({
       component: (resolve)=>{
         require(['@/components/topBarBox/index.vue'],resolve)
       }
+    },
+    {
+      path:'/member',
+      name:'member',
+      component: (resolve)=>{
+        require(['@/view/member.vue'],resolve)
+      }
     }
   ]
 })
