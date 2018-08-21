@@ -80,6 +80,15 @@ img,a{-webkit-touch-callout:none;}
 .ac { text-align:center; }
 .ar { text-align:right; }
 .hide { display:none; }
+/*top-fixed and bottom-fixed*/
+.tf,.bf{
+    position: fixed;
+    width: 100%;
+    height: 50px;
+    z-index: 999;
+}
+.tf{top: 0;}
+.gf{bottom: 0;}
 /*mask*/
 .mask{
   position: fixed;

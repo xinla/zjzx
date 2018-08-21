@@ -60,6 +60,7 @@
 		text-indent: 8px;
 		border-top: 10px solid #eee;
 		clear: both;
+	    line-height: 30px;
 	}
 	dd{
 		float: left;

@@ -61,11 +61,9 @@ export default new Router({
       }
     },
     {
-      path:'/memberDetail',
-      name:'memberDetail',
-      component:(resolve)=>{
-        require(['@/view/member/memberDetail.vue'],resolve)
-      },
+      path:'/memDetail',
+      name:'memDetail',
+      redirect:'/member',
       children:[
         {
           path:'focus',

@@ -48,26 +48,32 @@
 		<div class="member-body" >
 			<ul class="member-modal">
 				<li class="member-modal-item clearfix" v-for='item in modal1'>
-					<div class="member-icon fl">
-						<img :src="item.icon">
-					</div>
-					<p class="fl">{{item.text}}<b class="iconfont icon-arrow">&#xe628;</b></p>
+					<router-link :to="item.link">
+						<div class="member-icon fl">
+							<img :src="item.icon">
+						</div>
+						<p class="fl">{{item.text}}<b class="iconfont icon-arrow">&#xe628;</b></p>
+					</router-link>
 				</li>
 			</ul>
 			<ul class="member-modal">
 				<li class="member-modal-item clearfix" v-for='item in modal2'>
-					<div class="member-icon fl">
-						<img :src="item.icon">
-					</div>
-					<p class="fl">{{item.text}}<b class="iconfont icon-arrow">&#xe628;</b></p>
+					<router-link :to="item.link">
+						<div class="member-icon fl">
+							<img :src="item.icon">
+						</div>
+						<p class="fl">{{item.text}}<b class="iconfont icon-arrow">&#xe628;</b></p>
+					</router-link>
 				</li>
 			</ul>
 			<ul class="member-modal">
 				<li class="member-modal-item clearfix" v-for='item in modal3'>
-					<div class="member-icon fl">
-						<img :src="item.icon">
-					</div>
-					<p class="fl">{{item.text}}<b class="iconfont icon-arrow">&#xe628;</b></p>
+					<router-link :to="item.link">
+						<div class="member-icon fl">
+							<img :src="item.icon">
+						</div>
+						<p class="fl">{{item.text}}<b class="iconfont icon-arrow">&#xe628;</b></p>
+					</router-link>
 				</li>
 			</ul>
 		</div>
@@ -81,39 +87,48 @@
 				modal1: [
 					{
 						icon: require('@/assets/images/icon-msg.png'),
-						text: '我的消息'
+						text: '我的消息',
+						link: '/memDetail/messages'
 					},
 					{
 						icon: require('@/assets/images/icon-guanzhu.png'),
-						text: '我的关注'
+						text: '我的关注',
+						link: '/memDetail/focus'						
 					},
 					{
 						icon: require('@/assets/images/icon-money.png'),
-						text: '我的钱包'
-					}
+						text: '我的钱包',
+						link: '/memDetail/wallet'
+					},
+
 				],
 				modal2: [
 					{
 						icon: require('@/assets/images/icon-kefu.png'),
-						text: '在线客服'
+						text: '在线客服',
+						link: '/memDetail/wallet'
 					},
 					{
 						icon: require('@/assets/images/icon-zan.png'),
-						text: '推荐给好友'
+						text: '推荐给好友',
+						link: '/memDetail/wallet'
 					},
 					{
 						icon: require('@/assets/images/icon-fankui.png'),
-						text: '用户反馈'
+						text: '用户反馈',
+						link: '/memDetail/feedback'
 					}
 				],
 				modal3: [
 					{
 						icon: require('@/assets/images/icon-setup.png'),
-						text: '设置'
+						text: '设置',
+						link: '/memDetail/set'
 					},
 					{
 						icon: require('@/assets/images/icon-about.png'),
-						text: '关于我们'
+						text: '关于我们',
+						link: '/memDetail/about'
 					}
 				]
 				

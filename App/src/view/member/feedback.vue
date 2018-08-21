@@ -8,12 +8,14 @@
 			<div class="feedback-box" v-show="showF">
 					<p>问题和意见</p>
 					<textarea name="" placeholder="描述" required ></textarea>
-					<input type="file" name="" value="上传图片" accept="image/*" placeholder="上传图片">
+					<label for="upimg" class="upimg iconfont">&#xe800;</label>
+					<input type="file" name="file" id="upimg" value="" accept="image/*" placeholder="上传图片">
 					<div class="thumb">
 						<img src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">
 						<img src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">
 					</div>
 					<button type="submit">发送</button>
+					
 			</div>
 			<table class="qa" v-show="showQ">
 				<tr class="qa-list">
@@ -42,6 +44,11 @@
 				</tr>
 			</table>		
 		</div>
+		<div class="clip-wrap mask">
+			<div class="cc">
+				
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -63,6 +70,7 @@ export default{
 			this.showQ = true;
 		},
 	}
+	
 }
 </script>
 
@@ -124,5 +132,28 @@ export default{
 	    line-height: 30px;
 	    margin: 15px auto;
 	    border-radius: 8px;
+	}
+	.upimg{
+	    width: 65px;
+	    height: 65px;
+	    display: inline-block;
+		background: #eee;
+		border: 1px solid #666;
+	    line-height: 65px;
+	    text-align: center;
+	    font-size: 30px;
+	    margin-bottom: 10px;
+	    color: #666;
+	}
+	#upimg{
+		height: 0;
+		width: 0;
+	}
+	.mask{
+		display: none;
+	}
+	.cc{
+		width: 300px;
+		height: 300px;
 	}
 </style>

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<top></top>
-		<router-view></router-view>
+		<router-view class="top-margin"></router-view>
 	</div>
 </template>
 
@@ -20,5 +20,7 @@ export default{
 </script>
 
 <style rel="stylesheet" scoped>
-
+	.top-margin{
+		margin-top: 40px;
+	}
 </style>
