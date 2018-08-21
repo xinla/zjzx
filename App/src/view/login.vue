@@ -69,6 +69,7 @@
 			},
 			//获取验证码
 			getCode() {
+				var _this = this;
 				if(this.codeTimer) {return}
 				if(!this.mobile){
 					this.mobileErrText="请输入手机号";
@@ -78,11 +79,12 @@
 				}
 
 				if(this.mobileErr){this.mobileErrText="请填写正确的手机号";return;}
-				// debugger;
-				userService.use(this.$http).getCode(this.$data.mobile,function(data){
+				 debugger;
+				 console.log(userService);
+				userService.getCode(this.$data.mobile,function(data){
 					console.log(data);
 					if(data.result.code){
-						this.codeText = "60秒后重发"
+						_this.codeText = "60秒后重发"
 					}
 				})
 				// this.

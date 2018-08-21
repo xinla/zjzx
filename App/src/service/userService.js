@@ -1,28 +1,28 @@
+
 import config from '@/lib/config/config'
+import axios from 'axios'
 const controller =config.successServer+'/user';
 const service ={
 	// test: controller+'/test'
 }
 
-var requestUtil = null;
-
-const  request ={};
 
 
-request.getCode = function(mobile,call){
+
+service.getCode = function(mobile,call){
 	// debugger;
 	// debugger;
-	requestUtil.get(controller+'/getCode',{params:{
+	axios.get(controller+'/getCode',{params:{
 		mobile:mobile
 	}}).then(function(res){
 		call(res.data);
 	})
 
 }
-request.loginByMobile = function(mobile,code,call){
+service.loginByMobile = function(mobile,code,call){
 	// debugger;
 	// debugger;
-	requestUtil.get(controller+'/loginByMobile',{params:{
+	axios.get(controller+'/loginByMobile',{params:{
 		mobile:mobile,
 		code:code
 	}}).then(function(res){
@@ -31,10 +31,6 @@ request.loginByMobile = function(mobile,code,call){
 
 }
 
-service.use = function (reqUtil) {
-	requestUtil = reqUtil;
-	return request;
-}
 
 
 export default service
