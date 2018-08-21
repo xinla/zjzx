@@ -14,9 +14,10 @@ export default {
 		background: #fff;
 	}
 	.back,.nav-icon{
-		width: 0.6rem;
-		font-size: 26px;
-		line-height: 60px;
+		width: 50px;
+	    font-size: 20px;
+	    line-height: 40px;
+	    background: #fff;
 	}
 	.nav-icon{
 		font-size: 40px;

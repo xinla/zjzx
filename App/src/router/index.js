@@ -50,36 +50,45 @@ export default new Router({
       path:'/member',
       name:'member',
       component: (resolve)=>{
-        require(['@/view/member.vue'],resolve)
-      }
+        require(['@/view/member/index.vue'],resolve)
+      }      
     },
     {
-      path:'/member/focus',
-      name:'/member/focus',
-      component: (resolve)=>{
-        require(['@/components/member/focus.vue'],resolve)
-      }
-    },
-    {
-      path:'/member/messages',
-      name:'/member/messages',
-      component: (resolve)=>{
-        require(['@/components/member/messages.vue'],resolve)
-      }
-    },
-    {
-      path:'/member/feedback',
-      name:'/member/feedback',
-      component: (resolve)=>{
-        require(['@/components/member/feedback.vue'],resolve)
-      }
-    },
-    {
-      path:'/member/wallet',
-      name:'/member/wallet',
-      component: (resolve)=>{
-        require(['@/components/member/wallet.vue'],resolve)
-      }
+      path:'/memberDetail',
+      name:'memberDetail',
+      component:(resolve)=>{
+        require(['@/view/member/memberDetail.vue'],resolve)
+      },
+      children:[
+        {
+          path:'focus',
+          name:'focus',
+          component: (resolve)=>{
+            require(['@/view/member/focus.vue'],resolve)
+          }
+        },
+        {
+          path:'messages',
+          name:'messages',
+          component: (resolve)=>{
+            require(['@/view/member/messages.vue'],resolve)
+          }
+        },
+        {
+          path:'feedback',
+          name:'feedback',
+          component: (resolve)=>{
+            require(['@/view/member/feedback.vue'],resolve)
+          }
+        },
+        {
+          path:'wallet',
+          name:'wallet',
+          component: (resolve)=>{
+            require(['@/view/member/wallet.vue'],resolve)
+          }
+        }
+      ]
     },
   ]
 })
