@@ -1,16 +1,17 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import axios from 'axios'
 Vue.use(Vuex);
-
-//初始化变量
-let state = {
-	//存储全局变量
-	Variable: {
-		url:'http://192.168.2.103:8080/zjzx'
+const store = new Vuex.Store({
+	state: {
+		user:''
+	},
+	mutations: {
+		user(state,msg) {
+			state.user = msg;
+			localStorage.setItem('user',msg)
+		}
 	}
-}
-export default new Vuex.Store({
-	state
 })
+
+export default store

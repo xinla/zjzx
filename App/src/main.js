@@ -4,29 +4,29 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import App from './App'
-import store from './store/index'
+import store from '@/store/index'
 import router from './router'
 import '@/assets/css/reset.css'
 import '@/assets/font/iconfont.css'
 import '@/assets/css/swiper.css'
-// import '@/assets/js/rem.js'
-// import config from './lib/config/config.js'
-// Vue.use(config)
-// import config from '@/lib/config/config'
-// import homeService from '@/service/homeService'
 
-// Vue.use(config)
-// Vue.use(homeService)
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+
+
+
+
 
 // 数据请求
 Vue.use(Vuex)
 Vue.prototype.$http = axios
 // 轮播图
 
-import VueAwesomeSwiper from 'vue-awesome-swiper';
+import VueAwesomeSwiper from 'vue-awesome-swiper'
 Vue.use(VueAwesomeSwiper)
+
+import TooL from '@/common/methods'
+Vue.use(TooL)
 
 //快速点击
 import FastClick from 'fastclick'
@@ -38,5 +38,4 @@ new Vue({
   router,
   store,
   render: h => h(App),
- 
 }).$mount('#app');

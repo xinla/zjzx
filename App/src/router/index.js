@@ -53,6 +53,13 @@ export default new Router({
         require(['@/view/member/index.vue'],resolve)
       }      
     },
+     {
+      path:'/login',
+      name:'login',
+      component: (resolve)=>{
+        require(['@/view/login.vue'],resolve)
+      }
+    },
     {
       path:'/memberDetail',
       name:'memberDetail',
