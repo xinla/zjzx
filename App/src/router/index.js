@@ -53,6 +53,13 @@ export default new Router({
         require(['@/view/member/index.vue'],resolve)
       }      
     },
+    {
+      path:'/editInfo',
+      name:'editInfo',
+      component: (resolve)=>{
+        require(['@/view/member/editInfo.vue'],resolve)
+      }      
+    },
      {
       path:'/login',
       name:'login',

@@ -11,17 +11,17 @@
 				<h2>手机号登录注册</h2>
 				<p>
 					<i class="iconfont">&#xe632;</i>
-					<input type="tel" maxlength="13" @input="mobileInput" placeholder="请输入手机号" v-model="mobile">
-					<span class="login-code" @click="getCode" v-text="codeText"></span>
+					<input type="tel" :maxlength="maxlength" :length="length" @input="mobileInput" placeholder="请输入手机号" v-model="mobile">
+					<span class="login-code" @click="getCode" v-text="phoneNum" :style="{color:codeColor}"></span>
 				</p>
 				<span class="user-error login-error" v-text="mobileErrText"></span>
 				<p>
-					<i class="iconfont">&#xe632;</i>
+					<i class="iconfont">&#xe637;</i>
 					<input type="tel" @input="codeInput" :maxlength="maxCode" v-model='code' placeholder="请输入验证码" >
 				</p>
-				<span class="code-error login-error">请输入验证码</span>
-				<button class="login-btn" @click="goLogin">进入真相</button>
-			<!-- 	<div class="login-see">
+				<span class="code-error login-error" v-text="codeText"></span>
+				<button class="login-btn" @click="goLogin" v-model="btnModel">进入真相</button>
+			<!-- 	<div class="login-see"> 
 					点击查看<span>“用户协议”</span>和<span>“隐私政策”</span>
 				</div> -->
 				
@@ -30,9 +30,18 @@
 		</div>
 		<div class="login-foot">
 			<h2>一键登录</h2>
-			<ul class="login-foot-list">
+			<ul class="login-foot-list clearfix">
 				<li class="login-foot-item">
-					
+					<img src="@/assets/images/login-qq.png" alt="">
+				</li>
+				<li class="login-foot-item">
+					<img src="@/assets/images/login-wechat.png" alt="">
+				</li>
+				<li class="login-foot-item">
+					<img src="@/assets/images/login-sina.png" alt="">
+				</li>
+				<li class="login-foot-item">
+					<img src="@/assets/images/login-taobao.png" alt="">
 				</li>
 			</ul>
 		</div>
@@ -46,26 +55,39 @@
 			return {
 				mobile:'',
 				code:'',
-				codeText:'获取验证码',
+				btnModel:'',
+				phoneNum:'获取验证码',
+				codeText:'',
 				codeTimer: null,
 				maxCode:4,
-				mobileErrText:''
+				maxlength:13,
+				length:13,
+				mobileErrText:'',
+				codeColor:'#999'
 			}
+		},
+		watch:{
 		},
 		computed: {
 			//检测是否错误
           mobileErr(){
               return !this.$TooL.isPhoneNumber(this.mobile.replace(/\s/g,""));
           },
+
 		},
+
+		
 		methods: {
 			//输入事件
 			mobileInput() {
 				this.mobile = this.$TooL.mobileInput(this.mobile);
+				
 			},
 			codeInput() {
 				this.code = this.code.replace(/[^0-9]/g,'');
-				console.log(this.code);
+			},
+			onFocus(){
+				console.log(24545);
 			},
 			//获取验证码
 			getCode() {
@@ -79,19 +101,31 @@
 				}
 
 				if(this.mobileErr){this.mobileErrText="请填写正确的手机号";return;}
-				 debugger;
-				 console.log(userService);
 				userService.getCode(this.$data.mobile,function(data){
 					console.log(data);
 					if(data.result.code){
-						_this.codeText = "60秒后重发"
+						_this.phoneNum = "60秒后重发";
+						let i = 60;
+						_this.codeTimer = setInterval(()=>{
+							if(i>0) {
+								i--;
+								_this.phoneNum = i +'秒后重发'
+							}else {
+								clearInterval(_this.codeTimer);
+								_this.codeTimer = null;
+								_this.phoneNum = '获取验证码'
+							}
+						},1000);
 					}
 				})
 				// this.
 			},
 			//登录
 			goLogin(){
-				userService.use(this.$http).loginByMobile(this.$data.mobile,this.$data.code,function(data){
+				if(!this.mobile || !this.code) {
+					return;
+				}
+				userService.loginByMobile(this.$data.mobile,this.$data.code,function(data){
 					console.log(data);
 					if(data.status == 'success'){
 						
@@ -158,6 +192,7 @@
 		left: 0;
 		top: 0;
 		color: #999;
+		z-index: 99;
 	}
 	.login-form .login-code {
 		position: absolute;
@@ -169,12 +204,13 @@
 		text-align: center;
 		border-radius: 16px;
 		border: 1px solid #edeff3;
-		color: #999;
 	}
 
 	.login-error {
 		line-height: 25px;
 		color: #ec414d;
+		height: 25px;
+		display: block;
 	}
 
 	.login-btn {
@@ -227,16 +263,36 @@
 		position: relative;
 		line-height: 45px;
 		text-align: center;
-		color: #666;
+		color: #878787;
 		font-size: 15px;
 		letter-spacing: 1px;
+		margin-bottom: 10px;
 	}
 	.login-foot h2:after,
 	.login-foot h2:before {
 		display: block;
 		position: absolute;
+		top: 22px;
 		content: '';
 		height: 1px;
+		width: 35%;
+		background-color: #d8d8d8;
 	}
 
+	.login-foot h2:after {
+		right: 0;
+	}
+	.login-foot h2:before {
+		left: 0;
+	}
+	
+	.login-foot-item {
+		float: left;
+		width: 25%;
+		text-align: center;
+	}
+
+	.login-foot-item img{
+		width: 50%;
+	}
 </style>
