@@ -98,7 +98,6 @@
 			},
 			//获取验证码
 			getCode() {
-				var _this = this;
 				if(this.codeTimer) {return}
 				if(!this.mobile){
 					this.mobileErrText="请输入手机号";
@@ -108,19 +107,19 @@
 				}
 
 				if(this.mobileErr){this.mobileErrText="请填写正确的手机号";return;}
-				userService.getCode(this.$data.mobile,function(data){
+				userService.getCode(this.$data.mobile,(data)=>{
 					console.log(data);
 					if(data.result.code){
-						_this.phoneNum = "60秒后重发";
+						this.phoneNum = "60秒后重发";
 						let i = 60;
-						_this.codeTimer = setInterval(()=>{
+						this.codeTimer = setInterval(()=>{
 							if(i>0) {
 								i--;
-								_this.phoneNum = i +'秒后重发'
+								this.phoneNum = i +'秒后重发'
 							}else {
 								clearInterval(_this.codeTimer);
-								_this.codeTimer = null;
-								_this.phoneNum = '获取验证码'
+								this.codeTimer = null;
+								this.phoneNum = '获取验证码'
 							}
 						},1000);
 					}
@@ -139,7 +138,7 @@
 						console.log(data);
 						if(data.status == 'error') {
 							this.code = '';
-							this.codeText="请输入正确验证码";
+							this.codeText=data.result.tip;
 						}else{
 							this.codeText="";
 							return;
