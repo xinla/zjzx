@@ -1,3 +1,8 @@
 const successServer = "http://192.168.2.102:8080/zjzx";
-
-export default {successServer}
+const fiieServer = "http://192.168.2.102:8080/zjzx_file"
+const fileRoot = "http://192.168.2.102:8080/fileserver"
+export default {
+	successServer,
+	fiieServer,
+	fileRoot
+}

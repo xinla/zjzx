@@ -27,6 +27,8 @@ service.loginByMobile = function(mobile,code,call){
 		code:code
 	}}).then(function(res){
 		call(res.data);
+	}).catch(function(error){
+		call(error.data)
 	})
 
 }

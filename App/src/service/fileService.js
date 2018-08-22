@@ -1,25 +1,18 @@
 import config from '@/lib/config/config'
-const controller =config.successServer+'/home';
+import axios from 'axios'
+const controller =config.fiieServer+'/file';
 const service ={
 	// test: controller+'/test'
 }
 
-var requestUtil = null;
+ let fileConfig = {
+    headers:{'Content-Type':'multipart/form-data'}
+  }; 
 
-const  request ={};
-
-
-request.uploadImg = function(call){
-	// debugger;
-	requestUtil.get(controller+'/test').then(function(res){
-		call(res);
+service.uploadHeadImage = function(params,call){
+	axios.post(controller+'/uploadHeadImage',params,fileConfig).then(function(res){
+		call(res.data)
 	})
-
-}
-
-service.use = function (reqUtil) {
-	requestUtil = reqUtil;
-	return request;
 }
 
 

@@ -11,7 +11,7 @@
 				<h2>手机号登录注册</h2>
 				<p>
 					<i class="iconfont">&#xe632;</i>
-					<input type="tel" :maxlength="maxlength" :length="length" @input="mobileInput" placeholder="请输入手机号" v-model="mobile">
+					<input type="tel" :maxlength="maxlength"  @input="mobileInput" placeholder="请输入手机号" v-model="mobile">
 					<span class="login-code" @click="getCode" v-text="phoneNum" :style="{color:codeColor}"></span>
 				</p>
 				<span class="user-error login-error" v-text="mobileErrText"></span>
@@ -20,7 +20,7 @@
 					<input type="tel" @input="codeInput" :maxlength="maxCode" v-model='code' placeholder="请输入验证码" >
 				</p>
 				<span class="code-error login-error" v-text="codeText"></span>
-				<button class="login-btn" @click="goLogin" v-model="btnModel">进入真相</button>
+				<button class="login-btn" :class="{isOpacity: isOpacity}" :disabled="disabled"  @click="login">进入真相</button>
 			<!-- 	<div class="login-see"> 
 					点击查看<span>“用户协议”</span>和<span>“隐私政策”</span>
 				</div> -->
@@ -63,7 +63,8 @@
 				maxlength:13,
 				length:13,
 				mobileErrText:'',
-				codeColor:'#999'
+				codeColor:'#999',
+				disabled:true
 			}
 		},
 		watch:{
@@ -73,6 +74,16 @@
           mobileErr(){
               return !this.$TooL.isPhoneNumber(this.mobile.replace(/\s/g,""));
           },
+          //判断账户名和验证码格式是否正确，再决定登录按钮是否亮起
+			isOpacity: function () {
+				if(this.mobile.length != 13 || this.code.length < 4) {
+					this.disabled=true;
+					return false;
+				} else {
+					this.disabled=false;
+					return true;
+				}
+			},
 
 		},
 
@@ -81,13 +92,9 @@
 			//输入事件
 			mobileInput() {
 				this.mobile = this.$TooL.mobileInput(this.mobile);
-				
 			},
 			codeInput() {
 				this.code = this.code.replace(/[^0-9]/g,'');
-			},
-			onFocus(){
-				console.log(24545);
 			},
 			//获取验证码
 			getCode() {
@@ -118,23 +125,28 @@
 						},1000);
 					}
 				})
-				// this.
 			},
-			//登录
-			goLogin(){
-				if(!this.mobile || !this.code) {
-					return;
-				}
-				userService.loginByMobile(this.$data.mobile,this.$data.code,function(data){
-					console.log(data);
-					if(data.status == 'success'){
-						
+
+			//点击登录按钮触发
+			login() {
+				//登录按钮亮起代表信息格式填写正确
+				if(this.isOpacity == true) {
+					if(this.mobileErr){this.mobileErrText="请填写正确的手机号";return;}else{
+						this.mobileErrText='';
 					}
-				})
 
-
-
-			}
+					userService.loginByMobile(this.$data.mobile,this.$data.code,(data)=>{
+						console.log(data);
+						if(data.status == 'error') {
+							this.code = '';
+							this.codeText="请输入正确验证码";
+						}else{
+							this.codeText="";
+							return;
+						}
+					})
+				}
+			},
 		}
 	}
 </script>
@@ -294,5 +306,9 @@
 
 	.login-foot-item img{
 		width: 50%;
+	}
+
+	.login-form .isOpacity {
+		opacity: 1;
 	}
 </style>
