@@ -48,7 +48,7 @@
 		<div class="member-body" >
 			<ul class="member-modal">
 				<li class="member-modal-item clearfix" v-for='item in modal1'>
-					<router-link :to="item.link">
+					<router-link :to="{ path:item.link,query:{title1:item.text}}">
 						<div class="member-icon fl">
 							<img :src="item.icon">
 						</div>
@@ -132,6 +132,16 @@
 					}
 				]
 				
+			}
+		},
+		methods:{
+			transArgs(link,title){
+				this.router.push({
+					path:link,
+					query:{
+						title:title,
+					}
+				});
 			}
 		}
 	}

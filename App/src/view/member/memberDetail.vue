@@ -1,6 +1,8 @@
 <template>
 	<div>
-		<top></top>
+		<top>
+			{{title}}
+		</top>
 		<router-view class="top-margin"></router-view>
 	</div>
 </template>
@@ -13,9 +15,17 @@ export default{
 	},
 	data(){
 		return{
-
+			title:'',
 		}
+	},
+	methods:{
+		
+	},
+	mounted(){
+		let par = this.$route.query.title1;
+		this.title = par;
 	}
+	
 }
 </script>
 

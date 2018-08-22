@@ -71,6 +71,9 @@ export default new Router({
       path:'/memDetail',
       name:'memDetail',
       redirect:'/member',
+      component: (resolve)=>{
+            require(['@/view/member/memberDetail.vue'],resolve)
+          },
       children:[
         {
           path:'focus',
@@ -98,6 +101,20 @@ export default new Router({
           name:'wallet',
           component: (resolve)=>{
             require(['@/view/member/wallet.vue'],resolve)
+          }
+        },
+        {
+          path:'set',
+          name:'set',
+          component: (resolve)=>{
+            require(['@/view/member/set.vue'],resolve)
+          }
+        },
+        {
+          path:'about',
+          name:'about',
+          component: (resolve)=>{
+            require(['@/view/member/about.vue'],resolve)
           }
         }
       ]
