@@ -116,6 +116,27 @@ export default new Router({
           component: (resolve)=>{
             require(['@/view/member/about.vue'],resolve)
           }
+        },
+        {
+          path:'agreement',
+          name:'agreement',
+          component: (resolve)=>{
+            require(['@/view/member/agreement.vue'],resolve)
+          }
+        },
+        {
+          path:'privacy',
+          name:'privacy',
+          component: (resolve)=>{
+            require(['@/view/member/privacy.vue'],resolve)
+          }
+        },
+        {
+          path:'copyright',
+          name:'copyright',
+          component: (resolve)=>{
+            require(['@/view/member/copyright.vue'],resolve)
+          }
         }
       ]
     },

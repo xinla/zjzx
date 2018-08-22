@@ -21,15 +21,14 @@ export default {
 </script>
 <style scoped>
 	.top{
-		font-size: 18px;
-		height: 55px;
+		font-size: 16px;
 		background: #fff;
-	    line-height: 55px;
+	    line-height: 50px;
 	}
 	.back,.nav-icon{
 		width: 50px;
 	    font-size: 20px;
-	    line-height: 55px;
+	    line-height: 50px;
 	    background: transparent;
 	}
 	.nav-icon{

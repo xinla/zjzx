@@ -48,7 +48,7 @@
 		<div class="member-body" >
 			<ul class="member-modal">
 				<li class="member-modal-item clearfix" v-for='item in modal1'>
-					<router-link :to="{ path:item.link,query:{title1:item.text}}">
+					<router-link :to="{ path:item.link,query:{title:item.text} }">
 						<div class="member-icon fl">
 							<img :src="item.icon">
 						</div>
@@ -58,7 +58,7 @@
 			</ul>
 			<ul class="member-modal">
 				<li class="member-modal-item clearfix" v-for='item in modal2'>
-					<router-link :to="item.link">
+					<router-link :to="{ path:item.link,query:{title:item.text} }">
 						<div class="member-icon fl">
 							<img :src="item.icon">
 						</div>
@@ -68,7 +68,7 @@
 			</ul>
 			<ul class="member-modal">
 				<li class="member-modal-item clearfix" v-for='item in modal3'>
-					<router-link :to="item.link">
+					<router-link :to="{ path:item.link,query:{title:item.text} }">
 						<div class="member-icon fl">
 							<img :src="item.icon">
 						</div>
@@ -125,11 +125,6 @@
 						text: '设置',
 						link: '/memDetail/set'
 					},
-					{
-						icon: require('@/assets/images/icon-about.png'),
-						text: '关于我们',
-						link: '/memDetail/about'
-					}
 				]
 				
 			}

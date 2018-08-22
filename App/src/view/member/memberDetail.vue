@@ -3,7 +3,9 @@
 		<top>
 			{{title}}
 		</top>
-		<router-view class="top-margin"></router-view>
+		<div  class="top-margin">			
+			<router-view></router-view>
+		</div>
 	</div>
 </template>
 
@@ -15,15 +17,20 @@ export default{
 	},
 	data(){
 		return{
-			title:'',
+			title:'title',
+		}
+	},
+	watch:{
+		$route(to,from){
+			let par = this.$route.query.title;
+			this.title = par;			
 		}
 	},
 	methods:{
-		
 	},
 	mounted(){
-		let par = this.$route.query.title1;
-		this.title = par;
+		let par = this.$route.query.title;
+		this.title = par;	
 	}
 	
 }
@@ -31,6 +38,6 @@ export default{
 
 <style rel="stylesheet" scoped>
 	.top-margin{
-		margin-top: 40px;
+		padding-top: 50px;
 	}
 </style>
