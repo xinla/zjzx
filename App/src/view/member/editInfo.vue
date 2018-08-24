@@ -61,6 +61,58 @@
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
 				</li>	
+				<li class="editInfo-modal-item clearfix">
+					<span class="fl">手机号</span>
+					<div class="editInfo-right fr clearfix">
+						<div class="editInfo-head-tip fl">	
+							<span>绑定手机号</span>
+						</div>
+						<i class="iconfont icon-arrow fr">&#xe628;</i>
+					</div>
+				</li>	
+			</ul>
+			<h4 class="editInfo-tit">开启后，可以让你的好友找到你</h4>
+			<ul class="editInfo-switch">
+				<li class="editInfo-switch-item clearfix">
+					<span class="fl">允许将我推荐给好友</span>
+					<z-switch class="switch-btn fr" v-model='value1' @click.native='show'></z-switch>
+				</li>
+			</ul>
+			<h4 class="editInfo-tit">开启后，可以向你推荐好友</h4>
+			<ul class="editInfo-switch">
+				<li class="editInfo-switch-item clearfix">
+					<span class="fl">允许给我推荐可能认识的人</span>
+					<z-switch class="switch-btn fr" v-model='value1' @click.native='show'></z-switch>
+				</li>
+			</ul>
+			<h4 class="editInfo-tit">开启后，分享到微信QQ等平台的页面会展示你的头像</h4>
+			<ul class="editInfo-switch">
+				<li class="editInfo-switch-item clearfix">
+					<span class="fl">分享页显示我的头像</span>
+					<z-switch class="switch-btn fr" v-model='value1' @click.native='show'></z-switch>
+				</li>
+			</ul>
+			<h4 class="editInfo-tit">社交平台账号绑定</h4>
+			<ul class="editInfo-switch">
+				<li class="editInfo-switch-item clearfix">
+					<span class="fl">微信</span>
+					<z-switch class="switch-btn fr" v-model='value1' @click.native='show'></z-switch>
+				</li>
+				<li class="editInfo-switch-item clearfix">
+					<span class="fl">新浪微博</span>
+					<z-switch class="switch-btn fr" v-model='value1' @click.native='show'></z-switch>
+				</li>
+				<li class="editInfo-switch-item clearfix">
+					<span class="fl">腾讯QQ</span>
+					<z-switch class="switch-btn fr" v-model='value1' @click.native='show'></z-switch>
+				</li>
+			</ul>
+
+			<h4 class="editInfo-tit">高级设置</h4>
+			<ul class="editInfo-switch">
+				<li class="editInfo-switch-item">
+					<span>账号注销</span>
+				</li>
 			</ul>
 		</div>
 	</div>
@@ -69,13 +121,16 @@
 <script>
 	import top from '@/components/common/top'
 	import fileService from '@/service/fileService'
+	import zSwitch from '@/components/common/switch'
 	export default {
 		components:{
-			top
+			top,
+			zSwitch
 		},
 		data(){
 			return {
-				title:'编辑资料'
+				title:'编辑资料',
+				value1:false
 			}
 		},
 		created(){
@@ -92,6 +147,9 @@
 		          fileService.uploadHeadImage(param,function(data){
 					console.log(data);
 				})
+			},
+			show() {
+				console.log(this.value1);
 			}
 
 		}
@@ -101,16 +159,17 @@
 
 <style lang="css" scoped>
 	.editInfo-body {
-		padding-top: 55px;	
-	}
-	.editInfo-modal {
+		padding-top: 50px;	
 		margin-top: 15px;
+	}
+	.editInfo-modal,.editInfo-switch {
+		margin-bottom: 15px;
 		background-color: #fff;
 		padding-left: 15px;
 		border-top: 1px solid #e8e8e8;
 		border-bottom: 1px solid #e8e8e8;
 	}
-	.editInfo-modal-item {
+	.editInfo-modal-item, .editInfo-switch-item {
 		height: 50px;
 		line-height: 50px;
 		padding-right: 15px;
@@ -120,7 +179,8 @@
 	.editInfo-modal-item:last-child {
 		border-bottom: none;
 	}
-	.editInfo-modal-item>span {
+	.editInfo-modal-item>span,
+	.editInfo-switch-item>span {
 		font-size: 16px;
 	}
 	.editInfo-modal-item i {
@@ -157,4 +217,13 @@
 		width: 100%;
 		height: 100%;
 	}
+
+	.editInfo-tit{
+		padding: 0 15px 15px 15px;
+		color: #999;
+	}
+	.switch-btn {
+		margin-top: 10px;
+	}
+
 </style>

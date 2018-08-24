@@ -60,13 +60,7 @@ export default new Router({
         require(['@/view/member/editInfo.vue'],resolve)
       }      
     },
-     {
-      path:'/login',
-      name:'login',
-      component: (resolve)=>{
-        require(['@/view/login.vue'],resolve)
-      }
-    },
+    
     {
       path:'/memDetail',
       name:'memDetail',
@@ -75,6 +69,13 @@ export default new Router({
             require(['@/view/member/memberDetail.vue'],resolve)
           },
       children:[
+        {
+          path:'login',
+          name:'login',
+          component: (resolve)=>{
+            require(['@/view/member/login.vue'],resolve)
+          },
+        },
         {
           path:'focus',
           name:'focus',

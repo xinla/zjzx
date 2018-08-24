@@ -19,7 +19,9 @@
 					<li><i class="iconfont">&#xe66e;</i></li>
 				</ul>
 				<div class="member-login-btn">
-					<a href="javascript:void(0)">登录/注册</a>
+					<router-link :to="{path:loginLink}">
+						<a href="javascript:void(0)">登录/注册</a>
+					</router-link>
 				</div>
 				
 			</div>
@@ -125,7 +127,9 @@
 						text: '设置',
 						link: '/memDetail/set'
 					},
-				]
+				],
+				loginLink:'/memDetail/login'
+
 				
 			}
 		},

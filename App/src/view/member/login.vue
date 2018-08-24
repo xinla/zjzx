@@ -1,8 +1,5 @@
 <template>
 	<div class="login-wrap">
-		<div class="login-top">
-			<i class="iconfont">&#xe645;</i>
-		</div>
 		<div class="login-body">
 			<div class="login-logo">
 				<img src="@/assets/images/login-logo.png" alt="">
@@ -11,8 +8,8 @@
 				<h2>手机号登录注册</h2>
 				<p>
 					<i class="iconfont">&#xe632;</i>
-					<input type="tel" :maxlength="maxlength"  @input="mobileInput" placeholder="请输入手机号" v-model="mobile">
-					<span class="login-code" @click="getCode" v-text="phoneNum" :style="{color:codeColor}"></span>
+					<input type="tel" :maxlength="maxlength"   @input="mobileInput" placeholder="请输入手机号" v-model="mobile">
+					<span class="login-code" @click="getCode" v-text="phoneNum" :class="{codeColor:codeColor}"></span>
 				</p>
 				<span class="user-error login-error" v-text="mobileErrText"></span>
 				<p>
@@ -63,9 +60,11 @@
 				maxlength:13,
 				length:13,
 				mobileErrText:'',
-				codeColor:'#999',
 				disabled:true
 			}
+		},
+		created(){
+			console.log(userService);
 		},
 		watch:{
 		},
@@ -84,6 +83,13 @@
 					return true;
 				}
 			},
+			codeColor :function() {
+				if(!this.mobile.length != 13) {
+					return false;
+				} else {
+					return true;
+				}
+			}
 
 		},
 
@@ -156,23 +162,13 @@
 		height: 100vh;
 		background-color: #fff;
 	}
-	.login-top {
-		height: 60px;
-		line-height: 60px;
-		padding: 0 15px;
-	}
-	.login-top i {
-		font-size: 24px;
-		font-weight: normal;
-		color: #999;
-	}
 	.login-body {
 		padding: 0 40px;
 	}
 	.login-logo {
 		width: 50%;
 		margin: 0 auto;
-		padding: 10px 0;
+		padding: 25px 0;
 		text-align: center;
 	}
 	.login-form {
@@ -215,6 +211,7 @@
 		text-align: center;
 		border-radius: 16px;
 		border: 1px solid #edeff3;
+		color: #999;
 	}
 
 	.login-error {
@@ -310,4 +307,5 @@
 	.login-form .isOpacity {
 		opacity: 1;
 	}
+	.login-form .codeColor{color: #666;}
 </style>
