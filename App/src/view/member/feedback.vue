@@ -1,3 +1,4 @@
+
 <template>
 	<div>
 		<div class="tabbar bfc-o">
@@ -18,6 +19,54 @@
 					
 			</div>
 			<table class="qa" v-show="showQ">
+				<tr class="qa-list">
+					<td class="qa-left">
+						Q：
+					</td>
+					<td class="q">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</td>
+				</tr>
+				<tr class="qa-list">
+					<td class="qa-left">
+						A：
+					</td>
+					<td>回答回答回答回答回答回答回答回答回答回答回答回答回答回答</td>
+				</tr>
+				<tr class="qa-list">
+					<td class="qa-left">
+						Q：
+					</td>
+					<td class="q">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</td>
+				</tr>
+				<tr class="qa-list">
+					<td class="qa-left">
+						A：
+					</td>
+					<td>回答回答回答回答回答回答回答回答回答回答回答回答回答回答</td>
+				</tr>
+				<tr class="qa-list">
+					<td class="qa-left">
+						Q：
+					</td>
+					<td class="q">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</td>
+				</tr>
+				<tr class="qa-list">
+					<td class="qa-left">
+						A：
+					</td>
+					<td>回答回答回答回答回答回答回答回答回答回答回答回答回答回答</td>
+				</tr>
+				<tr class="qa-list">
+					<td class="qa-left">
+						Q：
+					</td>
+					<td class="q">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</td>
+				</tr>
+				<tr class="qa-list">
+					<td class="qa-left">
+						A：
+					</td>
+					<td>回答回答回答回答回答回答回答回答回答回答回答回答回答回答</td>
+				</tr>
 				<tr class="qa-list">
 					<td class="qa-left">
 						Q：

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<dl class="bfc-o">
-			<dt>aa</dt>
+			<dt></dt>
 			<dd>
 				<span>
 					<i class="iconfont">&#xe842;</i>

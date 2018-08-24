@@ -1,6 +1,5 @@
 <template>
 	<div class="editInfo-wrap">
-		<top>{{title}}</top>
 		<div class="editInfo-body">	
 			<ul class="editInfo-modal">
 				<li class="editInfo-modal-item clearfix">
@@ -158,8 +157,7 @@
 </script>
 
 <style lang="css" scoped>
-	.editInfo-body {
-		padding-top: 50px;	
+	.editInfo-body {	
 		margin-top: 15px;
 	}
 	.editInfo-modal,.editInfo-switch {

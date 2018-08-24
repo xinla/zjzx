@@ -54,14 +54,6 @@ export default new Router({
       }      
     },
     {
-      path:'/editInfo',
-      name:'editInfo',
-      component: (resolve)=>{
-        require(['@/view/member/editInfo.vue'],resolve)
-      }      
-    },
-    
-    {
       path:'/memDetail',
       name:'memDetail',
       redirect:'/member',
@@ -69,13 +61,6 @@ export default new Router({
             require(['@/view/member/memberDetail.vue'],resolve)
           },
       children:[
-        {
-          path:'login',
-          name:'login',
-          component: (resolve)=>{
-            require(['@/view/member/login.vue'],resolve)
-          },
-        },
         {
           path:'focus',
           name:'focus',
@@ -138,7 +123,59 @@ export default new Router({
           component: (resolve)=>{
             require(['@/view/member/copyright.vue'],resolve)
           }
+        },
+        {
+          path:'editInfo',
+          name:'editInfo',
+          component: (resolve)=>{
+            require(['@/view/member/editInfo.vue'],resolve)
+          }      
         }
+      ]
+    },
+    {
+      path:'/person',
+      name:'person',
+      redirect:'/person/published',
+      component: (resolve)=>{
+        require(['@/view/member/person.vue'],resolve)
+      },
+      children:[
+        {
+          path:'focus',
+          name:'focus',
+          component: (resolve)=>{
+            require(['@/view/member/focus.vue'],resolve)
+          }
+        },
+        {
+          path:'fans',
+          name:'fans',
+          component: (resolve)=>{
+            require(['@/view/member/fans.vue'],resolve)
+          }
+        },
+        {
+          path:'collect',
+          name:'collect',
+          component: (resolve)=>{
+            require(['@/view/member/collect.vue'],resolve)
+          }
+        },
+        {
+          path:'history',
+          name:'history',
+          component: (resolve)=>{
+            require(['@/view/member/history.vue'],resolve)
+          }
+        },
+        {
+          path:'published',
+          name:'published',
+          component: (resolve)=>{
+            require(['@/view/member/published.vue'],resolve)
+          }
+        },
       ]
     },
   ]

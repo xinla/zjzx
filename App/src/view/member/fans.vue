@@ -1,5 +1,5 @@
 <template>
-	<ul class="focus">
+	<ul class="fans">
 		<li class="focus-list"><img class="uname" src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">xinxing辛幸</li>
 		<li class="focus-list"><img class="uname" src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">xinxing辛幸</li>
 	</ul>

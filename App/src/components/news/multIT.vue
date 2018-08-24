@@ -46,7 +46,7 @@ export default {
 	.img-wrap img{
 		float: left;
 		width: 31%;
-		height: 1.4rem;
+		max-width: 200px;
 		margin: 0.5em 1% 0;
 	}
 </style>
