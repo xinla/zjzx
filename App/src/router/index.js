@@ -62,6 +62,20 @@ export default new Router({
           },
       children:[
         {
+          path:'login',
+          name:'login',
+          component: (resolve)=>{
+            require(['@/view/member/login.vue'],resolve)
+          }
+        },
+        {
+          path:'release',
+          name:'release',
+          component: (resolve)=>{
+            require(['@/view/member/release.vue'],resolve)
+          }
+        },
+        {
           path:'focus',
           name:'focus',
           component: (resolve)=>{
@@ -129,6 +143,13 @@ export default new Router({
           name:'editInfo',
           component: (resolve)=>{
             require(['@/view/member/editInfo.vue'],resolve)
+          }      
+        },
+        {
+          path:'identity',
+          name:'identity',
+          component: (resolve)=>{
+            require(['@/view/member/identity.vue'],resolve)
           }      
         }
       ]
