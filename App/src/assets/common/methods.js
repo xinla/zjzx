@@ -1,4 +1,38 @@
 const tool = {
+  //前往某一个页面
+  goPage(p) {
+    if(!p.name && !p.path){p.name="home";p.query = p.query || {}};
+    if(p.replace) {
+      GoTruth.$router.replace({ name: p.name, query: p.query} )
+    } else {
+      GoTruth.$router.push({ name: p.name, query: p.query })
+    }
+  },
+  //前往当前页面的某一个子页面
+  goChildPage(params){
+    //正在扫描
+    GoTruth.$router.push(
+      GoTruth.$router.resolve({
+        path:params.path,
+        query:params.query,
+      },GoTruth.$route,true).location);
+  },
+  //返回上个页面
+  goBack(n) {
+    if(n && typeof n === 'number'){
+      GoTruth.$router.go(n)
+    }else{
+      GoTruth.$router.back();
+    }
+  },
+  //是否显示底部导航
+  changeTabBar(bool) {
+    if(bool) {
+      GoTruth.$store.commit('setStateData',{name:'showTabBar',value:true});
+    } else {
+      GoTruth.$store.commit('setStateData',{name:'showTabBar',value:false});
+    }
+  },
   //生成唯一id
   generateUUID() {
     let d = new Date().getTime();
@@ -102,6 +136,38 @@ const tool = {
     if (!src) { return src };
     src = src.replace(/\?.*$/, '')
     return src + '?t=' + new Date().getTime() + '&x-oss-process=image/resize,m_fill,h_' + h + ',w_' + w;
+  },
+    /*
+  * 获取地理位置
+  * 原生端获取
+  * 微信端获取
+  * 其他浏览器端获取定位
+  * */
+  getLocation(){
+    let system = GoTruth.$store.state.System;
+    if(system.isNative){
+
+    }else if(system.isWechat){
+      let data = {
+        accuracy:65,
+        altitude:0,
+        errMsg:"getLocation:ok",
+        horizontalAccuracy:65,
+        latitude:31.8512,
+        longitude:117.26061,
+        speed:-1,
+        verticalAccuracy:65
+      }
+    }else{
+      if (navigator.geolocation) {
+       console.log('调用导航器geolocation函数',navigator.geolocation)
+        navigator.geolocation.getCurrentPosition(function(position) {
+          console.log('position',position.coords.latitude)
+        });
+      } else {
+         GoTruth.$toast.open({msg:'您的浏览器不支持地理定位',type:'err'})
+      }
+    }
   }
 }
 

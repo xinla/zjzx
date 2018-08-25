@@ -2,9 +2,7 @@
 import config from '@/lib/config/config'
 import axios from 'axios'
 const controller =config.successServer+'/user';
-const service ={
-	// test: controller+'/test'
-}
+const service ={}
 
 
 
@@ -27,8 +25,9 @@ service.loginByMobile = function(mobile,code,call){
 		code:code
 	}}).then(function(res){
 		call(res.data);
+		console.log(res.data);
 	}).catch(function(error){
-		call(error.data)
+		console.log(error);
 	})
 
 }

@@ -64,7 +64,6 @@
 			}
 		},
 		created(){
-			console.log(userService);
 		},
 		watch:{
 		},
@@ -123,7 +122,7 @@
 								i--;
 								this.phoneNum = i +'秒后重发'
 							}else {
-								clearInterval(_this.codeTimer);
+								clearInterval(this.codeTimer);
 								this.codeTimer = null;
 								this.phoneNum = '获取验证码'
 							}
@@ -139,16 +138,22 @@
 					if(this.mobileErr){this.mobileErrText="请填写正确的手机号";return;}else{
 						this.mobileErrText='';
 					}
-
 					userService.loginByMobile(this.$data.mobile,this.$data.code,(data)=>{
-						console.log(data);
-						if(data.status == 'error') {
-							this.code = '';
-							this.codeText=data.result.tip;
-						}else{
-							this.codeText="";
-							return;
+						// console.log(data);
+						// debugger;
+						if(data.status == 'success') {
+							// this.$Request.setUserInfo(data.status);
+							console.log(data);
+							let user = data.result.user;
+							this.$store.commit('setStateData',{userId:user.id,logid:user.logid,token:data.result.token});
 						}
+						// if(data.status == 'error') {
+						// 	this.code = '';
+						// 	this.codeText=data.result.tip;
+						// }else{
+						// 	this.codeText="";
+						// 	return;
+						// }
 					})
 				}
 			},

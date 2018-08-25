@@ -1,5 +1,6 @@
 <template>
 	<div class="editInfo-wrap">
+		<top>{{title}}</top>
 		<div class="editInfo-body">	
 			<ul class="editInfo-modal">
 				<li class="editInfo-modal-item clearfix">
@@ -8,7 +9,7 @@
 					<div class="editInfo-right fr clearfix">
 						<div class="editInfo-head-img fl">	 
 							
-							<img src="@/assets/images/vue.jpg" alt="">
+							<img :src="src" alt="">
 						</div>
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
@@ -118,6 +119,8 @@
 </template>
 
 <script>
+
+	import config from '@/lib/config/config'
 	import top from '@/components/common/top'
 	import fileService from '@/service/fileService'
 	import zSwitch from '@/components/common/switch'
@@ -129,7 +132,8 @@
 		data(){
 			return {
 				title:'编辑资料',
-				value1:false
+				value1:false,
+				src:'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1535080568&di=0e17819bea67852954d3619418c91dbe&src=http://img.zcool.cn/community/01786557e4a6fa0000018c1bf080ca.png'
 			}
 		},
 		created(){
@@ -141,9 +145,11 @@
 				let file = e.target.files[0];           
 		          let param = new FormData(); //创建form对象
 		          param.append('file',file,file.name);//通过append向form对象添加数据
-		          param.append('chunk','0');//添加form表单中其他数据
-		         param.append('chunk')
-		          fileService.uploadHeadImage(param,function(data){
+		          fileService.uploadHeadImage(param,(data)=>{
+		          	let src = config.fileRoot +'/'+ data.result.url;
+
+		          	this.src=src;
+					console.log(this.src);
 					console.log(data);
 				})
 			},
@@ -157,7 +163,8 @@
 </script>
 
 <style lang="css" scoped>
-	.editInfo-body {	
+	.editInfo-body {
+		/*padding-top: 50px;	*/
 		margin-top: 15px;
 	}
 	.editInfo-modal,.editInfo-switch {

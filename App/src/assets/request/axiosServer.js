@@ -3,8 +3,7 @@ import qs from 'qs';
 import config from './config';
 
 const url = config.api.url;
-let apiType = config.option.apiType;
-let baseUrl = url.protocol + url.host + ':' +url.port + url.basePath + apiType + '/';
+let baseUrl = url.protocol + url.host + ':' + url.port + url.basePath + '/';
 
 
 //预设提示
@@ -15,6 +14,12 @@ const tipText = {
 };
 
 const Request = {
+
+  //判断是否登录
+  isLogin() {
+    return GoTruth.$store.state.userInfo.token;
+  },
+
 	/*
     * 服务器请求
     * Data 为body内传的值  Object格式
@@ -97,7 +102,75 @@ const Request = {
           reject(err.response)
         })
       });
+
+      //错误时，提示
+      api.catch((err)=>{
+        // GoTruth.$loading.close();
+        if(err && err.msg) {
+          // GoTruth.$toast.open({msg:err.msg,type:'err',timer:2000})
+        }
+      });
+      return api;
     },
+
+    //从本地缓存获取用户信息
+    getUserInfoByLocal() {
+      let str = localStorage.getItem('userInfo');
+      if(!str){return;};
+      let Obj = JSON.parse(str);
+      let personal = Obj.personal || {};
+      let userInfo = {
+        personal:personal,
+        token:Obj.token
+      };
+      //判断是否登录过
+      if(userInfo && userInfo.token) {
+        Request.setUserInfo(userInfo);
+      }
+    },
+
+    //记录登录信息
+    setUserInfo(data) {
+      data.personal.faceUrl = GoTruth.$TooL.fitImg(data.personal.faceUrl);
+      localStorage.setItem('userInfo',JSON.stringify(data));
+      GoTruth.$store.commit('setStateData',{name:'userInfo',value:data});
+    },
+
+    //退出登录
+    quitLogin(needLogin, isQuit) {
+      //清除用户信息
+      localStorage.removeImg('userInfo');
+      if(isQuit){localStorage.removeItem('oldPage');}
+      //清空数据库用户信息
+      GoTruth.$store.commit('setStateData',{name:'userInfo',value:{personal:{},token:''}});
+      if(needLogin) {
+        let route = {
+          name:GoTruth.$route.name,
+          meta:GoTruth.$route.meta,
+          fullPath:GoTruth.$route.fullPath,
+          query:GoTruth.$route.query,
+          path:GoTruth.$route.path,
+        };
+        if(!isQuit) {
+          if(route.name || route.path) {
+            localStorage.setItem('oldPage',JSON.stringify(route));
+          }
+        }
+        GoTruth.$TooL.goPage({name:'welcome'});
+      }
+    },
+
+    //从服务器获取用户信息
+    getUserInfoBySerVer() {
+      Request.APIServer('Personals',{
+        needToken:true,
+        type:'get'
+      }).then((suc)=>{
+        GoTruth.$store.state.userInfo.personal = suc;
+        Request.setUserInfo(GoTruth.$store.state.userInfo);
+        // GoTruth.$loading.close();
+      })
+    }
 }
 
 export default {
