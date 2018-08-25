@@ -25,10 +25,12 @@ export default {
 		background: #fff;
 	    line-height: 50px;
 	}
-	.back,.nav-icon{
+	.top .back,
+	.top .nav-icon{
 		width: 50px;
 	    font-size: 20px;
 	    line-height: 50px;
+	    color: #666;
 	    background: transparent;
 	}
 	.nav-icon{

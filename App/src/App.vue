@@ -56,7 +56,6 @@ export default {
     z-index: -1;
     top: 0;
     left: 0;
-    background-color: #fff;
   }
 
 

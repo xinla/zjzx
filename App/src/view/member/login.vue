@@ -110,11 +110,12 @@
 				}else{
 					this.mobileErrText="";
 				}
-
+				 this.$loading.open(2);
 				if(this.mobileErr){this.mobileErrText="请填写正确的手机号";return;}
 				userService.getCode(this.$data.mobile,(data)=>{
 					console.log(data);
 					if(data.result.code){
+						 this.$loading.close();
 						this.phoneNum = "60秒后重发";
 						let i = 60;
 						this.codeTimer = setInterval(()=>{
@@ -138,14 +139,17 @@
 					if(this.mobileErr){this.mobileErrText="请填写正确的手机号";return;}else{
 						this.mobileErrText='';
 					}
+					this.$loading.open(2);
 					userService.loginByMobile(this.$data.mobile,this.$data.code,(data)=>{
 						// console.log(data);
 						// debugger;
 						if(data.status == 'success') {
+							this.$loading.close();
+							 this.$TooL.goPage({name: 'home',replace:true});
 							// this.$Request.setUserInfo(data.status);
-							console.log(data);
-							let user = data.result.user;
-							this.$store.commit('setStateData',{userId:user.id,logid:user.logid,token:data.result.token});
+							// console.log(data);
+							// let user = data.result.user;
+							// this.$store.commit('setStateData',{userId:user.id,logid:user.logid,token:data.result.token});
 						}
 						// if(data.status == 'error') {
 						// 	this.code = '';
@@ -269,7 +273,7 @@
 		width: 100%;
 		padding: 0 40px;
 		position: absolute;
-		bottom: 30px;
+		bottom: 60px;
 		left: 0;
 	}
 	.login-foot h2 {

@@ -11,7 +11,8 @@
 					<span>签到</span>
 				</div>
 			</div>
-			<div class="member-login">
+			<!-- 未登录 -->
+		<!-- 	<div class="member-login">
 				<ul class="member-login-way clearfix">
 					<li><i class="iconfont">&#xe61f;</i></li>
 					<li><i class="iconfont">&#xe61d;</i></li>
@@ -23,11 +24,28 @@
 						<a href="javascript:void(0)">登录/注册</a>
 					</router-link>
 				</div>
-				
+			</div> -->
+
+			<!-- 已登录 -->
+			<div class="member-user clearfix">
+				<div class="member-user-headimg fl">
+					<img src="@/assets/images/header.jpeg" alt="">
+
+				</div>
+				<div class="member-user-box fl">
+					<h3 class="username">用户名</h3>
+					<div class="follow dib">关注<span>0</span></div>
+					<div class="fans dib">粉丝<span>0</span></div>
+				</div>
+				<div class="member-user-arrow fr">
+					<i class="iconfont">&#xe628;</i>
+				</div>
 			</div>
+
+
 			<div class="member-func">
-				<ul class="member-func-list">
-					<li class="member-func-item clearfix">
+				<ul class="member-func-list clearfix">
+					<li class="member-func-item">
 						<i class="iconfont">&#xe616;</i>
 						<span>评论</span>
 					</li>
@@ -210,9 +228,57 @@
 	.member-login-btn a {
 		display: inline-block;
 		background-color: #ec414d;
-		padding: 10px 20px;
+		padding: 6px 10px;
 		border-radius: 12px;
 		color: #fff;
+	}
+
+	.member-user {
+		padding: 20px 15px;
+		border-bottom:1px solid #e8e8e8;
+	}
+	.member-user-headimg{
+		width: 96px;
+		height: 96px;
+		
+	}
+	.member-user-headimg img{
+		display: block;
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+		border: 1px solid #e8e8e8;
+	}
+
+	.member-user-box {
+		padding-left: 20px;
+	}
+
+	.member-user-box h3.username {
+		padding: 15px 0;
+		font-size: 18px;
+		font-weight: 600;
+		letter-spacing: 1px;
+	}
+	.member-user-box .follow,
+	.member-user-box .fans {
+		font-size: 14px;
+		color: #666;
+		margin-right: 8px;
+	}
+
+	.member-user-box .follow span,
+	.member-user-box .fans span {
+		color: #222;
+		margin-left: 5px;
+		font-weight: 600;
+	}
+	.member-user-arrow {
+		margin-top: 25px;
+	}
+	.member-user-arrow  i{
+		font-size: 25px;
+		color: #999;
 	}
 	.member-func-list {
 		padding: .7em 0;

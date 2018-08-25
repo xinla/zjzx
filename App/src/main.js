@@ -48,9 +48,7 @@ Vue.use(scroll);
 import Toast from '@/plugins/Toast'
 Vue.use(Toast);
 
-//Loading插件
-import Loading from '@/plugins/Loading'
-Vue.use(Loading);
+
 
 //Confirm插件
 import Confirm from '@/plugins/Confirm'
@@ -65,6 +63,9 @@ import resizeImg from '@/components/resizeImg';
 Vue.use(resizeImg);
 
 */
+//Loading插件
+import Loading from '@/plugins/loading'
+Vue.use(Loading);
 //Swiper组件
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css';

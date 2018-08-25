@@ -53,6 +53,13 @@ export default new Router({
         require(['@/view/member/index.vue'],resolve)
       }      
     },
+     {
+          path:'/member/userCenter',
+          name:'userCenter',
+          component: (resolve)=>{
+            require(['@/view/member/userCenter.vue'],resolve)
+          }
+        },
     {
       path:'/memDetail',
       name:'memDetail',
