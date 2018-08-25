@@ -4,12 +4,14 @@
 		</div>
 		<ul class="nav-list">
 			<li v-for="(item,index) in navList" class="nav-item">
-				{{item.title}}
+				<span>{{item.title}}</span>
 			</li>
 		</ul>
-		<div class="add-nav">
-			<i class="iconfont">&#xe800;</i>
-		</div>
+		<router-link to="/topBarBox">
+			<div class="add-nav">
+				<i class="iconfont">&#xe800;</i>
+			</div>
+		</router-link>
 	</div>
 </template>
 <script>
@@ -81,8 +83,13 @@
 	}
 	.nav-item {
 	    display: inline-block;
-	    width: 3em;
+	    width: 3.5em;
+	    height: 2.5em;
 	    line-height: 2.5em;
+	}
+	.nav-item span{
+	    font-size:1.2em;
+	    vertical-align: sub;
 	}
 	::-webkit-scrollbar {
 	    display: none;
@@ -90,7 +97,7 @@
 	.add-nav {
 		position: absolute;
 		right: 0;
-		top: 3.4em;
+		top: 3.5em;
 		width: 3em;
 		line-height: 2.5em;
 		text-align: center;

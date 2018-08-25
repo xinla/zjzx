@@ -1,7 +1,7 @@
 <template>
 	<div class="top-bar-box">
 		<div class="top-bar-head">
-			<i class="iconfont">&#xe68c;</i>
+			<i class="iconfont" @click="goback()">&#xe68c;</i>
 		</div>
 		<div class="top-bar-body">
 			<div class="top-mychannel clearfix">
@@ -54,6 +54,11 @@
 				    {title: '故事', id: 19},
 				    {title: '美文', id: 20}
 				]
+			}
+		},
+		methods:{
+			goback(){
+				window.history.go(-1);
 			}
 		}
 	}

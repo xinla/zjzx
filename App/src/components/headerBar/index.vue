@@ -10,9 +10,9 @@
 		<div class="release">
 			<i class="iconfont" @click="showRelease()">&#xe7f9;</i>
 			<ul class="quick-nav" v-if="ifRelease">
-				<router-link :to="{path:'/memDetail/release',query:{title:'发布图文'}}" tag="li" class="quick-nav-ietm">发布图文</router-link>
-				<router-link :to="{path:'/memDetail/release',query:{title:'发布视频'}}" tag="li" class="quick-nav-ietm">发布视频</router-link>
-				<router-link :to="{path:'/memDetail/release',query:{title:'发布图文'}}" tag="li" class="quick-nav-ietm">发起讨论</router-link>
+				<router-link :to="{path:'/memDetail/release',query:{title:'发布图文',sort:0}}" tag="li" class="quick-nav-ietm">发布图文</router-link>
+				<router-link :to="{path:'/memDetail/release',query:{title:'发布视频',sort:1}}" tag="li" class="quick-nav-ietm">发布视频</router-link>
+				<router-link :to="{path:'/memDetail/release',query:{title:'发布图文',sort:2}}" tag="li" class="quick-nav-ietm">发起讨论</router-link>
 			</ul>
 		</div> 
 	</div>
@@ -88,6 +88,7 @@
 	    border-radius: 0.2rem;
 	    vertical-align: baseline;
         text-indent: 2%;
+        border:0;
 	}
 	.quick-nav {
 	    position: absolute;

@@ -25,8 +25,7 @@ export default {
 		background: #fff;
 	    line-height: 50px;
 	}
-	.top .back,
-	.top .nav-icon{
+	.back,.nav-icon{
 		width: 50px;
 	    font-size: 20px;
 	    line-height: 50px;

@@ -2,40 +2,62 @@
 	<dl>	
 		<dt>分类</dt>
 		<dd>
-			<select name="sort">
-			<option value="">一线</option>
-			<option value="">揭秘</option>
-			<option value="">悬疑</option>
-			<option value="">历史</option>
-			<option value="">诈骗</option>
+			<select name="sort" id="sort1">
+				<option value="">一线</option>
+				<option value="">揭秘</option>
+				<option value="">悬疑</option>
+				<option value="">历史</option>
+				<option value="">诈骗</option>
 			</select>
+			<label for="sort1" class="iconfont sort-lab">&#xe7f6;</label>
 		</dd>	
 		<dt>标题</dt>
 		<dd><input type="text" name="title"></dd>
-		<dt>内容</dt>
-		<dd><textarea id="contents" name="contents"></textarea></dd>
-		<dt>封面图片</dt>
-		<dd>
-			<label for="upimg" class="upimg iconfont">&#xe800;</label>
-			<input type="file" name="file" id="upimg" value="" accept="image/*" placeholder="上传图片" multiple>
-			<div class="thumb">
-				<img src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">
-				<img src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">
-			</div>
-		</dd>
-		<dd colspan="2"><button type="submit">发送</button></dd>
+		<fieldset class="imgText" v-if="sort==0?1:0">		
+			<dt>内容</dt>
+			<dd><textarea id="contents" name="contents"></textarea></dd>
+			<dt>上传图片</dt>
+			<dd>
+				<label for="upimg" class="uplab iconfont">&#xe800;</label>
+				<input type="file" name="file" id="upimg" value="" accept="image/*" multiple>
+			</dd>
+		</fieldset>
+		<fieldset class="video" v-if="sort==1?1:0">
+			<dt>上传视频</dt>
+			<dd>
+				<label for="upvideo" class="uplab iconfont">&#xe800;</label>
+				<input type="file" name="file" id="upvideo" value="" accept="video/*" >
+			</dd>
+		</fieldset>
+		<div class="thumb">
+			<img src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">
+			<img src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">
+		</div>
+
+		<dd colspan="2"><button type="submit">发布</button></dd>
 	</dl>
 </template>
 
 <script>
-
+export default{
+	data(){
+		return {
+			sort:0,
+		}
+	},
+	mounted(){
+		let sort = this.$route.query.sort;
+		this.sort = sort;
+		console.log(this.sort)
+	}
+}
 </script>
 
 <style rel="stylesheet" scoped>
 	dl {
 		background: #fff;
 	    line-height: 40px;
-		padding: 0 10px 150px;
+		padding: 0 10px 50px;
 	    margin-top: 10px;
 	}
 	dt{
@@ -53,8 +75,17 @@
 	}
 	select{
 		width: 80px;
+		position: relative;
+		z-index: 9;
+		background: transparent;
 	}
-	.upimg {
+	.sort-lab{
+	    position: relative;
+	    right: 25px;
+	    vertical-align: middle;
+	    z-index: 8;
+	}
+	.uplab {
 	    width: 65px;
 	    height: 65px;
 	    display: inline-block;
@@ -66,7 +97,7 @@
 	    margin-bottom: 10px;
 	    color: #666;
 	}
-	#upimg {
+	input[type="file"] {
 	    height: 0;
 	    width: 0;
 	}

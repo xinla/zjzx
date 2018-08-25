@@ -12,7 +12,7 @@
 				</div>
 			</div>
 			<!-- 未登录 -->
-		<!-- 	<div class="member-login">
+			<div class="member-login" v-if="!ifLogin">
 				<ul class="member-login-way clearfix">
 					<li><i class="iconfont">&#xe61f;</i></li>
 					<li><i class="iconfont">&#xe61d;</i></li>
@@ -24,10 +24,10 @@
 						<a href="javascript:void(0)">登录/注册</a>
 					</router-link>
 				</div>
-			</div> -->
+			</div>
 
 			<!-- 已登录 -->
-			<div class="member-user clearfix">
+			<div class="member-user clearfix" v-if="ifLogin">
 				<div class="member-user-headimg fl">
 					<img src="@/assets/images/header.jpeg" alt="">
 
@@ -97,13 +97,19 @@
 				</li>
 			</ul>
 		</div>
+		<zNav></zNav>
 	</div>
 </template>
 
 <script>
+	import zNav from '@/components/navBar/index'
 	export default {
+		components:{
+			zNav,
+		},
 		data() {
 			return {
+				ifLogin:false,
 				modal1: [
 					{
 						icon: require('@/assets/images/icon-msg.png'),

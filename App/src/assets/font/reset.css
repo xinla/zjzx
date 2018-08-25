@@ -2,29 +2,23 @@
 * { -webkit-box-sizing: border-box;box-sizing: border-box;}
 *,*:before,*:after{-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;max-height: 100000px;}
 body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin:0;padding:0; }
-/** 设置默认字体 **/
-html,body,input, select, textarea /* for ie */{ font: 14px Microsoft YaHei,"宋体", arial,-apple-system, "PingFang SC","Helvetica Neue", Helvetica,'DejaVu Sans','Lucida Grande',Tahoma,'Hiragino Sans GB',STHeiti,SimSun,sans-serif;color: #333;/*touch-action: none*/}
-input,button,select,textarea { outline: none;vertical-align: middle;/*解决父级底部多余空白*/-webkit-appearance: none; /*去掉webkit默认的表单样式*/font-size: 100%;/* 使得表单元素在 ie 下能继承字体大小 */border:none;}
+html,body,input, select, textarea /* for ie */{ font: 14px Microsoft YaHei,"宋体", arial,-apple-system, "PingFang SC","Helvetica Neue", Helvetica,'DejaVu Sans','Lucida Grande',Tahoma,'Hiragino Sans GB',STHeiti,SimSun,sans-serif;color: #333;/*touch-action: none*/}/** 设置默认字体 **/
 header, section, footer, aside, nav, article, figure{ display: block; }
+input,button,select,textarea { outline: none;vertical-align: middle;/*解决父级底部多余空白*/-webkit-appearance: none; /*去掉webkit默认的表单样式*/font-size: 100%;/* 使得表单元素在 ie 下能继承字体大小 */border:none;background:none;}
+address, cite, dfn, em, var { font-style: normal; } /* 将斜体扶正 ， 注：optgroup 无法扶正 */
 h1, h2, h3, h4, h5, h6 { font-size: 100%; background:none;} 
 code, kbd, pre, samp { font-family: courier new, courier, monospace; } /* 统一等宽字体 */
+object, embed, video {  max-width: 100%; }
+html,body{background-color: #f4f5f6;width:100%;height: 100%;overflow:hidden;overflow-y: scroll;}
 a:link,a:active,a:visited,a:hover{ text-decoration: none; }
 table{ border-collapse: collapse;border-spacing: 0; }
 img { border: 0;max-width: 100%;vertical-align: middle; }/*解决父级底部多余空白*/ 
-address, cite, dfn, em, var { font-style: normal; } /* 将斜体扶正 ， 注：optgroup 无法扶正 */
-object, embed, video {  max-width: 100%; }
-button,fieldset{ border: 0; } 
 small { font-size: 12px; } /* 小于 12px 的中文很难阅读，让 small 正常化 */
 legend { color:#000; }/*for ie6*/                                                                       
+fieldset{ border: 0; } 
 li{ list-style: none; }
 a{ color:inherit; }
-html,body{background-color: #f4f5f6;width:100%;height: 100%;overflow:hidden;overflow-y: scroll;}
 /*click outline for firefox*/
-::-webkit-scrollbar {
-
-display: none;/*隐藏滚轮*/
-
-}
 button::-moz-focus-inner,
 input[type="reset"]::-moz-focus-inner,
 input[type="button"]::-moz-focus-inner,
@@ -41,6 +35,7 @@ textarea::-moz-placeholder,
 input:-ms-input-placeholder,textarea:-ms-input-placeholder,input::-webkit-input-placeholder,textarea::-webkit-input-placeholder { color: #ccc; }
 *:not(input, select, textarea) { -webkit-user-select: none; }/*禁止选中文本内容*/
 
+::-webkit-scrollbar {display: none;/*隐藏滚轮*/}
 /*phone*/
 /*给IOS系统里cursor不为pointer的元素添加事件时会不同程度受影响，加上cursor: pointer可解决*/
 select,input[type=button], input[type=submit], input[type=file],input[type=checkbox],input[type=radio], button { cursor: pointer;}
@@ -76,7 +71,7 @@ img,a{-webkit-touch-callout:none;}
 /* common class */
 /*bfc model*/
 .bfc-o { overflow: hidden;position: relative;}
-.bfc-d { display: inline-block; vertical-align: top;}
+.bfc-d,.dib { display: inline-block; vertical-align: top;}
 .bfc-p { position: absolute; }
 .fl { float: left; position: relative; }
 .fr { float: right; position: relative; }
@@ -93,7 +88,6 @@ img,a{-webkit-touch-callout:none;}
 }
 .tf{top: 0;}
 .gf{bottom: 0;}
-.dib{display: inline-block;}
 
 /*mask*/
 .mask{
