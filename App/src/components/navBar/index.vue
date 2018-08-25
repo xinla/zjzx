@@ -13,8 +13,10 @@
 			<span class="footer-text">视频</span>
 		</div>
 		<div class="footer-item">
-			<i class="iconfont icon-wode footer-icon"></i>
-			<span class="footer-text">我的</span>
+			<router-link :to="{path:'/member'}">				
+				<i class="iconfont icon-wode footer-icon"></i>
+				<span class="footer-text">我的</span>
+			</router-link>
 		</div>
 	</div>
 </template>

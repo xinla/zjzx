@@ -3,16 +3,16 @@
 *,*:before,*:after{-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;max-height: 100000px;}
 body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin:0;padding:0; }
 /** 设置默认字体 **/
-html,body,input, select, textarea /* for ie */{ font: 14px Microsoft YaHei,"宋体", arial,-apple-system, "PingFang SC","Helvetica Neue", Helvetica,'DejaVu Sans','Lucida Grande',Tahoma,'Hiragino Sans GB',STHeiti,SimSun,sans-serif;color: #333;/*touch-action: none*/}
-input,button,select,textarea { outline: none;-webkit-appearance: none; /*去掉webkit默认的表单样式*/font-size: 100%;/* 使得表单元素在 ie 下能继承字体大小 */}
+html,body,input, select, textarea /* for ie */{ font: 14px Microsoft YaHei,"宋体", arial,-apple-system, "PingFang SC","Helvetica Neue", Helvetica,'DejaVu Sans','Lucida Grande',Tahoma,'Hiragino Sans GB',STHeiti,SimSun,sans-serif;color: #333;touch-action: none}
+input,button,select,textarea { outline: none;vertical-align: middle;/*解决父级底部多余空白*/-webkit-appearance: none; /*去掉webkit默认的表单样式*/font-size: 100%;/* 使得表单元素在 ie 下能继承字体大小 */}
 header, section, footer, aside, nav, article, figure{ display: block; }
 h1, h2, h3, h4, h5, h6 { font-size: 100%; background:none;} 
 code, kbd, pre, samp { font-family: courier new, courier, monospace; } /* 统一等宽字体 */
 a:link,a:active,a:visited,a:hover{ text-decoration: none; }
 table{ border-collapse: collapse;border-spacing: 0; }
-select,input,img { border: 0;vertical-align: middle; }/*解决父级底部多余空白*/ 
+img { border: 0;max-width: 100%;vertical-align: middle; }/*解决父级底部多余空白*/ 
 address, cite, dfn, em, var { font-style: normal; } /* 将斜体扶正 ， 注：optgroup 无法扶正 */
-object, embed, video {	max-width: 100%; }
+object, embed, video {  max-width: 100%; }
 button,fieldset{ border: 0; } 
 small { font-size: 12px; } /* 小于 12px 的中文很难阅读，让 small 正常化 */
 legend { color:#000; }/*for ie6*/
@@ -41,7 +41,7 @@ input:-ms-input-placeholder,textarea:-ms-input-placeholder,input::-webkit-input-
 /*phone*/
 /*给IOS系统里cursor不为pointer的元素添加事件时会不同程度受影响，加上cursor: pointer可解决*/
 select,input[type=button], input[type=submit], input[type=file],input[type=checkbox],input[type=radio], button { cursor: pointer;}
-img { max-width: 100%;width:auto\9;/*ie8*/-ms-interpolation-mode:bicubic;/*为了照顾ie图片缩放失真*/border: none;pointer-events: none;/*阻止图片在微信里被点击放大*/}
+img {width:auto\9;/*ie8*/-ms-interpolation-mode:bicubic;/*为了照顾ie图片缩放失真*/border: none;pointer-events: none;/*阻止图片在微信里被点击放大*/}
 /*禁止文本缩放 字体设置 取消touch高亮效果*/
 html,body {	-webkit-text-size-adjust: 100% !important;-ms-text-size-adjust: 100%;-webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
 /*兼容微信端滑动到顶部或底部出现的问题*/

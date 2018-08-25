@@ -7,18 +7,28 @@
 			<input type="text" class="" placeholder="请输入搜索关键词~">
 			<i class="iconfont">&#xeafe;</i>
 		</div>
-		<div class="issue">
-			<i class="iconfont">&#xe7f9;</i>
-			<ul class="quick-nav">
-				<li class="quick-nav-ietm">发布图文</li>
-				<li class="quick-nav-ietm">发布图文</li>
-				<li class="quick-nav-ietm">发布图文</li>
+		<div class="release">
+			<i class="iconfont" @click="showRelease()">&#xe7f9;</i>
+			<ul class="quick-nav" v-if="ifRelease">
+				<router-link :to="{path:'/memDetail/release',query:{title:'发布图文'}}" tag="li" class="quick-nav-ietm">发布图文</router-link>
+				<router-link :to="{path:'/memDetail/release',query:{title:'发布视频'}}" tag="li" class="quick-nav-ietm">发布视频</router-link>
+				<router-link :to="{path:'/memDetail/release',query:{title:'发布图文'}}" tag="li" class="quick-nav-ietm">发起讨论</router-link>
 			</ul>
 		</div> 
 	</div>
 </template>
 <script>
 	export default {
+		data(){
+			return {
+				ifRelease:false,
+			}
+		},
+		methods:{
+			showRelease(){
+				this.ifRelease=!this.ifRelease;
+			}
+		}
 
 	}
 </script>
@@ -44,13 +54,13 @@
 	.logo img {
 		width: 90%;
 	}
-	.issue {
+	.release {
 		width: 10%;
 	}
 	.iconfont{
 		vertical-align: top;
 	}
-	.issue i{
+	.release i{
 		color: #fff;
 	}
 	[data-dpr="1"] .iconfont {
@@ -83,7 +93,7 @@
 	    position: absolute;
 	    width: 200%;
 	    right: 0;
-	    background: #8e8b8b;
+	    background: #222;
 	    line-height: 2em;
 	    border-radius: 0 0 .5em .5em;
 	    color: #fff;

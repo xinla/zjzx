@@ -1,5 +1,15 @@
 <template>
-	<dl>		
+	<dl>	
+		<dt>分类</dt>
+		<dd>
+			<select name="sort">
+			<option value="">一线</option>
+			<option value="">揭秘</option>
+			<option value="">悬疑</option>
+			<option value="">历史</option>
+			<option value="">诈骗</option>
+			</select>
+		</dd>	
 		<dt>标题</dt>
 		<dd><input type="text" name="title"></dd>
 		<dt>内容</dt>
@@ -31,15 +41,18 @@
 	dt{
 		color: #666;
 	}
-	input[type="text"] {
+	input,select,textarea{
+		width: 100%;
 	    line-height: 30px;
-	    width: 100%;
-	    border: 1px solid #aaa;
+   	    border: 1px solid #aaa;
 	    border-radius: 5px;
+	    text-indent: 6px;
 	}
 	textarea{
-		width: 100%;
 	    height: 150px;
+	}
+	select{
+		width: 80px;
 	}
 	.upimg {
 	    width: 65px;
