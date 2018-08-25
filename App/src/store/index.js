@@ -10,13 +10,13 @@ let state = {
 	System:{},
 	appConfig:{},
 }
-
+//创建改变状态的方法
 const mutations = {
 	setStateData(state,info) {
 		state[info.name] = info.value;
 	},
 }
-
+//创建驱动action可以使得mutations得
 const actions = {
 	setStateData(setStateData) {
 		setStateData.commit('setStateData');

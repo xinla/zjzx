@@ -38,9 +38,32 @@ export default {
 }
 </script>
 <style>
+  html,body{
+    width: 100%;
+    height: 100%;
+    -webkit-text-size-adjust: 100% !important;
+  }
+
+  body{
+    -webkit-overflow-scrolling:touch;
+  }
+
+  body::before {
+    width: 100%;
+    height: 100%;
+    content: '';
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+  }
+
+
   #app {
     width: 100%;
     height: 100%;
+    /*overflow: hidden;*/
   }
 
 </style>
