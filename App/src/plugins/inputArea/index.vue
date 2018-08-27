@@ -1,14 +1,61 @@
 <template>
-	<div class="inputArea">
-		<div class="mask"></div>
+	<div class="inputArea" v-show="show">
+		<div class="mask" @click="cancel"></div>
 		<div class="area">
 			<div class="areaBox">
-				<textarea></textarea>
+				<textarea :placeholder="placeholder" :maxlength="maxlength"  v-model="desc" autofocus></textarea>
+				<span class="num" :class="{colorChange:colorChange}">{{num}}</span>
+			</div>
+			<div class="areaTip clearfix">
+				<span class="explain fl" v-text="explain"></span>
+				<button type="button" class="areaBtn fr" :class="{btnChange:btnChange}" @click="confirmEvent">确定</button>
 			</div>
 		</div>
 	</div>
 </template>
 
+<script>
+	export default {
+		data(){
+			return {
+				num:null,
+				desc:'',
+				maxlength:null,
+				colorChange:false,
+				btnChange:false,
+				show:true,
+				placeholder:'',
+				explain:''
+			}
+		},
+		watch:{
+			desc(){
+				let cont = this.maxlength - this.desc.length;
+				this.num = cont;
+				if(this.num >= this.maxlength) {
+					this.colorChange = false;
+					this.btnChange = false;
+				}else{
+					this.colorChange = true;
+					this.btnChange = true;
+				}
+			}
+
+		},
+		methods:{
+			cancel() {
+				document.addEventListener('touchmove',function(event) {
+					window.event.returnValue = true;
+				},{passive:true});
+				this.show = false;
+			},
+			sure(){
+
+			}
+
+		}
+	}
+</script>
 <style>
 	.inputArea {
 		position: fixed;
@@ -38,8 +85,10 @@
 		z-index: 99;
 		background-color: #f4f5f6;
 		padding: 15px;
+		animation: slideInD .6s;
 	}
 	.areaBox {
+		position: relative;
 		width: 100%;
 		height: 120px;
 		border: 1px solid #d8d8d8;
@@ -51,4 +100,37 @@
 		width: 100%;
 		height: 100%;
 	}
+	.areaBox span {
+		position: absolute;
+		bottom: 10px;
+		right: 10px;
+		color: #999;
+	}
+	.areaTip {
+		/*padding: 10px 0;*/
+		height: 50px;
+		line-height: 50px;
+	}
+	.explain {
+		color: #999;
+	}
+	.areaBtn {
+		width: 80px;
+		height: 40px;
+		margin-top: 5px;
+		border-radius: 12px;
+		background-color: #cacaca;
+		color: #fff;
+		 pointer-events: none;
+	}
+	.areaBox .colorChange{
+		color: #333;
+	}
+	.area .btnChange {
+		color: #fff;
+		background-color: #ec414d;
+		 pointer-events: auto;
+	}
+
+	 
 </style>

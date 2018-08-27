@@ -33,6 +33,7 @@ input[type="file"] > input[type="button"]:focus { outline: none; }
 input::-moz-placeholder,
 textarea::-moz-placeholder,
 input:-ms-input-placeholder,textarea:-ms-input-placeholder,input::-webkit-input-placeholder,textarea::-webkit-input-placeholder { color: #ccc; }
+
 *:not(input, select, textarea) { -webkit-user-select: none; }/*禁止选中文本内容*/
 
 ::-webkit-scrollbar {display: none;/*隐藏滚轮*/}
