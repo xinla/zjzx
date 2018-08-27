@@ -50,13 +50,8 @@ Vue.use(Toast);
 
 
 
-//Confirm插件
-import Confirm from '@/plugins/Confirm'
-Vue.use(Confirm);
 
-//BottomPopup插件
-import BottomPopup from '@/plugins/BottomPopup'
-Vue.use(BottomPopup);
+
 
 //让图片居中显示
 import resizeImg from '@/components/resizeImg';
@@ -66,6 +61,15 @@ Vue.use(resizeImg);
 //Loading插件
 import Loading from '@/plugins/loading'
 Vue.use(Loading);
+
+//Confirm插件
+import Confirm from '@/plugins/confirm'
+Vue.use(Confirm);
+
+//BottomPopup插件
+import BottomPopup from '@/plugins/BottomPopup'
+Vue.use(BottomPopup);
+
 //Swiper组件
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css';
