@@ -16,10 +16,10 @@
 
 <script>
 	// import '@/assets/js/rem.js'	
-	import zHeader from '@/components/headerBar/index'
-	import zTab from '@/components/tabBar/index'
+	import zHeader from '@/components/headerBar'
+	import zTab from '@/components/tabBar'
 	// import zSwiper from '@/components/Swiper/index'
-	import zNav from '@/components/navBar/index'
+	import zNav from '@/components/navBar'
 	import config from '@/lib/config/config'
 	import homeService from '@/service/homeService'
 	import multIT from '@/components/news/multIT'

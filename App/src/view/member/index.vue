@@ -104,7 +104,7 @@
 </template>
 
 <script>
-	import zNav from '@/components/navBar/index'
+	import zNav from '@/components/navBar'
 	export default {
 		components:{
 			zNav,

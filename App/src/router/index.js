@@ -23,6 +23,13 @@ export default new Router({
         require(['@/view/home.vue'],resolve)
       }
     },
+    {
+      path: '/inputArea',
+      name: 'inputArea',
+      component: (resolve)=>{
+        require(['@/plugins/inputArea/index.vue'],resolve)
+      }
+    },
     //新闻详情页面
     {
       path: '/detail',
@@ -43,7 +50,7 @@ export default new Router({
       path: '/topBarBox',
       name: 'topBarBox',
       component: (resolve)=>{
-        require(['@/components/topBarBox/index.vue'],resolve)
+        require(['@/components/topBarBox.vue'],resolve)
       }
     },
     {

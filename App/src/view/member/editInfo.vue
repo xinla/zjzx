@@ -142,12 +142,13 @@
 		methods: {
 			//上传头像
 			uploadAvatar(e) {
+				this.$loading.open(2);
 				let file = e.target.files[0];           
 		          let param = new FormData(); //创建form对象
 		          param.append('file',file,file.name);//通过append向form对象添加数据
 		          fileService.uploadHeadImage(param,(data)=>{
 		          	let src = config.fileRoot +'/'+ data.result.url;
-
+		          	this.$loading.close();
 		          	this.src=src;
 					console.log(this.src);
 					console.log(data);
