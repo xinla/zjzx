@@ -27,20 +27,22 @@
 			</div>
 
 			<!-- 已登录 -->
-			<div class="member-user clearfix" v-if="ifLogin">
-				<div class="member-user-headimg fl">
-					<img src="@/assets/images/header.jpeg" alt="">
+			<router-link :to="{ path:'/personBase/published',query:{current:1} }">				
+				<div class="member-user clearfix" v-if="ifLogin">
+					<div class="member-user-headimg fl">
+						<img src="@/assets/images/header.jpeg" alt="">
 
+					</div>
+					<div class="member-user-box fl">
+						<h3 class="username">用户名</h3>
+						<div class="follow dib">关注<span>0</span></div>
+						<div class="fans dib">粉丝<span>0</span></div>
+					</div>
+					<div class="member-user-arrow fr">
+						<i class="iconfont">&#xe628;</i>
+					</div>
 				</div>
-				<div class="member-user-box fl">
-					<h3 class="username">用户名</h3>
-					<div class="follow dib">关注<span>0</span></div>
-					<div class="fans dib">粉丝<span>0</span></div>
-				</div>
-				<div class="member-user-arrow fr">
-					<i class="iconfont">&#xe628;</i>
-				</div>
-			</div>
+			</router-link>
 
 
 			<div class="member-func">
@@ -109,22 +111,22 @@
 		},
 		data() {
 			return {
-				ifLogin:false,
+				ifLogin:true,
 				modal1: [
 					{
 						icon: require('@/assets/images/icon-msg.png'),
 						text: '我的消息',
-						link: '/memDetail/messages'
+						link: '/memberBase/messages'
 					},
 					{
 						icon: require('@/assets/images/icon-guanzhu.png'),
 						text: '我的关注',
-						link: '/memDetail/focus'						
+						link: '/memberBase/focus'						
 					},
 					{
 						icon: require('@/assets/images/icon-money.png'),
 						text: '我的钱包',
-						link: '/memDetail/wallet'
+						link: '/memberBase/wallet'
 					},
 
 				],
@@ -132,27 +134,27 @@
 					{
 						icon: require('@/assets/images/icon-kefu.png'),
 						text: '在线客服',
-						link: '/memDetail/wallet'
+						link: '/memberBase/wallet'
 					},
 					{
 						icon: require('@/assets/images/icon-zan.png'),
 						text: '推荐给好友',
-						link: '/memDetail/wallet'
+						link: '/memberBase/wallet'
 					},
 					{
 						icon: require('@/assets/images/icon-fankui.png'),
 						text: '用户反馈',
-						link: '/memDetail/feedback'
+						link: '/memberBase/feedback'
 					}
 				],
 				modal3: [
 					{
 						icon: require('@/assets/images/icon-setup.png'),
 						text: '设置',
-						link: '/memDetail/set'
+						link: '/memberBase/set'
 					},
 				],
-				loginLink:'/memDetail/login'
+				loginLink:'/memberBase/login'
 
 				
 			}

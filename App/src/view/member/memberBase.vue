@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<top>
-			{{title}}
+			<template slot="title">{{title}}</template>
 		</top>
 		<div  class="top-margin">			
 			<router-view></router-view>

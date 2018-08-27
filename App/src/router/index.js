@@ -53,20 +53,20 @@ export default new Router({
         require(['@/view/member/index.vue'],resolve)
       }      
     },
-     {
-          path:'/member/userCenter',
-          name:'userCenter',
-          component: (resolve)=>{
-            require(['@/view/member/userCenter.vue'],resolve)
-          }
-        },
     {
-      path:'/memDetail',
-      name:'memDetail',
+      path:'/member/userCenter',
+      name:'userCenter',
+      component: (resolve)=>{
+        require(['@/view/member/userCenter.vue'],resolve)
+      }
+    },
+    {
+      path:'/memberBase',
+      name:'memberBase',
       redirect:'/member',
       component: (resolve)=>{
-            require(['@/view/member/memberDetail.vue'],resolve)
-          },
+        require(['@/view/member/memberBase.vue'],resolve)
+      },
       children:[
         {
           path:'login',
@@ -152,21 +152,14 @@ export default new Router({
             require(['@/view/member/editInfo.vue'],resolve)
           }      
         },
-        {
-          path:'identity',
-          name:'identity',
-          component: (resolve)=>{
-            require(['@/view/member/identity.vue'],resolve)
-          }      
-        }
       ]
     },
     {
-      path:'/person',
-      name:'person',
-      redirect:'/person/published',
+      path:'/personBase',
+      name:'personBase',
+      redirect:'/personBase/published',
       component: (resolve)=>{
-        require(['@/view/member/person.vue'],resolve)
+        require(['@/view/member/personBase.vue'],resolve)
       },
       children:[
         {
@@ -206,5 +199,29 @@ export default new Router({
         },
       ]
     },
+    {
+      path:'/member/identityBase',
+      name:'identityBase',
+      redirect:'/member/identityBase/personIdentity',
+      component: (resolve)=>{
+        require(['@/view/member/identityBase.vue'],resolve)
+      },
+      children:[
+        {
+          path:'personIdentity',
+          name:'personIdentity',
+          component: (resolve)=>{
+            require(['@/view/member/personIdentity.vue'],resolve)
+          },
+        },
+        {
+          path:'enterpriseIdentity',
+          name:'enterpriseIdentity',
+          component: (resolve)=>{
+            require(['@/view/member/enterpriseIdentity.vue'],resolve)
+          },
+        }
+      ]
+    }
   ]
 })

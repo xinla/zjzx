@@ -9,36 +9,36 @@
 				<div class="person-header-right ac bfc-d">
 					<ul class="person-hr-ul bfc-o">
 						<li class="person-hr-li fl">
-							<p>100</p>
+							<p class="num">100</p>
 							发布
 						</li>
 						<li class="person-hr-li fl">
-							<p>100</p>
+							<p class="num">100万</p>
 							关注
 						</li>
 						<li class="person-hr-li fl">
-							<p>100</p>
+							<p class="num">1.2万</p>
 							粉丝
 						</li>
 					</ul>
-					<div class="right-btn bfc-d">
-						<router-link :to="{path:'/memDetail/editInfo',query:{title:'编辑资料'}}">编辑资料</router-link>						
+					<div class="right-btn bfc-d right-btn-a">
+						<router-link :to="{path:'/memberBase/editInfo',query:{title:'编辑资料'}}">编辑资料</router-link>						
 					</div>
 					<div class="right-btn bfc-d">
-						<router-link :to="{path:'/memDetail/identity',query:{title:'申请认证'}}">申请认证</router-link>						
+						<router-link :to="{path:'/member/identityBase',query:{title:'申请认证'}}">申请认证</router-link>						
 					</div>
 				</div>
 			</header><!-- /header -->
-			<ul class="switch-wrap bfc-o">
-				<router-link :to="{path:'published',query:{current:1}}" :class="['sort',{current:show==1?1:0}]" tag='li'>发布				
+			<ul class="switch-wrap bfc-d">
+				<router-link :to="{path:'published',query:{current:1}}" class="sort" tag='li' exact>发布				
 				</router-link>
-				<router-link :to="{path:'focus',query:{current:2}}" :class="['sort',{current:show==2?1:0}]" tag='li'>关注				
+				<router-link :to="{path:'focus',query:{current:2}}" class="sort" tag='li' exact>关注				
 				</router-link>
-				<router-link :to="{path:'fans',query:{current:3}}" :class="['sort',{current:show==3?1:0}]" tag='li'>粉丝				
+				<router-link :to="{path:'fans',query:{current:3}}" class="sort" tag='li' exact>粉丝				
 				</router-link>
-				<router-link :to="{path:'collect',query:{current:4}}" :class="['sort',{current:show==4?1:0}]" tag='li'>收藏				
+				<router-link :to="{path:'collect',query:{current:4}}" class="sort" tag='li' exact>收藏				
 				</router-link>
-				<router-link :to="{path:'history',query:{current:5}}" :class="['sort',{current:show==5?1:0}]" tag='li'>历史				
+				<router-link :to="{path:'history',query:{current:5}}" class="sort" tag='li' exact>历史				
 				</router-link>
 			</ul>
 		</div>
@@ -57,7 +57,7 @@ export default {
 	data(){
 		return {
 			title:'用户名',
-			show:true,
+			show:0,
 			pubArticle:[
 				{
 					img:"http://imglf1.ph.126.net/Re9FjZ0i7lKkHczXoij53w==/3752061439653360841.jpg",
@@ -148,6 +148,9 @@ export default {
 		margin:0 1%;
 		width: 31%;
 	}
+	.num{
+		font-weight: 600;
+	}
 	.right-btn{
 		width: 35%;
 		max-width: 150px;
@@ -155,7 +158,13 @@ export default {
 		color: #fff;
 		border-radius: 8px;
 		margin:0 2%;
+		height: 25px;
 		line-height: 25px;
+		border:1px solid #ddd;
+	}
+	.right-btn-a{
+		color: #333;
+		background: #fff;
 	}
 	.main{
 		background: #fff;
@@ -164,12 +173,12 @@ export default {
 	.sort {
 	    width: 20%;
 	    max-width: 80px;
-	    line-height: 40px;
 	    cursor: pointer;
 	    float: left;
 	    text-align: center;
+	    font-size: 16px;
 	}
-	.current {
+ 	.router-link-active.sort {
 	    color: #f40;
 	    border-bottom: 1px solid #f40;
 	}
@@ -177,7 +186,10 @@ export default {
 		display: block;
 	}
 	.switch-wrap{
+		width: 100%;
 		border-bottom: 1px solid #eee;
 		background: #fff;
+	    line-height: 40px;
+		height: 41px;
 	}
 </style>

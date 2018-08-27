@@ -1,8 +1,8 @@
 <template>
-	<div class="top bfc-o tf ac">
-		<button type="button" class="iconfont fl back" @click="goback()">&#xe7f3;</button>
-		<slot>标题</slot>
-		<div class="fr"><button class="iconfont nav-icon">&#xe7fd;</button></div>
+	<div class="top tf ac">
+		<button type="button" class="iconfont back" @click="goback()">&#xe7f3;</button>
+		<slot name="title">标题</slot>
+		<div class="bfc-p r-nav"><slot name="nav"></slot></div>
 	</div>
 </template>
 <script>
@@ -25,14 +25,18 @@ export default {
 		background: #fff;
 	    line-height: 50px;
 	}
-	.back,.nav-icon{
-		width: 50px;
+	.back{
+		position: absolute;
+		left: 0;
+		width: 30px;
 	    font-size: 20px;
 	    line-height: 50px;
 	    color: #666;
 	    background: transparent;
 	}
-	.nav-icon{
-		font-size: 40px;
+	.r-nav{
+		right: 0;
+		top: 0;
+		width: 30px;
 	}
 </style>

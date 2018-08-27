@@ -1,25 +1,25 @@
 <template>
 	<div class="footer-nav">
 		<div :class="['footer-item',{current:navIndex==0}]" @click="setCurrent(0)">
-			<router-link to="/">
+			<router-link to="/" exact>
 				<i class="iconfont icon-index footer-icon"></i>
 				<span class="footer-text">首页</span>
 			</router-link>
 		</div>
 		<div :class="['footer-item',{current:navIndex==1}]" @click="setCurrent(1)">
-			<router-link :to="{path:'/member'}">
+			<router-link :to="{path:'/mes'}" exact>
 				<i class="iconfont icon-xiaoxi footer-icon"></i>
 				<span class="footer-text">消息</span>
 			</router-link>
 		</div>
 		<div :class="['footer-item',{current:navIndex==2}]" @click="setCurrent(2)">
-			<router-link :to="{path:'/member'}">
+			<router-link :to="{path:'/vie'}" exact>
 				<i class="iconfont icon-video footer-icon"></i>
 				<span class="footer-text">视频</span>
 			</router-link>
 		</div>
 		<div :class="['footer-item',{current:navIndex==3}]" @click="setCurrent(3)">
-			<router-link :to="{path:'/member'}">				
+			<router-link :to="{path:'/member'}" exact>				
 				<i class="iconfont icon-wode footer-icon"></i>
 				<span class="footer-text">我的</span>
 			</router-link>
@@ -68,7 +68,7 @@ export default{
 	    font-size: 1.5em;
 	    line-height: 1.5em;
 	}
-	.current{
+	.footer-item a.router-link-active{
 		color: #f40;
 	}
 </style>
