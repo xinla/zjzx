@@ -1,6 +1,6 @@
 <template>
 	<div class="top tf ac">
-		<button type="button" class="iconfont back" @click="goback()">&#xe7f3;</button>
+		<div class="bfc-p back" @click="$emit('hrefTo')"><i class="iconfont hreficon bfc-d"><slot name="href">&#xe7f3;</slot></i></div>
 		<slot name="title">标题</slot>
 		<div class="bfc-p r-nav"><slot name="nav"></slot></div>
 	</div>
@@ -12,11 +12,6 @@ export default {
 
 		}
 	},
-	methods:{
-		goback(){
-			window.history.go(-1);
-		}
-	}
 }	
 </script>
 <style scoped>
@@ -25,18 +20,19 @@ export default {
 		background: #fff;
 	    line-height: 50px;
 	}
-	.back{
-		position: absolute;
-		left: 0;
-		width: 30px;
-	    font-size: 20px;
-	    line-height: 50px;
+	.back,.r-nav{
 	    color: #666;
-	    background: transparent;
+		top: 0;
+		padding: 0 5px;
+	}
+	.back{
+		left: 0;
 	}
 	.r-nav{
 		right: 0;
-		top: 0;
-		width: 30px;
+	}
+	.hreficon{
+		font-size: 20px;
+		vertical-align: top;
 	}
 </style>

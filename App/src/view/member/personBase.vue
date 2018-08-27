@@ -1,9 +1,9 @@
 <template>
 	<div>
-		<top>
-			{{title}}
+		<top @hrefTo="goback('http://192.168.1.17:8080/member')">
+			<template slot="title">{{title}}</template>
 		</top>
-		<div class="top-fix">				
+		<div class="top-fix">
 			<header id="header" class="bfc-o">
 				<img src="http://a5.topitme.com/o025/1002536708f56d0bfd.jpg" alt="" class="uphoto bfc-d">
 				<div class="person-header-right ac bfc-d">
@@ -104,6 +104,9 @@ export default {
 		delArc(index){
 			this.pubArticle.splice(index,1);
 		},
+		goback(url){
+				window.location.href=url;				
+		}
 	},
 	watch:{
 		$route(to,from){

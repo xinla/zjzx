@@ -174,7 +174,7 @@
 
 <style lang="css" scoped>
 	.member-wrap {
-		
+		padding-bottom: 50px;
 	}
 	.member-head {
 		background-color: #fff;

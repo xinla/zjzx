@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<top>
+		<top @hrefTo="this.$TooL.goBack">
 			<template slot="title">{{title}}</template>
 		</top>
 		<div  class="top-margin">			
@@ -37,6 +37,9 @@ export default{
 </script>
 
 <style rel="stylesheet" scoped>
+	.hreficon{
+		width: 30px;
+	}
 	.top-margin{
 		padding-top: 50px;
 	}

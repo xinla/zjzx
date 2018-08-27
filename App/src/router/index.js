@@ -53,6 +53,7 @@ export default new Router({
         require(['@/components/topBarBox.vue'],resolve)
       }
     },
+    //会员中心首页
     {
       path:'/member',
       name:'member',
@@ -67,6 +68,7 @@ export default new Router({
         require(['@/view/member/userCenter.vue'],resolve)
       }
     },
+    //会员中心
     {
       path:'/memberBase',
       name:'memberBase',
@@ -159,8 +161,16 @@ export default new Router({
             require(['@/view/member/editInfo.vue'],resolve)
           }      
         },
+        {
+          path:'idenComQuestion',
+          name:'idenComQuestion',
+          component: (resolve)=>{
+            require(['@/view/member/idenComQuestion.vue'],resolve)
+          }      
+        },
       ]
     },
+    //个人中心
     {
       path:'/personBase',
       name:'personBase',
@@ -206,27 +216,35 @@ export default new Router({
         },
       ]
     },
+    //申请认证
     {
       path:'/member/identityBase',
       name:'identityBase',
-      redirect:'/member/identityBase/personIdentity',
+      redirect:'/member/identityBase/identityIndex',
       component: (resolve)=>{
         require(['@/view/member/identityBase.vue'],resolve)
       },
       children:[
         {
-          path:'personIdentity',
-          name:'personIdentity',
+          path:'identityIndex',
+          name:'identityIndex',
           component: (resolve)=>{
-            require(['@/view/member/personIdentity.vue'],resolve)
-          },
+            require(['@/view/member/identityIndex.vue'],resolve)
+          }
         },
         {
-          path:'enterpriseIdentity',
-          name:'enterpriseIdentity',
+          path:'identityPerson',
+          name:'identityPerson',
           component: (resolve)=>{
-            require(['@/view/member/enterpriseIdentity.vue'],resolve)
-          },
+            require(['@/view/member/identityPerson.vue'],resolve)
+          }
+        },
+        {
+          path:'identityEenterprise',
+          name:'identityEenterprise',
+          component: (resolve)=>{
+            require(['@/view/member/identityEenterprise.vue'],resolve)
+          }
         }
       ]
     }

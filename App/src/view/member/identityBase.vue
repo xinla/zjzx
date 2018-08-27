@@ -1,9 +1,12 @@
 <template>
 	<div>
-		<top>
-			<template slot="title">用户认证</template>
-			<template slot="nav"><i class="iconfont r-navicon bfc-d">&#xe7f9;</i></template>
+		<top @hrefTo="this.$TooL.goBack">
+			<template slot="title">{{ title }}</template>
+			<template slot="nav"><router-link :to="{ path:'/memberBase/idenComQuestion',query:{title:'常见问题'}}">常见问题</router-link></template>
 		</top>
+		<div  class="top-margin">			
+			<router-view></router-view>
+		</div>
 	</div>
 </template>
 
@@ -12,14 +15,27 @@ import top from '@/components/common/top'
 export default {
 	components:{
 		top,
+	},
+	data(){
+		return{
+			title:'',
+		}
+	},
+	watch:{
+		$route(to,from){
+			let par = this.$route.query.title;
+			this.title = par;
+		}		
+	},
+	mounted(){
+		let par = this.$route.query.title;
+		this.title = par;	
 	}
 }
 </script>
 
 <style rel="stylesheet" scoped>
-	.r-navicon{
-		font-size: 20px;
-		width: 30px;
-		vertical-align: top;
-	}
+	.top-margin{
+			padding-top: 50px;
+		}
 </style>
