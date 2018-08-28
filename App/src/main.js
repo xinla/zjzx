@@ -70,6 +70,11 @@ Vue.use(Confirm);
 import BottomPopup from '@/plugins/BottomPopup'
 Vue.use(BottomPopup);
 
+//inputArea插件
+import inputArea from '@/plugins/inputArea'
+Vue.use(inputArea);
+
+
 //Swiper组件
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css';

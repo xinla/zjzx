@@ -3,12 +3,12 @@
 		<div class="mask" @click="cancel"></div>
 		<div class="area">
 			<div class="areaBox">
-				<textarea :placeholder="placeholder" :maxlength="maxlength"  v-model="desc" autofocus></textarea>
+				<textarea placeholder="请输入用户名" :maxlength="maxlength"  v-model="desc" autofocus></textarea>
 				<span class="num" :class="{colorChange:colorChange}">{{num}}</span>
 			</div>
 			<div class="areaTip clearfix">
-				<span class="explain fl" v-text="explain"></span>
-				<button type="button" class="areaBtn fr" :class="{btnChange:btnChange}" @click="confirmEvent">确定</button>
+				<span class="explain fl">支持中英文、数字</span>
+				<button type="button" class="areaBtn fr" :class="{btnChange:btnChange}" @click="send">确定</button>
 			</div>
 		</div>
 	</div>
@@ -18,14 +18,12 @@
 	export default {
 		data(){
 			return {
-				num:null,
+				num:20,
 				desc:'',
-				maxlength:null,
+				maxlength:20,
 				colorChange:false,
 				btnChange:false,
-				show:true,
-				placeholder:'',
-				explain:''
+				show:false,
 			}
 		},
 		watch:{
@@ -49,8 +47,11 @@
 				},{passive:true});
 				this.show = false;
 			},
-			sure(){
-
+			send(){
+				document.addEventListener('touchmove',function(event){
+					window.event.returnValue = true;
+				},{passive:true});
+				this.show = false;
 			}
 
 		}
@@ -123,6 +124,9 @@
 		color: #fff;
 		 pointer-events: none;
 	}
+	.slideOut{
+		animation: slideOutD .6s;
+	}
 	.areaBox .colorChange{
 		color: #333;
 	}
@@ -132,5 +136,22 @@
 		 pointer-events: auto;
 	}
 
-	 
+	@keyframes slideInD {
+		from{
+			transform: translate(0,100%);
+		}
+		to{
+			transform: translate(0,0);
+		}	
+	}
+
+	@keyframes slideOutD {
+		from{
+			transform: translate(0,0);
+		}
+		to{
+			transform: translate(0,100%);
+		}
+	}
+
 </style>
