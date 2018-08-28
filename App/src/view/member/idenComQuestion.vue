@@ -1,82 +1,73 @@
 <template>
 	<table class="qa">
-				<tr class="qa-list">
+		<template v-for="(item,index) of qaList">
+				<tr class="qa-list" @click="showAnswer(index)">
 					<td class="qa-left">
 						Q：
 					</td>
-					<td class="q">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</td>
+					<td class="q">{{item.q}}</td>
 				</tr>
-				<tr class="qa-list">
-					<td class="qa-left">
-						A：
-					</td>
-					<td>回答回答回答回答回答回答回答回答回答回答回答回答回答回答</td>
-				</tr>
-				<tr class="qa-list">
-					<td class="qa-left">
-						Q：
-					</td>
-					<td class="q">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</td>
-				</tr>
-				<tr class="qa-list">
-					<td class="qa-left">
-						A：
-					</td>
-					<td>回答回答回答回答回答回答回答回答回答回答回答回答回答回答</td>
-				</tr>
-				<tr class="qa-list">
-					<td class="qa-left">
-						Q：
-					</td>
-					<td class="q">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</td>
-				</tr>
-				<tr class="qa-list">
-					<td class="qa-left">
-						A：
-					</td>
-					<td>回答回答回答回答回答回答回答回答回答回答回答回答回答回答</td>
-				</tr>
-				<tr class="qa-list">
-					<td class="qa-left">
-						Q：
-					</td>
-					<td class="q">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</td>
-				</tr>
-				<tr class="qa-list">
-					<td class="qa-left">
-						A：
-					</td>
-					<td>回答回答回答回答回答回答回答回答回答回答回答回答回答回答</td>
-				</tr>
-				<tr class="qa-list">
-					<td class="qa-left">
-						Q：
-					</td>
-					<td class="q">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</td>
-				</tr>
-				<tr class="qa-list">
-					<td class="qa-left">
-						A：
-					</td>
-					<td>回答回答回答回答回答回答回答回答回答回答回答回答回答回答</td>
-				</tr>
-				<tr class="qa-list">
-					<td class="qa-left">
-						Q：
-					</td>
-					<td class="q">常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题</td>
-				</tr>
-				<tr class="qa-list">
-					<td class="qa-left">
-						A：
-					</td>
-					<td>回答回答回答回答回答回答回答回答回答回答回答回答回答回答</td>
-				</tr>
+				<transition name="qa" mode='out-in'>					
+					<tr class="qa-list" v-show="index==which?toggle:0">
+						<td class="qa-left">
+							A：
+						</td>
+						<td>{{item.a}}</td>
+					</tr>		
+				</transition>
+		</template>
 	</table>
 </template>
 
 <script>
-
+export default{
+	data(){
+		return {
+			which:-1,
+			toggle:true,
+			qaList:[
+				{
+					q:'常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题',
+					a:'回答回答回答回答回答回答回答回答回答回答回答回答回答回答',
+				},
+				{
+					q:'常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题',
+					a:'回答回答回答回答回答回答回答回答回答回答回答回答回答回答',
+				},
+				{
+					q:'常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题',
+					a:'回答回答回答回答回答回答回答回答回答回答回答回答回答回答',
+				},
+				{
+					q:'常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题',
+					a:'回答回答回答回答回答回答回答回答回答回答回答回答回答回答',
+				},
+				{
+					q:'常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题',
+					a:'回答回答回答回答回答回答回答回答回答回答回答回答回答回答',
+				},
+				{
+					q:'常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题',
+					a:'回答回答回答回答回答回答回答回答回答回答回答回答回答回答',
+				},
+				{
+					q:'常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题',
+					a:'回答回答回答回答回答回答回答回答回答回答回答回答回答回答',
+				},
+			]
+		}
+	},
+	methods:{
+		showAnswer(index){
+			if(this.which!=index){
+				this.which=index;
+				this.toggle=true;				
+			}else{
+				this.toggle=!this.toggle
+			}
+		}
+	}
+}
 </script>
 
 <style rel="stylesheet" scoped>
@@ -94,5 +85,12 @@
 	}
 	.qa td{
 		padding-bottom: 10px;
+	}
+	.qa-enter-active,.qa-leave-active{
+		transition: all .3s ease-in;
+	}
+	.qa-enter,.qa-leave-to{
+		transform:scaleY(0);
+		opacity: 0;
 	}
 </style>

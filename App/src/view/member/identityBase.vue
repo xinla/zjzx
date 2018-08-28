@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<top @hrefTo="this.$TooL.goBack">
-			<template slot="title">{{ title }}</template>
+			<template slot="title">{{ title||'个人认证' }}</template>
 			<template slot="nav"><router-link :to="{ path:'/memberBase/idenComQuestion',query:{title:'常见问题'}}">常见问题</router-link></template>
 		</top>
 		<div  class="top-margin">			
