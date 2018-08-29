@@ -1,6 +1,8 @@
 <template>
 	<div class="top tf ac">
-		<div class="bfc-p back" @click="$emit('hrefTo')"><i class="iconfont hreficon bfc-d"><slot name="href">&#xe7f3;</slot></i></div>
+		<div class="bfc-p back" @click="$emit('hrefTo')"><i class="iconfont hreficon bfc-d">
+			<slot name="href">&#xe7f3;</slot></i>
+		</div>
 		<slot name="title">标题</slot>
 		<div class="bfc-p r-nav"><slot name="nav"></slot></div>
 	</div>

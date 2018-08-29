@@ -68,13 +68,25 @@ export default new Router({
         require(['@/view/member/userCenter.vue'],resolve)
       }
     },
+    //二级页面
+    {
+      path:'/sub',
+      name:'sub',
+      redirect:'/member',
+      component: (resolve)=>{
+        require(['@/components/common/baseTop.vue'],resolve)
+      },
+      children:[
+        
+      ]
+    },
     //会员中心
     {
       path:'/memberBase',
       name:'memberBase',
       redirect:'/member',
       component: (resolve)=>{
-        require(['@/view/member/memberBase.vue'],resolve)
+        require(['@/components/common/baseTop.vue'],resolve)
       },
       children:[
         {
@@ -168,6 +180,13 @@ export default new Router({
             require(['@/view/member/idenComQuestion.vue'],resolve)
           }      
         },
+        {
+          path:'position',
+          name:'position',
+          component: (resolve)=>{
+            require(['@/view/member/position.vue'],resolve)
+          }      
+        },
       ]
     },
     //个人中心
@@ -176,7 +195,7 @@ export default new Router({
       name:'personBase',
       redirect:'/personBase/published',
       component: (resolve)=>{
-        require(['@/view/member/personBase.vue'],resolve)
+        require(['@/components/common/basePerson.vue'],resolve)
       },
       children:[
         {
@@ -222,7 +241,7 @@ export default new Router({
       name:'identityBase',
       redirect:'/member/identityBase/identityIndex',
       component: (resolve)=>{
-        require(['@/view/member/identityBase.vue'],resolve)
+        require(['@/components/common/baseIdentity.vue'],resolve)
       },
       children:[
         {

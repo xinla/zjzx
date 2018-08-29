@@ -13,7 +13,9 @@
 		</dd>	
 		<dt>标题</dt>
 		<dd><input type="text" name="title"></dd>
-		<fieldset class="imgText" v-if="sort==0?1:0">		
+		<dt>地点</dt>
+		<dd ><router-link :to="{ path:'/memberBase/position',query:{title:'选择位置'} }">选择位置</router-link></dd>
+		<fieldset class="imgText" v-if="sort==0">		
 			<dt>内容</dt>
 			<dd><textarea id="contents" name="contents"></textarea></dd>
 			<dt>上传图片</dt>
@@ -22,7 +24,7 @@
 				<input type="file" name="file" id="upimg" value="" accept="image/*" multiple>
 			</dd>
 		</fieldset>
-		<fieldset class="video" v-if="sort==1?1:0">
+		<fieldset class="video" v-if="sort==1">
 			<dt>上传视频</dt>
 			<dd>
 				<label for="upvideo" class="uplab iconfont">&#xe800;</label>
@@ -39,16 +41,40 @@
 </template>
 
 <script>
+import mapUtil from '@/service/util/mapUtil'
+import mapService from '@/service/mapService'
 export default{
 	data(){
 		return {
 			sort:0,
+			site:'不显示',
 		}
 	},
 	mounted(){
 		let sort = this.$route.query.sort;
 		this.sort = sort;
-		console.log(this.sort)
+	},
+	methods:{
+		getPosition(){
+			var page_num = 0;
+
+			mapUtil.getPosition((data)=>{
+				let aa = data.citycode;
+				let longitude = data.longitude;
+				let latitude = data.latitude;
+
+				mapService.getPoiList(page_num,latitude,longitude,(data2)=>{
+						console.log(data2);
+						page_num++;
+
+				})
+
+			})
+			// mapUtil.getPosition((position)=>{
+			// this.site=position.publishaddresses;
+				//position:{"publishaddresses":"安徽省池州市贵池区长江中路靠近中国银行(池州沿江支行)","latitude":30.663549,"longitude":117.482321,"publishstreet":"长江中路","streetnum":"30号","poiname":"中国银行(池州沿江支行)","citycode":"0566"}
+			// });
+		}
 	}
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<top @hrefTo="goback('http://192.168.1.17:8080/member')">
+		<top @hrefTo="goback('/member')">
 			<template slot="title">{{title}}</template>
 		</top>
 		<div class="top-fix">

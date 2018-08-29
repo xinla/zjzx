@@ -1,11 +1,13 @@
 <template>
 	<div >
-		<top></top>
+		<top @hrefTo="this,$Tool.goBack">
+			<template slot="title">{{ '' }}</template>
+		</top>
 		<div class="detail">
 			<section class="content-wrap">
 				<h1>{{ article.title}}</h1>
 				<div class="publisher bfc-o">
-					<img :src="article.uImg" alt="" class="uphoto">
+					<img :src="article.uImg" alt="" class="uphoto uphoto-big">
 					<div>
 						<div class="uname">
 							{{ article.uName }}
@@ -191,6 +193,8 @@ export default {
 			}
 		}
 	},
+	methods:{
+	}
 }
 </script>
 
@@ -198,6 +202,7 @@ export default {
 	.detail{
 		background: #eee;
 	    color: #555;
+        margin-top: 50px;
 	}
 	.content-wrap{
 		padding: 0 15px;
@@ -208,15 +213,19 @@ export default {
 	    font-size: 18px;
 	}
 	.uphoto {
-	    width: 0.55rem;
-	    height: 0.55rem;
+	    width: 40px;
+	    height: 40px;
 	    border-radius: 50%;
 	    float: left;
 	    margin-right: 15px;
 	}
+	.uphoto-big{
+		width: 50px;
+		height: 50px;
+	}
 	.uname {
 	    color: #333;
-	    font-size: 0.32rem;
+	    font-size: 14px;
 	}
 	.ts {
 	    color: #888;
@@ -226,9 +235,9 @@ export default {
 	    right: 0;
 	    color: #fff;
 	    background: #f25d5d;
-	    width: 1rem;
+	    width: 60px;
 	    border-radius: 5px;
-	    line-height: 0.45rem;
+	    line-height: 28px;
 	}
 	.content {
 	    margin: 0.3rem 0;
@@ -245,7 +254,7 @@ export default {
 	    border-radius: 14px;
 	}
 	.btn-a-wrap {
-	    padding: 10px 15px;
+	    padding: 5px 10px;
 	    margin-top: 15px;
 	    background: #fff;
 	}
@@ -254,7 +263,7 @@ export default {
 	    border: 1px solid #ddd;
 	    line-height: 30px;
 	    padding: 0 10px;
-	    margin-right: 10px;
+	    margin:3px;
 	    float: left;
         color: #666;
 	}
@@ -320,6 +329,7 @@ export default {
 	    border: 1px solid #888;
 	    width: 100%;
 	    text-indent: 6px;
+	    background: #fff;
 	}
 	.submit-comment {
 	    position: absolute;
