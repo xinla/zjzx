@@ -110,10 +110,12 @@
 				}else{
 					this.mobileErrText="";
 				}
+
 				 this.$loading.open(2);
 				if(this.mobileErr){this.mobileErrText="请填写正确的手机号";return;}
 				userService.getCode(this.$data.mobile,(data)=>{
 					console.log(data);
+					alert(data.result.code);
 					if(data.result.code){
 						 this.$loading.close();
 						this.phoneNum = "60秒后重发";
@@ -121,7 +123,7 @@
 						this.codeTimer = setInterval(()=>{
 							if(i>0) {
 								i--;
-								this.phoneNum = i +'秒后重发'
+								this.phoneNum = i +'秒后重发';
 							}else {
 								clearInterval(this.codeTimer);
 								this.codeTimer = null;

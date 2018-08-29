@@ -105,6 +105,8 @@
 
 <script>
 	import zNav from '@/components/navBar'
+	import config from '@/lib/config/config'
+	import fileService from '@/service/fileService'
 	export default {
 		components:{
 			zNav,
@@ -116,6 +118,8 @@
 			}else{
 				this.ifLogin=false;
 			}
+
+			console.log(fileService);
 		},
 		data() {
 			return {

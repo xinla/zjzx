@@ -9,7 +9,6 @@ const service ={}
 
 service.getCode = function(mobile,call){
 	// debugger;
-	// debugger;
 	axios.get(controller+'/getCode',{params:{
 		mobile:mobile
 	}}).then(function(res){
@@ -18,7 +17,6 @@ service.getCode = function(mobile,call){
 
 }
 service.loginByMobile = function(mobile,code,call){
-	// debugger;
 	// debugger;
 	axios.get(controller+'/loginByMobile',{params:{
 		mobile:mobile,
@@ -30,6 +28,15 @@ service.loginByMobile = function(mobile,code,call){
 		console.log(error);
 	})
 
+}
+service.getUserById = function(token,userid,targetuserid,call) {
+	axios.get(controller+'/getUserById',{params:{
+		token:token,
+		userid:userid,
+		targetuserid:targetuserid
+	}}).then(function(res){
+		call(res.data);
+	})
 }
 
 

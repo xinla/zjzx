@@ -8,17 +8,17 @@
 					<div class="editInfo-right fr clearfix">
 						<div class="editInfo-head-img fl">	 
 							
-							<img :src="src" alt="">
+							<img :src="imgurl" alt="">
 						</div>
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
 				</li>	
-				<li class="editInfo-modal-item clearfix">
+				<li class="editInfo-modal-item clearfix" @click="userNameFn">
 					<span class="fl">用户名</span>
 					<div class="editInfo-right fr clearfix">
 						<div class="editInfo-head-tip fl">	
-							<span>用户13213123</span>
-						</div>
+							<span>{{user.username}}</span>
+						</div> 
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
 				</li>	
@@ -26,7 +26,7 @@
 					<span class="fl">介绍</span>
 					<div class="editInfo-right fr clearfix">
 						<div class="editInfo-head-tip fl">	
-							<span>用户介绍000000届世界</span>
+							<span>{{userMsg}}</span>
 						</div>
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
@@ -37,7 +37,7 @@
 					<span class="fl">性别</span>
 					<div class="editInfo-right fr clearfix">
 						<div class="editInfo-head-tip fl">	
-							<span>男</span>
+							<span>{{user.sex}}</span>
 						</div>
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
@@ -46,7 +46,7 @@
 					<span class="fl">生日</span>
 					<div class="editInfo-right fr clearfix">
 						<div class="editInfo-head-tip fl">	
-							<span style="color:#2a90d7;">待完善</span>
+							<span style="color:#2a90d7;">{{user.birthday}}</span>
 						</div>
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
@@ -55,7 +55,7 @@
 					<span class="fl">地区</span>
 					<div class="editInfo-right fr clearfix">
 						<div class="editInfo-head-tip fl">	
-							<span style="color:#2a90d7;">待完善</span>
+						<span style="color:#2a90d7;">{{user.area}}</span>
 						</div>
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
@@ -64,7 +64,7 @@
 					<span class="fl">手机号</span>
 					<div class="editInfo-right fr clearfix">
 						<div class="editInfo-head-tip fl">	
-							<span>绑定手机号</span>
+							<span>{{user.mobile}}</span>
 						</div>
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
@@ -123,6 +123,7 @@
 	import top from '@/components/common/top'
 	import fileService from '@/service/fileService'
 	import zSwitch from '@/components/common/switch'
+	import userService from '@/service/userService'
 	export default {
 		components:{
 			top,
@@ -132,11 +133,44 @@
 			return {
 				title:'编辑资料',
 				value1:false,
-				src:'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1535080568&di=0e17819bea67852954d3619418c91dbe&src=http://img.zcool.cn/community/01786557e4a6fa0000018c1bf080ca.png'
+				imgurl:"",
+				user:{
+					username:'',
+					usermobile:'',
+					sex:'',
+					area:'',
+					birthday:''
+				},
+				userMsg:'介绍'
+
 			}
 		},
 		created(){
-			
+			//获取token、id的唯一值
+			let token = localStorage.getItem('token');
+			let id =  localStorage.getItem('id');
+			userService.getUserById(token,id,id,(data)=>{
+					this.$data.user = data.result.user;
+					console.log(this.$data.user);
+					//判断用户头像
+					if(this.$data.user.imageurl == null) {
+						this.imgurl = 'http://cdn.duitang.com/uploads/item/201508/30/20150830175812_sYikS.jpeg';
+					}else{
+						this.imgurl = config.fileRoot +'/'+ data.user.imageurl;
+					}
+					//判断性别
+					if(this.$data.user.sex == null) {
+						this.user.sex='男'
+					}
+					//判断生日
+					if(this.$data.birthday == null) {
+						this.user.birthday = '待完善'
+					}
+					//判断地区
+					if(this.$data.area == null) {
+						this.user.area = '待完善'
+					}
+				})
 		},
 		methods: {
 			//上传头像
@@ -148,13 +182,16 @@
 		          fileService.uploadHeadImage(param,(data)=>{
 		          	let src = config.fileRoot +'/'+ data.result.url;
 		          	this.$loading.close();
-		          	this.src=src;
-					console.log(this.src);
+		          	this.imgurl=src;
+					console.log(this.imgurl);
 					console.log(data);
 				})
 			},
 			show() {
 				console.log(this.value1);
+			},
+			userNameFn(){	
+				this.$inputArea.open()
 			}
 
 		}
