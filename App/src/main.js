@@ -95,9 +95,9 @@ new Vue({
   store,
   created() {
   	window.GoTruth = this;
-  	this.initSystem();
+  	// this.initSystem();
   },
-  methods: {
+/*  methods: {
   	//判断系统
   	initSystem(){
         let System = {
@@ -110,6 +110,6 @@ new Vue({
         };
         this.$store.commit('setStateData',{name:'System',value:System})
       },
-  },
+  },*/
   render: h => h(App),
 }).$mount('#app');

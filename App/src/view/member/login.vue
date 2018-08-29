@@ -141,23 +141,24 @@
 					}
 					this.$loading.open(2);
 					userService.loginByMobile(this.$data.mobile,this.$data.code,(data)=>{
-						// console.log(data);
-						// debugger;
 						if(data.status == 'success') {
 							this.$loading.close();
+							 let token = data.result.token;
+							 let id = data.result.user.id;
+							 let logid = data.result.user.logid;
+							 this.$store.dispatch('UserLogin',token);
+							 this.$store.dispatch('UserId',id);
+							 this.$store.dispatch('UserLogid',logid);
 							 this.$TooL.goPage({name: 'home',replace:true});
-							// this.$Request.setUserInfo(data.status);
-							// console.log(data);
-							// let user = data.result.user;
-							// this.$store.commit('setStateData',{userId:user.id,logid:user.logid,token:data.result.token});
+				
 						}
-						// if(data.status == 'error') {
-						// 	this.code = '';
-						// 	this.codeText=data.result.tip;
-						// }else{
-						// 	this.codeText="";
-						// 	return;
-						// }
+						if(data.status == 'error') {
+							this.code = '';
+							this.codeText=data.result.tip;
+						}else{
+							this.codeText="";
+							return;
+						}
 					})
 				}
 			},

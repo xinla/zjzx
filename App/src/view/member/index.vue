@@ -109,9 +109,17 @@
 		components:{
 			zNav,
 		},
+		created(){
+			let login = localStorage.getItem('token');
+			if(login){
+				this.ifLogin=true;
+			}else{
+				this.ifLogin=false;
+			}
+		},
 		data() {
 			return {
-				ifLogin:true,
+				ifLogin:false,
 				modal1: [
 					{
 						icon: require('@/assets/images/icon-msg.png'),
@@ -174,7 +182,7 @@
 
 <style lang="css" scoped>
 	.member-wrap {
-		padding-bottom: 50px;
+		padding-bottom: 75px;
 	}
 	.member-head {
 		background-color: #fff;
