@@ -26,12 +26,13 @@
 					<span class="fl">介绍</span>
 					<div class="editInfo-right fr clearfix">
 						<div class="editInfo-head-tip fl">	
-							<span>{{userMsg}}</span>
+							<span>{{user.introduce}}</span>
 						</div>
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
 				</li>	
 			</ul>
+			<text-area :explain="explain" :placeholder="placeholder" v-model="user.username" :maxlength="maxlength"></text-area>
 			<ul class="editInfo-modal">
 				<li class="editInfo-modal-item clearfix">
 					<span class="fl">性别</span>
@@ -124,15 +125,20 @@
 	import fileService from '@/service/fileService'
 	import zSwitch from '@/components/common/switch'
 	import userService from '@/service/userService'
+	import textArea from '@/components/textarea'
 	export default {
 		components:{
 			top,
-			zSwitch
+			zSwitch,
+			textArea
 		},
 		data(){
 			return {
 				title:'编辑资料',
 				value1:false,
+				placeholder:'请输入用户名',
+				maxlength:20,
+				explain:'支持英文、数字',
 				imgurl:"",
 				user:{
 					username:'',
@@ -141,27 +147,28 @@
 					area:'',
 					birthday:''
 				},
-				userMsg:'介绍'
 
 			}
 		},
 		created(){
 			//获取token、id的唯一值
-		//	let token = localStorage.getItem('token');
-		//	let id =  localStorage.getItem('id');
 			var data = userService.getCurentUser();
-
 			this.$data.user = data.result.user;
-			console.log(this.$data.user);
+			console.log(data);
 			//判断用户头像
 			if(this.$data.user.imageurl == null) {
 				this.imgurl = 'http://img4.duitang.com/uploads/item/201607/15/20160715032616_xzQUm.jpeg';
 			}else{
 				this.imgurl = config.fileRoot +'/'+ data.user.imageurl;
 			}
+
+			//个人介绍
+			if(this.$data.user.introduce == null) {
+				this.user.introduce = '暂无介绍';
+			}
 			//判断性别
 			if(this.$data.user.sex == null) {
-				this.user.sex='男'
+				this.user.sex='保密'
 			}
 			//判断生日
 			if(this.$data.birthday == null) {
@@ -171,12 +178,11 @@
 			if(this.$data.area == null) {
 				this.user.area = '待完善'
 			}
-
-			// userService.getCurentUser((data)=>{
-					
-			// 	})
 		},
 		methods: {
+			descInput(){
+
+			},
 			//上传头像
 			uploadAvatar(e) {
 				this.$loading.open(2);
@@ -195,7 +201,8 @@
 				console.log(this.value1);
 			},
 			userNameFn(){	
-				this.$inputArea.open()
+				this.$inputArea.open();
+
 			}
 
 		}

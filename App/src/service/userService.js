@@ -47,6 +47,7 @@ service.getUserById = function(targetuserid,call) {
 	};
 
 	var resMap =	commonUtil.ajaxAsync(controller+'/getUserById',params);
+//	$.post
 	///call(resMap);
 	// $.post(controller+'/getUserById',params,function(data){
 	// 	debugger;
