@@ -32,7 +32,7 @@
 					</div>
 				</li>	
 			</ul>
-			<text-area :explain="explain" :placeholder="placeholder" v-model="user.username" :maxlength="maxlength"></text-area>
+			<text-area :explain="explain" :placeholder="placeholder" :maxlength="maxlength"></text-area>
 			<ul class="editInfo-modal">
 				<li class="editInfo-modal-item clearfix">
 					<span class="fl">性别</span>
@@ -140,49 +140,51 @@
 				maxlength:20,
 				explain:'支持英文、数字',
 				imgurl:"",
+				message:'',
 				user:{
-					username:'',
-					usermobile:'',
-					sex:'',
-					area:'',
-					birthday:''
+					// username:'',
+					// introduce:'',
+					// usermobile:'',
+					// sex:'',
+					// area:'',
+					// birthday:''    
 				},
-
 			}
 		},
-		created(){
-			//获取token、id的唯一值
-			var data = userService.getCurentUser();
-			this.$data.user = data.result.user;
-			console.log(data);
-			//判断用户头像
-			if(this.$data.user.imageurl == null) {
-				this.imgurl = 'http://img4.duitang.com/uploads/item/201607/15/20160715032616_xzQUm.jpeg';
-			}else{
-				this.imgurl = config.fileRoot +'/'+ data.user.imageurl;
-			}
+		mounted(){
+			this.$nextTick(()=>{
+				console.log(this.value);
+				var data = userService.getCurentUser();
+				this.$data.user = data.result.user;
+				console.log(data);
+				//判断用户头像
+				if(this.$data.user.imageurl == null) {
+					this.imgurl = 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2537627520,3119182571&fm=27&gp=0.jpg';
+				}else{
+					this.imgurl = config.fileRoot +'/'+ data.user.imageurl;
+				}
 
-			//个人介绍
-			if(this.$data.user.introduce == null) {
-				this.user.introduce = '暂无介绍';
-			}
-			//判断性别
-			if(this.$data.user.sex == null) {
-				this.user.sex='保密'
-			}
-			//判断生日
-			if(this.$data.birthday == null) {
-				this.user.birthday = '待完善'
-			}
-			//判断地区
-			if(this.$data.area == null) {
-				this.user.area = '待完善'
-			}
+				//个人介绍
+				if(this.$data.user.introduce == null) {
+					this.user.introduce = '暂无介绍';
+				}
+				//判断性别
+				if(this.$data.user.sex == null) {
+					this.user.sex='保密'
+				}
+				//判断生日
+				if(this.$data.birthday == null) {
+					this.user.birthday = '待完善'
+				}
+				//判断地区
+				if(this.$data.area == null) {
+					this.user.area = '待完善'
+				}
+			})
+			
+			
 		},
 		methods: {
-			descInput(){
-
-			},
 			//上传头像
 			uploadAvatar(e) {
 				this.$loading.open(2);

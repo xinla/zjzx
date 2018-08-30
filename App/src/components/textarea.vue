@@ -3,7 +3,7 @@
 		<div class="mask" @click="cancel"></div>
 		<div class="area">
 			<div class="areaBox">
-				<textarea :placeholder="placeholder" :maxlength="maxlength" v-model="desc" autofocus></textarea>
+				<textarea :placeholder="placeholder" :maxlength="maxlength" @input="descInput($event.target.value)" v-model="desc" autofocus>sdfdsfdsfsdf</textarea>
 				<span class="num" :class="{colorChange:colorChange}">{{this.maxlength - this.desc.length}}</span>
 			</div>
 			<div class="areaTip clearfix">
@@ -22,6 +22,7 @@
 				colorChange:false,
 				btnChange:false,
 				show:true,
+				user:{}
 			}
 		},
 		props:{
@@ -43,6 +44,11 @@
 
 		},
 		methods:{
+			descInput(value) {
+				let myValue = value;
+				this.$emit('fn',myValue);
+			},
+
 			cancel() {
 				document.addEventListener('touchmove',function(event) {
 					window.event.returnValue = true;
@@ -50,6 +56,7 @@
 				this.show = false;
 			},
 			send(){
+				this.$emit('send')
 				document.addEventListener('touchmove',function(event){
 					window.event.returnValue = true;
 				},{passive:true});
