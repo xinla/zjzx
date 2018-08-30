@@ -1,6 +1,7 @@
 
 import config from '@/lib/config/config'
 import axios from 'axios'
+import commonUtil from '@/service/util/commonUtil'
 const controller =config.successServer+'/user';
 const service ={}
 
@@ -29,14 +30,42 @@ service.loginByMobile = function(mobile,code,call){
 	})
 
 }
-service.getUserById = function(token,userid,targetuserid,call) {
-	axios.get(controller+'/getUserById',{params:{
+service.getUserById = function(targetuserid,call) {
+	let token = localStorage.getItem('token');
+	let id =  localStorage.getItem('id');
+	// axios.get(controller+'/getUserById',{params:{
+	// 	token:token,
+	// 	userid:id,
+	// 	targetuserid:targetuserid
+	// }}).then(function(res){
+	// 	call(res.data);
+	// })
+	var params = {
 		token:token,
-		userid:userid,
+		userid:id,
 		targetuserid:targetuserid
-	}}).then(function(res){
-		call(res.data);
-	})
+	};
+
+	var resMap =	commonUtil.ajaxAsync(controller+'/getUserById',params);
+	///call(resMap);
+	// $.post(controller+'/getUserById',params,function(data){
+	// 	debugger;
+	// 	call(data);
+	// });
+
+	return resMap;
+}
+
+
+
+
+service.getCurentUser = function(call){
+
+	let id =  localStorage.getItem('id');
+
+	var resMap = service.getUserById(id,call);
+
+	return resMap;
 }
 
 

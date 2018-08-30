@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import App from './App'
 
+import $ from 'jquery'
+window.$ = $;
+
 //es6 promise兼容
 // import 'es6-promise/auto'
 

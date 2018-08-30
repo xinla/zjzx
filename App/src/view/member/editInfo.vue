@@ -147,30 +147,34 @@
 		},
 		created(){
 			//获取token、id的唯一值
-			let token = localStorage.getItem('token');
-			let id =  localStorage.getItem('id');
-			userService.getUserById(token,id,id,(data)=>{
-					this.$data.user = data.result.user;
-					console.log(this.$data.user);
-					//判断用户头像
-					if(this.$data.user.imageurl == null) {
-						this.imgurl = 'http://cdn.duitang.com/uploads/item/201508/30/20150830175812_sYikS.jpeg';
-					}else{
-						this.imgurl = config.fileRoot +'/'+ data.user.imageurl;
-					}
-					//判断性别
-					if(this.$data.user.sex == null) {
-						this.user.sex='男'
-					}
-					//判断生日
-					if(this.$data.birthday == null) {
-						this.user.birthday = '待完善'
-					}
-					//判断地区
-					if(this.$data.area == null) {
-						this.user.area = '待完善'
-					}
-				})
+		//	let token = localStorage.getItem('token');
+		//	let id =  localStorage.getItem('id');
+			var data = userService.getCurentUser();
+
+			this.$data.user = data.result.user;
+			console.log(this.$data.user);
+			//判断用户头像
+			if(this.$data.user.imageurl == null) {
+				this.imgurl = 'http://img4.duitang.com/uploads/item/201607/15/20160715032616_xzQUm.jpeg';
+			}else{
+				this.imgurl = config.fileRoot +'/'+ data.user.imageurl;
+			}
+			//判断性别
+			if(this.$data.user.sex == null) {
+				this.user.sex='男'
+			}
+			//判断生日
+			if(this.$data.birthday == null) {
+				this.user.birthday = '待完善'
+			}
+			//判断地区
+			if(this.$data.area == null) {
+				this.user.area = '待完善'
+			}
+
+			// userService.getCurentUser((data)=>{
+					
+			// 	})
 		},
 		methods: {
 			//上传头像
