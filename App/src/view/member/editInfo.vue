@@ -32,7 +32,18 @@
 					</div>
 				</li>	
 			</ul>
-			<text-area :explain="explain" :placeholder="placeholder" :maxlength="maxlength"></text-area>
+			 <transition name="slide-fade">
+				<text-area 
+					v-show="showName"
+					:explain="explain" 
+					:placeholder="placeholder" 
+					:maxlength="maxlength"
+					ref="getInput"
+					@handleSend="handleSend1"
+				>
+				</text-area>
+			 </transition>
+			
 			<ul class="editInfo-modal">
 				<li class="editInfo-modal-item clearfix">
 					<span class="fl">性别</span>
@@ -139,27 +150,30 @@
 				placeholder:'请输入用户名',
 				maxlength:20,
 				explain:'支持英文、数字',
-				imgurl:"",
+				imgurl:"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2537627520,3119182571&fm=27&gp=0.jpg",
 				message:'',
 				user:{
-					// username:'',
-					// introduce:'',
-					// usermobile:'',
-					// sex:'',
-					// area:'',
-					// birthday:''    
+					username:'',
+					introduce:'',
+					usermobile:'',
+					sex:'',
+					area:'',
+					birthday:''    
 				},
+				desc:"",
+				showName:false
 			}
 		},
+		
 		mounted(){
 			this.$nextTick(()=>{
-				console.log(this.value);
-				var data = userService.getCurentUser();
+				let data = userService.getCurentUser();
 				this.$data.user = data.result.user;
-				console.log(data);
+				 // this.$data.user.username=this.userNameValue;
+				// console.log(this.$data.user.username);
 				//判断用户头像
 				if(this.$data.user.imageurl == null) {
-					this.imgurl = 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2537627520,3119182571&fm=27&gp=0.jpg';
+					// this.imgurl = '';
 				}else{
 					this.imgurl = config.fileRoot +'/'+ data.user.imageurl;
 				}
@@ -201,11 +215,19 @@
 			},
 			show() {
 				console.log(this.value1);
+				console.log(this.user.username);
 			},
 			userNameFn(){	
-				this.$inputArea.open();
-
+				this.showName = true;
+			},
+			handleSend1(val){
+				this.$data.user.username = val;
+				let data = userService.updateUser(this.$data.user);
+				this.showName=false;
 			}
+
+
+			
 
 		}
 	}
@@ -280,5 +302,16 @@
 	.switch-btn {
 		margin-top: 10px;
 	}
-
+	
+	.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s linear;
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+  transform: translateY(100%);
+  /*opacity: 0;*/
+}
 </style>

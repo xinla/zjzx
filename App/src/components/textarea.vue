@@ -3,7 +3,7 @@
 		<div class="mask" @click="cancel"></div>
 		<div class="area">
 			<div class="areaBox">
-				<textarea :placeholder="placeholder" :maxlength="maxlength" @input="descInput($event.target.value)" v-model="desc" autofocus>sdfdsfdsfsdf</textarea>
+				<textarea :placeholder="placeholder" :maxlength="maxlength" @input="descArea" v-model.trim="desc" ref="desc"  autofocus>{{desc}}</textarea>
 				<span class="num" :class="{colorChange:colorChange}">{{this.maxlength - this.desc.length}}</span>
 			</div>
 			<div class="areaTip clearfix">
@@ -11,6 +11,7 @@
 				<button type="button" class="areaBtn fr" :class="{btnChange:btnChange}" @click="send">确定</button>
 			</div>
 		</div>
+		<!-- " -->
 	</div>
 </template>
 
@@ -21,17 +22,15 @@
 				desc:'',
 				colorChange:false,
 				btnChange:false,
-				show:true,
-				user:{}
+				show:false,
 			}
 		},
-		props:{
-			explain:String,
-			placeholder:String,
-			maxlength:Number
+		props:["explain", "placeholder", "maxlength"],
+		computed:{
+
 		},
-		watch:{
-			desc(){
+		methods:{
+			descArea(){
 				let cont = this.maxlength - this.desc.length;
 				if(cont >= this.maxlength) {
 					this.colorChange = false;
@@ -40,15 +39,7 @@
 					this.colorChange = true;
 					this.btnChange = true;
 				}
-			}
-
-		},
-		methods:{
-			descInput(value) {
-				let myValue = value;
-				this.$emit('fn',myValue);
 			},
-
 			cancel() {
 				document.addEventListener('touchmove',function(event) {
 					window.event.returnValue = true;
@@ -56,7 +47,7 @@
 				this.show = false;
 			},
 			send(){
-				this.$emit('send')
+				this.$emit('handleSend',this.desc);
 				document.addEventListener('touchmove',function(event){
 					window.event.returnValue = true;
 				},{passive:true});
@@ -89,12 +80,12 @@
 		position: absolute;
 		left: 0;
 		right: 0;
-		bottom: 0;
+		bottom: 20px;
 		width: 100%;
 		z-index: 99;
 		background-color: #f4f5f6;
 		padding: 15px;
-		animation: slideInD .6s;
+		/*animation: slideInD .6s;*/
 	}
 	.areaBox {
 		position: relative;
@@ -132,9 +123,7 @@
 		color: #fff;
 		 pointer-events: none;
 	}
-	.slideOut{
-		animation: slideOutD .6s;
-	}
+
 	.areaBox .colorChange{
 		color: #333;
 	}
@@ -144,7 +133,7 @@
 		 pointer-events: auto;
 	}
 
-	@keyframes slideInD {
+/*	@keyframes slideInD {
 		from{
 			transform: translate(0,100%);
 		}
@@ -160,6 +149,6 @@
 		to{
 			transform: translate(0,100%);
 		}
-	}
+	}*/
 
 </style>

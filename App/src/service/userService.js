@@ -7,7 +7,7 @@ const service ={}
 
 
 
-
+//获取手机验证码
 service.getCode = function(mobile,call){
 	// debugger;
 	axios.get(controller+'/getCode',{params:{
@@ -15,8 +15,9 @@ service.getCode = function(mobile,call){
 	}}).then(function(res){
 		call(res.data);
 	})
-
 }
+
+//用户登录
 service.loginByMobile = function(mobile,code,call){
 	// debugger;
 	axios.get(controller+'/loginByMobile',{params:{
@@ -28,8 +29,9 @@ service.loginByMobile = function(mobile,code,call){
 	}).catch(function(error){
 		console.log(error);
 	})
-
 }
+
+//获取用户的Id和token令牌
 service.getUserById = function(targetuserid,call) {
 	let token = localStorage.getItem('token');
 	let id =  localStorage.getItem('id');
@@ -56,6 +58,24 @@ service.getUserById = function(targetuserid,call) {
 
 	return resMap;
 }
+
+//更新用户名
+service.updateUser = function(user) {
+	let token = localStorage.getItem('token');
+	let userid = localStorage.getItem('id');
+	// debugger;
+	let params = {
+		token:token,
+		userid:userid,
+		record: JSON.stringify(user)
+	}
+	let userMap = commonUtil.ajaxAsync(controller+'/updateUser',params);
+
+	return userMap;
+}
+
+
+
 
 
 
