@@ -30,7 +30,7 @@ mapUtil.getPosition = function(call) {
 		return;
 	}
 	
-	var position = {"publishaddresses":"安徽省池州市贵池区长江中路靠近中国银行(池州沿江支行)","latitude":30.663549,"longitude":117.482321,"publishstreet":"长江中路","streetnum":"30号","poiname":"中国银行(池州沿江支行)","citycode":"0566"};
+	var position = {"publishprovince":"安徽省",publishcity:"池州市",publisharea:"贵池区",streetnum:"长江中路","publishaddresses":"安徽省池州市贵池区长江中路靠近中国银行(池州沿江支行)","latitude":30.663549,"longitude":117.482321,"publishstreet":"长江中路","streetnum":"30号","poiname":"中国银行(池州沿江支行)","citycode":"0566"};
 	call(position);
 	
 

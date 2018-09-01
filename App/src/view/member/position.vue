@@ -5,16 +5,11 @@
             <i class="iconfont ac">&#xeafe;</i>
         </div>
         <ul class="site-wrap" >
-            <li class="site-li" v-for="(item,index) in siteList" @click="positionBack(item.name)">
+            <li class="site-li" v-for="(item,index) in siteList" @click="positionBack(item.name,item.address)">
                 {{ item.name }}
                 <p>{{ item.address }}</p>          
             </li>
         </ul>
-       <!--  <ul class="site-wrap" v-show="searchSiteList.length!=0">
-            <li class="site-li" v-for="item in searchSiteList">{{item.name }}asd
-                <p>{{ item.address }}asd</p>
-            </li>
-        </ul> -->
     </div>
 </template>
 
@@ -69,9 +64,10 @@ export default{
                 })
             })
         },
-        positionBack(p){
+        positionBack(pn){
             window.history.back();
-            localStorage.position = p;
+            localStorage.position = pn;
+            localStorage.selectedpublishaddress = pa;
         }
     },
     watch:{

@@ -5,35 +5,15 @@ const controller =config.successServer+'/article';
 const service ={}
 
 
+var userid = localStorage.getItem('id'),
+	token = localStorage.getItem('token');
 
-
-
-service.publishArticle = function() {
-	
+service.publishArticle = function(record,record_file) {
 	var params = {
-		userid:userid,
+		userid,
 		token,
-		record:{
-			title,
-			content,
-			author,
-			type,   //1：图文，2:视屏
-			publishtime,  // 后台设置
-			classify,
-			latitude,
-			longitude,
-			publishaddresses,
-			publishprovince,
-			publishcity,
-			publisharea,
-			publishstreet,
-			streetnum,
-			citycode,
-			poiname,
-			selectedpublishaddress,
-			selectedpublishname,
-		},
-		
+		record:JSON.stringify(record),
+		record_file:JSON.stringify(record_file)
 	};
 
 	var resArticle = commonUtil.ajaxAsync(controller+'/publishArticle',params);
@@ -47,12 +27,15 @@ service.publishArticle = function() {
 	return resArticle;
 }
 
+service.getArticleClassifyList = function(){
+	var params = {
+		
+	};
 
+	var resArticleClassifyList = commonUtil.ajaxAsync(controller+'/getArticleClassifyList',params);
 
-
-
-
-
+	return resArticleClassifyList;
+}
 
 export default service
 

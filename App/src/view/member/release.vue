@@ -2,32 +2,27 @@
 	<dl>	
 		<!-- <dt>分类</dt> -->
 		<dd>
-			<select name="sort" id="sort1">
-				<option value="">一线</option>
-				<option value="">揭秘</option>
-				<option value="">悬疑</option>
-				<option value="">历史</option>
-				<option value="">诈骗</option>
+			<select id="sort1" v-model="record.classify">
+				<option :value="item.value" v-for="item in classify" :disabled="item.disabled">{{ item.value }}</option>
 			</select>
 			<label for="sort1" class="iconfont sort-lab">&#xe7f6;</label>
 		</dd>	
 		<!-- <dt>标题</dt> -->
 		<dd><input type="text" v-model="record.title" placeholder="标题" maxlength="25" @keyup="check('title')"></dd>
 		<!-- <dt>地点</dt> -->
-		<fieldset class="imgText" v-if="sort==0">		
+		<fieldset class="imgText" v-if="record.type==1">		
 			<!-- <dt>内容</dt> -->
 			<dd><textarea id="contents" v-model="record.content" @keyup="check('content')" placeholder="内容"></textarea></dd>
 			<!-- <dt>上传图片</dt> -->
 			<dd>
 				<div class="thumb-wrap">
-					<img src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">
-					<img src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">
+					<img v-for="(item,index) in record_file" :src="item.url" alt="">
 					<label for="upimg" class="uplab iconfont">&#xe800;</label>
-					<input type="file"  id="upimg" value="" accept="image/*" multiple @change="uploadFile($event)">
+					<input type="file"  id="upimg" value="" accept="image/*" multiple @change="uploadFile">
 				</div>
 			</dd>
 		</fieldset>
-		<fieldset class="video" v-if="sort==1">
+		<fieldset class="video" v-if="record.type==2">
 			<!-- <dt>上传视频</dt> -->
 			<dd>
 				<label for="upvideo" class="uplab iconfont">&#xe800;</label>
@@ -36,7 +31,7 @@
 		</fieldset>
 		<dd>
 			<i class="iconfont position">&#xe868;</i>
-			<router-link :to="{ path:'/memberBase/position',query:{title:'选择位置'} }" class="tag">{{ site }}</router-link>
+			<router-link :to="{ path:'/memberBase/position',query:{title:'选择位置'} }" class="tag">{{ record.selectedpublishname }}</router-link>
 		</dd>
 
 		<dd colspan="2"><button type="submit" @click="publish">发布</button></dd>
@@ -44,58 +39,57 @@
 </template>
 
 <script>
+	import config from '@/lib/config/config'
 import mapUtil from '@/service/util/mapUtil'
 import mapService from '@/service/mapService'
+import fileService from '@/service/fileService'
 import articleService from '@/service/articleService'
+
 export default{
 	data(){
 		return {
-			sort:0,
-			site:'不显示',
-			userid:'',
-			token:'',
+	        classify:[ //option需是对象，不然默认无效
+	          {value: '请选择', disabled: ''},
+	          {value: '揭秘',text:'揭秘'},
+	          {value: '防骗',text:'防骗'},
+	          {value: '打假',text:'打假'},
+	          {value: '寻亲',text:'寻亲'},
+	          {value: '普法',text:'普法'},
+	          {value: '焦点',text:'焦点'},
+	          {value: '问答',text:'问答'},
+	        ],
+	        push:[],
+			position:{},
 			record:{
 				title:'',
 				content:'',
 				author:'',
 				type:'',   //1：图文，2:视屏
 				publishtime:'',  // 后台设置
-				classify:'',
-				latitude:'',
-				longitude:'',
-				publishaddresses:'',
-				publishprovince:'',
-				publishcity:'',
-				publisharea:'',
-				publishstreet:'',
-				streetnum:'',
-				citycode:'',
-				poiname:'',
+				classify:'请选择',
 				selectedpublishaddress:'',
-				selectedpublishname:'',
+				selectedpublishname:'不显示',
 			},
-			record_file:[
-				{
-				 articleid:'', //后台文章保存后设置,文章id
-				 url:'',//:"附件地址",
-				 filename:'',//:"附件名称"	
-				 type:'',  // 1：图片，2:视屏,附件类型
-				}
-			]
+			record_file:[],
 		}
 	},
 	mounted(){
-		let sort = this.$route.query.sort;
-		this.sort = sort;
-		this.site = localStorage.position?localStorage.position:this.site;
+		this.record.type = this.$route.query.sort;	
+		this.record_file.type = this.$route.query.sort;
+		this.record.selectedpublishname = localStorage.position?localStorage.position:0;
+		this.record.selectedpublishaddress = localStorage.selectedpublishaddress?localStorage.selectedpublishaddress:0;
+
+		articleService.getArticleClassifyList((data)=>{
+			console.log(data.result);
+		})
 
 		let page_num = 0;
 		mapUtil.getPosition((data)=>{
 			let aa = data.citycode;
 			let longitude = data.longitude;
 			let latitude = data.latitude;
+			this.position = data;
 			mapService.getPoiList(page_num,latitude,longitude,(data2)=>{
-					console.log(data2);
 					page_num++;
 
 			})
@@ -103,20 +97,29 @@ export default{
 		})
 	},
 	methods:{
-		uploadFile(event){
-			this.record_file = event.target.files;
+		uploadFile(e){
+			this.$loading.open(2);
+			let file = e.target.files[0];           
+		    let param = new FormData(); //创建form对象
+		    param.append('file',file,file.name);//通过append向form对象添加数据
+		    fileService.uploadPic(param,(data)=>{
+		    	let obj = {};
+	          	obj.url = config.fileRoot +'/'+ data.result.url;
+	          	obj.filename = data.result.filename;
+	          	this.record_file.push(obj);
+	          	this.$loading.close();
+			})
 		},
 		publish(){
-			this.userid = localStorage.id || 1;
-			this.token = localStorage.token || 1;
-			console.log(this.userid)
-			if (this.sort==0) {
-				articleService.publishArticle(this.userid,this.token,this.record,this.record_file,(data)=>{
+			this.record.author = localStorage.userName?localStorage.userName:0;
+			Object.assign(this.record,this.position);
+			if (this.record.type == 1) {
+				articleService.publishArticle(this.record,this.record_file,(data)=>{
 					console.log(data)
 				})
 				
-			} else if (this.sort==1) {
-				articleService.publishArticle(this.userid,this.token,this.record,this.record_file,(data)=>{
+			} else if (this.record.type == 2) {
+				articleService.publishArticle(this.record,this.record_file,(data)=>{
 					console.log(data)
 				})
 			} else {

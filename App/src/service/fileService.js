@@ -15,6 +15,13 @@ service.uploadHeadImage = function(params,call){
 	})
 }
 
+service.uploadPic = function(params,call){
+	axios.post(controller+'/uploadPic',params,fileConfig).then(function(res){
+		call(res.data)
+	})
+}
+
+
 
 export default service
 
