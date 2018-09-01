@@ -30,7 +30,7 @@
 			<router-link :to="{ path:'/personBase/published',query:{current:1} }">				
 				<div class="member-user clearfix" v-if="ifLogin">
 					<div class="member-user-headimg fl">
-						<img src="@/assets/images/header.jpeg" alt="">
+						<img src="@/assets/images/header1.jpg" alt="">
 
 					</div>
 					<div class="member-user-box fl">

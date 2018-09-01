@@ -180,6 +180,20 @@ export default new Router({
             require(['@/view/member/position.vue'],resolve)
           }      
         },
+        {
+          path:'province',
+          name:'province',
+          component: (resolve)=>{
+            require(['@/view/member/province.vue'],resolve)
+          }      
+        },
+        {
+          path:'city',
+          name:'city',
+          component: (resolve)=>{
+            require(['@/view/member/city.vue'],resolve)
+          }      
+        },
       ]
     },
     //个人中心

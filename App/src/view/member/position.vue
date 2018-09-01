@@ -1,16 +1,21 @@
 <template>
-	<div>
-		<div class="search">
-			<input type="text" v-model="keywords" @keyup="search(keywords)" placeholder="请输入搜索关键词~">
-			<i class="iconfont ac">&#xeafe;</i>
-		</div>
-        <ul class="site-wrap" v-show="searchSiteList.length==0">
-            <li class="site-li" v-for="item in siteList">{{ item.address }}</li>
+    <div>
+        <div class="search">
+            <input type="text" v-model="keywords" @keyup="search(keywords)" placeholder="请输入位置关键词~">
+            <i class="iconfont ac">&#xeafe;</i>
+        </div>
+        <ul class="site-wrap" >
+            <li class="site-li" v-for="(item,index) in siteList" @click="positionBack(item.name)">
+                {{ item.name }}
+                <p>{{ item.address }}</p>          
+            </li>
         </ul>
-        <ul class="site-wrap" v-show="searchSiteList.lengt!=0">
-            <li class="site-li" v-for="item in searchSiteList">{{ item.address }}</li>
-        </ul>
-	</div>
+       <!--  <ul class="site-wrap" v-show="searchSiteList.length!=0">
+            <li class="site-li" v-for="item in searchSiteList">{{item.name }}asd
+                <p>{{ item.address }}asd</p>
+            </li>
+        </ul> -->
+    </div>
 </template>
 
 <script>
@@ -20,54 +25,26 @@ export default{
     data(){
         return {
             keywords:'',
-            searchSiteList:[],
-            siteList:[
-                {
-                    id:0,
-                    address:"安徽省池州市chrome江中路靠近中国银行(池州沿江支行)",
-                },
-                {
-                    id:0,
-                    address:"goole(池州沿江支行)",
-                },
-                {
-                    id:0,
-                    address:"安徽省池州baidu区长江中路靠近中国银行(池州沿江支行)",
-                },
-                {
-                    id:0,
-                    address:"安徽省池州市直击真相长江中路靠近中国银行(池州沿江支行)",
-                },
-                {
-                    id:0,
-                    address:"安徽省池州市君越长江中路靠近中国银行(池州沿江支行)",
-                },
-                {
-                    id:0,
-                    address:"安徽省池州市贵池区长江中路靠近中国银行(池州沿江支行)",
-                },
-                {
-                    id:0,
-                    address:"安徽省池州市贵池区长江中路靠近中国银行(池州沿江支行)",
-                }
-
-            ]
+            siteList:[],
         }
     },
     mounted(){
-            var page_num = 0;
-
+        this.$nextTick(()=>{
+            let page_num = 0;
             mapUtil.getPosition((data)=>{
                 let aa = data.citycode;
                 let longitude = data.longitude;
                 let latitude = data.latitude;
 
-                mapService.getPoiList(page_num,latitude,longitude,(data2)=>{
-                        console.log(data2);
+                mapService.getPoiList(page_num,latitude,longitude,"",(data2)=>{
+                       this.siteList=data2.results;
                         page_num++;
 
                 })
             })
+            
+        })
+        
             // mapUtil.getPosition((position)=>{
             // this.site=position.publishaddresses;
                 //position:{"publishaddresses":"安徽省池州市贵池区长江中路靠近中国银行(池州沿江支行)","latitude":30.663549,"longitude":117.482321,"publishstreet":"长江中路","streetnum":"30号","poiname":"中国银行(池州沿江支行)","citycode":"0566"}
@@ -75,39 +52,31 @@ export default{
     },
     methods:{
         search(keywords){
-            // if (keywords) {
-            //     this.searchSiteList=[];
-            //     for (var i = 0,len = this.siteList.length; i < len; i++) {
-            //         if (this.siteList[i].address.match(keywords)) {
-            //             this.searchSiteList.push(this.siteList[i]);
-            //         }
-            //         console.log(this.siteList[i].address.match(keywords))
-            //     }
-            //      console.log(this.searchSiteList.length)
+         
+            let page_num = 0;
 
-            // }else{
-            //     this.searchSiteList.length=0;
-            //     console.log(this.searchSiteList.length!=0)
-            // }
+            mapUtil.getPosition((data)=>{
+              
+                let aa = data.citycode;
+                let longitude = data.longitude;
+                let latitude = data.latitude;
+
+                mapService.getPoiList(page_num,latitude,longitude,keywords,(data2)=>{
+                    
+                       this.siteList=data2.results;
+                        page_num++;
+
+                })
+            })
+        },
+        positionBack(p){
+            window.history.back();
+            localStorage.position = p;
         }
     },
+    watch:{
+    },
     computed:{
-        searchSiteList:function(){
-            if (keywords) {
-                this.searchSiteList=[];
-                for (var i = 0,len = this.siteList.length; i < len; i++) {
-                    if (this.siteList[i].address.match(keywords)) {
-                        this.searchSiteList.push(this.siteList[i]);
-                    }
-                    console.log(this.siteList[i].address.match(keywords))
-                }
-                 console.log(this.searchSiteList.length)
-
-            }else{
-                this.searchSiteList.length=0;
-                console.log(this.searchSiteList.length!=0)
-            }
-        }
     }
 }
 </script>
@@ -137,10 +106,14 @@ export default{
 .site-wrap{
     padding:0 10px;
     background: #fff;
-    line-height: 32px;
+    line-height: 22px;
 }
 .site-li{
     padding: 5px 0;
     border-bottom: 1px solid #eee;   
+}
+.site-li p{
+    font-size: 10px;
+    color: #aaa;
 }
 </style>
