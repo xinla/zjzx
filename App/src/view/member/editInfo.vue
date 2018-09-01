@@ -33,20 +33,17 @@
 				</li>	
 			</ul>
 			
-			  <group>
-    <cell title="title" value="value"></cell>
-  </group>
 			
 			<ul class="editInfo-modal">
-				<li class="editInfo-modal-item clearfix">
-					<span class="fl">性别</span>
-					<div class="editInfo-right fr clearfix">
-						<div class="editInfo-head-tip fl">	
-							<span>{{user.sex}}</span>
-						</div>
-						<i class="iconfont icon-arrow fr">&#xe628;</i>
+				<li class="editInfo-modal-item clearfix" @click="userSexFn">
+				<span class="fl">性别</span>
+				<div class="editInfo-right fr clearfix">
+					<div class="editInfo-head-tip fl">	
+						<span>{{user.sex}}</span>
 					</div>
-				</li>	
+					<i class="iconfont icon-arrow fr">&#xe628;</i>
+				</div>
+			</li>	
 				<li class="editInfo-modal-item clearfix">
 					<span class="fl">生日</span>
 					<div class="editInfo-right fr clearfix">
@@ -142,7 +139,18 @@
 				@descValue="descValue"
 			>
 			</text-area>
+			<!-- 性别选项 -->
+			<bottom-popup 
+			v-show="showObj.showSex"
+			:list="list"
+			@handleCancel="cancel"
+			@handleSex="handleSex"></bottom-popup>
 
+	<!-- 		 <group title="default format: YYYY-MM-DD">
+      <datetime :value.sync="value1" @on-change="change" title="Birthday"></datetime>
+    </group> -->
+
+	
 	</div>
 </template>
 
@@ -154,11 +162,14 @@
 	import zSwitch from '@/components/common/switch'
 	import userService from '@/service/userService'
 	import textArea from '@/components/textarea'
+	import bottomPopup from '@/components/bottomPopup'
+
 	export default {
 		components:{
 			top,
 			zSwitch,
-			textArea
+			textArea,
+			bottomPopup
 		},
 		data(){
 			return {
@@ -167,7 +178,6 @@
 				explain:'支持英文、数字',
 				title:'编辑资料',
 				value1:false,
-				
 				imgurl:"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2537627520,3119182571&fm=27&gp=0.jpg",
 				message:'',
 				user:{
@@ -183,8 +193,10 @@
 					value1:false,
 					showName:false,
 					showMsg:false,
-					showMask:false,
-				}
+					showSex:false
+
+				},
+				list:['保密','男','女']
 				
 			}
 		},
@@ -266,15 +278,23 @@
 				let data = userService.updateUser(this.$data.user);
 				this.showObj.showMsg=false;
 			},
-
+			userSexFn(){
+				this.showObj.showSex = true;
+			},
+			handleSex(val) {
+				this.$data.user.sex = val;
+				let data = userService.updateUser(this.$data.user);
+				this.showObj.showSex=false;
+			},
 			//点击mask关闭
 			cancel(){
 				this.showObj.showName = false;
 				this.showObj.showMsg = false;
+				this.showObj.showSex = false;
 			},
 			descValue(data){
 				this.$data.user.username = data;
-			}
+			},
 		}
 	}
 		

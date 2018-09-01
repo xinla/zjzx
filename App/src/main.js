@@ -70,8 +70,8 @@ import Confirm from '@/plugins/confirm'
 Vue.use(Confirm);
 
 //BottomPopup插件
-import BottomPopup from '@/plugins/BottomPopup'
-Vue.use(BottomPopup);
+// import BottomPopup from '@/plugins/BottomPopup'
+// Vue.use(BottomPopup);
 
 
 //Swiper组件
@@ -80,10 +80,11 @@ import 'swiper/dist/css/swiper.css';
 Vue.use(VueAwesomeSwiper);
 
 //vux
-import{Cell,Group} from 'vux';
+import{Cell,Group,Msg,Datetime } from 'vux';
 Vue.component('group', Group);
 Vue.component('cell', Cell);
-
+Vue.component('msg', Msg);
+Vue.component('Datetime',Datetime);
 
 import FastClick from 'fastclick'
 FastClick.attach(document.body);
