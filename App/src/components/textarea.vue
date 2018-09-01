@@ -1,16 +1,20 @@
 <template>
 	<div class="inputArea" v-show="show">
-		<div class="mask" @click="cancel"></div>
-		<div class="area">
-			<div class="areaBox">
-				<textarea :placeholder="placeholder" :maxlength="maxlength" @input="descArea" v-model.trim="desc" ref="desc"  autofocus>{{desc}}</textarea>
-				<span class="num" :class="{colorChange:colorChange}">{{this.maxlength - this.desc.length}}</span>
+		<transition name="fade">
+			<div class="mask" @click="cancel"></div>
+		</transition>
+		<transition name="slide-fade">
+			<div class="area">
+				<div class="areaBox">
+					<textarea :placeholder="placeholder" :maxlength="maxlength" @input="descArea" v-model.trim="desc" ref="desc"  autofocus>{{desc}}</textarea>
+					<span class="num" :class="{colorChange:colorChange}">{{this.maxlength - this.desc.length}}</span>
+				</div>
+				<div class="areaTip clearfix">
+					<span class="explain fl">{{explain}}</span>
+					<button type="button" class="areaBtn fr" :class="{btnChange:btnChange}" @click="send">确定</button>
+				</div>
 			</div>
-			<div class="areaTip clearfix">
-				<span class="explain fl">{{explain}}</span>
-				<button type="button" class="areaBtn fr" :class="{btnChange:btnChange}" @click="send">确定</button>
-			</div>
-		</div>
+		</transition>
 		<!-- " -->
 	</div>
 </template>
@@ -23,11 +27,14 @@
 				colorChange:false,
 				btnChange:false,
 				show:false,
+
 			}
 		},
 		props:["explain", "placeholder", "maxlength"],
-		computed:{
-
+		watch:{
+			desc(val){
+				this.$emit('userNameFn',val);
+			}
 		},
 		methods:{
 			descArea(){
@@ -41,6 +48,7 @@
 				}
 			},
 			cancel() {
+				this.$emit('handleCancel');
 				document.addEventListener('touchmove',function(event) {
 					window.event.returnValue = true;
 				},{passive:true});
@@ -80,12 +88,12 @@
 		position: absolute;
 		left: 0;
 		right: 0;
-		bottom: 20px;
+		bottom: 0;
 		width: 100%;
 		z-index: 99;
 		background-color: #f4f5f6;
 		padding: 15px;
-		/*animation: slideInD .6s;*/
+		animation: slideInD .6s;
 	}
 	.areaBox {
 		position: relative;
@@ -133,7 +141,7 @@
 		 pointer-events: auto;
 	}
 
-/*	@keyframes slideInD {
+	@keyframes slideInD {
 		from{
 			transform: translate(0,100%);
 		}
@@ -141,14 +149,5 @@
 			transform: translate(0,0);
 		}	
 	}
-
-	@keyframes slideOutD {
-		from{
-			transform: translate(0,0);
-		}
-		to{
-			transform: translate(0,100%);
-		}
-	}*/
 
 </style>

@@ -9,6 +9,7 @@ let state = {
   token:window.localStorage.getItem('token'),
   id:null,
   logid:null,
+  username:null
 
 }
 //创建改变状态的方法
@@ -28,6 +29,10 @@ const mutations = {
   LOGID(state, data) {
     state.logid=data;
     window.localStorage.setItem('logid', data);
+  },
+  USERNAME(state,data) {
+    state.username = data;
+    windwo.localStorage.setItem('username',data);
   }
 
 }
@@ -44,6 +49,9 @@ const actions = {
   },
   UserLogid({commit},data) {
     commit('LOGID', data);
+  },
+  UserName({commit},data) {
+    commit('USERNAME',data);
   }
 }
 

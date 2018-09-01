@@ -79,6 +79,10 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css';
 Vue.use(VueAwesomeSwiper);
 
+//vux
+import{Cell,Group} from 'vux';
+Vue.component('group', Group);
+Vue.component('cell', Cell);
 
 
 import FastClick from 'fastclick'

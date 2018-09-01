@@ -22,7 +22,7 @@
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
 				</li>	
-				<li class="editInfo-modal-item clearfix">
+				<li class="editInfo-modal-item clearfix" @click="userMsgFn">
 					<span class="fl">介绍</span>
 					<div class="editInfo-right fr clearfix">
 						<div class="editInfo-head-tip fl">	
@@ -32,17 +32,10 @@
 					</div>
 				</li>	
 			</ul>
-			 <transition name="slide-fade">
-				<text-area 
-					v-show="showName"
-					:explain="explain" 
-					:placeholder="placeholder" 
-					:maxlength="maxlength"
-					ref="getInput"
-					@handleSend="handleSend1"
-				>
-				</text-area>
-			 </transition>
+			
+			  <group>
+    <cell title="title" value="value"></cell>
+  </group>
 			
 			<ul class="editInfo-modal">
 				<li class="editInfo-modal-item clearfix">
@@ -126,6 +119,30 @@
 				</li>
 			</ul>
 		</div>
+			<!-- 用户名 -->
+			<text-area 
+				v-show="showObj.showName"
+				:explain="explain" 
+				:placeholder="placeholder.p1" 
+				:maxlength="maxlength.m1"
+				ref="getInput"
+				@handleSend="handleSend1"
+				@handleCancel="cancel"
+				@descValue="descValue"
+			>
+			</text-area>
+			<!-- 用户介绍 -->
+			<text-area 
+				v-show="showObj.showMsg"
+				:placeholder="placeholder.p2" 
+				:maxlength="maxlength.m2"
+				ref="getInput"
+				@handleSend="handleSend2"
+				@handleCancel="cancel"
+				@descValue="descValue"
+			>
+			</text-area>
+
 	</div>
 </template>
 
@@ -145,11 +162,12 @@
 		},
 		data(){
 			return {
+				placeholder:{p1:'请输入用户名',p2:'请输入个性签名'},
+				maxlength:{m1:20,m2:60},
+				explain:'支持英文、数字',
 				title:'编辑资料',
 				value1:false,
-				placeholder:'请输入用户名',
-				maxlength:20,
-				explain:'支持英文、数字',
+				
 				imgurl:"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2537627520,3119182571&fm=27&gp=0.jpg",
 				message:'',
 				user:{
@@ -161,7 +179,13 @@
 					birthday:''    
 				},
 				desc:"",
-				showName:false
+				showObj:{
+					value1:false,
+					showName:false,
+					showMsg:false,
+					showMask:false,
+				}
+				
 			}
 		},
 		
@@ -194,6 +218,8 @@
 				if(this.$data.area == null) {
 					this.user.area = '待完善'
 				}
+
+
 			})
 			
 			
@@ -216,19 +242,39 @@
 			show() {
 				console.log(this.value1);
 				console.log(this.user.username);
+
 			},
+			//用户名
 			userNameFn(){	
-				this.showName = true;
+				this.showObj.showName = true;
+				console.log(this.$data.user.username);
 			},
+
 			handleSend1(val){
 				this.$data.user.username = val;
 				let data = userService.updateUser(this.$data.user);
-				this.showName=false;
-			}
+				this.showObj.showName=false;
+			},
 
-
+			//用户介绍
+			userMsgFn(){
+				this.showObj.showMsg = true;
+			},
 			
+			handleSend2(val){
+				this.$data.user.introduce = val;
+				let data = userService.updateUser(this.$data.user);
+				this.showObj.showMsg=false;
+			},
 
+			//点击mask关闭
+			cancel(){
+				this.showObj.showName = false;
+				this.showObj.showMsg = false;
+			},
+			descValue(data){
+				this.$data.user.username = data;
+			}
 		}
 	}
 		
@@ -302,16 +348,4 @@
 	.switch-btn {
 		margin-top: 10px;
 	}
-	
-	.slide-fade-enter-active {
-  transition: all .3s ease;
-}
-.slide-fade-leave-active {
-  transition: all .8s linear;
-}
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active for below version 2.1.8 */ {
-  transform: translateY(100%);
-  /*opacity: 0;*/
-}
 </style>

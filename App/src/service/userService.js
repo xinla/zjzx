@@ -35,6 +35,7 @@ service.loginByMobile = function(mobile,code,call){
 service.getUserById = function(targetuserid,call) {
 	let token = localStorage.getItem('token');
 	let id =  localStorage.getItem('id');
+	let username = localStorage.getItem('username');
 	// axios.get(controller+'/getUserById',{params:{
 	// 	token:token,
 	// 	userid:id,
@@ -45,7 +46,9 @@ service.getUserById = function(targetuserid,call) {
 	var params = {
 		token:token,
 		userid:id,
-		targetuserid:targetuserid
+		username:username,
+		targetuserid:targetuserid,
+
 	};
 
 	var resMap =	commonUtil.ajaxAsync(controller+'/getUserById',params);
