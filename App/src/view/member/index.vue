@@ -2,9 +2,9 @@
 	<div class="member-wrap">
 		<div class="member-head">
 			<div class="member-headtop clearfix">
-				<div class="member-dark fl">
+				<div class="member-dark fl" @click="setDYNodel()">
 					<i class="iconfont">&#xe650;</i>
-					<span>夜间</span>
+					<span v-text="dayNight=='day'?'夜间':'白天'"></span>
 				</div>
 				<div class="member-sign-in fr">
 					<i class="iconfont">&#xe65d;</i>
@@ -120,10 +120,17 @@
 			}
 
 			console.log(fileService);
+
+			if (localStorage.dayNight&&localStorage.dayNight=='day') {
+				this.dayNight='day'
+			} else if(localStorage.dayNight&&localStorage.dayNight=='night') {
+				this.dayNight='night'
+			}
 		},
 		data() {
 			return {
 				ifLogin:false,
+				dayNight:'night',
 				modal1: [
 					{
 						icon: require('@/assets/images/icon-msg.png'),
@@ -179,6 +186,16 @@
 						title:title,
 					}
 				});
+			},
+			setDYNodel(){
+				if (this.dayNight=="day") {
+					localStorage.dayNight="night";	
+					this.dayNight="night";				
+				} else {
+					localStorage.dayNight="day";								
+					this.dayNight="day";				
+				}
+				location.reload();
 			}
 		}
 	}
