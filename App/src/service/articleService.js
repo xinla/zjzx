@@ -5,9 +5,9 @@ const controller =config.successServer+'/article';
 const service ={}
 
 
+
 var userid = localStorage.getItem('id'),
 	token = localStorage.getItem('token');
-
 service.publishArticle = function(record,record_file) {
 	var params = {
 		userid,
@@ -26,16 +26,18 @@ service.publishArticle = function(record,record_file) {
 
 	return resArticle;
 }
+service.getArticleByUser = function(page,size){
+var userid = localStorage.getItem('id');
 
-service.getArticleClassifyList = function(){
 	var params = {
-		
-	};
+		page,
+		size,
+		userid,
+	}
 
-	var resArticleClassifyList = commonUtil.ajaxAsync(controller+'/getArticleClassifyList',params);
+	var resArticleAllList = commonUtil.ajaxAsync(controller+'/getArticleByUser',params);
 
-	return resArticleClassifyList;
+	return resArticleAllList;
 }
-
 export default service
 

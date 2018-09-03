@@ -19,7 +19,7 @@ service.getCode = function(mobile,call){
 
 //用户登录
 service.loginByMobile = function(mobile,code,call){
-	debugger;
+
 	axios.get(controller+'/loginByMobile',{params:{
 		mobile:mobile,
 		code:code
@@ -80,9 +80,6 @@ service.updateUser = function(user) {
 
 
 
-
-
-
 service.getCurentUser = function(call){
 
 	let id =  localStorage.getItem('id');
@@ -92,7 +89,23 @@ service.getCurentUser = function(call){
 	return resMap;
 }
 
+//用户退出
+service.logOut = function(){
+	let token = localStorage.getItem('token');
+	let userid = localStorage.getItem('id');
+	let logid = localStorage.getItem('logid');
+	let params = {
+		logid,
+		token,
+		userid
+	}
+	let resLogOut = commonUtil.ajaxAsync(controller+'/logOut',params);
 
+	return resLogOut;
+}
+
+//获取用户粉丝
+//
 
 export default service
 

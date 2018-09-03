@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <link rel="stylesheet" href="assets/font/night.css">
   	<transition :name="transitionName">
   		<router-view class="routerView" :transitionName="transitionName"></router-view>
   	</transition>

@@ -20,7 +20,11 @@ service.uploadPic = function(params,call){
 		call(res.data)
 	})
 }
-
+service.uploadVideo = function(params,call){
+	axios.post(controller+'/uploadVideo',params,fileConfig).then(function(res){
+		call(res.data)
+	})
+}
 
 
 export default service

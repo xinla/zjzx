@@ -174,7 +174,7 @@
 				explain:'支持英文、数字',
 				title:'编辑资料',
 				value1:false,
-				imgurl:"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2537627520,3119182571&fm=27&gp=0.jpg",
+				imgurl:require('@/assets/images/userPhoto.jpg'),
 				message:'',
 				user:{
 					username:'',
@@ -342,13 +342,12 @@
 		border-bottom: 1px solid #e8e8e8;
 	}
 	.editInfo-modal-item, .editInfo-switch-item {
-		height: 50px;
 		line-height: 50px;
 		padding-right: 15px;
 		border-bottom: 1px solid #e8e8e8;
 		position: relative;
 	}
-	.editInfo-modal-item:last-child {
+	.editInfo-modal-item:last-child,.editInfo-switch-item:last-child {
 		border-bottom: none;
 	}
 	.editInfo-modal-item>span,

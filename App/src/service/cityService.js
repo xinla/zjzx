@@ -1,4 +1,3 @@
-
 import config from '@/lib/config/config'
 import axios from 'axios'
 import commonUtil from '@/service/util/commonUtil'
@@ -25,10 +24,6 @@ service.getCityByProvince = function(provinceid) {
 
 	return resMap;
 }
-
-
-
-
 
 
 

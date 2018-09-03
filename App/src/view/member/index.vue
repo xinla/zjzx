@@ -30,13 +30,13 @@
 			<router-link :to="{ path:'/personBase/published',query:{current:1} }">				
 				<div class="member-user clearfix" v-if="ifLogin">
 					<div class="member-user-headimg fl">
-						<img src="@/assets/images/header1.jpg" alt="">
+						<img :src="userPhoto" alt="">
 
 					</div>
 					<div class="member-user-box fl">
-						<h3 class="username">用户名</h3>
-						<div class="follow dib">关注<span>0</span></div>
-						<div class="fans dib">粉丝<span>0</span></div>
+						<h3 class="username">{{ userName }}</h3>
+						<div class="follow dib">关注<span>{{ focusNum }}</span></div>
+						<div class="fans dib">粉丝<span>{{ fansNum }}</span></div>
 					</div>
 					<div class="member-user-arrow fr">
 						<i class="iconfont">&#xe628;</i>
@@ -112,25 +112,32 @@
 			zNav,
 		},
 		created(){
-			let login = localStorage.getItem('token');
-			if(login){
+			var userData;
+			if(localStorage.getItem('token')){
+				userData = JSON.parse(localStorage.userData);
+				this.userName = userData.username;
 				this.ifLogin=true;
-			}else{
-				this.ifLogin=false;
+				if( userData.imageurl ){
+					this.userPhoto = userData.imageurl
+				}				
 			}
 
-			console.log(fileService);
-
-			if (localStorage.dayNight&&localStorage.dayNight=='day') {
-				this.dayNight='day'
-			} else if(localStorage.dayNight&&localStorage.dayNight=='night') {
-				this.dayNight='night'
+			if (localStorage.dayNight) {
+				if (localStorage.dayNight=='day') {
+					this.dayNight='day';
+				} else {
+					this.dayNight='night';
+				}
 			}
 		},
 		data() {
 			return {
 				ifLogin:false,
-				dayNight:'night',
+				userName:'用户名',
+				userPhoto:require('@/assets/images/userPhoto.jpg'),
+				focusNum:0,
+				fansNum:0,
+				dayNight:'day',
 				modal1: [
 					{
 						icon: require('@/assets/images/icon-msg.png'),
@@ -195,7 +202,8 @@
 					localStorage.dayNight="day";								
 					this.dayNight="day";				
 				}
-				location.reload();
+				// location.reload();
+				history.go(0)
 			}
 		}
 	}
@@ -360,7 +368,6 @@
 		height: 100%;
 	}
 	.member-modal-item p {
-		height: 100%;
 		float: left;
 		width: calc(100% - 20px);
 		font-size: 16px;

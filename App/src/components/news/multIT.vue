@@ -17,6 +17,7 @@
 </template>
 <script>
 export default {
+	props:["title",],
 	data(){
 		return {
 

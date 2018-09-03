@@ -5,19 +5,19 @@
 		</top>
 		<div class="top-fix">
 			<header id="header" class="bfc-o">
-				<img src="http://a5.topitme.com/o025/1002536708f56d0bfd.jpg" alt="" class="uphoto bfc-d">
+				<img :src="userPhoto" alt="" class="uphoto bfc-d">
 				<div class="person-header-right ac bfc-d">
 					<ul class="person-hr-ul bfc-o">
 						<li class="person-hr-li fl">
-							<p class="num">100</p>
+							<p class="num">{{publidsedNum}}</p>
 							发布
 						</li>
 						<li class="person-hr-li fl">
-							<p class="num">100万</p>
+							<p class="num">{{focusNum}}</p>
 							关注
 						</li>
 						<li class="person-hr-li fl">
-							<p class="num">1.2万</p>
+							<p class="num">{{fansNum}}</p>
 							粉丝
 						</li>
 					</ul>
@@ -52,52 +52,22 @@
 import top from '@/components/common/top'
 export default {
 	components:{
-			top,
-		},
+		top,
+	},
+	mounted(){
+		var userData = JSON.parse(localStorage.userData);
+			this.title = userData.username;
+			if( userData.imageurl ){
+				this.userPhoto = userData.imageurl
+			}				
+	},
 	data(){
 		return {
-			title:'用户名',
-			show:0,
-			pubArticle:[
-				{
-					img:"http://imglf1.ph.126.net/Re9FjZ0i7lKkHczXoij53w==/3752061439653360841.jpg",
-					href:"http://www.baidu.com",
-					title:"发布发布发布发布发布发布发布发布发布发布发布发布发布发布",
-					uName:"新华社",
-					comment:255,
-					collect:200,
-					time:"2015-8-8"
-				},
-				{
-					img:"http://img.zcool.cn/community/01635d571ed29832f875a3994c7836.png@900w_1l_2o_100sh.jpg",
-					href:"http://www.baidu.com",
-					title:"发布发布发布发布发布发布发布发布发布发布发布发布发布发布",
-					uId:"新华社",
-					comment:255,
-					collect:200,
-					time:"2015-8-8"
-				}],
-			focus:[
-				{
-					photo:"http://imglf1.ph.126.net/Re9FjZ0i7lKkHczXoij53w==/3752061439653360841.jpg",
-					uName:"新华社",
-					focus:22,
-					public:1000,
-					collect:500
-				},{
-					photo:"http://imglf1.ph.126.net/Re9FjZ0i7lKkHczXoij53w==/3752061439653360841.jpg",
-					uName:"新华社",
-					focus:22,
-					public:1000,
-					collect:500
-				},{
-					photo:"http://imglf1.ph.126.net/Re9FjZ0i7lKkHczXoij53w==/3752061439653360841.jpg",
-					uName:"新华社",
-					focus:22,
-					public:1000,
-					collect:500
-				}
-			]				
+			title:'',
+			userPhoto:require('@/assets/images/userPhoto.jpg'),
+			focusNum:0,
+			fansNum:0,	
+			publidsedNum:0,		
 		}
 	},
 	methods:{
@@ -109,10 +79,10 @@ export default {
 		}
 	},
 	watch:{
-		$route(to,from){
-			let par = this.$route.query.current;
-			this.show = par;
-		}
+		// $route(to,from){
+		// 	let par = this.$route.query.current;
+		// 	this.show = par;
+		// }
 	}
 }
 </script>

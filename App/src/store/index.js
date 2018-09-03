@@ -32,7 +32,7 @@ const mutations = {
   },
   USERNAME(state,data) {
     state.username = data;
-    windwo.localStorage.setItem('username',data);
+    window.localStorage.setItem('userName',data);
   }
 
 }

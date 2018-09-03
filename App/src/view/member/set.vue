@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import userService from '@/service/userService'
 export default{
 	data(){
 		return {
@@ -35,7 +36,13 @@ export default{
 
 		},
 		exit(){
-
+			let resLogOut = userService.logOut();
+			localStorage.clear();
+			if (localStorage.length==0&&resLogOut.status=="success") {
+				alert("退出成功")			
+			} else {
+				alert("退出失败")			
+			}
 		}
 	},
 	mounted(){

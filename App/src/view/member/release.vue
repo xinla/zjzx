@@ -3,7 +3,7 @@
 		<!-- <dt>分类</dt> -->
 		<dd>
 			<select id="sort1" v-model="record.classify">
-				<option :value="item.value" v-for="item in classify" :disabled="item.disabled">{{ item.value }}</option>
+				<option :value="item.classifycode" v-for="item in classfyList">{{ item.classifyname }}</option>
 			</select>
 			<label for="sort1" class="iconfont sort-lab">&#xe7f6;</label>
 		</dd>	
@@ -16,7 +16,7 @@
 			<!-- <dt>上传图片</dt> -->
 			<dd>
 				<div class="thumb-wrap">
-					<img v-for="(item,index) in record_file" :src="item.url" alt="">
+					<img v-for="(item,index) in record_file" :src="fileRoot+item.url" alt="">
 					<label for="upimg" class="uplab iconfont">&#xe800;</label>
 					<input type="file"  id="upimg" value="" accept="image/*" multiple @change="uploadFile">
 				</div>
@@ -39,25 +39,18 @@
 </template>
 
 <script>
-	import config from '@/lib/config/config'
+import config from '@/lib/config/config'
 import mapUtil from '@/service/util/mapUtil'
 import mapService from '@/service/mapService'
 import fileService from '@/service/fileService'
 import articleService from '@/service/articleService'
+import articleClassifyService from '@/service/article_classifyService'
 
 export default{
 	data(){
 		return {
-	        classify:[ //option需是对象，不然默认无效
-	          {value: '请选择', disabled: ''},
-	          {value: '揭秘',text:'揭秘'},
-	          {value: '防骗',text:'防骗'},
-	          {value: '打假',text:'打假'},
-	          {value: '寻亲',text:'寻亲'},
-	          {value: '普法',text:'普法'},
-	          {value: '焦点',text:'焦点'},
-	          {value: '问答',text:'问答'},
-	        ],
+			fileRoot:config.fileRoot +'/',
+	        classfyList:[],
 	        push:[],
 			position:{},
 			record:{
@@ -66,7 +59,7 @@ export default{
 				author:'',
 				type:'',   //1：图文，2:视屏
 				publishtime:'',  // 后台设置
-				classify:'请选择',
+				classify:'1',
 				selectedpublishaddress:'',
 				selectedpublishname:'不显示',
 			},
@@ -74,14 +67,16 @@ export default{
 		}
 	},
 	mounted(){
+		if(!localStorage.id){
+			alert("你还未登录，亲先登录再发布")
+			location.href="/member";
+		}
 		this.record.type = this.$route.query.sort;	
-		this.record_file.type = this.$route.query.sort;
 		this.record.selectedpublishname = localStorage.position?localStorage.position:0;
 		this.record.selectedpublishaddress = localStorage.selectedpublishaddress?localStorage.selectedpublishaddress:0;
 
-		articleService.getArticleClassifyList((data)=>{
-			console.log(data.result);
-		})
+		let resArcClass = articleClassifyService.getArticleClassifyList();
+		this.classfyList = resArcClass.result.classfyList;
 
 		let page_num = 0;
 		mapUtil.getPosition((data)=>{
@@ -91,7 +86,6 @@ export default{
 			this.position = data;
 			mapService.getPoiList(page_num,latitude,longitude,(data2)=>{
 					page_num++;
-
 			})
 
 		})
@@ -102,26 +96,35 @@ export default{
 			let file = e.target.files[0];           
 		    let param = new FormData(); //创建form对象
 		    param.append('file',file,file.name);//通过append向form对象添加数据
-		    fileService.uploadPic(param,(data)=>{
-		    	let obj = {};
-	          	obj.url = config.fileRoot +'/'+ data.result.url;
-	          	obj.filename = data.result.filename;
-	          	this.record_file.push(obj);
-	          	this.$loading.close();
-			})
+		    if(this.record.type==1){
+			    fileService.uploadPic(param,(data)=>{
+			    	let obj = {};
+		          	obj.url = data.result.url;
+		          	obj.filename = data.result.filename;
+		          	obj.type =1;
+		          	this.record_file.push(obj);
+		          	this.$loading.close();
+				})
+		    }else if(this.record.type==2){
+		    	fileService.uploadVideo(param,(data)=>{
+		    		let obj = {};
+		          	obj.url = data.result.url;
+		          	obj.filename = data.result.filename;
+		          	obj.type =2;
+		          	this.record_file.push(obj);
+		          	this.$loading.close();
+		    	})
+		    }else{
+		    	alert("错误");
+		    }
 		},
 		publish(){
-			this.record.author = localStorage.userName?localStorage.userName:0;
+			this.record.author = localStorage.id?localStorage.id:0;
 			Object.assign(this.record,this.position);
 			if (this.record.type == 1) {
-				articleService.publishArticle(this.record,this.record_file,(data)=>{
-					console.log(data)
-				})
-				
+				articleService.publishArticle(this.record,this.record_file)	
 			} else if (this.record.type == 2) {
-				articleService.publishArticle(this.record,this.record_file,(data)=>{
-					console.log(data)
-				})
+				articleService.publishArticle(this.record,this.record_file)
 			} else {
 
 			} 
