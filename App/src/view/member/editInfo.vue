@@ -44,11 +44,11 @@
 					<i class="iconfont icon-arrow fr">&#xe628;</i>
 				</div>
 			</li>	
-				<li class="editInfo-modal-item clearfix">
+				<li class="editInfo-modal-item clearfix" @click="userBirthFn"> 
 					<span class="fl">生日</span>
 					<div class="editInfo-right fr clearfix">
 						<div class="editInfo-head-tip fl">	
-							<span style="color:#2a90d7;">{{user.birthday}}</span>
+							<span :class="dateColor">{{user.birthday}}</span>
 						</div>
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
@@ -57,7 +57,7 @@
 					<span class="fl">地区</span>
 					<div class="editInfo-right fr clearfix">
 						<div class="editInfo-head-tip fl">	
-						<span style="color:#2a90d7;">{{user.area}}</span>
+						<span :class="areaColor">{{user.area}}</span>
 						</div>
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
@@ -155,7 +155,7 @@
 </template>
 
 <script>
-
+	
 	import config from '@/lib/config/config'
 	import top from '@/components/common/top'
 	import fileService from '@/service/fileService'
@@ -163,7 +163,8 @@
 	import userService from '@/service/userService'
 	import textArea from '@/components/textarea'
 	import bottomPopup from '@/components/bottomPopup'
-
+// 	import { DatetimePlugin } from 'vux'
+// Vue.use(DatetimePlugin)
 	export default {
 		components:{
 			top,
@@ -196,7 +197,9 @@
 					showSex:false
 
 				},
-				list:['保密','男','女']
+				list:['保密','男','女'],
+				dateColor:{blue:true},
+				areaColor:{blue:true},
 				
 			}
 		},
@@ -223,12 +226,16 @@
 					this.user.sex='保密'
 				}
 				//判断生日
-				if(this.$data.birthday == null) {
-					this.user.birthday = '待完善'
+				if(this.$data.user.birthday == null) {
+					this.user.birthday = '待完善';
+				}else{
+					this.dateColor.blue=false;
 				}
 				//判断地区
-				if(this.$data.area == null) {
+				if(this.$data.user.area == null) {
 					this.user.area = '待完善'
+				}else{
+					this.areaColor.blue=false;
 				}
 
 
@@ -295,6 +302,22 @@
 			descValue(data){
 				this.$data.user.username = data;
 			},
+
+			userBirthFn(){
+				let thiz = this;
+				this.$vux.datetime.show({
+					value:thiz.user.birthday,
+					confirmText:'确定',
+					cancelText:'取消',
+					startDate:"1900-01-01",
+					endDate:new Date().getFullYear()+'-'+(new Date().getMonth()+1),
+					onConfirm (val){
+						thiz.$data.user.birthday = val;
+						let data = userService.updateUser(thiz.$data.user);
+						
+					}
+				})
+			}
 		}
 	}
 		
@@ -367,5 +390,12 @@
 	}
 	.switch-btn {
 		margin-top: 10px;
+	}
+
+	.editInfo-modal-item .blue{
+		color: #2a90d7;
+	}
+	.editInfo-modal-item .black{
+		color:#999;
 	}
 </style>

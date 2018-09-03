@@ -19,7 +19,8 @@ service.getCode = function(mobile,call){
 
 //用户登录
 service.loginByMobile = function(mobile,code,call){
-	// debugger;
+	
+	debugger;
 	axios.get(controller+'/loginByMobile',{params:{
 		mobile:mobile,
 		code:code

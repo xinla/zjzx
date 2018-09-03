@@ -89,7 +89,8 @@ Vue.component('Datetime',Datetime);
 import FastClick from 'fastclick'
 FastClick.attach(document.body);
 
-
+import { DatetimePlugin } from 'vux'
+  Vue.use(DatetimePlugin)
 
 Vue.config.productionTip = false;
 
