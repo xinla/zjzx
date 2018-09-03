@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<ul class="province-wrap" v-show="true">
-			<router-link :to="{path:'/memberBase/city',query:{title:'选择城市',provinceid:item.provinceid}}" tag="li" class="province-li" v-for="(item,index) in provinceList" key="index">
+			<router-link :to="{path:'/memberBase/city',query:{title:'选择城市',provinceid:item.provinceid}}" tag="li" class="province-li" v-for="(item,index) in provinceList" :key="item.provinceid" @click.native="provinFn(item)">
         		{{ item.province }}
             	<i class="iconfont fr">&#xe7f2;</i>	            	  				
 			</router-link>
@@ -14,7 +14,12 @@ import provinceService from '@/service/provinceService'
 export default {
 	data(){
 		return {
-			provinceList:[],
+			provinceList:[
+				{
+					provinceid:"",
+					province:""
+				}
+			],
 		}
 	},
 	mounted(){
@@ -24,7 +29,9 @@ export default {
 		})
 	},
 	methods:{
-
+		provinFn(item){
+			console.log(item.provinceid);
+		}
 	}
 
 }

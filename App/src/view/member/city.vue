@@ -28,6 +28,7 @@ export default{
 		cityBack(c){
 			window.history.go(-2);
 			localStorage.city = c;
+			console.log(localStorage.city);
 		}
 	}
 }

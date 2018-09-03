@@ -53,11 +53,11 @@
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
 				</li>	
-				<li class="editInfo-modal-item clearfix">
+				<li class="editInfo-modal-item clearfix" @click="userAreaFn">
 					<span class="fl">地区</span>
 					<div class="editInfo-right fr clearfix">
 						<div class="editInfo-head-tip fl">	
-						<span :class="areaColor">{{user.area}}</span>
+						<span :class="areaColor" v-model="areaDesc">{{address}}</span>
 						</div>
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
@@ -145,17 +145,11 @@
 			:list="list"
 			@handleCancel="cancel"
 			@handleSex="handleSex"></bottom-popup>
-
-	<!-- 		 <group title="default format: YYYY-MM-DD">
-      <datetime :value.sync="value1" @on-change="change" title="Birthday"></datetime>
-    </group> -->
-
-	
 	</div>
 </template>
 
 <script>
-	
+	import Bus from '@/store/eventBus'
 	import config from '@/lib/config/config'
 	import top from '@/components/common/top'
 	import fileService from '@/service/fileService'
@@ -163,6 +157,7 @@
 	import userService from '@/service/userService'
 	import textArea from '@/components/textarea'
 	import bottomPopup from '@/components/bottomPopup'
+	import provinceService from '@/service/provinceService'
 // 	import { DatetimePlugin } from 'vux'
 // Vue.use(DatetimePlugin)
 	export default {
@@ -186,8 +181,9 @@
 					introduce:'',
 					usermobile:'',
 					sex:'',
-					area:'',
-					birthday:''    
+					birthday:'',
+					province:'',
+					city:''
 				},
 				desc:"",
 				showObj:{
@@ -200,6 +196,8 @@
 				list:['保密','男','女'],
 				dateColor:{blue:true},
 				areaColor:{blue:true},
+				address:"",
+				areaDesc:''
 				
 			}
 		},
@@ -232,8 +230,8 @@
 					this.dateColor.blue=false;
 				}
 				//判断地区
-				if(this.$data.user.area == null) {
-					this.user.area = '待完善'
+				if(this.$data.user.province == null) {
+					this.address = '待完善'
 				}else{
 					this.areaColor.blue=false;
 				}
@@ -285,6 +283,7 @@
 				let data = userService.updateUser(this.$data.user);
 				this.showObj.showMsg=false;
 			},
+			//用户性别
 			userSexFn(){
 				this.showObj.showSex = true;
 			},
@@ -302,7 +301,7 @@
 			descValue(data){
 				this.$data.user.username = data;
 			},
-
+			//用户生日
 			userBirthFn(){
 				let thiz = this;
 				this.$vux.datetime.show({
@@ -310,14 +309,21 @@
 					confirmText:'确定',
 					cancelText:'取消',
 					startDate:"1900-01-01",
-					endDate:new Date().getFullYear()+'-'+(new Date().getMonth()+1),
+					endDate:new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+(new Date().getDay()+2),
 					onConfirm (val){
 						thiz.$data.user.birthday = val;
 						let data = userService.updateUser(thiz.$data.user);
 						
 					}
 				})
-			}
+			},
+			//用户地区
+			userAreaFn(){
+				this.$TooL.goPage({name:'province'});
+				let resMap = provinceService.getProvinceList();
+				console.log(resMap);	
+			},
+
 		}
 	}
 		

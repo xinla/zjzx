@@ -85,12 +85,13 @@ Vue.component('group', Group);
 Vue.component('cell', Cell);
 Vue.component('msg', Msg);
 Vue.component('Datetime',Datetime);
+import { DatetimePlugin } from 'vux'
+Vue.use(DatetimePlugin)
 
 import FastClick from 'fastclick'
 FastClick.attach(document.body);
 
-import { DatetimePlugin } from 'vux'
-  Vue.use(DatetimePlugin)
+
 
 Vue.config.productionTip = false;
 
