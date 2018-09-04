@@ -4,10 +4,11 @@
 		<z-header></z-header>
 		<z-tab></z-tab>
 		<div class="main">
-			<multIT></multIT>
-			<multIT></multIT>
-			<smaIVT></smaIVT>
-			<bigIVT></bigIVT>
+			<template v-for="(item,index) in arcList">
+				<multIT :article="item" v-if="item.type==1"></multIT>
+				<bigIVT :article="item" v-else-if="item.type==2"></bigIVT>	
+				<smaIVT :article="item" v-else="item.type==3"></smaIVT>
+			</template>
 		</div>
 		<z-nav></z-nav>
 		<!-- <z-swiper></z-swiper> -->
@@ -26,6 +27,8 @@
 	import smaIVT from '@/components/news/smaIVT'
 	import bigIVT from '@/components/news/bigIVT'
 
+	import articleService from '@/service/articleService'
+
 	export default {
 		components:{
 			zHeader,
@@ -42,6 +45,11 @@
 			homeService.use(this.$http).test(function(data){
 				console.log(data);
 			})			
+		},
+		data(){
+			return {
+				arcList:[],
+			}
 		},
 		methods:{
 			recalc(){

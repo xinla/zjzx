@@ -18,7 +18,7 @@
 				<div class="thumb-wrap">
 					<img v-for="(item,index) in record_file" :src="fileRoot+item.url" alt="">
 					<label for="upimg" class="uplab iconfont">&#xe800;</label>
-					<input type="file"  id="upimg" value="" accept="image/*" multiple @change="uploadFile">
+					<input type="file" name="file" id="upimg" value="" accept="image/*" multiple @change="uploadFile">
 				</div>
 			</dd>
 		</fieldset>

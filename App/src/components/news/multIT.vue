@@ -1,26 +1,65 @@
 <template>
 	<div class="text-wrap bfc-o">
 		<router-link :to="{ name:'detail'}">
-		<h1>test测试test测试test测试test测试test测试test测试test测试test测试test测试</h1>
+		<h1>{{article.title}}</h1>
 		<div class="img-wrap bfc-o">
-			<img src="http://img.zcool.cn/community/0195be57cd70d90000012e7eb0dae8.jpg@1280w_1l_2o_100sh.jpg" alt="">
-			<img src="http://img.zcool.cn/community/0195be57cd70d90000012e7eb0dae8.jpg@1280w_1l_2o_100sh.jpg" alt="">
-			<img src="http://img.zcool.cn/community/0195be57cd70d90000012e7eb0dae8.jpg@1280w_1l_2o_100sh.jpg" alt="">
+			<img v-for="(item,index) in ArticleFile" :src="item.url" :alt="item.filename">
 		</div>
 		<p class="pub">
-			<span>发布者名称</span>
-			<span><var>30</var>评论</span>
-			<span>30分钟前</span>
+			<span>{{CommentNum}}条评论</span>
+			<span>{{publishtime}}</span>
 		</p>
 		</router-link>
 	</div>
 </template>
 <script>
+import articleFileService from '@/service/article_fileService'
+import articleCommentService from '@/service/article_commentService'
 export default {
-	props:["title",],
 	data(){
 		return {
+			id:this.article.id,
+			ArticleFile:[],
+			CommentNum:{
+				type:Number,
+				default:0,
+			},
+			publishtime:this.article.publishtime,
+		}
+	},
+	props:{
+		article:Object,
+	},
+	mounted(){
+		this.$nextTick(()=>{
+				let resArticleFile = articleFileService.getFileByArticle(this.article.id);
+				this.ArticleFile = resArticleFile.result.filelist;
 
+				let resArticleCommentNum = articleCommentService.getArticleCommentCount(this.article.id);
+				this.CommentNum = resArticleCommentNum.result.count;
+
+				let pubMillis = new Date(this.article.publishtime.replace(/-/g,'/')).getTime();
+				let curMillis = new Date().getTime();
+				let difference = curMillis - pubMillis;
+				if (difference < 4.32e+7) {
+					if (difference < 3.6e+6) {
+						if (difference < 6000) {
+							this.publishtime = "刚刚";
+						} else {
+							this.publishtime = difference/60000 + "分前";					
+						}
+					} else {
+						this.publishtime = difference/3600000 + "小时前";
+					}
+				}
+			// if(article.type == 1){
+			// }
+		})
+	},
+	
+	watch:{
+		article(){
+			this.id = this.article.id;
 		}
 	}
 }

@@ -1,9 +1,9 @@
 <template>
 	<div>
-		<multIT></multIT>
-		<multIT></multIT>
-		<smaIVT></smaIVT>
-		<bigIVT></bigIVT>
+		<template v-for="(item,index) in arcList">
+			<multIT :article="item" v-if="item.type==1"></multIT>
+			<bigIVT :article="item" v-else="item.type==2"></bigIVT>	
+		</template>
 	</div>
 </template>
 
@@ -23,7 +23,13 @@ export default {
 	},
 	mounted(){
 		var resAllList = articleService.getArticleByUser(1,10);
-		console.log(resAllList)
+		this.arcList = resAllList.result.recordPage.list;
+		console.log(resAllList.result.recordPage.list)
+	},
+	data(){
+		return {
+			arcList:[],
+		}
 	}
 }
 </script>

@@ -1,12 +1,24 @@
 <template>
 	<ul class="focus">
 		<li class="focus-list"><img class="uname" src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">xinxing辛幸</li>
-		<li class="focus-list"><img class="uname" src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">xinxing辛幸</li>
 	</ul>
 </template>
 
 <script>
-	
+import userService from '@/service/userService'
+export default{
+	data(){
+		return{
+			list:{},
+		}
+	},
+	mounted(){
+		let resFocus = userService.getUserFollow(1,10);
+		this.list = resFocus.recordPage;
+		// console.log(resFocus.recordPage.list)
+		console.log(this.list)
+	}
+}	
 </script>
 
 <style scoped>

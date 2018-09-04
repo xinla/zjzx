@@ -104,8 +104,33 @@ service.logOut = function(){
 	return resLogOut;
 }
 
+//获取用户关注
+service.getUserFollow = function(page,size){
+	let userid = localStorage.getItem('id');
+	let params = {
+		page,//："当前页数",
+		size,//:"每一页大小",
+		userid//:"用户id" 
+	}
+	let resFocus = commonUtil.ajaxAsync(controller+'/getUserFollow',params);
+
+	return resFocus;
+}
+
 //获取用户粉丝
-//
+service.getUserVermicelli = function(page,size){
+	let userid = localStorage.getItem('id');
+	let params = {
+		page,//："当前页数",
+		size,//:"每一页大小",
+		userid//:"用户id" 
+	}
+	let resFans = commonUtil.ajaxAsync(controller+'/getUserVermicelli',params);
+
+	return resFans;
+}
+
+
 
 export default service
 

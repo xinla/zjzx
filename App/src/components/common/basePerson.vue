@@ -50,24 +50,41 @@
 
 <script>
 import top from '@/components/common/top'
+import articleService from '@/service/articleService'
+import followService from '@/service/followService'
 export default {
 	components:{
 		top,
 	},
 	mounted(){
 		var userData = JSON.parse(localStorage.userData);
-			this.title = userData.username;
-			if( userData.imageurl ){
-				this.userPhoto = userData.imageurl
-			}				
+		this.title = userData.username;
+		if( userData.imageurl ){
+			this.userPhoto = userData.imageurl;
+		}	
+
+		let resArticleCount = articleService.getUserArticleCount();
+		this.publidsedNum = resArticleCount.result.count;
+
+		let resFansCount = followService.getUserVermicelliCount();
+		this.fansNum = resFansCount.result.count;
 	},
 	data(){
 		return {
 			title:'',
 			userPhoto:require('@/assets/images/userPhoto.jpg'),
-			focusNum:0,
-			fansNum:0,	
-			publidsedNum:0,		
+			focusNum:{
+				type:Number,
+				default:0,	
+			},
+			fansNum:{
+				type:Number,
+				default:0,	
+			},
+			publidsedNum:{
+				type:Number,
+				default:0,	
+			},		
 		}
 	},
 	methods:{

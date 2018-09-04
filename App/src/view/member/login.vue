@@ -117,7 +117,7 @@
 					console.log(data);
 					alert(data.result.code);
 					if(data.result.code){
-						 this.$loading.close();
+						this.$loading.close();
 						this.phoneNum = "60秒后重发";
 						let i = 60;
 						this.codeTimer = setInterval(()=>{
@@ -144,6 +144,7 @@
 					this.$loading.open(2);
 					userService.loginByMobile(this.$data.mobile,this.$data.code,(data)=>{
 						if(data.status == 'success') {
+							// debugger;
 							this.$loading.close();
 							 let token = data.result.token;
 							 let id = data.result.user.id;
@@ -152,7 +153,7 @@
 							 this.$store.dispatch('UserId',id);
 							 this.$store.dispatch('UserLogid',logid);
 							 this.$TooL.goPage({name: 'home',replace:true});
-							 localStorage.userData = JSON.stringify(data.result.user);				
+							 localStorage.userData = JSON.stringify(data.result.user);			
 						}
 						if(data.status == 'error') {
 							this.code = '';

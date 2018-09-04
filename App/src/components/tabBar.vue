@@ -2,9 +2,9 @@
 	<div class="nav">
 		<div class="empty">		
 		</div>
-		<ul class="nav-list">
-			<li v-for="(item,index) in navList" class="nav-item">
-				<span>{{item.title}}</span>
+		<ul class="nav-list al">
+			<li v-for="(item,index) in classfyList" class="nav-item ac">
+				<span>{{item.classifyname}}</span>
 			</li>
 		</ul>
 		<router-link to="/topBarBox">
@@ -15,49 +15,17 @@
 	</div>
 </template>
 <script>
+import articleClassifyService from '@/service/article_classifyService'
 	export default {
 		data() {
 			return {
-				navList :[
-					{
-						title: '推荐',
-					},
-					{
-						title: '热点',
-					},
-					{
-						title: '社会',
-					},
-					{
-						title: '娱乐',
-					},
-					{
-						title: '科技',
-					},
-					{
-						title: '汽车',
-					},
-					{
-						title: '体育',
-					},
-					{
-						title: '财经',
-					},
-					{
-						title: '军事',
-					},
-					{
-						title: '国际',
-					},
-					{
-						title: '时尚',
-					},
-					{
-						title: '纪实',
-					}
-
-				]
+		        classfyList:[],
 			}
+		},
+		mounted(){
+			let resArcClass = articleClassifyService.getArticleClassifyList();
+			this.classfyList = resArcClass.result.classfyList;
+			// console.log(this.classfyList)
 		}
 	}
 </script>
@@ -73,13 +41,13 @@
 		position: fixed;
 		left: 0;
 		z-index: 99;
-		background-color: #fff;
 	}
 	.nav-list {
 		overflow-x: auto;
 		white-space: nowrap;
 	    border-bottom: 1px solid #ddd;
 	    background: #eee;
+	    width: calc(100% - 3em);
 	}
 	.nav-item {
 	    display: inline-block;

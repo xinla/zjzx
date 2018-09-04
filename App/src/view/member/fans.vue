@@ -6,7 +6,20 @@
 </template>
 
 <script>
-	
+import userService from '@/service/userService'
+export default{
+	data(){
+		return{
+			list:{}
+		}
+	},
+	mounted(){
+		let resFans = userService.getUserVermicelli(1,10);
+		this.list = resFans.recordPage;
+		console.log(resFans.recordPage.list)
+		console.log(this.list)
+	}
+}
 </script>
 
 <style scoped>
