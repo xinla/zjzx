@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import {Bus} from '@/store/eventBus'
 import provinceService from '@/service/provinceService'
 export default {
 	data(){
@@ -30,6 +31,7 @@ export default {
 	},
 	methods:{
 		provinFn(item){
+			Bus.$emit('add',item)
 			console.log(item.provinceid);
 		}
 	}

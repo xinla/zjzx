@@ -3,7 +3,7 @@
 		<div class="editInfo-body">	
 			<ul class="editInfo-modal">
 				<li class="editInfo-modal-item clearfix">
-					<input type="file" accept="image/*" class="uploadInput"  @change="uploadAvatar">
+					<input type="file" name="file" accept="image/*" class="uploadInput"  @change="uploadAvatar">
 					<span class="fl">头像</span>
 					<div class="editInfo-right fr clearfix">
 						<div class="editInfo-head-img fl">	 
@@ -57,7 +57,7 @@
 					<span class="fl">地区</span>
 					<div class="editInfo-right fr clearfix">
 						<div class="editInfo-head-tip fl">	
-						<span :class="areaColor" v-model="areaDesc">{{address}}</span>
+						<span :class="areaColor">{{provinceList.province}}</span>
 						</div>
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
@@ -149,7 +149,7 @@
 </template>
 
 <script>
-	import Bus from '@/store/eventBus'
+	import {Bus} from '@/store/eventBus'
 	import config from '@/lib/config/config'
 	import top from '@/components/common/top'
 	import fileService from '@/service/fileService'
@@ -158,8 +158,6 @@
 	import textArea from '@/components/textarea'
 	import bottomPopup from '@/components/bottomPopup'
 	import provinceService from '@/service/provinceService'
-// 	import { DatetimePlugin } from 'vux'
-// Vue.use(DatetimePlugin)
 	export default {
 		components:{
 			top,
@@ -197,7 +195,11 @@
 				dateColor:{blue:true},
 				areaColor:{blue:true},
 				address:"",
-				areaDesc:''
+				provinceList:{
+					
+						province:'',
+						provinceid:''
+				}
 				
 			}
 		},
@@ -206,6 +208,9 @@
 			this.$nextTick(()=>{
 				let data = userService.getCurentUser();
 				this.$data.user = data.result.user;
+
+				let addData = provinceService.getProvinceList();
+				this.$data.provinceList = addData.result.provinceList;
 				 // this.$data.user.username=this.userNameValue;
 				// console.log(this.$data.user.username);
 				//判断用户头像
@@ -320,8 +325,18 @@
 			//用户地区
 			userAreaFn(){
 				this.$TooL.goPage({name:'province'});
-				let resMap = provinceService.getProvinceList();
-				console.log(resMap);	
+				Bus.$on('add',(val)=>{
+					
+					thiz.$data.provinceList.province = val;
+					console.log(thiz.$data.provinceList.province);
+					// thiz.$data.user.province = val.provinceid;
+					// thiz.$data.address = val.province;
+					// let data = userService.getCurentUser();
+
+					
+					// console.log(addData);
+				})
+				this.provinceList.province = thiz.$data.provinceList.province;	
 			},
 
 		}

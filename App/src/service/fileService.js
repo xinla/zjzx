@@ -1,6 +1,6 @@
 import config from '@/lib/config/config'
 import axios from 'axios'
-const controller =config.fiieServer+'/file';
+const controller =config.fileServer+'/file';
 const service ={
 	// test: controller+'/test'
 }
@@ -10,6 +10,7 @@ const service ={
   }; 
 
 service.uploadHeadImage = function(params,call){
+	debugger;
 	axios.post(controller+'/uploadHeadImage',params,fileConfig).then(function(res){
 		call(res.data)
 	})
