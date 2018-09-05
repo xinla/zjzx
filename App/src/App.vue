@@ -16,7 +16,18 @@ export default {
   	}
   },
   mounted(){
-    
+    var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+    document.querySelector('html').setAttribute("data-dpr",1);
+    document.querySelector('meta[name="viewport"]').setAttribute("content","width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no");
+    window.addEventListener(resizeEvt, this.subRecalc, false);
+    document.addEventListener('DOMContentLoaded', this.subRecalc, false);
+  },
+  methods:{
+    subRecalc(){
+      var docEl=document.documentElement,
+      clientWidth = Math.min( window.innerWidth , docEl.clientWidth );
+      docEl.style.fontSize= ( clientWidth / 750 * 100)+"px";
+    }
   },
   watch: {
   	//监听路由
@@ -36,8 +47,7 @@ export default {
   			this.transitionName = 'slide-left';
   		}
   	}
-  }
-
+  },
 }
 </script>
 <style>

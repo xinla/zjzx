@@ -56,10 +56,16 @@ export default{
 			record:{
 				title:'',
 				content:'',
-				author:'',
-				type:'',   //1：图文，2:视屏
+				author:{
+					type:Number,
+					default:1,
+				},
+				type:{
+					type:Number,
+					default:1,
+				},   //1：图文，2:视屏
 				publishtime:'',  // 后台设置
-				classify:'1',
+				classify:1,
 				selectedpublishaddress:'',
 				selectedpublishname:'不显示',
 			},
@@ -119,10 +125,15 @@ export default{
 		    }
 		},
 		publish(){
-			this.record.author = localStorage.id?localStorage.id:0;
+			this.record.author = Number(localStorage.id?localStorage.id:0);
 			Object.assign(this.record,this.position);
 			if (this.record.type == 1) {
-				articleService.publishArticle(this.record,this.record_file)	
+				let res = articleService.publishArticle(this.record,this.record_file);
+				if(res.status=="success")	{
+					alert("success")
+				}else{
+					alert("错误提示：" +res.result.tip + "错误代码：" + res.result.errorcode)
+				}
 			} else if (this.record.type == 2) {
 				articleService.publishArticle(this.record,this.record_file)
 			} else {

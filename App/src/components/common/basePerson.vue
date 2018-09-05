@@ -3,7 +3,7 @@
 		<top @hrefTo="goback('/member')">
 			<template slot="title">{{title}}</template>
 		</top>
-		<div class="top-fix">
+		<div class="top-fix ac">
 			<header id="header" class="bfc-o">
 				<img :src="userPhoto" alt="" class="uphoto bfc-d">
 				<div class="person-header-right ac bfc-d">
@@ -68,6 +68,9 @@ export default {
 
 		let resFansCount = followService.getUserVermicelliCount();
 		this.fansNum = resFansCount.result.count;
+
+		let resFocusCount = followService.getUserFollowCount();
+		this.focusNum = resFocusCount.result.count;
 	},
 	data(){
 		return {
@@ -113,8 +116,10 @@ export default {
 	    z-index: 99;
 	}
 	.uphoto{
-		width: 15%;
-		max-width: 100px;
+		width:1rem;
+		height: 1rem;
+		max-width: 70px;
+		max-height: 70px;
 		vertical-align: middle;
 		border-radius: 50%;
 	}
@@ -126,7 +131,7 @@ export default {
 	}
 	.person-header-right{
 		max-width: 520px;
-		width: 85%;
+		width: 75%;
 		font-size: 14px;
 		vertical-align: middle;
 	}

@@ -116,24 +116,25 @@
 		    },
 	    mounted () {
 	    	var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+	    	
 	    	window.addEventListener(resizeEvt, this.recalc, false);
 	    	document.addEventListener('DOMContentLoaded', this.recalc, false);
-
+	    	this.recalc();
 	    },
 	    destroyed(){
-	    	var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
-	    	window.removeEventListener(resizeEvt, this.recalc, false);
-	    	document.removeEventListener('DOMContentLoaded', this.recalc, false);
+	    	// var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+	    	// window.removeEventListener(resizeEvt, this.recalc, false);
+	    	// document.removeEventListener('DOMContentLoaded', this.recalc, false);
 	    },
-	    beforeRouteEnter (to, from, next) {
-	    	var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
-	    	window.addEventListener(resizeEvt, window.recalc, false);
-	    	document.addEventListener('DOMContentLoaded', window.recalc, false);
-	    	next(vm=>{
-	    		vm.recalc();
-	    	});
+	    // beforeRouteEnter (to, from, next) {
+	    // 	var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+	    // 	window.addEventListener(resizeEvt, window.recalc, false);
+	    // 	document.addEventListener('DOMContentLoaded', window.recalc, false);
+	    // 	next(vm=>{
+	    // 		vm.recalc();
+	    // 	});
 
-	    },
+	    // },
 	    beforeRouteLeave (to, from, next) {
 
 	    	var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';

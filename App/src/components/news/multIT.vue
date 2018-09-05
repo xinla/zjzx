@@ -3,7 +3,7 @@
 		<router-link :to="{ name:'detail'}">
 		<h1>{{article.title}}</h1>
 		<div class="img-wrap bfc-o">
-			<img v-for="(item,index) in ArticleFile" :src="item.url" :alt="item.filename">
+			<img v-for="(item,index) in ArticleFile" :src="fileRoot+item.url" :alt="item.filename">
 		</div>
 		<p class="pub">
 			<span>{{CommentNum}}条评论</span>
@@ -13,6 +13,7 @@
 	</div>
 </template>
 <script>
+import config from '@/lib/config/config'
 import articleFileService from '@/service/article_fileService'
 import articleCommentService from '@/service/article_commentService'
 export default {
@@ -25,16 +26,18 @@ export default {
 				default:0,
 			},
 			publishtime:this.article.publishtime,
+			fileRoot:config.fileRoot+'/',
 		}
 	},
 	props:{
 		article:Object,
 	},
 	mounted(){
+
 		this.$nextTick(()=>{
+
 				let resArticleFile = articleFileService.getFileByArticle(this.article.id);
 				this.ArticleFile = resArticleFile.result.filelist;
-
 				let resArticleCommentNum = articleCommentService.getArticleCommentCount(this.article.id);
 				this.CommentNum = resArticleCommentNum.result.count;
 
@@ -46,10 +49,10 @@ export default {
 						if (difference < 6000) {
 							this.publishtime = "刚刚";
 						} else {
-							this.publishtime = difference/60000 + "分前";					
+							this.publishtime = Math.floor(difference/60000) + "分钟前";					
 						}
 					} else {
-						this.publishtime = difference/3600000 + "小时前";
+						this.publishtime = Math.floor(difference/3600000) + "小时前";
 					}
 				}
 			// if(article.type == 1){
@@ -71,7 +74,7 @@ export default {
 	}
 	h1{
 		font-weight: normal;
-		font-size: 18px
+		font-size: 16px
 	}
 	[data-dpr='2'] h1{
 		font-size: 36px;
@@ -85,7 +88,8 @@ export default {
 	}
 	.img-wrap img{
 		float: left;
-		width: 31%;
+		width: 2.2rem;
+		height: 2.2rem;
 		max-width: 200px;
 		margin: 0.5em 1% 0;
 	}

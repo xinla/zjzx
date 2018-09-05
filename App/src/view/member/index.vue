@@ -129,6 +129,7 @@
 					this.dayNight='night';
 				}
 			}
+		
 		},
 		data() {
 			return {

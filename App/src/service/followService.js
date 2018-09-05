@@ -16,4 +16,14 @@ service.getUserVermicelliCount = function(){
 	return resFansCount;
 }
 
+// 获取用户关注数量
+service.getUserFollowCount = function(){
+	var params = {
+		userid,
+	};
+
+	var resFocusCount = commonUtil.ajaxAsync(controller+'/getUserFollowCount',params);
+
+	return resFocusCount;
+}
 export default service

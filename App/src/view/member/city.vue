@@ -15,20 +15,22 @@ export default{
 	data(){
 		return {
 			cityList:[],
+			address:{},
 		}
 	},
 	mounted(){
 		this.$nextTick(()=>{
 			let provinceid = this.$route.query.provinceid;
+			this.address.province = this.$route.query.title;
 			let resMap = cityService.getCityByProvince(provinceid);
 			this.cityList = resMap.result.cityList;
 		})
 	},
 	methods:{
 		cityBack(c){
-			window.history.go(-2);
-			localStorage.city = c;
-			console.log(localStorage.city);
+			this.address.city = c;
+			localStorage.choiceAddress = JSON.stringify(this.address);
+			window.history.go(-2);			
 		}
 	}
 }

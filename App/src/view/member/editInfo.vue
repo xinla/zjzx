@@ -53,15 +53,15 @@
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
 				</li>	
-				<li class="editInfo-modal-item clearfix" @click="userAreaFn">
+				<router-link :to="{path:'province',query:{title:'选择城市'}}" class="editInfo-modal-item clearfix" tag="li">
 					<span class="fl">地区</span>
 					<div class="editInfo-right fr clearfix">
 						<div class="editInfo-head-tip fl">	
-						<span :class="areaColor">{{provinceList.province}}</span>
+						<span :class="areaColor">{{address}}</span>
 						</div>
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
-				</li>	
+				</router-link>	
 				<li class="editInfo-modal-item clearfix">
 					<span class="fl">手机号</span>
 					<div class="editInfo-right fr clearfix">
@@ -111,8 +111,8 @@
 
 			<h4 class="editInfo-tit">高级设置</h4>
 			<ul class="editInfo-switch">
-				<li class="editInfo-switch-item">
-					<span>账号注销</span>
+				<li class="editInfo-switch-item ac">
+					<span style="color: #f40;">敬请期待</span>
 				</li>
 			</ul>
 		</div>
@@ -177,7 +177,7 @@
 				user:{
 					username:'',
 					introduce:'',
-					usermobile:'',
+					mobile:'',
 					sex:'',
 					birthday:'',
 					province:'',
@@ -208,6 +208,7 @@
 			this.$nextTick(()=>{
 				let data = userService.getCurentUser();
 				this.$data.user = data.result.user;
+				localStorage.userData = JSON.stringify(data.result.user);
 
 				let addData = provinceService.getProvinceList();
 				this.$data.provinceList = addData.result.provinceList;
@@ -234,11 +235,28 @@
 				}else{
 					this.dateColor.blue=false;
 				}
-				//判断地区
-				if(this.$data.user.province == null) {
+				//判断地区					
+				if(this.$data.user.province == null&&!localStorage.choiceAddress) {
 					this.address = '待完善'
-				}else{
+				}else if (localStorage.choiceAddress) {
+					let temp = JSON.parse(localStorage.choiceAddress);
 					this.areaColor.blue=false;
+					this.user.province = temp.province;
+					this.user.city = temp.city;
+					if (this.user.province = this.user.city) {
+						this.address = this.user.province;
+					} else {
+						this.address = this.user.province + this.user.city;					
+					}
+					userService.updateUser(this.$data.user);
+					localStorage.removeItem("choiceAddress");
+				} else {
+					this.areaColor.blue=false;
+					if (this.user.province = this.user.city) {
+						this.address = this.user.province;
+					} else {
+						this.address = this.user.province + this.user.city;					
+					}
 				}
 
 
@@ -325,17 +343,17 @@
 			//用户地区
 			userAreaFn(){
 				this.$TooL.goPage({name:'province'});
-				Bus.$on('add',(val)=>{
+				// Bus.$on('add',(val)=>{
 					
-					thiz.$data.provinceList.province = val;
-					console.log(thiz.$data.provinceList.province);
-					// thiz.$data.user.province = val.provinceid;
-					// thiz.$data.address = val.province;
-					// let data = userService.getCurentUser();
+				// 	thiz.$data.provinceList.province = val;
+				// 	console.log(thiz.$data.provinceList.province);
+				// 	// thiz.$data.user.province = val.provinceid;
+				// 	// thiz.$data.address = val.province;
+				// 	// let data = userService.getCurentUser();
 
 					
-					// console.log(addData);
-				})
+				// 	// console.log(addData);
+				// })
 				this.provinceList.province = thiz.$data.provinceList.province;	
 			},
 

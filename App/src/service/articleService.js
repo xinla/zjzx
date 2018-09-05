@@ -38,7 +38,7 @@ let userid = localStorage.getItem('id');
 	return resArticleAllList;
 }
 
-// 获取用户的文章数量
+// 获取用户的发布文章数量
 service.getUserArticleCount = function(){
 let userid = localStorage.getItem('id');
 
@@ -51,6 +51,20 @@ let userid = localStorage.getItem('id');
 	return resArticleCount;
 }
 
+// 获取用户的收藏文章
+service.getCollectArticlePage = function(page,size){
+let userid = localStorage.getItem('id');
+
+	let params = {
+		page,
+		size,
+		userid,
+	}
+
+	let resCollectArticleList = commonUtil.ajaxAsync(controller+'/getCollectArticlePage',params);
+
+	return resCollectArticleList;
+}
 // 获取文章列表
 // service.articlePage = function(){
 
