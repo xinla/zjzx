@@ -4,11 +4,17 @@
 			<slot name="href">&#xe7f3;</slot></i>
 		</div>
 		<slot name="title">标题</slot>
-		<div class="bfc-p r-nav"><slot name="nav"></slot></div>
+		<div class="bfc-p r-nav" v-if="showNav"><slot name="nav"></slot></div>
 	</div>
 </template>
 <script>
 export default {
+	props:{
+		showNav:{
+			type:Boolean, //'boolean' 不行
+			default:false,
+		}
+	},
 	data(){
 		return{
 

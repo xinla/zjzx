@@ -84,6 +84,15 @@ let userid = localStorage.getItem('id');
 // 	return resArticleCount;
 // }
 
+// 获取文章详情
+service.getArticleById = function(articleid){
+	var params = {
+		articleid,
+	};
 
+	var resArticleDetail = commonUtil.ajaxAsync(controller+'/getArticleById',params);
+
+	return resArticleDetail;
+}
 export default service
 

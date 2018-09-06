@@ -49,13 +49,9 @@
 </template>
 
 <script>
-import top from '@/components/common/top'
 import articleService from '@/service/articleService'
 import followService from '@/service/followService'
 export default {
-	components:{
-		top,
-	},
 	mounted(){
 		var userData = JSON.parse(localStorage.userData);
 		this.title = userData.username;

@@ -149,52 +149,32 @@
 </template>
 
 <script>
-
-import top from '@/components/common/top'
+import articleService from '@/service/articleService'
+import articleCommentService from '@/service/article_commentService'
 export default {
-	components:{
-		top,
-	},
 	data(){
 		return {
+			id:Number,
 			article:{
-				uImg:"http://img.zcool.cn/community/0195be57cd70d90000012e7eb0dae8.jpg@1280w_1l_2o_100sh.jpg",
-				uName:"小白读财经",
-				time:'2018-8-14',
-				title:"小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经",
-				sort:"财经",
-				content:`小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经
-				小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经
-
-				小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经小白读财经`,
-				keywords:['银行',"财经"],
-				like:"100",
-				commentNum:'66',
-				comment:[{
-					uName:'馨心',
-					uImg:'http://img.zcool.cn/community/0195be57cd70d90000012e7eb0dae8.jpg@1280w_1l_2o_100sh.jpg',
-					content:'评论评论评论评论评论评论评论评论评论评论评论',
-					time:'2018-8-14',
-					link:'10'
-				},
-				{
-					uName:'xing',
-					uImg:'http://img.zcool.cn/community/0195be57cd70d90000012e7eb0dae8.jpg@1280w_1l_2o_100sh.jpg',
-					content:'评论评论评论评论评论评论评论评论评论评论评论',
-					time:'2018-8-14',
-					link:'10'
-				},{
-					uName:'辛幸',
-					uImg:'http://img.zcool.cn/community/0195be57cd70d90000012e7eb0dae8.jpg@1280w_1l_2o_100sh.jpg',
-					content:'评论评论评论评论评论评论评论评论评论评论评论',
-					time:'3小时前',
-					link:'10'
-				}]
+				id:"标识",
+				title:"标题",
+				content:"内容",
+				author:"发布人id",
+				type:"文章类型",
+				publishtime:"发布时间",
+				publisharea:"发布地区"
 			}
 		}
 	},
+	mounted(){
+		this.id = this.$route.query.id;
+		let resArticleDetail = articleService.getArticleById(this.id);
+		this.article = resArticleDetail.record;
+
+		
+	},
 	methods:{
-	}
+	},
 }
 </script>
 

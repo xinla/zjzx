@@ -3,15 +3,16 @@
 		<div class="editInfo-body">	
 			<ul class="editInfo-modal">
 				<li class="editInfo-modal-item clearfix">
-					<input type="file" name="file" accept="image/*" class="uploadInput"  @change="uploadAvatar">
+					<input type="file" id="uphoto" name="file" accept="image/*" class="uploadInput"  @change="uploadAvatar">
 					<span class="fl">头像</span>
-					<div class="editInfo-right fr clearfix">
-						<div class="editInfo-head-img fl">	 
-							
-							<img :src="imgurl" alt="">
+					<label for="uphoto">						
+						<div class="editInfo-right fr clearfix">
+							<div class="editInfo-head-img fl"> 								
+								<img :src="imgurl" alt="">
+							</div>
+							<i class="iconfont icon-arrow fr">&#xe628;</i>
 						</div>
-						<i class="iconfont icon-arrow fr">&#xe628;</i>
-					</div>
+					</label>
 				</li>	
 				<li class="editInfo-modal-item clearfix" @click="userNameFn">
 					<span class="fl">用户名</span>
@@ -64,7 +65,7 @@
 				</router-link>	
 				<li class="editInfo-modal-item clearfix">
 					<span class="fl">手机号</span>
-					<div class="editInfo-right fr clearfix">
+					<div class="editInfo-right fr clearfix" @click="showPhone=!showPhone">
 						<div class="editInfo-head-tip fl">	
 							<span>{{user.mobile}}</span>
 						</div>
@@ -116,35 +117,61 @@
 				</li>
 			</ul>
 		</div>
-			<!-- 用户名 -->
-			<text-area 
-				v-show="showObj.showName"
-				:explain="explain" 
-				:placeholder="placeholder.p1" 
-				:maxlength="maxlength.m1"
-				ref="getInput"
-				@handleSend="handleSend1"
-				@handleCancel="cancel"
-				@descValue="descValue"
-			>
-			</text-area>
-			<!-- 用户介绍 -->
-			<text-area 
-				v-show="showObj.showMsg"
-				:placeholder="placeholder.p2" 
-				:maxlength="maxlength.m2"
-				ref="getInput"
-				@handleSend="handleSend2"
-				@handleCancel="cancel"
-				@descValue="descValue"
-			>
-			</text-area>
-			<!-- 性别选项 -->
-			<bottom-popup 
+		<!-- 用户名 -->
+		<text-area 
+			v-show="showObj.showName"
+			:explain="explain" 
+			:placeholder="placeholder.p1" 
+			:maxlength="maxlength.m1"
+			ref="getInput"
+			@handleSend="handleSend1"
+			@handleCancel="cancel"
+			@descValue="descValue"
+		>
+		</text-area>
+		<!-- 用户介绍 -->
+		<text-area 
+			v-show="showObj.showMsg"
+			:placeholder="placeholder.p2" 
+			:maxlength="maxlength.m2"
+			ref="getInput"
+			@handleSend="handleSend2"
+			@handleCancel="cancel"
+			@descValue="descValue"
+		>
+		</text-area>
+		<!-- 性别选项 -->
+		<bottom-popup 
 			v-show="showObj.showSex"
 			:list="list"
 			@handleCancel="cancel"
-			@handleSex="handleSex"></bottom-popup>
+			@handleSex="handleSex">
+		</bottom-popup>
+		<!-- -phone change -->
+		<confirm 
+		v-model="showPhone"
+		show-input hide-on-blur
+		title="绑定手机号"
+		@on-confirm="checkPhone"
+		:input-attrs="{type:'number'}"
+		confirm-text="验证"
+		>			
+		</confirm>
+		<confirm 
+		v-model="showVerCode"
+		show-input hide-on-blur
+		title="输入验证码"
+		@on-confirm="checkCode"
+		:input-attrs="{type:'number'}"
+		>			
+		</confirm>
+		<alert 
+		v-model="showAlert"
+		hide-on-blur
+		:content="alertMes"
+		>
+			
+		</alert>
 	</div>
 </template>
 
@@ -177,7 +204,7 @@
 				user:{
 					username:'',
 					introduce:'',
-					mobile:'',
+					mobile:Number,
 					sex:'',
 					birthday:'',
 					province:'',
@@ -189,18 +216,21 @@
 					showName:false,
 					showMsg:false,
 					showSex:false
-
 				},
 				list:['保密','男','女'],
 				dateColor:{blue:true},
 				areaColor:{blue:true},
 				address:"",
-				provinceList:{
-					
-						province:'',
-						provinceid:''
-				}
-				
+				// provinceList:{				
+				// 	province:'',
+				// 	provinceid:''
+				// },
+				showPhone:false,
+				showVerCode:false,
+				showAlert:false,
+				alertMes:'',
+				verCode:'',
+				inputMobile:'',
 			}
 		},
 		
@@ -208,10 +238,10 @@
 			this.$nextTick(()=>{
 				let data = userService.getCurentUser();
 				this.$data.user = data.result.user;
+				console.log(this.$data.user)
 				localStorage.userData = JSON.stringify(data.result.user);
-
-				let addData = provinceService.getProvinceList();
-				this.$data.provinceList = addData.result.provinceList;
+				// let addData = provinceService.getProvinceList();
+				// this.$data.provinceList = addData.result.provinceList;
 				 // this.$data.user.username=this.userNameValue;
 				// console.log(this.$data.user.username);
 				//判断用户头像
@@ -258,6 +288,10 @@
 						this.address = this.user.province + this.user.city;					
 					}
 				}
+				//判断手机号
+				if(this.$data.user.phone == null) {
+					this.user.phone='未绑定'
+				}
 
 
 			})
@@ -272,11 +306,13 @@
 		          let param = new FormData(); //创建form对象
 		          param.append('file',file,file.name);//通过append向form对象添加数据
 		          fileService.uploadHeadImage(param,(data)=>{
-		          	let src = config.fileRoot +'/'+ data.result.url;
+		          	let src = data.result.url;
 		          	this.$loading.close();
-		          	this.imgurl=src;
-					console.log(this.imgurl);
-					console.log(data);
+		          	this.imgurl = config.fileRoot +'/'+ src;
+		          	this.$data.user.imageurl=src;
+		          	userService.updateUser(this.$data.user)
+					// console.log(this.imgurl);
+					// console.log(data);
 				})
 			},
 			show() {
@@ -354,9 +390,47 @@
 					
 				// 	// console.log(addData);
 				// })
-				this.provinceList.province = thiz.$data.provinceList.province;	
+				// this.provinceList.province = thiz.$data.provinceList.province;	
 			},
-
+			checkPhone(val){
+				if (val == this.user.mobile) {
+					return;
+				} else if (val.length == 11) {
+					userService.getCode(val,data=>{
+						if (data.status=='success') {
+							this.inputMobile = val;
+							this.verCode=data.result.code;
+							console.log(this.verCode)
+							this.showAlert=true;
+							this.alertMes="发送成功";
+							setTimeout(()=>{
+								this.showAlert=false;
+								this.showVerCode=true;
+							},1000)
+						} else {
+							this.showAlert=true;
+							this.alertMes="发送失败"
+						}
+						// console.log(data)
+					})
+				} else {
+					this.showAlert=true;
+					this.alertMes="号码有误";
+				}
+			},
+			checkCode(val){
+				if (val == this.verCode) {
+					this.user.mobile = parseInt(this.inputMobile);
+					let data = userService.updateUser(this.$data.user);
+				} else {
+					this.showAlert=true;
+					this.alertMes="验证码错误";
+					setTimeout(()=>{
+						this.showAlert=false;
+						this.showVerCode=true;
+					},1000)
+				}
+			}
 		}
 	}
 		

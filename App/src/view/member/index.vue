@@ -47,22 +47,22 @@
 
 			<div class="member-func">
 				<ul class="member-func-list clearfix">
-					<li class="member-func-item">
+					<!-- <li class="member-func-item">
 						<i class="iconfont">&#xe616;</i>
 						<span>评论</span>
-					</li>
-					<li class="member-func-item">
+					</li> -->
+					<router-link :to="{name:'collect',query:{current:4}}" class="member-func-item" tag="li">
 						<i class="iconfont">&#xe7a7;</i>
 						<span>收藏</span>
-					</li>
-					<li class="member-func-item">
+					</router-link>
+					<router-link :to="{path:'history',query:{current:5}}" class="member-func-item" tag="li">
 						<i class="iconfont">&#xe629;</i>
 						<span>历史</span>
-					</li>
-					<li class="member-func-item">
+					</router-link>
+					<router-link :to="{path:'/',query:{}}" class="member-func-item" tag="li">
 						<i class="iconfont">&#xe642;</i>
 						<span>占位</span>
-					</li>
+					</router-link>
 
 				</ul>
 			</div>
@@ -139,16 +139,12 @@
 				focusNum:0,
 				fansNum:0,
 				dayNight:'day',
+				loginLink:'/memberBase/login',
 				modal1: [
 					{
 						icon: require('@/assets/images/icon-msg.png'),
-						text: '我的消息',
+						text: '消息通知',
 						link: '/memberBase/messages'
-					},
-					{
-						icon: require('@/assets/images/icon-guanzhu.png'),
-						text: '我的关注',
-						link: '/memberBase/focus'						
 					},
 					{
 						icon: require('@/assets/images/icon-money.png'),
@@ -159,13 +155,8 @@
 				],
 				modal2: [
 					{
-						icon: require('@/assets/images/icon-kefu.png'),
-						text: '在线客服',
-						link: '/memberBase/wallet'
-					},
-					{
 						icon: require('@/assets/images/icon-zan.png'),
-						text: '推荐给好友',
+						text: '积分商城',
 						link: '/memberBase/wallet'
 					},
 					{
@@ -177,11 +168,10 @@
 				modal3: [
 					{
 						icon: require('@/assets/images/icon-setup.png'),
-						text: '设置',
+						text: '系统设置',
 						link: '/memberBase/set'
 					},
 				],
-				loginLink:'/memberBase/login'
 
 				
 			}

@@ -10,15 +10,17 @@
 </template>
 
 <script>
-import top from '@/components/common/top'
 export default{
-	components:{
-		top,
-	},
 	data(){
 		return{
 			title:'title',
 		}
+	},
+	mounted(){
+		let par = this.$route.query.title;
+		this.title = par;	
+	},
+	methods:{
 	},
 	watch:{
 		$route(to,from){
@@ -26,12 +28,6 @@ export default{
 			this.title = par;			
 		}
 	},
-	methods:{
-	},
-	mounted(){
-		let par = this.$route.query.title;
-		this.title = par;	
-	}
 	
 }
 </script>

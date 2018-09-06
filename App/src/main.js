@@ -64,10 +64,13 @@ Vue.use(resizeImg);
 //Loading插件
 import Loading from '@/plugins/loading'
 Vue.use(Loading);
+//通用top
+import top from '@/components/common/top'
+Vue.component('top',top);
 
 //Confirm插件
-import Confirm from '@/plugins/confirm'
-Vue.use(Confirm);
+// import Confirm from '@/plugins/confirm'
+// Vue.use(Confirm);
 
 //BottomPopup插件
 // import BottomPopup from '@/plugins/BottomPopup'
@@ -80,11 +83,13 @@ import 'swiper/dist/css/swiper.css';
 Vue.use(VueAwesomeSwiper);
 
 //vux
-import{Cell,Group,Msg,Datetime } from 'vux';
+import{ Cell,Group,Msg,Datetime,Confirm,Alert } from 'vux';
 Vue.component('group', Group);
 Vue.component('cell', Cell);
 Vue.component('msg', Msg);
-Vue.component('Datetime',Datetime);
+Vue.component('datetime',Datetime);
+Vue.component('confirm',Confirm);
+Vue.component('alert',Alert);
 import { DatetimePlugin } from 'vux'
 Vue.use(DatetimePlugin)
 

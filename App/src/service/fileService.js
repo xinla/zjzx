@@ -10,7 +10,7 @@ const service ={
   }; 
 
 service.uploadHeadImage = function(params,call){
-	debugger;
+	// debugger;
 	axios.post(controller+'/uploadHeadImage',params,fileConfig).then(function(res){
 		call(res.data)
 	})

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<ul class="ul" v-if="login">
-			<router-link :to="{}" tag="li" class="li">
+			<router-link :to="{path:'editInfo',query:{title:'账号设置'}}" tag="li" class="li">
 				<span class="">账号设置</span><span class="fr iconfont">&#xe7f2;</span>
 			</router-link>
 		</ul>
@@ -13,7 +13,7 @@
 		</ul>
 		<ul class="ul">
 			<li class="li"><span class="">检查版本</span><span class="fr">1.0.0</span></li>
-			<router-link :to="{path:'/memDetail/about',query:{title:'关于我们'}}" tag="li" class="li">
+			<router-link :to="{path:'about',query:{title:'关于我们'}}" tag="li" class="li">
 				<span class="">关于我们</span><span class="fr iconfont">&#xe7f2;</span>
 			</router-link>
 		</ul>
