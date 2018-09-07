@@ -34,7 +34,7 @@ service.loginByMobile = function(mobile,code,call){
 //获取用户的Id和token令牌
 service.getUserById = function(targetuserid,call) {
 	let token = localStorage.getItem('token');
-	let id =  localStorage.getItem('id');
+	let userid =  localStorage.getItem('id');
 	let username = localStorage.getItem('username');
 	// axios.get(controller+'/getUserById',{params:{
 	// 	token:token,
@@ -44,14 +44,14 @@ service.getUserById = function(targetuserid,call) {
 	// 	call(res.data);
 	// })
 	var params = {
-		token:token,
-		userid:id,
-		username:username,
-		targetuserid:targetuserid,
+		token,
+		userid,
+		username,
+		targetuserid,
 
 	};
 
-	var resMap =	commonUtil.ajaxAsync(controller+'/getUserById',params);
+	var resUserInfo =	commonUtil.ajaxAsync(controller+'/getUserById',params);
 //	$.post
 	///call(resMap);
 	// $.post(controller+'/getUserById',params,function(data){
@@ -59,7 +59,7 @@ service.getUserById = function(targetuserid,call) {
 	// 	call(data);
 	// });
 
-	return resMap;
+	return resUserInfo;
 }
 
 //更新用户名

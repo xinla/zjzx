@@ -26,8 +26,8 @@ import localforage from './assets/common/localforage'
 Vue.use(localforage);
 
 //引用功能函数
-import TooL from './assets/common/methods'
-Vue.use(TooL);
+import Tool from './assets/common/methods'
+Vue.use(Tool);
 
 //数据
 import axios from 'axios'
@@ -65,8 +65,11 @@ Vue.use(resizeImg);
 import Loading from '@/plugins/loading'
 Vue.use(Loading);
 //通用top
-import top from '@/components/common/top'
-Vue.component('top',top);
+import Top from '@/components/common/top'
+Vue.component('Top',Top);
+//通用空白页提示
+import PromptBlank from '@/components/common/promptBlank'
+Vue.component('PromptBlank',PromptBlank);
 
 //Confirm插件
 // import Confirm from '@/plugins/confirm'
@@ -92,6 +95,8 @@ Vue.component('confirm',Confirm);
 Vue.component('alert',Alert);
 import { DatetimePlugin } from 'vux'
 Vue.use(DatetimePlugin)
+import  { AlertPlugin } from 'vux'
+Vue.use(AlertPlugin)
 
 import FastClick from 'fastclick'
 FastClick.attach(document.body);

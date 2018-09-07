@@ -67,7 +67,7 @@
 					<span class="fl">手机号</span>
 					<div class="editInfo-right fr clearfix" @click="showPhone=!showPhone">
 						<div class="editInfo-head-tip fl">	
-							<span>{{user.mobile}}</span>
+							<span>{{this.$Tool.mobileInput(user.mobile)}}</span>
 						</div>
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>

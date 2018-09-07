@@ -4,8 +4,6 @@ import commonUtil from '@/service/util/commonUtil'
 const controller =config.successServer+'/article';
 const service ={}
 
-
-
 let userid = localStorage.getItem('id');
 let	token = localStorage.getItem('token');
 
@@ -85,9 +83,9 @@ let userid = localStorage.getItem('id');
 // }
 
 // 获取文章详情
-service.getArticleById = function(articleid){
+service.getArticleById = function(recordid){
 	var params = {
-		articleid,
+		recordid:parseInt(recordid),
 	};
 
 	var resArticleDetail = commonUtil.ajaxAsync(controller+'/getArticleById',params);

@@ -168,11 +168,16 @@ const tool = {
          GoTruth.$toast.open({msg:'您的浏览器不支持地理定位',type:'err'})
       }
     }
+  },
+  //输入内容合法验证
+  checkInput(val){
+    var reg = /[^\w\s\u4e00-\u9fa5\(\)\（\）\-]/g;
+    return !reg.test(val);
   }
 }
 
 export default {
   install(Vue) {
-    Vue.prototype.$TooL = tool;
+    Vue.prototype.$Tool = tool;
   }
 }

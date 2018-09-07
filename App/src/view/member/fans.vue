@@ -1,8 +1,10 @@
 <template>
-	<ul class="fans">
-		<li class="focus-list"><img class="uname" src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">xinxing辛幸</li>
-		<li class="focus-list"><img class="uname" src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">xinxing辛幸</li>
-	</ul>
+	<div>
+		<ul class="fans" v-if="!proIf">
+			<li class="focus-list" v-for="item in list"><img class="uname" src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">{{ item.username }}</li>
+		</ul>
+		<prompt-blank v-if="proIf" :mes="proMes"></prompt-blank>
+	</div>
 </template>
 
 <script>
@@ -10,14 +12,25 @@ import userService from '@/service/userService'
 export default{
 	data(){
 		return{
-			list:{}
+			list:[],
+			proMes:'',
+			proIf:false,
 		}
 	},
 	mounted(){
 		let resFans = userService.getUserVermicelli(1,10);
-		this.list = resFans.recordPage;
-		console.log(resFans.recordPage.list)
-		console.log(this.list)
+		if (resFans&&resFans.status == "success") {
+			this.list = resFans.result.recordPage.list;
+			if (this.list.length == 0) {
+				this.proIf = true;
+				this.proMes = "啥都没有啊";
+			}
+		} else {
+			this.proIf = true;
+			this.proMes = "请求失败，请稍后再试！"
+		}
+		// console.log(resFans.recordPage.list)
+		// console.log(this.list)
 	}
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<top @hrefTo="this.$TooL.goBack">
+		<top @hrefTo="this.$Tool.goBack">
 			<template slot="title">{{title}}</template>
 		</top>
 		<div  class="top-margin">			

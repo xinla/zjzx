@@ -70,7 +70,7 @@
 		computed: {
 			//检测是否错误
           mobileErr(){
-              return !this.$TooL.isPhoneNumber(this.mobile.replace(/\s/g,""));
+              return !this.$Tool.isPhoneNumber(this.mobile.replace(/\s/g,""));
           },
           //判断账户名和验证码格式是否正确，再决定登录按钮是否亮起
 			isOpacity: function () {
@@ -96,7 +96,7 @@
 		methods: {
 			//输入事件
 			mobileInput() {
-				this.mobile = this.$TooL.mobileInput(this.mobile);
+				this.mobile = this.$Tool.mobileInput(this.mobile);
 			},
 			codeInput() {
 				this.code = this.code.replace(/[^0-9]/g,'');
@@ -152,7 +152,7 @@
 							 this.$store.dispatch('UserLogin',token);
 							 this.$store.dispatch('UserId',id);
 							 this.$store.dispatch('UserLogid',logid);
-							 this.$TooL.goPage({name: 'home',replace:true});
+							 this.$Tool.goPage({name: 'home',replace:true});
 							 localStorage.userData = JSON.stringify(data.result.user);			
 						}
 						if(data.status == 'error') {
