@@ -169,10 +169,30 @@ const tool = {
       }
     }
   },
-  //输入内容合法验证
+  //输入区内容合法验证
   checkInput(val){
     var reg = /[^\w\s\u4e00-\u9fa5\(\)\（\）\-]/g;
     return !reg.test(val);
+  },
+  /*发布时间格式化
+  @dateString:2018-1-6 15:25:42
+  */
+  publishTimeFormat(dateString){
+    let pubMillis = new Date(dateString.replace(/-/g,'/')).getTime(),
+        curMillis = new Date().getTime(),
+        difference = curMillis - pubMillis;
+    if (difference < 4.32e+7) { //12小时内
+      if (difference < 3.6e+6) { //60分钟内
+        if (difference < 60000) { //60秒内
+          dateString = "刚刚";
+        } else {
+          dateString = Math.floor(difference/60000) + "分钟前";          
+        }
+      } else {
+        dateString = Math.floor(difference/3600000) + "小时前";
+      }
+    }
+    return dateString;
   }
 }
 

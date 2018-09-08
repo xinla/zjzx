@@ -51,20 +51,7 @@ export default {
 					this.CommentNum = 0;
 				}
 
-				let pubMillis = new Date(this.article.publishtime.replace(/-/g,'/')).getTime();
-				let curMillis = new Date().getTime();
-				let difference = curMillis - pubMillis;
-				if (difference < 4.32e+7) { //12小时内
-					if (difference < 3.6e+6) { //60分钟内
-						if (difference < 60000) { //60秒内
-							this.publishtime = "刚刚";
-						} else {
-							this.publishtime = Math.floor(difference/60000) + "分钟前";					
-						}
-					} else {
-						this.publishtime = Math.floor(difference/3600000) + "小时前";
-					}
-				}
+				this.publishtime = this.$Tool.publishTimeFormat(this.article.publishtime);
 			// if(article.type == 1){
 			// }
 		})

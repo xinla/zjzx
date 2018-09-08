@@ -62,7 +62,7 @@ service.getUserById = function(targetuserid,call) {
 	return resUserInfo;
 }
 
-//更新用户名
+//更新用户信息
 service.updateUser = function(user) {
 	let token = localStorage.getItem('token');
 	let userid = localStorage.getItem('id');

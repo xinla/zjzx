@@ -54,11 +54,11 @@ img,a{-webkit-touch-callout:none;}
  /* iconfont*/
 @font-face {
   font-family: 'iconfont';  /* project id 773620 */
-  src: url('//at.alicdn.com/t/font_773620_v74adecklml.eot');
-  src: url('//at.alicdn.com/t/font_773620_v74adecklml.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_773620_v74adecklml.woff') format('woff'),
-  url('//at.alicdn.com/t/font_773620_v74adecklml.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_773620_v74adecklml.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_773620_tl97ro8053.eot');
+  src: url('//at.alicdn.com/t/font_773620_tl97ro8053.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_773620_tl97ro8053.woff') format('woff'),
+  url('//at.alicdn.com/t/font_773620_tl97ro8053.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_773620_tl97ro8053.svg#iconfont') format('svg');
 }
 .iconfont {
 	font-family:"iconfont" !important;
@@ -88,7 +88,7 @@ img,a{-webkit-touch-callout:none;}
     z-index: 999;
 }
 .tf{top: 0;}
-.gf{bottom: 0;}
+.bf{bottom: 0;}
 
 /*mask*/
 .mask{
