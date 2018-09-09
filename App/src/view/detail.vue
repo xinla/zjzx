@@ -13,7 +13,7 @@
 							{{ artUser.username }}
 						</div>
 						<div class="ts">
-							<time datetime="2011-01-12">{{ article.publishtime }}</time>
+							<time v-text="$Tool.publishTimeFormat(article.publishtime)"></time>
 							<!-- <span>{{ article.classify }}</span> -->
 						</div>
 					</div>
@@ -40,14 +40,42 @@
 							<img class="uphoto" :src="item.imageurl?(fileRoot+item.imageurl):imgurl" alt="">
 						</div>
 						<div class="comment-detail">				
-							<p><span class="uname oe bfc-d">{{item.username}}</span><time>{{item.commenttime}}</time></p>
+							<p><span class="uname oe bfc-d">{{item.username}}</span></p>
 							<p class="ucomment">{{item.content}}</p>
 							<div>
 								<div>
-									<button type="button" class="reply reply-btn">回复</button>&nbsp;-&nbsp;
+									<!-- <button type="button" class="reply reply-btn" @click="reply(item.commentid)">回复</button> -->
+									<time v-text="$Tool.publishTimeFormat(item.commenttime)"></time>
+									<span>-</span>
 									<button type="button" class="reply reply-sh">
 										<span class="rep-show" @click="showReply(item.commentid)">
-											<var>{{item.replyCount || 0}}</var>条回复
+											<var>{{item.replyCount || 0}}</var>回复
+										</span>
+									</button>
+									<div class="like-wrap fr">
+										<var>125</var><button type="button" class="like-btn"><i class="iconfont icon2">&#xe7c8;</i><i class="iconfont icon2 like-animate">&#xe7c8;</i></button>
+										<i class="iconfont icon2 report-comment-btn ">&#xe77e;</i>
+									</div>
+								</div>	
+							</div>
+						</div>
+					</li>
+				</ul>
+				<!-- 回复列表 -->
+				<ul class="reply-wrap" v-if="ifReply">
+					<li class="reply-li bfc-o" v-for="item in replyList">
+						<div class="uphoto-wrap fl">
+							<img class="uphoto" :src="item.imageurl?(fileRoot+item.imageurl):imgurl" alt="">
+						</div>
+						<div class="comment-detail">				
+							<p><span class="uname oe bfc-d">{{item.username}}</span><time v-text="$Tool.publishTimeFormat(item.commenttime)"></time></p>	
+							<p class="ucomment">{{item.content}}</p>
+							<div>
+								<div>
+									<button type="button" class="reply reply-btn" @click="">回复</button>&nbsp;-&nbsp;
+									<button type="button" class="reply reply-sh">
+										<span class="rep-show" @click="showReply(item.commentid)">
+											<var>{{item.replyCount || 0}}</var>回复
 											<i class="iconfont">&#xe7f6;</i>
 										</span>
 										<span class="rep-hide" @click="hideReply">
@@ -59,50 +87,20 @@
 										<i class="iconfont icon2 report-comment-btn ">&#xe77e;</i>
 									</div>
 								</div>	
-								<!-- 回复列表 -->
-								<ul class="reply-wrap" v-if="ifReply">
-									<li class="reply-li bfc-o" v-for="item2 in replyList">
-										<div class="uphoto-wrap fl">
-											<img class="uphoto" :src="item2.imageurl?(fileRoot+item2.imageurl):imgurl" alt="">
-										</div>
-										<div class="comment-detail">				
-											<p><span class="uname oe bfc-d">{{item2.username}}</span><time>{{item2.commenttime}}</time></p>	
-											<p class="ucomment">{{item2.content}}</p>
-											<div>
-												<div>
-													<button type="button" class="reply reply-btn">回复</button>&nbsp;-&nbsp;
-													<button type="button" class="reply reply-sh">
-														<span class="rep-show" @click="showReply(item2.commentid)">
-															<var>{{item2.replyCount || 0}}</var>条回复
-															<i class="iconfont">&#xe7f6;</i>
-														</span>
-														<span class="rep-hide" @click="hideReply">
-															收起回复<i class="iconfont">&#xe7f4;</i>
-														</span>
-													</button>
-													<div class="like-wrap fr">
-														<var>125</var><button type="button" class="like-btn"><i class="iconfont icon2">&#xe7c8;</i><i class="iconfont icon2 like-animate">&#xe7c8;</i></button>
-														<i class="iconfont icon2 report-comment-btn ">&#xe77e;</i>
-													</div>
-												</div>	
-											</div>
-										</div>
-									</li>
-									<li class="reply-li bfc-o">
-										<div class="uphoto-wrap fl">
-											<img class="uphoto" :src="imgurl" alt="">
-										</div>
-										<div class="comment-detail">				
-											<p><span class="uname oe bfc-d">直击真相</span><time datetime="2011-01-12">2011-01-12</time></p>	
-											<p class="ucomment">直击真相直击真相直击真相直击真相</p>
-											<div>
-												<div>
-													<button type="button" class="reply reply-btn">回复</button>&nbsp;-&nbsp;<button type="button" class="reply reply-num">条回复</button>
-												</div>
-											</div>
-										</div>
-									</li>
-								</ul>
+							</div>
+						</div>
+					</li>
+					<li class="reply-li bfc-o">
+						<div class="uphoto-wrap fl">
+							<img class="uphoto" :src="imgurl" alt="">
+						</div>
+						<div class="comment-detail">				
+							<p><span class="uname oe bfc-d">直击真相</span><time datetime="2011-01-12">2011-01-12</time></p>	
+							<p class="ucomment">直击真相直击真相直击真相直击真相</p>
+							<div>
+								<div>
+									<button type="button" class="reply reply-btn">回复</button>&nbsp;-&nbsp;<button type="button" class="reply reply-num">条回复</button>
+								</div>
 							</div>
 						</div>
 					</li>
@@ -114,7 +112,7 @@
 			<div class="input-commnet-wrap-a" @click="commentSwitch">				
 				<div class="input-commnet-content"><i class="iconfont comment-icon ">&#xe86e;</i>留下你的高见</div>			
 			</div>
-			<i class="iconfont icon-comment-a icon-comment-num">&#xe78a;<sup class="commment-num">222</sup></i>
+			<i class="iconfont icon-comment-a icon-comment-num">&#xe78a;<sup class="commment-num"><span class="commment-num-span">{{commentList.length}}</span></sup></i>
 			<i class="iconfont icon-comment-a icon-collect">&#xe7df;</i>
 			<i class="iconfont icon-comment-a icon-forward">&#xe7e7;</i>
 		</div>
@@ -126,7 +124,7 @@
 				<div class="input-commnet-wrap">
 					<input type="text" class="input-commnet-content" v-model="commentCon" maxlength="100" autofocus placeholder="留下你的高见">	
 				</div>
-				<input type="button"class="submit-comment" value="发布" @click="comment">
+				<input type="button"class="submit-comment" value="发布" @click="comment()">
 			</div>
 		</div>
 	</div>
@@ -167,6 +165,8 @@ export default {
 			commentCon:'',
 			ifCommentSwitch:false,
 			ifReply:false,
+			replyCommentId:Number,
+			commentType:1,
 		}
 	},
 	mounted(){
@@ -194,16 +194,16 @@ export default {
 		}
 		// 获取文章评论列表
 		let resArticleCommentList = articleCommentService.getArticleCommentPage(this.id,1,10);
-		if (resArticleCommentList&&resArticleCommentList.status == "success") {
+		if (resArticleCommentList && resArticleCommentList.status == "success") {
 			this.commentList = resArticleCommentList.list.list;
-			//获取发布人信息
+			//获取评论人信息
 			for (var i = 0,len = this.commentList.length; i < len; i++) {
 				let resUserInfo = userService.getUserById(this.commentList[i].douserid);
 				if (resUserInfo && resUserInfo.status == "success") {
 					this.commentList[i].imageurl = resUserInfo.result.user.imageurl;
 					this.commentList[i].username = resUserInfo.result.user.username;
 				}
-				//获取回复数量
+				//获取评论回复数量
 				let resReplyCount = articleCommentService.getReplyCount(this.commentList[i].commentid);
 				if (resReplyCount && resReplyCount.status == "success") {
 					this.commentList[i].replyCount = resReplyCount.result.count;
@@ -235,25 +235,56 @@ export default {
 				},1000)
 			}
 		},
-		comment(){
+		comment(type){
 			if (localStorage.id) {
 				let userId = localStorage.id;
 				if (this.commentCon && this.$Tool.checkInput(this.commentCon)) {
-					let resArticleComment = articleCommentService.articleComment(this.id,this.commentCon,userId,this.article.author,1);	
-					if (resArticleComment && resArticleComment.status == "success") {
-						// 获取文章评论列表(更新)
-						let resArticleCommentList = articleCommentService.getArticleCommentPage(this.id,1,10);
-						if (resArticleCommentList&&resArticleCommentList.status == "success") {
-							this.commentList = resArticleCommentList.list.list;
-						}
+					if (commentType == 1) {
+						//执行发送评论
+						let resArticleComment = articleCommentService.articleComment(this.id,this.commentCon,userId,this.article.author,1);	
+						if (resArticleComment && resArticleComment.status == "success") {
+							// 获取文章评论列表(更新)
+							let resArticleCommentList = articleCommentService.getArticleCommentPage(this.id,1,10);
+							if (resArticleCommentList&&resArticleCommentList.status == "success") {
+								this.commentList = resArticleCommentList.list.list;
+							}
+						} else {
+							this.$vux.alert.show({
+							  content:'评论失败，亲重试',
+							})
+							setTimeout(function(){
+								this.$vux.alert.hide();
+							},1000)
+						}						
 					} else {
-						this.$vux.alert.show({
-						  content:'评论失败，亲重试',
-						})
-						setTimeout(function(){
-							this.$vux.alert.hide();
-						},1000)
-					}			
+						//执行发送评论回复
+						let resACommentReply = articleCommentService.articleComment(this.id,this.commentCon,userId,this.article.author,2,this.replyCommentId);	
+						if (resACommentReply && resACommentReply.status == "success") {
+							this.ifReply = true;
+							// 获取文章评论回复列表(更新)
+							let resReplyList = articleCommentService.getReplyList(this.replyCommentId,1,10)
+							if (resReplyList && resReplyList.status == "success") {
+								this.replyList = resReplyList.recordPage.list;
+								//获取评论回复人信息
+								for (var i = 0,len = this.resReplyList.length; i < len; i++) {
+									let resUserInfo = userService.getUserById(this.resReplyList[i].douserid);
+									if (resUserInfo && resUserInfo.status == "success") {
+										this.resReplyList[i].imageurl = resUserInfo.result.user.imageurl;
+										this.resReplyList[i].username = resUserInfo.result.user.username;
+									}
+									
+								}
+							}
+						} else {
+							this.$vux.alert.show({
+							  content:'评论失败，亲重试',
+							})
+							setTimeout(function(){
+								this.$vux.alert.hide();
+							},1000)
+						}
+					}
+
 				} else {
 					this.$vux.alert.show({
 					  content: '内容不合法，亲修改后提交',
@@ -277,7 +308,13 @@ export default {
 			this.ifCommentSwitch = !this.ifCommentSwitch;
 			// e.stopPropagation();
 		},
+		reply(commentid){
+		},
 		showReply(commentid){
+			this.ifReply = true;
+			this.ifCommentSwitch = true;	
+			this.commentType = 2;
+			this.replyCommentId = commentid;
 			let resReplyList = articleCommentService.getReplyList(commentid,1,10)
 			if (resReplyList && resReplyList.status == "success") {
 				this.replyList = resReplyList.recordPage.list;
@@ -375,8 +412,8 @@ export default {
         color: #666;
 	}
 	.icon2,.icon3 {
-	    font-size: 24px;
-	    vertical-align:sub ;
+	    font-size: 22px;
+	    vertical-align:sub;
 	    cursor: pointer;
 	    color: #666;
 	}
@@ -409,12 +446,14 @@ export default {
 	}
 	.reply {
 	    color: #3a5ab5;
+        vertical-align: baseline;
 	}
 	.reply-li {
 	    padding-top: 15px;
 	}
 	.like-btn {
 	    position: relative;
+	    line-height: 22px;
 	}
 	.like-animate {
 	    position: absolute;
@@ -476,17 +515,22 @@ export default {
 		position: relative;
 	}
 	.commment-num {
-        position: absolute;
-	    font-size: 10px;
-	    background: #f40;
+        position: absolute;	    
+	    right: -48px;
+        top: -2px;
+        width: 100px;
+        text-align: center;
+        line-height: 0;
+	}
+	.commment-num-span{
+		background: #f40;
+		font-size: 10px;
 	    color: #fff;
 	    border-radius: 8px;
 	    font-style: normal;
 	    line-height: 12px;
 	    font-weight: 100;
 	    padding: 1px 4px;
-	    right: -16px;
-        top: -2px;
 	}
 	.mask{
 		display: block;
@@ -495,5 +539,8 @@ export default {
 	}
 	.mask-sub{
 		height: 100%;
+	}
+	.cpmment time{
+		font-size: 10px;
 	}
 </style>
