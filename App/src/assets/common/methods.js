@@ -55,7 +55,7 @@ const tool = {
   //给号码加上空格
   mobileInput(num) {
     if (!num) { return };
-    let newMobile = num.replace(/[^0-9]/g, '');
+    let newMobile = num.toString().replace(/[^0-9]/g, '');
     let str = newMobile.toString()
     let L = str.length;
     let mobile = num;
@@ -71,7 +71,7 @@ const tool = {
   //银行卡号加上空格
   BankInput(num) {
     if (!num) { return };
-    let newBank = num.replace(/[^0-9]/g, '');
+    let newBank = num.toString().replace(/[^0-9]/g, '');
     let str = newBank.toString()
     let L = str.length;
     let bank = num;

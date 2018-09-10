@@ -92,5 +92,17 @@ service.getArticleById = function(recordid){
 
 	return resArticleDetail;
 }
+// 文章删除
+service.deleteArticleById = function(articleid){
+	var params = {
+		userid,//:"用户id",
+		token,//:"令牌"
+		articleid,//:"文章id"
+	};
+
+	var resDelete = commonUtil.ajaxAsync(controller+'/deleteArticleById',params);
+
+	return resDelete;
+}
 export default service
 

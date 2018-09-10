@@ -97,6 +97,8 @@ import { DatetimePlugin } from 'vux'
 Vue.use(DatetimePlugin)
 import  { AlertPlugin } from 'vux'
 Vue.use(AlertPlugin)
+import  { ConfirmPlugin } from 'vux'
+Vue.use(ConfirmPlugin)
 
 import FastClick from 'fastclick'
 FastClick.attach(document.body);

@@ -21,11 +21,9 @@
 							粉丝
 						</li>
 					</ul>
-					<div class="right-btn bfc-d right-btn-a">
-						<router-link :to="{path:'/memberBase/editInfo',query:{title:'编辑资料'}}">编辑资料</router-link>						
+					<div class="right-btn bfc-d right-btn-a" @click="$Tool.goPage({ name:'editInfo',query:{title:'编辑资料'}})">编辑资料												
 					</div>
-					<div class="right-btn bfc-d">
-						<router-link :to="{path:'/member/identityBase',query:{title:'申请认证'}}">申请认证</router-link>						
+					<div class="right-btn bfc-d" @click="$Tool.goPage({ name:'identityBase',query:{title:'申请认证'}})">申请认证											
 					</div>
 				</div>
 			</header><!-- /header -->
@@ -60,13 +58,20 @@ export default {
 		}	
 
 		let resArticleCount = articleService.getUserArticleCount();
-		this.publidsedNum = resArticleCount.result.count;
+		console.log(resArticleCount)
+		if (resArticleCount && resArticleCount.status == "success" ) {
+			this.publidsedNum = resArticleCount.result.count;			
+		}
 
 		let resFansCount = followService.getUserVermicelliCount();
-		this.fansNum = resFansCount.result.count;
+		if (resFansCount && resFansCount.status == "success" ) {
+			this.fansNum = resFansCount.result.count;
+		}
 
 		let resFocusCount = followService.getUserFollowCount();
-		this.focusNum = resFocusCount.result.count;
+		if (resFocusCount && resFocusCount.status == "success" ) {
+			this.focusNum = resFocusCount.result.count;
+		}
 	},
 	data(){
 		return {
@@ -87,9 +92,7 @@ export default {
 		}
 	},
 	methods:{
-		delArc(index){
-			this.pubArticle.splice(index,1);
-		},
+
 		goback(url){
 				window.location.href=url;				
 		}

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<template v-for="(item,index) in arcList">
-			<multIT :article="item" v-if="item.type==1"></multIT>
+			<multIT :article="item" :index="index" v-if="item.type==1" @delete="deleteArticle"></multIT>
 			<bigIVT :article="item" v-else="item.type==2"></bigIVT>	
 		</template>
 		<prompt-blank v-if="proIf" :mes="proMes"></prompt-blank>
@@ -41,6 +41,37 @@ export default {
 			arcList:[],
 			proMes:'',
 			proIf:false,
+		}
+	},
+	methods:{
+		deleteArticle([id,index]){
+			let _this = this;
+			this.$vux.confirm.show({
+				content:"确定要删除么",
+				onConfirm () {
+					deleteArt.call(_this,index);
+				}
+			})
+			function deleteArt (index) {
+				let resDelete = articleService.deleteArticleById(id);
+				if (resDelete && resDelete.status == "success") {
+					this.arcList.splice(index,1);
+					this.$vux.alert.show({
+					  content:'删除成功',
+					})
+					setTimeout(()=>{
+						this.$vux.alert.hide();
+					},1000)
+				} else {
+					this.$vux.alert.show({
+					  content:'删除失败，请重试！',
+					})
+					setTimeout(()=>{
+						this.$vux.alert.hide();
+					},1000)
+				}
+			}
+
 		}
 	}
 }
