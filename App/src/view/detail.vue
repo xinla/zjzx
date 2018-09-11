@@ -5,7 +5,7 @@
 		</top>
 		<div class="detail">
 			<section class="content-wrap" v-if="!proFail1">
-				<h1>{{ article.title}}</h1>
+				<h1>{{ article.title }}</h1>
 				<div class="publisher bfc-o">
 					<img :src="artUser.imageurl?(fileRoot+artUser.imageurl):imgurl" alt="" class="uphoto uphoto-big">
 					<div>
@@ -17,10 +17,10 @@
 							<!-- <span>{{ article.classify }}</span> -->
 						</div>
 					</div>
-					<button type="button" class="focus bfc-p" @click="doFocus">{{focusState==0?'关注+':'已关注'}}</button>
+					<button type="button" class="focus bfc-p" @click="doFocus">{{focusState?'已关注':'关注'}}</button>
 				</div>
 				<div class="content">
-					{{ article.content}}
+					{{ article.content }}
 				</div>
 				<div class="key-wrap">
 					关键词：<span class="key" v-for="item in article.keywords">{{ item }}</span>
@@ -28,7 +28,13 @@
 			</section>
 			<prompt-blank v-if="proFail1" :mes="failMes1"></prompt-blank>			
 			<div class="btn-a-wrap bfc-o" id="commentAnchor">
-				<button type="button" class="btn-a"><i class="iconfont icon2">&#xe7c8;</i>{{ article.like}}</button>
+				<button type="button" class="btn-a" :class="{'liked':likeStatus}" @click="doLike(1)">
+					{{ likeNum }}
+					<span class="bfc-d">
+						<i class="iconfont icon2">&#xe7c8;</i>
+						<i class="iconfont icon2 like-animate" :class="[{'like-animate-up':likeStatus}]">&#xe7c8;</i>	
+					</span>
+				</button>
 				<button type="button" class="btn-a"><i class="iconfont icon2">&#xe7c3;</i>不喜欢</button>
 				<button type="button" class="btn-a"><i class="iconfont icon3">&#xe883;</i>微信</button>
 				<button type="button" class="btn-a"><i class="iconfont icon3">&#xe882;</i>QQ</button>
@@ -42,7 +48,7 @@
 						<div class="comment-detail">				
 							<p>
 								<span class="uname oe bfc-d">{{item.username}}</span>
-								<span class="delComment fr" v-if="item.douserid == userId" @click="deleteCom(item.id)">删除</span>
+								<span class="delComment fr" v-if="item.douserid == userId" @click="deleteCom(item.id,index)">删除</span>
 							</p>
 							<p class="ucomment">{{item.content}}</p>
 							<div>
@@ -56,14 +62,14 @@
 										</span>
 									</button>
 									<div class="like-wrap fr">
-										<var>125</var>
-										<button type="button" class="like-btn">
-											<i class="iconfont icon2" >&#xe7c8;</i>
-												<i :class="['iconfont','icon2','like-animate',{'up-hide-enter':index==curLike?ifLike:0}]" @click="doLike(item.id,index)">&#xe7c8;</i>												
-											<transition name="up-hide">
-											</transition>
+										<button type="button" class="like-btn" :class="{'liked':item.ifLike}">
+											<var>{{item.likeNum}}</var>
+											<span class="bfc-d">
+												<i class="iconfont icon2" >&#xe7c8;</i>
+												<i class="iconfont icon2 like-animate" :class="[{'like-animate-up':index==curLike?ifLike:0}]" @click="doLike(2,item.id,index)">&#xe7c8;</i>
+											</span>
 										</button>
-										<i class="iconfont icon2 report-comment-btn ">&#xe77e;</i>
+										<!-- <i class="iconfont icon2 report-comment-btn ">&#xe77e;</i> -->
 									</div>
 								</div>	
 							</div>
@@ -78,7 +84,10 @@
 			<div class="input-commnet-wrap-a" @click="commentSwitch">				
 				<div class="input-commnet-content"><i class="iconfont comment-icon ">&#xe86e;</i>留下你的高见</div>			
 			</div>
-			<i class="iconfont icon-comment-a icon-comment-num">&#xe78a;<sup class="commment-num"><span class="commment-num-span">{{commentList.length}}</span></sup></i>
+			
+			<i class="iconfont icon-comment-a icon-comment-num" @click="toComment()">&#xe78a;
+				<sup class="commment-num"><span class="commment-num-span">{{commentList.length}}</span></sup>
+			</i>
 			<i :class="['iconfont icon-comment-a icon-collect',{'collected':ifCollect}]" @click="collect(id)">&#xe7df;</i>
 			<i class="iconfont icon-comment-a icon-forward">&#xe7e7;</i>
 		</div>
@@ -106,18 +115,21 @@
 							<div>
 								<div>
 									<!-- <button type="button" class="reply reply-btn" @click="">回复</button>&nbsp;-&nbsp; -->
-									<button type="button" class="reply reply-sh">
-										<time v-text="$Tool.publishTimeFormat(commentList[commentIndex].commenttime)"></time>
+									<div class="reply reply-sh">
+										<div>
+											<time v-text="$Tool.publishTimeFormat(commentList[commentIndex].commenttime)"></time>	
+											<i class="iconfont report-comment-btn ">&#xe77e;</i>		
+										</div>
 										<span>-</span>
-										<span class="rep-show" @click="showReply(commentList[commentIndex].id)">
-											<var>{{commentList[commentIndex].replyCount || 0}}</var>回复
+										<span class="rep-show">
+											<var>{{commentList[commentIndex].likeNum || 0}}</var>人赞过
 											<!-- <i class="iconfont">&#xe7f6;</i> -->
 										</span>
 										<!-- <span class="rep-hide" @click="hideReply">
 											收起回复<i class="iconfont">&#xe7f4;</i>
 										</span> -->
-									</button>
-									<div class="like-wrap fr">
+									</div>
+									<!-- <div class="like-wrap fr">
 										<var>125</var>
 										<button type="button" class="like-btn">
 											<i class="iconfont icon2">&#xe7c8;</i>
@@ -126,11 +138,12 @@
 											</transition>
 										</button>
 										<i class="iconfont icon2 report-comment-btn">&#xe77e;</i>
-									</div>
+									</div> -->
 								</div>	
 							</div>
 						</div>
 					</div>
+					<!-- 评论的回复列表 -->
 					<ul class="reply-main">
 						<li class="reply-li bfc-o" v-for="item in replyList">
 							<div class="uphoto-wrap fl">
@@ -176,6 +189,7 @@ import followService from '@/service/followService'
 import articleCommentService from '@/service/article_commentService'
 import articleCollectService from '@/service/articleCollectService'
 import readHistoryService from '@/service/readHistoryService'
+import praiseService from '@/service/praiseService'
 export default {
 	data(){
 		return {
@@ -183,7 +197,7 @@ export default {
 			id:Number,//文章id =>article.id
 			imgurl:require('@/assets/images/userPhoto.jpg'),
 			fileRoot:config.fileRoot+'/',
-			focusState:0,
+			focusState:false,
 			article:{
 				id:Number,
 				title:"标题",
@@ -220,11 +234,15 @@ export default {
 			curLike:Number,
 			//点赞动画
 			ifLike:false,
-			//点赞数
 			//评论删除
 			ifDeleteCom:false,
 			//是否收藏
 			ifCollect:false,
+			//文章点赞量
+			likeNum:0,
+			//点赞状态
+			likeStatus:false,
+			
 		}
 	},
 	mounted(){
@@ -247,30 +265,61 @@ export default {
 			this.artUser = resUserInfo.result.user;
 		}
 		// console.log(resUserInfo)
-		// 关注/取消关注
+		// 是否关注
 		if (localStorage.getItem('token')) {
-			let resFocusState = followService.doFollow(this.article.author);
-			if (resFocusState && resFocusState.status == "success") {
-				this.focusState = resFocusState.result;
+			let resTestFollow = followService.testFollow(this.article.author);
+			if (resTestFollow && resTestFollow.status == "success") {
+				if (resTestFollow.result == 1) {
+					this.focusState = true;
+				} else {
+					this.focusState = false;
+				}
 			}			
 		}
-		// 获取文章评论列表
+		//获取文章点赞量
+		let resGetPraiseCount = praiseService.getPraiseCount(this.id,1);
+		if (resGetPraiseCount && resGetPraiseCount.status == "success") {
+			this.likeNum = resGetPraiseCount.result.count;
+		}
+		//用户是否给文章点赞
+		let resTestPraise = praiseService.testPraise(this.id,1);
+		if (resTestPraise && resTestPraise.status == "success") {
+			if (resTestPraise.result == 1) {
+				this.likeStatus = true;
+			} else {
+				this.likeStatus = false;
+			}
+		}
+		// 获取文章一级评论列表
 		let resArticleCommentList = articleCommentService.getArticleCommentPage(this.id,1,10);
 		if (resArticleCommentList && resArticleCommentList.status == "success") {
 			this.commentList = resArticleCommentList.list.list;
-			//获取评论人信息
 			for (var i = 0,len = this.commentList.length; i < len; i++) {
+				//获取文章一级评论人信息
 				let resUserInfo = userService.getUserById(this.commentList[i].douserid);
 				if (resUserInfo && resUserInfo.status == "success") {
 					this.commentList[i].imageurl = resUserInfo.result.user.imageurl;
 					this.commentList[i].username = resUserInfo.result.user.username;
 				}
-				//获取评论回复数量
-				let resReplyCount = articleCommentService.getReplyCount(this.commentList[i].commentid);
+				//获取文章一级评论回复数量
+				let resReplyCount = articleCommentService.getReplyCount(this.commentList[i].id);
 				if (resReplyCount && resReplyCount.status == "success") {
 					this.commentList[i].replyCount = resReplyCount.result.count;
 				}	
-				
+				//获取文章一级评论点赞量
+				let resGetPraiseCount = praiseService.getPraiseCount(this.commentList[i].id,2);
+				if (resGetPraiseCount && resGetPraiseCount.status == "success") {
+					this.commentList[i].likeNum = resGetPraiseCount.result.count;
+				}
+				//用户是否给文章一级评论点赞
+				let resTestPraise = praiseService.testPraise(this.commentList[i].id,2);
+				if (resTestPraise && resTestPraise.status == "success") {
+					if (resTestPraise.result == 1) {
+						this.commentList[i].ifLike = true;
+					} else {
+						this.commentList[i].ifLike = false;
+					}
+				}
 			}
 
 		} else {
@@ -279,7 +328,14 @@ export default {
 		// console.log(resArticleCommentList)
 		// console.log(this.commentList)
 		//是否收藏
-		
+		let resArticleCollect = articleCollectService.testCollect(this.id);
+		if (resArticleCollect && resArticleCollect.status == "success") {
+			if (resArticleCollect.result == 1 ) {
+				this.ifCollect = true;				
+			} else {
+				this.ifCollect = false;				
+			}
+		}
 		
 	},
 	methods:{
@@ -288,7 +344,11 @@ export default {
 			if (localStorage.getItem('token')) {
 				let resFocusState = followService.doFollow(this.article.author);
 				if (resFocusState && resFocusState.status == "success") {
-					this.focusState = resFocusState.result;
+					if (resFocusState.result == 1) {
+						this.focusState = true;
+					} else {
+						this.focusState = false;
+					}
 				}			
 			}else{
 				this.$vux.alert.show({
@@ -381,6 +441,7 @@ export default {
 			this.replyUserId = replyUserId;
 			this.replyCommentId = commentid;
 			this.commentIndex = commentIndex;
+			// 获取文章评论回复列表
 			let resReplyList = articleCommentService.getReplyList(commentid,1,10)
 			if (resReplyList && resReplyList.status == "success") {
 				this.replyList = resReplyList.recordPage.list;
@@ -392,29 +453,70 @@ export default {
 						this.replyList[i].username = resUserInfo.result.user.username;
 					}
 					//获取回复数量
-					let resReplyCount = articleCommentService.getReplyCount(this.replyList[i].commentid);
-					if (resReplyCount && resReplyCount.status == "success") {
-						this.replyList[i].replyCount = resReplyCount.result.count;
-					}	
+					// let resReplyCount = articleCommentService.getReplyCount(this.replyList[i].commentid);
+					// if (resReplyCount && resReplyCount.status == "success") {
+					// 	this.replyList[i].replyCount = resReplyCount.result.count;
+					// }	
 					
 				}
 			}
 		},
-		doLike(id,index){
-			this.curLike = index;
-			this.ifLike = true;
+		doLike(type,itemid,index){
+			if (!localStorage.id) { return; }
+			if (type == 1) {
+				//文章点赞
+				let resDoPraise = praiseService.doPraise(this.id,1);
+				if (resDoPraise && resDoPraise.status == "success") {
+					if (resDoPraise.result.code == 1) {
+						this.likeStatus = true;
+						this.likeNum ++;
+					} else {
+						this.likeStatus = false;
+						this.likeNum --;
+					}
+				}
+			} else {
+				//评论点赞
+				let resDoPraise = praiseService.doPraise(itemid,2);
+				if (resDoPraise && resDoPraise.status == "success") {
+					if (resDoPraise.result.code == 1) {
+						this.curLike = index;
+						this.ifLike = true;
+						this.commentList[index].likeNum ++;
+						this.commentList[index].ifLike = true;
+					} else {
+						console.log(1)
+						this.curLike = index;
+						this.ifLike = false;
+						this.commentList[index].likeNum --;
+						this.commentList[index].ifLike = false;
+					}
+				}
+			}
 		},
 		//删除自己的评论
-		deleteCom(id){
-
+		deleteCom(itemid,index){
+			let resDeleteArticleCommon = articleCommentService.deleteArticleConmon(itemid);
+			if (resDeleteArticleCommon && resDeleteArticleCommon.status == "success") {
+				this.commentList.splice(index,1);
+			}
 		},
 		collect(articleid){
+			if (!localStorage.id) { return; }
 			let resArticleCollect = articleCollectService.articleCollect(articleid);
 			if (resArticleCollect && resArticleCollect.status == "success") {
-				this.ifCollect = true;
-			} else {
-				this.ifCollect = true;				
+				if (resArticleCollect.result == 1 ) {
+					this.ifCollect = true;				
+				} else {
+					this.ifCollect = false;				
+				}
 			}
+		},
+		toComment(){
+			// console.log($("#commentAnchor").offset().top)
+			// $("html,body").animate({scrollTop:$("#commentAnchor").offset().top},500);
+			// document.body.scrollTop = $("#commentAnchor").offset().top;
+			location.href = "#commentAnchor";
 		}
 	},
 }
@@ -492,7 +594,7 @@ export default {
 	    font-size: 22px;
 	    vertical-align:sub;
 	    cursor: pointer;
-	    color: #666;
+	    color: inherit;
 	}
 	.icon3{
 		color: #2cbf57;
@@ -537,12 +639,16 @@ export default {
 	.like-animate {
 	    position: absolute;
 	    left: 0;
-	    bottom: 0;
-	    -webkit-transition: all 1s;
-	    transition: all 1s;
+	    bottom: 0px;
+	    opacity: 1;
+	    color: rgba(0,0,0,0);
 	}
 	.like-animate-up {
-	    
+	    bottom: 20px;
+	    opacity: 0;
+	    color: #f40;
+	    -webkit-transition: opacity 1s,bottom 1s;
+	    transition: opacity 1s,bottom 1s;
 	}
 	.rep-hide {
 	    display: none;
@@ -642,17 +748,6 @@ export default {
 	/* .slide-fade-leave-active for below version 2.1.8 */ {
 	  bottom: -80%;
 	  opacity: 0;
-	}	
-	.up-hide-enter-active {
-	  transition: all .8s ease;
-	}
-	.up-hide-leave-active {
-	  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-	}
-	.up-hide-enter, .up-hide-leave-to{
-	  	opacity: 0;
-	    bottom: 20px;
-	    color: #f40;
 	}
 	.delComment{
 		color: #aaa;
@@ -664,6 +759,14 @@ export default {
 	    padding: 1px 4px;
 	}
 	.collected{
-		color: #0ff;
+		color: #fc0;
+	}
+	.liked{
+		color: #f40;
+		/*border: 1px solid #f40;*/
+	}
+	.report-comment-btn{
+		font-size: 16px;
+	    vertical-align: text-top;
 	}
 </style>

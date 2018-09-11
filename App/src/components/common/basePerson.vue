@@ -58,7 +58,7 @@ export default {
 		}	
 
 		let resArticleCount = articleService.getUserArticleCount();
-		console.log(resArticleCount)
+		// console.log(resArticleCount)
 		if (resArticleCount && resArticleCount.status == "success" ) {
 			this.publidsedNum = resArticleCount.result.count;			
 		}
@@ -94,7 +94,7 @@ export default {
 	methods:{
 
 		goback(url){
-				window.location.href=url;				
+			window.location.href=url;				
 		}
 	},
 	watch:{

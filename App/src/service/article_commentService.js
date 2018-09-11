@@ -31,7 +31,7 @@ service.getArticleCommentPage = function(articleid,page,size){
 	return resArticleCommentList;
 }
 
-// 获取文章回复数量
+// 获取评论回复数量
 service.getReplyCount = function(commentid){
 	var params = {
 		commentid,
@@ -42,7 +42,7 @@ service.getReplyCount = function(commentid){
 	return resReplyCount;
 }
 
-// 获取文章回复列表
+// 获取文章评论回复列表
 service.getReplyList = function(commentid,page,size){
 	var params = {
 		commentid,
@@ -75,5 +75,18 @@ service.articleComment = function(articleid,content,douserid,targetuserid,type,c
 	var resArticleComment = commonUtil.ajaxAsync(controller+'/articleComment',params);
 
 	return resArticleComment;
+}
+
+// 文章评论/回复删除
+service.deleteArticleConmon = function(itemid){
+	var params = {
+		userid,//:"当前用户id",
+		token,//:"令牌",
+		itemid,//:"评论/回复id"
+	};
+
+	var resDeleteArticleCommon = commonUtil.ajaxAsync(controller+'/deleteArticleConmon',params);
+
+	return resDeleteArticleCommon;
 }
 export default service

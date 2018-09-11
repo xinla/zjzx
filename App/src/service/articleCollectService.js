@@ -8,12 +8,25 @@ service.articleCollect = function(articleid){
 	var params = {
 		token:config.token,//:"令牌"
 		userid:config.userid,//:"用户id",
+		// userid,
+		// token,
 		articleid,//:"文章id",
 	};
 
 	var resArticleCollect = commonUtil.ajaxAsync(controller+'/articleCollect',params);
 
 	return resArticleCollect;
+}
+
+service.testCollect = function(articleid){
+	var params = {
+		userid:config.userid,//:"用户id",
+		articleid,//:"文章id",
+	};
+
+	var resTestCollect = commonUtil.ajaxAsync(controller+'/testCollect',params);
+
+	return resTestCollect;
 }
 
 export default service

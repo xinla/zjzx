@@ -72,7 +72,7 @@ img,a{-webkit-touch-callout:none;}
 /* common class */
 /*bfc model*/
 .bfc-o { overflow: hidden;position: relative;}
-.bfc-d,.dib { display: inline-block; vertical-align: top;}
+.bfc-d,.dib { display: inline-block; vertical-align: top;position: relative;}
 .bfc-p { position: absolute; }
 .fl { float: left; position: relative; }
 .fr { float: right; position: relative; }

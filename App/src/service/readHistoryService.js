@@ -4,10 +4,14 @@ import commonUtil from '@/service/util/commonUtil'
 const controller =config.successServer+'/readhistory';
 const service ={}
 
+// let userid = localStorage.getItem('id');
+// let	token = localStorage.getItem('token');
 service.addReadHistory = function(articleid){
 	var params = {
 		token:config.token,//:"令牌"
 		userid:config.userid,//:"用户id",
+		// userid,
+		// token,
 		articleid,//:"文章id",
 	};
 
