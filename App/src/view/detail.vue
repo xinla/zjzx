@@ -1,7 +1,7 @@
 <template>
 	<div >
 		<top @hrefTo="this.$Tool.goBack">
-			<template slot="title">{{ '' }}</template>
+			<template slot="title">{{ '文章详情' }}</template>
 		</top>
 		<div class="detail">
 			<section class="content-wrap" v-if="!proFail1">
@@ -17,7 +17,7 @@
 							<!-- <span>{{ article.classify }}</span> -->
 						</div>
 					</div>
-					<button type="button" class="focus bfc-p" @click="doFocus">{{focusState?'已关注':'关注'}}</button>
+					<button type="button" class="focus bfc-p" @click="doFocus(article.author,1)">{{focusState?'已关注':'关注'}}</button>
 				</div>
 				<div class="content">
 					{{ article.content }}
@@ -48,7 +48,7 @@
 						<div class="comment-detail">				
 							<p>
 								<span class="uname oe bfc-d">{{item.username}}</span>
-								<span class="delComment fr" v-if="item.douserid == userId" @click="deleteCom(item.id,index)">删除</span>
+								<span class="delComment fr" v-if="item.douserid == userId" @click="deleteCom(item.id,index,1)">删除</span>
 							</p>
 							<p class="ucomment">{{item.content}}</p>
 							<div>
@@ -104,13 +104,16 @@
 			</div>
 			<!-- 回复列表 -->
 			<transition name="slide-ud">
-				<div class="reply-wrap" v-if="ifReply">
+				<div class="reply-wrap" v-if="ifReply" ref="reply-wrap">
 					<div class="reply-li bfc-o">
 						<div class="uphoto-wrap fl">
 							<img class="uphoto" :src="commentList[commentIndex].imageurl?(fileRoot+commentList[commentIndex]):imgurl" alt="">
 						</div>
 						<div class="comment-detail">				
-							<p><span class="uname oe bfc-d">{{commentList[commentIndex].username}}</span></p>	
+							<p>
+								<span class="uname oe bfc-d">{{commentList[commentIndex].username}}</span>
+								<button type="button" class="focus-b bfc-p" @click="doFocus(replyUserId,2)">{{replyUserFocusState?'已关注':'关注'}}</button>
+							</p>	
 							<p class="ucomment">{{commentList[commentIndex].content}}</p>
 							<div>
 								<div>
@@ -118,7 +121,7 @@
 									<div class="reply reply-sh">
 										<div>
 											<time v-text="$Tool.publishTimeFormat(commentList[commentIndex].commenttime)"></time>	
-											<i class="iconfont report-comment-btn ">&#xe77e;</i>		
+											<i class="iconfont report-comment-btn" @click="report()">&#xe77e;</i>		
 										</div>
 										<span>-</span>
 										<span class="rep-show">
@@ -145,12 +148,15 @@
 					</div>
 					<!-- 评论的回复列表 -->
 					<ul class="reply-main">
-						<li class="reply-li bfc-o" v-for="item in replyList">
+						<li class="reply-li bfc-o" v-for="(item,index) in replyList">
 							<div class="uphoto-wrap fl">
 								<img class="uphoto" :src="item.imageurl?(fileRoot+item.imageurl):imgurl" alt="">
 							</div>
 							<div class="comment-detail">				
-								<p><span class="uname oe bfc-d">{{item.username}}</span></p>	
+								<p>
+									<span class="uname oe bfc-d">{{item.username}}</span>
+									<span class="delComment fr" v-if="item.douserid == userId" @click="deleteCom(item.id,index,2)">删除</span>
+								</p>	
 								<p class="ucomment">{{item.content}}</p>
 								<div>
 									<div>
@@ -158,7 +164,7 @@
 										<button type="button" class="reply reply-sh">
 											<time v-text="$Tool.publishTimeFormat(item.commenttime)"></time>
 											<span>-</span>
-											<span class="rep-show" @click="showReply(item.id)">
+											<span class="rep-show" @click="replySb(item.username)">
 												<var>{{item.replyCount || 0}}</var>回复
 												<!-- <i class="iconfont">&#xe7f6;</i> -->
 											</span>
@@ -166,15 +172,26 @@
 												收起回复<i class="iconfont">&#xe7f4;</i>
 											</span> -->
 										</button>
-										<div class="like-wrap fr">
+										<!-- <div class="like-wrap fr">
 											<var>125</var><button type="button" class="like-btn"><i class="iconfont icon2">&#xe7c8;</i><i class="iconfont icon2 like-animate">&#xe7c8;</i></button>
 											<i class="iconfont icon2 report-comment-btn ">&#xe77e;</i>
-										</div>
+										</div> -->
 									</div>	
 								</div>
 							</div>
 						</li>
 					</ul>									
+				</div>
+			</transition>
+			<transition name="slide-ud">
+				<div class="report-wrap bf" v-if="ifReport">
+					<group title="选择举报类别">
+					    <radio :options="reportList" fill-mode v-model="value" :selected-label-style="{color:'#f40'}" @radio-checked-icon-color="" @on-change="change"></radio>
+					</group>
+					<div class="ac">
+						<button type="button" class="report-btn" @click="reportCancle">取消</button>
+						<button type="button" class="report-btn" @click="reportConfirm">确定</button>
+					</div>
 				</div>
 			</transition>
 		</div>
@@ -218,6 +235,8 @@ export default {
 			failMes1:"获取内容失败",
 			failMes2:"获取评论失败",
 			commentCon:'',
+			//三级回复@的用户名
+			commentConAdd:'',
 			//底部评论框状态切换
 			ifCommentSwitch:false,
 			//评论回复显隐切换
@@ -226,6 +245,8 @@ export default {
 			replyCommentId:Number,
 			//回复评论人的id
 			replyUserId:Number,
+			//回复评论人的关注状态
+			replyUserFocusState:false,
 			//指定评论数组中某条评论的索引值 //展开评论回复是顶部当前索引使用
 			commentIndex:Number,
 			//评论类型：1评论，2回复
@@ -242,7 +263,24 @@ export default {
 			likeNum:0,
 			//点赞状态
 			likeStatus:false,
-			
+			//举报显隐
+			ifReport:false,
+			//举报数组
+			reportList:[
+				{
+					key:1,
+					value:"暴力，反动"
+				},
+				{
+					key:2,
+					value:"涉黄，污秽"
+				},
+				{
+					key:3,
+					value:"违法，造谣"
+				},
+			],
+			reportSelected:0,
 		}
 	},
 	mounted(){
@@ -265,7 +303,7 @@ export default {
 			this.artUser = resUserInfo.result.user;
 		}
 		// console.log(resUserInfo)
-		// 是否关注
+		// 是否关注发布人
 		if (localStorage.getItem('token')) {
 			let resTestFollow = followService.testFollow(this.article.author);
 			if (resTestFollow && resTestFollow.status == "success") {
@@ -337,17 +375,42 @@ export default {
 			}
 		}
 		
+		//评论滚动近底部，自动加载 一屏1080
+		// $(function(){
+		// 	$(".reply-wrap").scroll(function(){
+		// 		console.log(1)
+		// 	})
+			
+		// })
+		// document.getElementsByClassName("reply-wrap")[0].onscroll = function(){
+		// 	console.log(1)
+		// }
+		let box = this.$ref.reply-wrap;
+			box.addEventListener('scroll', () => {
+	    console.log(" scroll " + this.$refs.viewBox.scrollTop)
+	    //以下是我自己的需求，向下滚动的时候显示“我是有底线的（类似支付宝）”
+	    this.isScroll=this.$refs.viewBox.scrollTop>0
+	  }, false)
 	},
 	methods:{
-		doFocus(){
+		doFocus(id,type){
+			//type:1文章发布者，2评论者
 			// 关注/取消关注
 			if (localStorage.getItem('token')) {
-				let resFocusState = followService.doFollow(this.article.author);
+				let resFocusState = followService.doFollow(id);
 				if (resFocusState && resFocusState.status == "success") {
-					if (resFocusState.result == 1) {
-						this.focusState = true;
+					if (type==1) {
+						if (resFocusState.result == 1) {
+							this.focusState = true;
+						} else {
+							this.focusState = false;
+						}
 					} else {
-						this.focusState = false;
+						if (resFocusState.result == 1) {
+							this.replyUserFocusState = true;
+						} else {
+							this.replyUserFocusState = false;
+						}
 					}
 				}			
 			}else{
@@ -372,6 +435,7 @@ export default {
 							if (resArticleCommentList&&resArticleCommentList.status == "success") {
 								this.commentList = resArticleCommentList.list.list;
 							}
+							this.commentCon = "";
 						} else {
 							this.$vux.alert.show({
 							  content:'评论失败，亲重试',
@@ -381,23 +445,26 @@ export default {
 							},1000)
 						}						
 					} else {
+						let comment = this.commentConAdd?(this.commentCon + this.commentConAdd):this.commentCon;
 						//执行发送评论回复
-						let resACommentReply = articleCommentService.articleComment(this.id,this.commentCon,userId,this.replyUserId,2,this.replyCommentId);	
+						let resACommentReply = articleCommentService.articleComment(this.id,comment,userId,this.replyUserId,2,this.replyCommentId);	
 						if (resACommentReply && resACommentReply.status == "success") {
-							this.ifReply = true;
+							this.commentCon = "";
+							// this.ifReply = true;
 							// 获取文章评论回复列表(更新)
 							let resReplyList = articleCommentService.getReplyList(this.replyCommentId,1,10)
 							if (resReplyList && resReplyList.status == "success") {
 								this.replyList = resReplyList.recordPage.list;
-								console.log(resReplyList)
+								// console.log(resReplyList)
 								//获取评论回复人信息
 								for (var i = 0,len = this.replyList.length; i < len; i++) {
-									let resUserInfo = userService.getUserById(this.resReplyList[i].douserid);
+									let resUserInfo = userService.getUserById(this.replyList[i].douserid);
+									// console.log(resUserInfo)
 									if (resUserInfo && resUserInfo.status == "success") {
 										this.replyList[i].imageurl = resUserInfo.result.user.imageurl;
 										this.replyList[i].username = resUserInfo.result.user.username;
 									}
-									
+									console.log(1)
 								}
 							}
 						} else {
@@ -441,6 +508,17 @@ export default {
 			this.replyUserId = replyUserId;
 			this.replyCommentId = commentid;
 			this.commentIndex = commentIndex;
+			// 是否关注发布人
+			if (localStorage.getItem('token')) {
+				let resTestFollow = followService.testFollow(replyUserId);
+				if (resTestFollow && resTestFollow.status == "success") {
+					if (resTestFollow.result == 1) {
+						this.replyUserFocusState = true;
+					} else {
+						this.replyUserFocusState = false;
+					}
+				}			
+			}
 			// 获取文章评论回复列表
 			let resReplyList = articleCommentService.getReplyList(commentid,1,10)
 			if (resReplyList && resReplyList.status == "success") {
@@ -485,7 +563,7 @@ export default {
 						this.commentList[index].likeNum ++;
 						this.commentList[index].ifLike = true;
 					} else {
-						console.log(1)
+						// console.log(1)
 						this.curLike = index;
 						this.ifLike = false;
 						this.commentList[index].likeNum --;
@@ -495,11 +573,15 @@ export default {
 			}
 		},
 		//删除自己的评论
-		deleteCom(itemid,index){
+		deleteCom(itemid,index,type){
 			let resDeleteArticleCommon = articleCommentService.deleteArticleConmon(itemid);
 			if (resDeleteArticleCommon && resDeleteArticleCommon.status == "success") {
-				this.commentList.splice(index,1);
-			}
+				if (type == 1) {
+					this.commentList.splice(index,1);
+				} else {
+					this.replyList.splice(index,1);
+				}
+			}			
 		},
 		collect(articleid){
 			if (!localStorage.id) { return; }
@@ -517,6 +599,38 @@ export default {
 			// $("html,body").animate({scrollTop:$("#commentAnchor").offset().top},500);
 			// document.body.scrollTop = $("#commentAnchor").offset().top;
 			location.href = "#commentAnchor";
+		},
+		report(){
+			this.ifReport = true;
+		},
+		change(value, label){
+			// console.log('change:', value, label);
+			this.reportSelected = value;
+		},
+		reportCancle(){
+			this.ifReport = false;
+		},
+		reportConfirm(){
+			if (userId) {
+
+				this.$vux.alert.show({
+				  content:'感谢您的反馈，我们会着实核查！',
+				})
+				setTimeout(()=>{
+					this.$vux.alert.hide();
+				},1000)
+			} else {
+				this.$vux.alert.show({
+				  content:'请先登录',
+				})
+				setTimeout(()=>{
+					this.$vux.alert.hide();
+				},1000)
+			}
+			this.ifReport = false;
+		},
+		replySb(userName){
+			this.commentConAdd = "  //@" + userName;
 		}
 	},
 }
@@ -525,7 +639,7 @@ export default {
 <style scoped>
 	.detail{
 	    color: #555;
-        margin-top: 50px;
+        margin: 50px 0;
 	}
 	.content-wrap{
 		padding: 0 15px;
@@ -618,6 +732,7 @@ export default {
 	    margin: 10px 0;
 	}
 	.comment-detail {
+		position: relative;
 	    display: inline-block;
 	    width: 100%;
 	    padding-left: 50px;
@@ -717,7 +832,7 @@ export default {
 	}
 	.mask{
 		display: block;
-		height: calc(100% - 100px);
+		/*height: calc(100% - 100px);*/
 		background: transparent;
 	}
 	.mask-sub{
@@ -727,13 +842,14 @@ export default {
 		font-size: 10px;
 	}
 	.reply-wrap{
-	    height: 80%;
+	    height: 90%;
 	    background: #fdfdfd;
 	    position: fixed;
 	    width: 100%;
 	    bottom: 0;
-	    padding: 0 5px;
+	    padding: 0 5px 50px;
 	    border-top: 1px solid #ddd;
+        overflow: auto;
 	}
 	.reply-main{
 	    padding: 0 15px;
@@ -746,7 +862,7 @@ export default {
 	}
 	.slide-ud-enter, .slide-ud-leave-to
 	/* .slide-fade-leave-active for below version 2.1.8 */ {
-	  bottom: -80%;
+	  bottom: -90%;
 	  opacity: 0;
 	}
 	.delComment{
@@ -768,5 +884,22 @@ export default {
 	.report-comment-btn{
 		font-size: 16px;
 	    vertical-align: text-top;
+	}
+	.report-wrap{
+		height: auto;
+	    background: #fff;
+	}
+	.report-btn{
+	    padding: 5px 10px;
+	    margin: 15px;
+	    background: #eee;
+	    border-radius: 6px;
+	    color: #666;
+	}
+	.focus-b{
+		top: 0;
+		right: 0;
+		color: #f40;
+		background: none;
 	}
 </style>
