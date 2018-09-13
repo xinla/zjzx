@@ -7,14 +7,13 @@ const service ={}
 let userid = localStorage.getItem('id');
 let	token = localStorage.getItem('token');
 // 获取文章评论数量
-service.getArticleCommentCount = function(articleid){
+service.getArticleCommentCount = function(articleid,call){
 	var params = {
 		articleid,
 	};
 
-	var resArticleCommentCount = commonUtil.ajaxAsync(controller+'/getArticleCommentCount',params);
+	commonUtil.ajax(controller+'/getArticleCommentCount',params,call);
 
-	return resArticleCommentCount;
 }
 
 // 获取文章评论列表
@@ -32,14 +31,19 @@ service.getArticleCommentPage = function(articleid,page,size){
 }
 
 // 获取评论回复数量
-service.getReplyCount = function(commentid){
+service.getReplyCount = function(commentid,call){
 	var params = {
 		commentid,
 	};
 
-	var resReplyCount = commonUtil.ajaxAsync(controller+'/getReplyCount',params);
+	if(call){
+		commonUtil.ajax(controller+'/getReplyCount',params,call);
+		return;
+	}
+	var resMap = commonUtil.ajaxAsync(controller+'/getReplyCount',params);
 
-	return resReplyCount;
+	return resMap;
+
 }
 
 // 获取文章评论回复列表

@@ -5,7 +5,8 @@ import commonUtil from '@/service/util/commonUtil'
 const controller =config.successServer+'/user';
 const service ={}
 
-
+let token = localStorage.getItem('token');
+let userid =  localStorage.getItem('id');
 
 //获取手机验证码
 service.getCode = function(mobile,call){
@@ -33,8 +34,7 @@ service.loginByMobile = function(mobile,code,call){
 
 //获取用户的Id和token令牌
 service.getUserById = function(targetuserid,call) {
-	let token = localStorage.getItem('token');
-	let userid =  localStorage.getItem('id');
+	
 	let username = localStorage.getItem('username');
 	// axios.get(controller+'/getUserById',{params:{
 	// 	token:token,
@@ -51,7 +51,7 @@ service.getUserById = function(targetuserid,call) {
 
 	};
 
-	var resUserInfo =	commonUtil.ajaxAsync(controller+'/getUserById',params);
+	var resUserInfo = commonUtil.ajaxAsync(controller+'/getUserById',params);
 //	$.post
 	///call(resMap);
 	// $.post(controller+'/getUserById',params,function(data){
@@ -64,8 +64,6 @@ service.getUserById = function(targetuserid,call) {
 
 //更新用户信息
 service.updateUser = function(user) {
-	let token = localStorage.getItem('token');
-	let userid = localStorage.getItem('id');
 	// debugger;
 	let params = {
 		token:token,
@@ -91,8 +89,6 @@ service.getCurentUser = function(call){
 
 //用户退出
 service.logOut = function(){
-	let token = localStorage.getItem('token');
-	let userid = localStorage.getItem('id');
 	let logid = localStorage.getItem('logid');
 	let params = {
 		logid,
@@ -106,7 +102,7 @@ service.logOut = function(){
 
 //获取用户关注
 service.getUserFollow = function(page,size){
-	let userid = localStorage.getItem('id');
+
 	let params = {
 		page,//："当前页数",
 		size,//:"每一页大小",
@@ -119,7 +115,7 @@ service.getUserFollow = function(page,size){
 
 //获取用户粉丝
 service.getUserVermicelli = function(page,size){
-	let userid = localStorage.getItem('id');
+
 	let params = {
 		page,//："当前页数",
 		size,//:"每一页大小",

@@ -18,15 +18,14 @@ service.articleCollect = function(articleid){
 	return resArticleCollect;
 }
 
-service.testCollect = function(articleid){
+service.testCollect = function(articleid,call){
 	var params = {
 		userid:config.userid,//:"用户id",
 		articleid,//:"文章id",
 	};
 
-	var resTestCollect = commonUtil.ajaxAsync(controller+'/testCollect',params);
+	commonUtil.ajaxAsync(controller+'/testCollect',params,call);
 
-	return resTestCollect;
 }
 
 export default service

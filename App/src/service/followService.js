@@ -42,14 +42,12 @@ service.doFollow = function(followuserid){
 	return resFocusState;
 }
 // 是否关注
-service.testFollow = function(targetuserid){
+service.testFollow = function(targetuserid,call){
 	var params = {
 		userid,//:"当前用户id",
 		targetuserid,//:"关注的用户id"
 	};
 
-	var resTestFollow = commonUtil.ajaxAsync(controller+'/testFollow',params);
-
-	return resTestFollow;
+	commonUtil.ajax(controller+'/testFollow',params,call);
 }
 export default service

@@ -3,7 +3,7 @@
 		<top @hrefTo="this.$Tool.goBack">
 			<template slot="title">{{ '文章详情' }}</template>
 		</top>
-		<div class="detail">
+		<div class="detail" @scroll="scrollBotLoad">
 			<section class="content-wrap" v-if="!proFail1">
 				<h1>{{ article.title }}</h1>
 				<div class="publisher bfc-o">
@@ -39,7 +39,7 @@
 				<button type="button" class="btn-a"><i class="iconfont icon3">&#xe883;</i>微信</button>
 				<button type="button" class="btn-a"><i class="iconfont icon3">&#xe882;</i>QQ</button>
 			</div>	
-			<div class="comment" v-if="!proFail2" >				
+			<div class="comment">				
 				<ul class="comment-ul">
 					<li class="comment-li bfc-o" v-for="(item,index) in commentList">
 						<div class="uphoto-wrap fl">
@@ -76,8 +76,9 @@
 						</div>
 					</li>
 				</ul>				
+				<prompt-blank v-if="proFail2" :mes="failMes2"></prompt-blank>
+				<load-more tip="正在加载"></load-more>			
 			</div>
-			<prompt-blank v-if="proFail2" :mes="failMes2"></prompt-blank>			
 		</div>
 		<!-- 伪评论框 -->
 		<div class="comment-form comment-form-a bf" v-show="!ifCommentSwitch">
@@ -86,7 +87,7 @@
 			</div>
 			
 			<i class="iconfont icon-comment-a icon-comment-num" @click="toComment()">&#xe78a;
-				<sup class="commment-num"><span class="commment-num-span">{{commentList.length}}</span></sup>
+				<sup class="commment-num"><span class="commment-num-span">{{commentNum}}</span></sup>
 			</i>
 			<i :class="['iconfont icon-comment-a icon-collect',{'collected':ifCollect}]" @click="collect(id)">&#xe7df;</i>
 			<i class="iconfont icon-comment-a icon-forward">&#xe7e7;</i>
@@ -104,7 +105,8 @@
 			</div>
 			<!-- 回复列表 -->
 			<transition name="slide-ud">
-				<div class="reply-wrap" v-if="ifReply" ref="reply-wrap">
+				<!-- v-scrollLoad="scrollBotLoad" -->
+				<div class="reply-wrap" v-if="ifReply" @scroll="scrollBotLoad" >
 					<div class="reply-li bfc-o">
 						<div class="uphoto-wrap fl">
 							<img class="uphoto" :src="commentList[commentIndex].imageurl?(fileRoot+commentList[commentIndex]):imgurl" alt="">
@@ -200,6 +202,7 @@
 
 <script>
 import config from '@/lib/config/config'
+import listUtil from '@/service/util/listUtil'
 import articleService from '@/service/articleService'
 import userService from '@/service/userService'
 import followService from '@/service/followService'
@@ -261,6 +264,7 @@ export default {
 			ifCollect:false,
 			//文章点赞量
 			likeNum:0,
+			commentNum:0,
 			//点赞状态
 			likeStatus:false,
 			//举报显隐
@@ -281,12 +285,18 @@ export default {
 				},
 			],
 			reportSelected:0,
+			//评论加载分页
+			pageNum1:1,
+			//回复加载分页
+			pageNum2:1,
+			//
+			lock:true,
 		}
 	},
 	mounted(){
 		this.id = this.$route.query.id;
 		//添加阅读记录
-		let resAddReadHistory = readHistoryService.addReadHistory(this.id);
+		readHistoryService.addReadHistory(this.id,(data)=>{});
 		// if (resAddReadHistory && resAddReadHistory.status == "success") {
 		// }
 		//获取文章信息
@@ -305,94 +315,134 @@ export default {
 		// console.log(resUserInfo)
 		// 是否关注发布人
 		if (localStorage.getItem('token')) {
-			let resTestFollow = followService.testFollow(this.article.author);
-			if (resTestFollow && resTestFollow.status == "success") {
-				if (resTestFollow.result == 1) {
-					this.focusState = true;
-				} else {
-					this.focusState = false;
-				}
-			}			
+			followService.testFollow(this.article.author,(data)=>{
+				if (data && data.status == "success") {
+					if (data.result == 1) {
+						this.focusState = true;
+					} else {
+						this.focusState = false;
+					}
+				}						
+			});
 		}
 		//获取文章点赞量
-		let resGetPraiseCount = praiseService.getPraiseCount(this.id,1);
-		if (resGetPraiseCount && resGetPraiseCount.status == "success") {
-			this.likeNum = resGetPraiseCount.result.count;
-		}
+		praiseService.getPraiseCount(this.id,1,(data)=>{
+			if (data && data.status == "success") {
+				this.likeNum = data.result.count;
+			}		
+		});
 		//用户是否给文章点赞
-		let resTestPraise = praiseService.testPraise(this.id,1);
-		if (resTestPraise && resTestPraise.status == "success") {
-			if (resTestPraise.result == 1) {
-				this.likeStatus = true;
-			} else {
-				this.likeStatus = false;
-			}
-		}
-		// 获取文章一级评论列表
-		let resArticleCommentList = articleCommentService.getArticleCommentPage(this.id,1,10);
-		if (resArticleCommentList && resArticleCommentList.status == "success") {
-			this.commentList = resArticleCommentList.list.list;
-			for (var i = 0,len = this.commentList.length; i < len; i++) {
-				//获取文章一级评论人信息
-				let resUserInfo = userService.getUserById(this.commentList[i].douserid);
-				if (resUserInfo && resUserInfo.status == "success") {
-					this.commentList[i].imageurl = resUserInfo.result.user.imageurl;
-					this.commentList[i].username = resUserInfo.result.user.username;
+		praiseService.testPraise(this.id,1,(data)=>{
+			if (data && data.status == "success") {
+				if (data.result == 1) {
+					this.likeStatus = true;
+				} else {
+					this.likeStatus = false;
 				}
-				//获取文章一级评论回复数量
-				let resReplyCount = articleCommentService.getReplyCount(this.commentList[i].id);
-				if (resReplyCount && resReplyCount.status == "success") {
-					this.commentList[i].replyCount = resReplyCount.result.count;
-				}	
-				//获取文章一级评论点赞量
-				let resGetPraiseCount = praiseService.getPraiseCount(this.commentList[i].id,2);
-				if (resGetPraiseCount && resGetPraiseCount.status == "success") {
-					this.commentList[i].likeNum = resGetPraiseCount.result.count;
-				}
-				//用户是否给文章一级评论点赞
-				let resTestPraise = praiseService.testPraise(this.commentList[i].id,2);
-				if (resTestPraise && resTestPraise.status == "success") {
-					if (resTestPraise.result == 1) {
-						this.commentList[i].ifLike = true;
-					} else {
-						this.commentList[i].ifLike = false;
-					}
-				}
-			}
-
-		} else {
-			this.proFail2 = true;
-		}
+			}			
+		});
+		//获取评论数量
+		articleCommentService.getArticleCommentCount(this.id,(data)=>{
+			if (data.status == "success") {
+				this.commentNum = data.result.count;
+			}			
+		});
+		
 		// console.log(resArticleCommentList)
 		// console.log(this.commentList)
 		//是否收藏
-		let resArticleCollect = articleCollectService.testCollect(this.id);
-		if (resArticleCollect && resArticleCollect.status == "success") {
-			if (resArticleCollect.result == 1 ) {
-				this.ifCollect = true;				
-			} else {
-				this.ifCollect = false;				
-			}
-		}
-		
+		articleCollectService.testCollect(this.id,(data)=>{
+			if (data && data.status == "success") {
+				if (data.result == 1 ) {
+					this.ifCollect = true;				
+				} else {
+					this.ifCollect = false;				
+				}
+			}		
+		});
 		//评论滚动近底部，自动加载 一屏1080
-		// $(function(){
-		// 	$(".reply-wrap").scroll(function(){
-		// 		console.log(1)
-		// 	})
-			
-		// })
-		// document.getElementsByClassName("reply-wrap")[0].onscroll = function(){
-		// 	console.log(1)
-		// }
-		let box = this.$ref.reply-wrap;
-			box.addEventListener('scroll', () => {
-	    console.log(" scroll " + this.$refs.viewBox.scrollTop)
-	    //以下是我自己的需求，向下滚动的时候显示“我是有底线的（类似支付宝）”
-	    this.isScroll=this.$refs.viewBox.scrollTop>0
-	  }, false)
-	},
+		this.loadComment();
+	},	
 	methods:{
+		loadComment(){
+			// 获取文章一级评论列表
+			console.log(3)
+			console.log(this.lock)
+			if (!this.lock) {
+				return "";
+			}
+			console.log(2)
+
+				this.lock = false;		
+			let resArticleCommentList = articleCommentService.getArticleCommentPage(this.id,this.pageNum1,10);
+			if (resArticleCommentList && resArticleCommentList.status == "success") {
+				this.commentList = resArticleCommentList.list.list;
+				listUtil.asyncSetListPropty(this.commentList,(item)=>{
+					//获取文章一级评论人信息
+					let resUserInfo = userService.getUserById(item.douserid);
+					if (resUserInfo && resUserInfo.status == "success") {
+						// item.imageurl = resUserInfo.result.user.imageurl;
+						// item.username = resUserInfo.result.user.username;						
+						this.$set(item,"imageurl",resUserInfo.result.user.imageurl);
+						this.$set(item,"username",resUserInfo.result.user.username);
+					}
+					//获取文章一级评论回复数量
+					let resGetReplyCount = articleCommentService.getReplyCount(item.id);
+					if (resGetReplyCount && resGetReplyCount.status == "success") {
+						// item.replyCount = resGetReplyCount.result.count;
+						this.$set(item,"replyCount",resGetReplyCount.result.count);
+					}	
+					//获取文章一级评论点赞量
+					let resGetPraiseCount = praiseService.getPraiseCount(item.id,2);
+					if (resGetPraiseCount && resGetPraiseCount.status == "success") {
+						// item.likeNum = resGetPraiseCount.result.count;
+						this.$set(item,"likeNum",resGetPraiseCount.result.count);
+					}
+					//用户是否给文章一级评论点赞
+					let resTestPraise = praiseService.testPraise(item.id,2)
+						if (resTestPraise && resTestPraise.status == "success") {
+							if (resTestPraise.result == 1) {
+								// item.ifLike = true;
+								this.$set(item,"ifLike",true);
+							} else {
+								// item.ifLike = false;
+								this.$set(item,"ifLike",false);
+							}
+						}
+				});
+				this.pageNum1 ++;
+				this.lock = true;
+			} else {
+				this.proFail2 = true;
+			}
+		},
+		loadReply(){
+			// 获取文章评论回复列表
+			let resReplyList = articleCommentService.getReplyList(commentid,1,10)
+			if (resReplyList && resReplyList.status == "success") {
+				this.replyList = resReplyList.recordPage.list;
+				//获取回复人信息
+				for (var i = 0,len = this.replyList.length; i < len; i++) {
+					let resUserInfo = userService.getUserById(this.replyList[i].douserid);
+					if (resUserInfo && resUserInfo.status == "success") {
+						this.replyList[i].imageurl = resUserInfo.result.user.imageurl;
+						this.replyList[i].username = resUserInfo.result.user.username;
+					}
+					//获取回复数量
+					// let resReplyCount = articleCommentService.getReplyCount(this.replyList[i].commentid);
+					// if (resReplyCount && resReplyCount.status == "success") {
+					// 	this.replyList[i].replyCount = resReplyCount.result.count;
+					// }	
+					
+				}
+			}
+		},
+		scrollBotLoad(){
+			if (($(".detail").scrollTop() + $(".detail").height()) > $(".detail")[0].scrollHeight-350) {
+				// console.log(1)
+				this.$options.methods.loadComment.call(this);
+			} else {}
+		},
 		doFocus(id,type){
 			//type:1文章发布者，2评论者
 			// 关注/取消关注
@@ -431,10 +481,7 @@ export default {
 						let resArticleComment = articleCommentService.articleComment(this.id,this.commentCon,userId,this.article.author,1);	
 						if (resArticleComment && resArticleComment.status == "success") {
 							// 获取文章评论列表(更新)
-							let resArticleCommentList = articleCommentService.getArticleCommentPage(this.id,1,10);
-							if (resArticleCommentList&&resArticleCommentList.status == "success") {
-								this.commentList = resArticleCommentList.list.list;
-							}
+							this.$options.methods.loadComment();
 							this.commentCon = "";
 						} else {
 							this.$vux.alert.show({
@@ -574,6 +621,7 @@ export default {
 		},
 		//删除自己的评论
 		deleteCom(itemid,index,type){
+			debugger;
 			let resDeleteArticleCommon = articleCommentService.deleteArticleConmon(itemid);
 			if (resDeleteArticleCommon && resDeleteArticleCommon.status == "success") {
 				if (type == 1) {
@@ -640,6 +688,8 @@ export default {
 	.detail{
 	    color: #555;
         margin: 50px 0;
+        height: 100%;
+        overflow-y: auto;
 	}
 	.content-wrap{
 		padding: 0 15px;

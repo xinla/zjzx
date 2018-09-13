@@ -22,10 +22,10 @@ util.ajaxAsync = function(url,params){
 util.ajax = function(url,params,call){
 
 	$.post(url,params,function(data){
-
-		call(data);
-
-	});
+		if (call) {
+			call(data);		
+		}
+	},"json");
 
 
 }

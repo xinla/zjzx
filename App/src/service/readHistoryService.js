@@ -6,7 +6,7 @@ const service ={}
 
 // let userid = localStorage.getItem('id');
 // let	token = localStorage.getItem('token');
-service.addReadHistory = function(articleid){
+service.addReadHistory = function(articleid,call){
 	var params = {
 		token:config.token,//:"令牌"
 		userid:config.userid,//:"用户id",
@@ -15,9 +15,8 @@ service.addReadHistory = function(articleid){
 		articleid,//:"文章id",
 	};
 
-	var resAddReadHistory = commonUtil.ajaxAsync(controller+'/addReadHistory',params);
+	commonUtil.ajax(controller+'/addReadHistory',params,call);
 
-	return resAddReadHistory;
 }
 
 export default service

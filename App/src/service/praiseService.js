@@ -5,28 +5,37 @@ const controller =config.successServer+'/praise';
 const service ={}
 
 //点赞量
-service.getPraiseCount = function(itemid,type){
+service.getPraiseCount = function(itemid,type,call){
 	var params = {
 		itemid,//:"文章/评论/回复id",
 		type,//:"1"
 	};
+	if(call){
+		commonUtil.ajax(controller+'/getPraiseCount',params,call);
+		return ;
+	}
 
-	var resGetPraiseCount = commonUtil.ajaxAsync(controller+'/getPraiseCount',params);
+	var resMap = commonUtil.ajaxAsync(controller+'/getPraiseCount',params);
 
-	return resGetPraiseCount;
+	return resMap;
+	
 }
 
 //是否点赞
-service.testPraise = function(itemid,type){
+service.testPraise = function(itemid,type,call){
 	var params = {
 		userid:config.userid,//:"用户id",
 		itemid,//:"对象id",
 		type,//:"点赞类型", //1:文章，2:评论
 	};
+	if (call) {
+		commonUtil.ajaxAsync(controller+'/testPraise',params,call);	
+		return;	
+	}
 
-	var resTestPraise = commonUtil.ajaxAsync(controller+'/testPraise',params);
+	var resMap = commonUtil.ajaxAsync(controller+'/testPraise',params);
 
-	return resTestPraise;
+	return resMap; 
 }
 
 //执行点赞
