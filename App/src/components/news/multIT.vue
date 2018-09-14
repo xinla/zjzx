@@ -47,12 +47,14 @@ export default {
 				} else {
 					this.failImg = true;
 				}
-				let resArticleCommentNum = articleCommentService.getArticleCommentCount(this.article.id);
-				if (resArticleCommentNum&&resArticleCommentNum.status == "success") {
-					this.CommentNum = resArticleCommentNum.result.count;		
-				}else{
-					this.CommentNum = 0;
-				}
+				// 获取文章评论数量
+				articleCommentService.getArticleCommentCount(this.article.id,data=>{
+					if (data.status == "success") {
+						this.CommentNum = data.result.count;		
+					}else{
+						this.CommentNum = 0;
+					}					
+				});
 
 				this.publishtime = this.$Tool.publishTimeFormat(this.article.publishtime);
 			// if(article.type == 1){
@@ -67,12 +69,15 @@ export default {
 				} else {
 					this.failImg = true;
 				}
-				let resArticleCommentNum = articleCommentService.getArticleCommentCount(this.article.id);
-				if (resArticleCommentNum&&resArticleCommentNum.status == "success") {
-					this.CommentNum = resArticleCommentNum.result.count;		
-				}else{
-					this.CommentNum = 0;
-				}
+
+				// 获取文章评论数量
+				articleCommentService.getArticleCommentCount(this.article,data=>{
+					if (data && data.status == "success") {
+						this.CommentNum = data.result.count;		
+					}else{
+						this.CommentNum = 0;
+					}					
+				});
 
 				this.publishtime = this.$Tool.publishTimeFormat(this.article.publishtime);
 		}

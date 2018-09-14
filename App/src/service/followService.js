@@ -8,22 +8,30 @@ let token = localStorage.getItem('token');
 let userid = localStorage.getItem('id'); 
 
 // 获取用户粉丝数量
-service.getUserVermicelliCount = function(){
+service.getUserVermicelliCount = function(call){
 	var params = {
 		userid,
 	};
-
+	
+	if (call) {
+		commonUtil.ajax(controller+'/getUserVermicelliCount',params,call);
+		return;
+	}
 	var resFansCount = commonUtil.ajaxAsync(controller+'/getUserVermicelliCount',params);
 
 	return resFansCount;
 }
 
 // 获取用户关注数量
-service.getUserFollowCount = function(){
+service.getUserFollowCount = function(call){
 	var params = {
 		userid,
 	};
 
+	if (call) {
+		commonUtil.ajax(controller+'/getUserFollowCount',params,call);
+		return;
+	}
 	var resFocusCount = commonUtil.ajaxAsync(controller+'/getUserFollowCount',params);
 
 	return resFocusCount;

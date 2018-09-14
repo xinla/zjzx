@@ -67,7 +67,7 @@
 					<span class="fl">手机号</span>
 					<div class="editInfo-right fr clearfix" @click="showPhone=!showPhone">
 						<div class="editInfo-head-tip fl">	
-							<span>{{this.$Tool.mobileInput(user.mobile)}}</span>
+							<span>{{this.$Tool.mobileInput(user.phone)}}</span>
 						</div>
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
@@ -205,6 +205,7 @@
 					username:'',
 					introduce:'',
 					mobile:Number,
+					phone:Number,
 					sex:'',
 					birthday:'',
 					province:'',
@@ -393,7 +394,7 @@
 				// this.provinceList.province = thiz.$data.provinceList.province;	
 			},
 			checkPhone(val){
-				if (val == this.user.mobile) {
+				if (val == this.user.phone) {
 					return;
 				} else if (val.length == 11) {
 					userService.getCode(val,data=>{
@@ -420,7 +421,7 @@
 			},
 			checkCode(val){
 				if (val == this.verCode) {
-					this.user.mobile = parseInt(this.inputMobile);
+					this.user.phone = parseInt(this.inputMobile);
 					let data = userService.updateUser(this.$data.user);
 				} else {
 					this.showAlert=true;

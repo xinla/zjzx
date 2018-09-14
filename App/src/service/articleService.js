@@ -37,13 +37,16 @@ let userid = localStorage.getItem('id');
 }
 
 // 获取用户的发布文章数量
-service.getUserArticleCount = function(){
+service.getUserArticleCount = function(call){
 let userid = localStorage.getItem('id');
 
 	let params = {
 		userid,
 	}
-
+	if (call) {
+		commonUtil.ajax(controller+'/getUserArticleCount',params,call);
+		return;
+	}
 	let resArticleCount = commonUtil.ajaxAsync(controller+'/getUserArticleCount',params);
 
 	return resArticleCount;

@@ -1,20 +1,16 @@
 <template>
 	<div>
 		<div class="main-a">
-			<router-link :to="path.info" exact>
-				<div class="identity bfc-o">
+				<div class="identity bfc-o" @click="$Tool.goPage(path.info)">
 					<span>绑定手机号</span>
 					<button type="button" class="fr to achieved" v-if="achieved.ifBind">已完成</button>
 					<button type="button" class="fr to" v-if="!achieved.ifBind">去完成</button>
-				</div>
-			</router-link>
-			<router-link :to="path.release" exact>			
-				<div class="identity bfc-o">
+				</div>			
+				<div class="identity bfc-o" @click="$Tool.goPage(path.release)">
 					<span>发布文章</span>
 					<button type="button" class="fr to achieved" v-if="achieved.ifRelease">已完成</button>
 					<button type="button" class="fr to" v-if="!achieved.ifRelease">去完成</button>
 				</div>
-			</router-link>
 		</div>
 		<div class="main-a">
 			<div class="power">
@@ -42,7 +38,6 @@ export default{
 	data(){
 		return {
 			achieved:{
-				ifBind:false,
 				ifRelease:true,
 			},
 			path:{
@@ -52,23 +47,17 @@ export default{
 		}
 	},
 	mounted(){
-		if (!this.achieved.ifBind) {
-			this.path.info={path:'/memberBase/editInfo',query:{title:'资料编辑'}};
+		localStorage.userData.phone;
+		if (localStorage.userData.phone) {
+			this.path.info={name:'editInfo',query:{title:'资料编辑'}};
 		}else{
-			this.path.info={path:'/member/identityBase/identityPerson',query:{title:'个人认证'}};
+			this.path.info={name:'identityPerson',query:{title:'个人认证'}};
 		}
 		if (!this.achieved.ifRelease) {
-			alert(1)
-			this.path.release={path:'/memberBase/release',query:{title:'发布图文'}};
+			this.path.release={name:'release',query:{title:'发布图文'}};
 		}else{
-			this.path.release={path:'/member/identityBase/identityPerson',query:{title:'个人认证'}};
+			this.path.release={name:'identityPerson',query:{title:'个人认证'}};
 		}
-	},
-	methods:{
-
-	},
-	watch:{
-
 	},
 	
 }

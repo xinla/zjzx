@@ -1,20 +1,16 @@
 <template>
 	<div>
 		<div class="main-a">
-			<router-link :to="{path:'/member/identityBase/identityPerson',query:{title:'个人认证'}}" exact>
-				<div class="identity">
+				<div class="identity"  @click="$Tool.goPage({name:'identityPerson',query:{title:'个人认证'}})">
 					<i class="iconfont to fr">&#xe7f2;</i>
 					<p>个人认证</p>
 					<span class="idespan">个人真实身份认证</span>
-				</div>
-			</router-link>
-			<router-link :to="{path:'/member/identityBase/identityEenterprise',query:{title:'企业认证'}}" exact>			
-				<div class="identity">
+				</div>	
+				<div class="identity"  @click="$Tool.goPage({name:'identityEenterprise',query:{title:'企业认证'}})">
 					<i class="iconfont to fr">&#xe7f2;</i>
 					<p>企业认证</p>
 					<span class="idespan">企业认证企业认证</span>
 				</div>
-			</router-link>
 		</div>
 		<div class="main-a">
 			<div class="power">

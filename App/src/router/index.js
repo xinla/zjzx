@@ -244,9 +244,9 @@ export default new Router({
     },
     //申请认证
     {
-      path:'/member/identityBase',
+      path:'/identityBase',
       name:'identityBase',
-      redirect:'/member/identityBase/identityIndex',
+      redirect:'/identityBase/identityIndex',
       component: (resolve)=>{
         require(['@/components/common/baseIdentity.vue'],resolve)
       },

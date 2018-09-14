@@ -8,7 +8,7 @@
 				<img :src="userPhoto" alt="" class="uphoto bfc-d">
 				<div class="person-header-right ac bfc-d">
 					<ul class="person-hr-ul bfc-o">
-						<li class="person-hr-li fl">
+						<li class="person-hr-li fl" @click="$Tool.goPage({ name:'release',query:{title:'发布图文',sort:1}})">
 							<p class="num">{{publidsedNum}}</p>
 							发布
 						</li>
@@ -23,7 +23,7 @@
 					</ul>
 					<div class="right-btn bfc-d right-btn-a" @click="$Tool.goPage({ name:'editInfo',query:{title:'编辑资料'}})">编辑资料												
 					</div>
-					<div class="right-btn bfc-d" @click="$Tool.goPage({ name:'identityBase',query:{title:'申请认证'}})">申请认证											
+					<div class="right-btn bfc-d" @click="$Tool.goPage({ name:'identityIndex',query:{title:'申请认证'}})">申请认证											
 					</div>
 				</div>
 			</header><!-- /header -->
@@ -56,22 +56,27 @@ export default {
 		if( userData.imageurl ){
 			this.userPhoto = userData.imageurl;
 		}	
-
-		let resArticleCount = articleService.getUserArticleCount();
+		//获取文章数量
+		articleService.getUserArticleCount(data=>{
+			if (data && data.status == "success" ) {
+				this.publidsedNum = data.result.count;			
+			}			
+		});
 		// console.log(resArticleCount)
-		if (resArticleCount && resArticleCount.status == "success" ) {
-			this.publidsedNum = resArticleCount.result.count;			
-		}
-
-		let resFansCount = followService.getUserVermicelliCount();
-		if (resFansCount && resFansCount.status == "success" ) {
-			this.fansNum = resFansCount.result.count;
-		}
-
-		let resFocusCount = followService.getUserFollowCount();
-		if (resFocusCount && resFocusCount.status == "success" ) {
-			this.focusNum = resFocusCount.result.count;
-		}
+		//获取粉丝数量
+		followService.getUserVermicelliCount(data=>{
+			if (data && data.status == "success" ) {
+				this.fansNum = data.result.count;
+			}
+		});
+		
+		//获取关注数量
+		followService.getUserFollowCount(data=>{
+			if (data && data.status == "success" ) {
+				this.focusNum = data.result.count;
+			}
+		});
+		
 	},
 	data(){
 		return {
