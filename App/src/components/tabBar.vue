@@ -23,9 +23,11 @@ import articleClassifyService from '@/service/article_classifyService'
 			}
 		},
 		mounted(){
-			let resArcClass = articleClassifyService.getArticleClassifyList();
-			this.classfyList = resArcClass.result.classfyList;
-			// console.log(this.classfyList)
+			articleClassifyService.getArticleClassifyList(data=>{
+				if (data && data.status == "success") {
+					this.classfyList = data.result.classfyList;					
+				}
+			});
 		}
 	}
 </script>

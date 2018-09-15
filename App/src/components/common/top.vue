@@ -38,6 +38,7 @@ export default {
 	}
 	.r-nav{
 		right: 0;
+		font-size: 14px;
 	}
 	.hreficon{
 		font-size: 20px;

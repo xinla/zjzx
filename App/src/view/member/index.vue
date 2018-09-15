@@ -118,7 +118,7 @@
 				this.userName = userData.username;
 				this.ifLogin=true;
 				if( userData.imageurl ){
-					this.userPhoto = userData.imageurl
+					this.userPhoto = config.fileRoot + '/' + userData.imageurl;
 				}				
 			}
 

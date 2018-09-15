@@ -24,7 +24,7 @@ service.testCollect = function(articleid,call){
 		articleid,//:"文章id",
 	};
 
-	commonUtil.ajaxAsync(controller+'/testCollect',params,call);
+	commonUtil.ajax(controller+'/testCollect',params,call);
 
 }
 

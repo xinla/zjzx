@@ -1,23 +1,20 @@
 <template>
 	<div class="main-a">
 		<div class="title">
-			企业认证流程：
+			<b>企业认证流程：</b>
 		</div>
 		<div class="identity">
-			<p>个人认证</p>
-			<span class="idespan">个人真实身份认证</span>
+			<p>一、电脑打开www.renzheng.zjzx.xyz</p>
+			<!-- <span class="idespan">个人真实身份认证</span> -->
 		</div>
 		<div class="identity">
-			<p>个人认证</p>
-			<span class="idespan">个人真实身份认证</span>
+			<p>二、登录个人账号</p>
 		</div>
 		<div class="identity">
-			<p>个人认证</p>
-			<span class="idespan">个人真实身份认证</span>
+			<p>三、根据提示提交企业相关资料</p>
 		</div>
 		<div class="identity">
-			<p>个人认证</p>
-			<span class="idespan">个人真实身份认证</span>
+			<p>四、审核通过，完成认证</p>
 		</div>
 	</div>
 </template>
@@ -41,7 +38,7 @@
 	}
 	.identity{
 		position: relative;
-		padding: 10px 0;
+		padding: 10px;
 		border-bottom:1px solid #eee;	
 	}
 </style>

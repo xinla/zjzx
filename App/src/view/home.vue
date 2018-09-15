@@ -9,6 +9,7 @@
 				<bigIVT :article="item" v-else-if="item.type==2"></bigIVT>	
 				<smaIVT :article="item" v-else="item.type==3"></smaIVT>
 			</template>
+			<loading v-show="ifLoad"></loading>
 		</div>
 		<z-nav></z-nav>
 		<!-- <z-swiper></z-swiper> -->
@@ -17,16 +18,17 @@
 
 <script>
 	// import '@/assets/js/rem.js'	
+	import config from '@/lib/config/config'
 	import zHeader from '@/components/headerBar'
 	import zTab from '@/components/tabBar'
 	// import zSwiper from '@/components/Swiper/index'
 	import zNav from '@/components/navBar'
-	import config from '@/lib/config/config'
-	import homeService from '@/service/homeService'
 	import multIT from '@/components/news/multIT'
 	import smaIVT from '@/components/news/smaIVT'
 	import bigIVT from '@/components/news/bigIVT'
-
+	import loading from '@/components/common/loadingMain'
+	
+	import homeService from '@/service/homeService'
 	import articleService from '@/service/articleService'
 
 	export default {
@@ -37,18 +39,20 @@
 			multIT,
 			smaIVT,
 			bigIVT,
-			zNav
+			zNav,
+			loading,
 		},
 		created () {
 			// debugger;
 			// console.log(homeService);
-			homeService.use(this.$http).test(function(data){
-				console.log(data);
-			})			
+			// homeService.use(this.$http).test(function(data){
+			// 	console.log(data);
+			// })			
 		},
 		data(){
 			return {
 				arcList:[],
+				ifLoad:true,
 			}
 		},
 		methods:{

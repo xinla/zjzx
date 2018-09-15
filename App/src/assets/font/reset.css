@@ -110,7 +110,9 @@ img,a{-webkit-touch-callout:none;}
   left: 0;
   right: 0;
   margin: auto;
-  box-shadow: 0px 0px 60px 20px #ddd;
+  width:100px;
+  height:100px;
+  /*box-shadow: 0px 0px 60px 20px #ddd;*/
 }
 /*close*/
 .close{

@@ -47,14 +47,33 @@
 </template>
 
 <script>
+import config from '@/lib/config/config'
 import articleService from '@/service/articleService'
 import followService from '@/service/followService'
 export default {
+	data(){
+		return {
+			title:'',
+			userPhoto:require('@/assets/images/userPhoto.jpg'),
+			focusNum:{
+				type:Number,
+				default:0,	
+			},
+			fansNum:{
+				type:Number,
+				default:0,	
+			},
+			publidsedNum:{
+				type:Number,
+				default:0,	
+			},		
+		}
+	},
 	mounted(){
 		var userData = JSON.parse(localStorage.userData);
 		this.title = userData.username;
 		if( userData.imageurl ){
-			this.userPhoto = userData.imageurl;
+			this.userPhoto = config.fileRoot + '/' + userData.imageurl;
 		}	
 		//获取文章数量
 		articleService.getUserArticleCount(data=>{
@@ -77,24 +96,6 @@ export default {
 			}
 		});
 		
-	},
-	data(){
-		return {
-			title:'',
-			userPhoto:require('@/assets/images/userPhoto.jpg'),
-			focusNum:{
-				type:Number,
-				default:0,	
-			},
-			fansNum:{
-				type:Number,
-				default:0,	
-			},
-			publidsedNum:{
-				type:Number,
-				default:0,	
-			},		
-		}
 	},
 	methods:{
 

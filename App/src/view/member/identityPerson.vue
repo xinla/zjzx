@@ -4,7 +4,7 @@
 				<div class="identity bfc-o" @click="$Tool.goPage(path.info)">
 					<span>绑定手机号</span>
 					<button type="button" class="fr to achieved" v-if="achieved.ifBind">已完成</button>
-					<button type="button" class="fr to" v-if="!achieved.ifBind">去完成</button>
+					<button type="button" class="fr to" v-else>去完成</button>
 				</div>			
 				<div class="identity bfc-o" @click="$Tool.goPage(path.release)">
 					<span>发布文章</span>
@@ -39,6 +39,7 @@ export default{
 		return {
 			achieved:{
 				ifRelease:true,
+				ifBind:JSON.parse(localStorage.userData).mobile,
 			},
 			path:{
 				info:{},
@@ -47,11 +48,10 @@ export default{
 		}
 	},
 	mounted(){
-		localStorage.userData.phone;
-		if (localStorage.userData.phone) {
-			this.path.info={name:'editInfo',query:{title:'资料编辑'}};
-		}else{
+		if (localStorage.userData.mobile) {
 			this.path.info={name:'identityPerson',query:{title:'个人认证'}};
+		}else{
+			this.path.info={name:'editInfo',query:{title:'资料编辑'}};
 		}
 		if (!this.achieved.ifRelease) {
 			this.path.release={name:'release',query:{title:'发布图文'}};
@@ -59,7 +59,6 @@ export default{
 			this.path.release={name:'identityPerson',query:{title:'个人认证'}};
 		}
 	},
-	
 }
 </script>
 

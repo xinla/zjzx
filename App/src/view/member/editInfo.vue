@@ -67,7 +67,7 @@
 					<span class="fl">手机号</span>
 					<div class="editInfo-right fr clearfix" @click="showPhone=!showPhone">
 						<div class="editInfo-head-tip fl">	
-							<span>{{this.$Tool.mobileInput(user.phone)}}</span>
+							<span>{{this.$Tool.mobileInput(user.mobile)}}</span>
 						</div>
 						<i class="iconfont icon-arrow fr">&#xe628;</i>
 					</div>
@@ -205,7 +205,6 @@
 					username:'',
 					introduce:'',
 					mobile:Number,
-					phone:Number,
 					sex:'',
 					birthday:'',
 					province:'',
@@ -238,9 +237,11 @@
 		mounted(){
 			this.$nextTick(()=>{
 				let data = userService.getCurentUser();
-				this.$data.user = data.result.user;
-				console.log(this.$data.user)
-				localStorage.userData = JSON.stringify(data.result.user);
+				if (data&&data.status == "success") {
+					this.$data.user = data.result.user;					
+					localStorage.userData = JSON.stringify(data.result.user);
+				}
+				// console.log(this.$data.user)
 				// let addData = provinceService.getProvinceList();
 				// this.$data.provinceList = addData.result.provinceList;
 				 // this.$data.user.username=this.userNameValue;
@@ -249,7 +250,7 @@
 				if(this.$data.user.imageurl == null) {
 					// this.imgurl = '';
 				}else{
-					this.imgurl = config.fileRoot +'/'+ data.user.imageurl;
+					this.imgurl = config.fileRoot +'/'+ this.user.imageurl;
 				}
 
 				//个人介绍
@@ -290,8 +291,8 @@
 					}
 				}
 				//判断手机号
-				if(this.$data.user.phone == null) {
-					this.user.phone='未绑定'
+				if(this.$data.user.mobile == null) {
+					this.user.mobile='未绑定'
 				}
 
 
@@ -310,8 +311,8 @@
 		          	let src = data.result.url;
 		          	this.$loading.close();
 		          	this.imgurl = config.fileRoot +'/'+ src;
-		          	this.$data.user.imageurl=src;
-		          	userService.updateUser(this.$data.user)
+		          	this.user.imageurl=src;
+		          	userService.updateUser(this.user)
 					// console.log(this.imgurl);
 					// console.log(data);
 				})
@@ -394,7 +395,7 @@
 				// this.provinceList.province = thiz.$data.provinceList.province;	
 			},
 			checkPhone(val){
-				if (val == this.user.phone) {
+				if (val == this.user.mobile) {
 					return;
 				} else if (val.length == 11) {
 					userService.getCode(val,data=>{
@@ -421,7 +422,7 @@
 			},
 			checkCode(val){
 				if (val == this.verCode) {
-					this.user.phone = parseInt(this.inputMobile);
+					this.user.mobile = parseInt(this.inputMobile);
 					let data = userService.updateUser(this.$data.user);
 				} else {
 					this.showAlert=true;

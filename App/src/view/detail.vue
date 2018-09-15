@@ -367,6 +367,8 @@ export default {
 		});
 		//评论滚动近底部，自动加载 一屏1080
 		this.loadComment();
+		console.log(this.focusState)
+		console.log(this.ifCollect)
 	},	
 	methods:{
 		loadComment(){
@@ -486,6 +488,8 @@ export default {
 					this.$vux.alert.hide();
 				},1000)
 			}
+		console.log(this.focusState)
+
 		},
 		comment(type){
 			if (localStorage.id) {
@@ -669,6 +673,8 @@ export default {
 					this.ifCollect = false;				
 				}
 			}
+		console.log(this.ifCollect)
+			
 		},
 		toComment(){
 			// console.log($("#commentAnchor").offset().top)
