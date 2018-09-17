@@ -118,7 +118,12 @@
 				this.userName = userData.username;
 				this.ifLogin=true;
 				if( userData.imageurl ){
-					this.userPhoto = config.fileRoot + '/' + userData.imageurl;
+					try {
+						this.userPhoto = config.fileRoot + '/' + userData.imageurl;			
+					} 
+					catch(err){
+						console.log(41)
+					}
 				}				
 			}
 

@@ -1,18 +1,24 @@
 <template>
   <div id="app">
-  	<transition :name="transitionName">
-  		<router-view class="routerView" :transitionName="transitionName"></router-view>
-  	</transition>
-
+    <loading v-show="ifLoad"></loading>
+      <router-view class="routerView"></router-view>
+    <<!-- transition :name="transitionName">
+    </transition> -->
   </div>
 </template>
 
 <script>
+import loading from '@/components/common/loadingMain'
+
 export default {
   name: 'App',
+  components:{
+    loading,
+  },
   data() {
   	return {
   		transitionName: '',
+      ifLoad:false,
   	}
   },
   mounted(){
@@ -31,22 +37,27 @@ export default {
   },
   watch: {
   	//监听路由
-  	'$route'(to,from) {
-  		//前进后退转场动画
-  		const toDepth = to.path.split('/').length;
-  		const fromDepth = from.path.split('/').length;
+  	// '$route'(to,from) {
+  	// 	//前进后退转场动画
+  	// 	const toDepth = to.path.split('/').length;
+  	// 	const fromDepth = from.path.split('/').length;
 
-  		if(toDepth == fromDepth) {
-  			//同级
-  			this.transitionName ='';
-  		} else if(toDepth < fromDepth) {
-  			//后退
-  			this.transitionName = 'slide-right';
-  		} else {
-  			//前进
-  			this.transitionName = 'slide-left';
-  		}
-  	}
+  	// 	if(toDepth == fromDepth) {
+  	// 		//同级
+  	// 		this.transitionName ='';
+  	// 	} else if(toDepth < fromDepth) {
+  	// 		//后退
+  	// 		this.transitionName = 'slide-right';
+  	// 	} else {
+  	// 		//前进
+  	// 		this.transitionName = 'slide-left';
+  	// 	}
+  	// }
+    localStorage(){
+      // console.log(this.ifLoad)
+      // parseInt(localStorage.ifLoading)
+      this.ifLoad = parseInt(localStorage.ifLoading);
+    }
   },
 }
 </script>

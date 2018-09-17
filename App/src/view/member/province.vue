@@ -1,10 +1,10 @@
 <template>
 	<div>
 		<ul class="province-wrap" v-show="true">
-			<router-link :to="{path:'/memberBase/city',query:{title:item.province,provinceid:item.provinceid}}" tag="li" class="province-li" v-for="(item,index) in provinceList" :key="item.provinceid" @click.native="provinFn(item)">
+			<li class="province-li" v-for="(item,index) in provinceList" @click="$Tool.goPage({name:'city',query:{title:item.province,provinceid:item.provinceid}})">
         		{{ item.province }}
             	<i class="iconfont fr">&#xe7f2;</i>	            	  				
-			</router-link>
+			</li>
         </ul>
 	</div>
 </template>
@@ -26,7 +26,9 @@ export default {
 	mounted(){
 		this.$nextTick(()=>{
 			let resMap = provinceService.getProvinceList();
-			this.provinceList = resMap.result.provinceList;
+			if (resMap && resMap.status == "success") {
+				this.provinceList = resMap.result.provinceList;				
+			}
 		})
 	},
 	methods:{

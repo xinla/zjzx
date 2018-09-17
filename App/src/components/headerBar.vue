@@ -29,7 +29,6 @@
 				this.ifRelease=!this.ifRelease;
 			}
 		}
-
 	}
 </script>
 
@@ -41,6 +40,8 @@
 		z-index: 9999;
 		background-color: #ec414d;
 		line-height: 3.5em;
+		height: 3.5em;
+		overflow:hidden;
 	}
 	.header>div{
 		float: left;
@@ -53,6 +54,7 @@
 	}
 	.logo img {
 		width: 90%;
+		max-height: 3.4em;
 	}
 	.release {
 		width: 10%;

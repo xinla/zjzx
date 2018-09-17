@@ -4,28 +4,21 @@
 		<z-header></z-header>
 		<z-tab></z-tab>
 		<div class="main">
-			<template v-for="(item,index) in arcList">
-				<multIT :article="item" v-if="item.type==1"></multIT>
-				<bigIVT :article="item" v-else-if="item.type==2"></bigIVT>	
-				<smaIVT :article="item" v-else="item.type==3"></smaIVT>
-			</template>
 			<loading v-show="ifLoad"></loading>
+			<router-view></router-view>
+			
 		</div>
 		<z-nav></z-nav>
 		<!-- <z-swiper></z-swiper> -->
 	</div>
 </template>
 
-<script>
-	// import '@/assets/js/rem.js'	
+<script>	
 	import config from '@/lib/config/config'
 	import zHeader from '@/components/headerBar'
 	import zTab from '@/components/tabBar'
 	// import zSwiper from '@/components/Swiper/index'
 	import zNav from '@/components/navBar'
-	import multIT from '@/components/news/multIT'
-	import smaIVT from '@/components/news/smaIVT'
-	import bigIVT from '@/components/news/bigIVT'
 	import loading from '@/components/common/loadingMain'
 	
 	import homeService from '@/service/homeService'
@@ -36,9 +29,6 @@
 			zHeader,
 			zTab,
 			// zSwiper
-			multIT,
-			smaIVT,
-			bigIVT,
 			zNav,
 			loading,
 		},
@@ -51,7 +41,6 @@
 		},
 		data(){
 			return {
-				arcList:[],
 				ifLoad:true,
 			}
 		},
@@ -158,5 +147,6 @@
 	.main{
 		padding:6em 0.5em 3.5em;
 		height: 100%;
+		background: #fff;
 	}
 </style>

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<top @hrefTo="goback('/member')">
+		<top @hrefTo="$Tool.goPage({name:'member'})">
 			<template slot="title">{{title}}</template>
 		</top>
 		<div class="top-fix ac">
@@ -16,6 +16,7 @@
 							<p class="num">{{focusNum}}</p>
 							关注
 						</li>
+						
 						<li class="person-hr-li fl">
 							<p class="num">{{fansNum}}</p>
 							粉丝
@@ -98,10 +99,6 @@ export default {
 		
 	},
 	methods:{
-
-		goback(url){
-			window.location.href=url;				
-		}
 	},
 	watch:{
 		// $route(to,from){

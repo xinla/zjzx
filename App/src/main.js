@@ -133,3 +133,13 @@ new Vue({
   },*/
   render: h => h(App),
 }).$mount('#app');
+
+router.beforeEach((to, from, next) => {
+  localStorage.ifLoading = 1;
+  // console.log(localStorage.ifLoading)
+  next()
+})
+router.afterEach((to, from) => {
+  localStorage.ifLoading = 0;
+  // console.log(localStorage.ifLoading)
+})

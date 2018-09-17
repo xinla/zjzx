@@ -67,23 +67,23 @@ let userid = localStorage.getItem('id');
 	return resCollectArticleList;
 }
 // 获取文章列表
-// service.articlePage = function(){
+service.articlePage = function(page,size){
 
-// 	let params = {
-// 		page,
-// 	size,
-// 	state:"3",  审核通过
-// 	keyword,// 根据 title或者content 进行模糊匹配
-// 	author,//:"发布人id",
-// 	authorname,//:"发布人姓名" //模糊匹配
-// 	type,//："文章类型" //1：图文，2:视屏
-// 	publisharea,//:"发布地区" code
-// 	}
+	let params = {
+		page,
+		size,
+		state:"3",//  审核通过
+		keyword:"",// 根据 title或者content 进行模糊匹配
+		author:"",//:"发布人id",
+		authorname:"",//:"发布人姓名" //模糊匹配
+		type:"",//："文章类型" //1：图文，2:视屏
+		publisharea:"",//:"发布地区" code
+	}
 
-// 	let resArticleCount = commonUtil.ajaxAsync(controller+'/articlePage',params);
+	let resArticlePage = commonUtil.ajaxAsync(controller+'/articlePage',params);
 
-// 	return resArticleCount;
-// }
+	return resArticlePage;
+}
 
 // 获取文章详情
 service.getArticleById = function(recordid){

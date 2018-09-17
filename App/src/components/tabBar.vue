@@ -3,7 +3,9 @@
 		<div class="empty">		
 		</div>
 		<ul class="nav-list al">
-			<li v-for="(item,index) in classfyList" class="nav-item ac">
+			<li class="nav-item ac">
+				<span>推荐</span>
+			</li><li v-for="(item,index) in classfyList" class="nav-item ac">
 				<span>{{item.classifyname}}</span>
 			</li>
 		</ul>

@@ -308,11 +308,20 @@
 		          let param = new FormData(); //创建form对象
 		          param.append('file',file,file.name);//通过append向form对象添加数据
 		          fileService.uploadHeadImage(param,(data)=>{
-		          	let src = data.result.url;
-		          	this.$loading.close();
-		          	this.imgurl = config.fileRoot +'/'+ src;
-		          	this.user.imageurl=src;
-		          	userService.updateUser(this.user)
+		          	if (data && data.status == "success") {
+			          	let src = data.result.url;
+			          	this.$loading.close();
+			          	this.imgurl = config.fileRoot +'/'+ src;
+			          	this.user.imageurl=src;
+			          	userService.updateUser(this.user)	          		
+		          	} else {
+			          	this.$loading.close();
+		          		this.showAlert=true;
+						this.alertMes="请求失败，请稍后再试";
+						setTimeout(()=>{
+							this.showAlert=false;
+						},1000)
+		          	}
 					// console.log(this.imgurl);
 					// console.log(data);
 				})

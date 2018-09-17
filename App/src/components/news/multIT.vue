@@ -114,13 +114,13 @@ export default {
 		margin: 0.5em 1% 0;
 	}
 	small.delete {
-        font-size: 12px;
+        font-size: 0.85em;
 	    background: #eee;
-	    width: 14px;
-	    line-height: 14px;
+	    width: 1.1em;
+	    line-height: 1.1em;
 	    text-align: center;
-	    border-radius: 20px;
+	    border-radius: 1.6em;
 	    vertical-align: middle;
-	    top: 10px;
+	    top: 0.85em;
 	}
 </style>

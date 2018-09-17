@@ -3,13 +3,6 @@ import Router from 'vue-router'
 import home from '@/view/home'
 import detail from '@/view/detail'
 import one from '@/components/news/one'
-import two from '@/components/news/two'
-import three from '@/components/news/three'
-import four from '@/components/news/four'
-import five from '@/components/news/five'
-import six from '@/components/news/six'
-import seven from '@/components/news/seven'
-import eight from '@/components/news/eight'
 
 Vue.use(Router)
 
@@ -26,9 +19,26 @@ export default new Router({
     {
       path: '/',
       name: 'home',
+      redirect:'/recommend',
       component: (resolve)=>{
         require(['@/view/home.vue'],resolve)
-      }
+      },
+      children:[
+        {
+          path:'recommend',
+          name:'recommend',
+          component:(resolve)=>{
+            require(['@/view/part/recommend.vue'],resolve)
+          }
+        },
+        {
+          path:'fangpian',
+          name:'fangpian',
+          component:(resolve)=>{
+            require(['@/view/part/fangpian.vue'],resolve)
+          }
+        },
+      ]
     },
     //新闻详情页面
     {

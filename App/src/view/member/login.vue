@@ -114,9 +114,7 @@
 				 this.$loading.open(2);
 				if(this.mobileErr){this.mobileErrText="请填写正确的手机号";return;}
 				userService.getCode(this.$data.mobile,(data)=>{
-					console.log(data);
-					alert(data.result.code);
-					if(data.result.code){
+					if(data && data.status == "success"){
 						this.$loading.close();
 						this.phoneNum = "60秒后重发";
 						let i = 60;
