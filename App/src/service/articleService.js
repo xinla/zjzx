@@ -4,8 +4,8 @@ import commonUtil from '@/service/util/commonUtil'
 const controller =config.successServer+'/article';
 const service ={}
 
-let userid = localStorage.getItem('id');
-let	token = localStorage.getItem('token');
+const userid = localStorage.getItem('id');
+const token = localStorage.getItem('token');
 
 // 文章发布
 service.publishArticle = function(record,record_file) {
@@ -23,7 +23,6 @@ service.publishArticle = function(record,record_file) {
 
 // 获取用户的文章
 service.getArticleByUser = function(page,size){
-let userid = localStorage.getItem('id');
 
 	let params = {
 		page,
@@ -38,7 +37,6 @@ let userid = localStorage.getItem('id');
 
 // 获取用户的发布文章数量
 service.getUserArticleCount = function(call){
-let userid = localStorage.getItem('id');
 
 	let params = {
 		userid,
@@ -54,7 +52,6 @@ let userid = localStorage.getItem('id');
 
 // 获取用户的收藏文章
 service.getCollectArticlePage = function(page,size){
-let userid = localStorage.getItem('id');
 
 	let params = {
 		page,
@@ -68,16 +65,15 @@ let userid = localStorage.getItem('id');
 }
 // 获取文章列表
 service.articlePage = function(page,size){
-
 	let params = {
 		page,
 		size,
 		state:"3",//  审核通过
-		keyword:"",// 根据 title或者content 进行模糊匹配
-		author:"",//:"发布人id",
-		authorname:"",//:"发布人姓名" //模糊匹配
-		type:"",//："文章类型" //1：图文，2:视屏
-		publisharea:"",//:"发布地区" code
+		// keyword:"",// 根据 title或者content 进行模糊匹配
+		// author:"",//:"发布人id",
+		// authorname:"",//:"发布人姓名" //模糊匹配
+		// type:"",//："文章类型" //1：图文，2:视屏
+		// publisharea:"",//:"发布地区" code
 	}
 
 	let resArticlePage = commonUtil.ajaxAsync(controller+'/articlePage',params);

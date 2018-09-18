@@ -41,7 +41,6 @@
 		background-color: #ec414d;
 		line-height: 3.5em;
 		height: 3.5em;
-		overflow:hidden;
 	}
 	.header>div{
 		float: left;

@@ -367,8 +367,8 @@ export default {
 		});
 		//评论滚动近底部，自动加载 一屏1080
 		this.loadComment();
-		console.log(this.focusState)
-		console.log(this.ifCollect)
+		// console.log(this.focusState)
+		// console.log(this.ifCollect)
 	},	
 	methods:{
 		loadComment(){
@@ -673,7 +673,7 @@ export default {
 					this.ifCollect = false;				
 				}
 			}
-		console.log(this.ifCollect)
+		// console.log(this.ifCollect)
 			
 		},
 		toComment(){
@@ -682,6 +682,7 @@ export default {
 			// document.body.scrollTop = $("#commentAnchor").offset().top;
 			let dis = $(".detail").scrollTop() + $(".btn-a-wrap").offset().top -100;
 			$(".detail").animate({scrollTop:dis},100);
+			console.log(1)
 		},
 		report(){
 			this.ifReport = true;

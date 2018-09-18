@@ -1,15 +1,35 @@
 <!-- 首页新闻页面 -->
 <template>
 	<div>
-		<z-header></z-header>
-		<z-tab></z-tab>
-		<div class="main">
-			<loading v-show="ifLoad"></loading>
-			<router-view></router-view>
-			
+		<div class="index" v-show="1 == showIndex">
+			<z-header></z-header>
+			<z-tab></z-tab>
+			<div class="main">
+				<loading-main v-show="ifLoad"></loading-main>
+				<router-view></router-view>			
+			</div>
 		</div>
-		<z-nav></z-nav>
+		<member v-show="4 == showIndex"></member>
+		<!-- <z-nav></z-nav> -->
 		<!-- <z-swiper></z-swiper> -->
+		<div class="footer-nav">
+			<div :class="['footer-item',{'current':1 == showIndex}]" @click="show(1)">
+				<i class="iconfont icon-index footer-icon"></i>
+				<span class="footer-text">首页</span>
+			</div>
+			<div :class="['footer-item',{'current':2 == showIndex}]" @click="show(2)">
+				<i class="iconfont icon-xiaoxi footer-icon"></i>
+				<span class="footer-text">消息</span>
+			</div>
+			<div :class="['footer-item',{'current':3 == showIndex}]" @click="show(3)">
+				<i class="iconfont icon-video footer-icon"></i>
+				<span class="footer-text">视频</span>
+			</div>
+			<div :class="['footer-item',{'current':4 == showIndex}]" @click="show(4)">
+				<i class="iconfont icon-wode footer-icon"></i>
+				<span class="footer-text">我的</span>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -19,7 +39,8 @@
 	import zTab from '@/components/tabBar'
 	// import zSwiper from '@/components/Swiper/index'
 	import zNav from '@/components/navBar'
-	import loading from '@/components/common/loadingMain'
+	import loadingMain from '@/components/common/loadingMain'
+	import member from '@/view/member/index'
 	
 	import homeService from '@/service/homeService'
 	import articleService from '@/service/articleService'
@@ -30,7 +51,8 @@
 			zTab,
 			// zSwiper
 			zNav,
-			loading,
+			loadingMain,
+			member
 		},
 		created () {
 			// debugger;
@@ -41,9 +63,17 @@
 		},
 		data(){
 			return {
-				ifLoad:true,
+				ifLoad:false,
+				showIndex:1,
 			}
 		},
+		mounted () {
+	    	var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+	    	
+	    	window.addEventListener(resizeEvt, this.recalc, false);
+	    	document.addEventListener('DOMContentLoaded', this.recalc, false);
+	    	this.recalc();
+	    },
 		methods:{
 			recalc(){
 				var win=window,
@@ -99,21 +129,18 @@
 		                }
 		                doc.documentElement.style.fontSize = normal ? '100px' : `${_baseFontSize  * dpr * _fontscale}px`;
 		            };
-		            aa(false, 1);
-		        },
-		        subRecalc(){
-		        	var docEl=document.documentElement,
-		        	clientWidth = Math.min( window.innerWidth , docEl.clientWidth );
-		        	docEl.style.fontSize= ( clientWidth / 750 * 100)+"px";
-		        }
-		    },
-	    mounted () {
-	    	var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
-	    	
-	    	window.addEventListener(resizeEvt, this.recalc, false);
-	    	document.addEventListener('DOMContentLoaded', this.recalc, false);
-	    	this.recalc();
+	            aa(false, 1);
+	        },
+	        subRecalc(){
+	        	var docEl=document.documentElement,
+	        	clientWidth = Math.min( window.innerWidth , docEl.clientWidth );
+	        	docEl.style.fontSize= ( clientWidth / 750 * 100)+"px";
+	        },
+	        show(whi){
+	        	this.showIndex = whi;
+	        }
 	    },
+	    
 	    destroyed(){
 	    	// var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
 	    	// window.removeEventListener(resizeEvt, this.recalc, false);
@@ -142,11 +169,36 @@
 	    	next();
 	    }
 	}
-	</script>
-	<style scoped>
+</script>
+<style scoped>
 	.main{
 		padding:6em 0.5em 3.5em;
 		height: 100%;
 		background: #fff;
+		overflow-x: hidden;
+	}
+	.footer-nav {
+		width: 100%;
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		text-align: center;
+		overflow: hidden;
+		background-color: #fff;
+		box-shadow: 0 0 0.4em  #ccc;
+	}
+	.footer-item {
+		float: left;
+		width: 25%;
+		height: 100%;
+		color: #999;
+	}
+	.footer-icon {
+	    display: block;
+	    font-size: 1.5em;
+	    line-height: 1.5em;
+	}
+	.footer-item a.router-link-active,.current{
+		color: #f40;
 	}
 </style>

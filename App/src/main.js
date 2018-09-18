@@ -62,8 +62,9 @@ Vue.use(resizeImg);
 
 */
 //Loading插件
-import Loading from '@/plugins/loading'
+import {Loading,LoadText} from '@/plugins/loading'
 Vue.use(Loading);
+// Vue.use(LoadText);
 //通用top
 import Top from '@/components/common/top'
 Vue.component('Top',Top);
@@ -95,17 +96,13 @@ Vue.component('confirm',Confirm);
 Vue.component('alert',Alert);
 Vue.component('radio', Radio)
 Vue.component('load-more', LoadMore)
-import { DatetimePlugin } from 'vux'
+import { DatetimePlugin,AlertPlugin,ConfirmPlugin } from 'vux'
 Vue.use(DatetimePlugin)
-import  { AlertPlugin } from 'vux'
 Vue.use(AlertPlugin)
-import  { ConfirmPlugin } from 'vux'
 Vue.use(ConfirmPlugin)
 
 import FastClick from 'fastclick'
 FastClick.attach(document.body);
-
-
 
 Vue.config.productionTip = false;
 
@@ -135,11 +132,14 @@ new Vue({
 }).$mount('#app');
 
 router.beforeEach((to, from, next) => {
-  localStorage.ifLoading = 1;
-  // console.log(localStorage.ifLoading)
+  this.ifLoading= 1;
   next()
+  // console.log("bb")
+
 })
 router.afterEach((to, from) => {
-  localStorage.ifLoading = 0;
-  // console.log(localStorage.ifLoading)
+  // localStorage.ifLoading = 0;
+  this.ifLoading= 0;
+  // 
+  // console.log("aa")
 })

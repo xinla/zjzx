@@ -1,6 +1,6 @@
 @charset "utf-8";
 * { -webkit-box-sizing: border-box;box-sizing: border-box;}
-*,*:before,*:after{-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;max-height: 100000px;}
+/**,*:before,*:after{-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;max-height: 100000px;}*/
 body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin:0;padding:0; }
 html,body,input, select, textarea /* for ie */{ font: 14px Microsoft YaHei,"宋体", arial,-apple-system, "PingFang SC","Helvetica Neue", Helvetica,'DejaVu Sans','Lucida Grande',Tahoma,'Hiragino Sans GB',STHeiti,SimSun,sans-serif;color: #333;/*touch-action: none*/}/** 设置默认字体 **/
 header, section, footer, aside, nav, article, figure{ display: block; }
@@ -9,7 +9,6 @@ address, cite, dfn, em, var { font-style: normal; } /* 将斜体扶正 ， 注�
 h1, h2, h3, h4, h5, h6 { font-size: 100%; background:none;} 
 code, kbd, pre, samp { font-family: courier new, courier, monospace; } /* 统一等宽字体 */
 object, embed, video {  max-width: 100%; }
-html,body{background-color: #f4f5f6;width:100%;height: 100%;overflow:hidden;overflow-y: scroll;}
 a:link,a:active,a:visited,a:hover{ text-decoration: none; }
 table{ border-collapse: collapse;border-spacing: 0; }
 img { border: 0;max-width: 100%;vertical-align: middle; }/*解决父级底部多余空白*/ 
@@ -44,7 +43,7 @@ img {width:auto\9;/*ie8*/-ms-interpolation-mode:bicubic;/*为了照顾ie图片�
 /*禁止文本缩放 字体设置 取消touch高亮效果*/
 html,body {	-webkit-text-size-adjust: 100% !important;-ms-text-size-adjust: 100%;-webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
 /*兼容微信端滑动到顶部或底部出现的问题*/
-body::before{ width: 100%;height: 100%;content:'';position: fixed;z-index: -1;top: 0;left: 0; }
+/*body::before{ width: 100%;height: 100%;content:'';position: fixed;z-index: -1;top: 0;left: 0; }*/
 /*去掉点击链接和文本框对象时默认的灰色半透明覆盖层(iOS)或者虚框(Android)*/
 a,button,input,textarea{ -webkit-tap-highlight-color:rgba(0,0,0,0);}
 /*禁用长按页面时的弹出菜单(iOS下有效) ,img和a标签都要加*/
