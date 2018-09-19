@@ -3,14 +3,15 @@
 		<div @click="$Tool.goPage({ name:'detail',query:{id,}})">
 			<h1>{{article.title}}</h1>
 			<div class="img-wrap bfc-o">
-				<img v-for="(item,index) in ArticleFile" v-if="index<=3" :src="fileRoot+item.url" :alt="item.filename">
+				<img v-for="(item,index) in ArticleFile" v-if="index<3" :src="fileRoot+item.url" :alt="item.filename">
 				<img src="#" alt="图片获取失败" v-if="failImg">
 			</div>
 		</div>
 		<p class="pub">
+			<span v-if="ifPublisher">{{publisher}}</span>
 			<span>{{CommentNum}}条评论</span>
 			<span>{{publishtime}}</span>
-			<small class="delete fr" @click="$emit('delete',[id,index])">X</small>
+			<small class="delete fr" @click="$emit('delete',[id,whi])" v-if="ifDel">X</small>
 		</p>
 	</div>
 </template>
@@ -18,6 +19,7 @@
 import config from '@/lib/config/config'
 import articleFileService from '@/service/article_fileService'
 import articleCommentService from '@/service/article_commentService'
+import userService from '@/service/userService'
 import articleService from '@/service/articleService'
 export default {
 	data(){
@@ -30,60 +32,88 @@ export default {
 			},
 			publishtime:this.article.publishtime,
 			fileRoot:config.fileRoot+'/',
+			publisher:"",
 			failImg:false,
 		}
 	},
 	props:{
 		article:Object,
-		index:Number,
+		whi:Number,
+		ifPublisher:true,
+		ifDel:false,
 	},
 	mounted(){
 
 		this.$nextTick(()=>{
 
-				let resArticleFile = articleFileService.getFileByArticle(this.article.id);
-				if (resArticleFile&&resArticleFile.status == "success") {
-					this.ArticleFile = resArticleFile.result.filelist;				
-				} else {
-					this.failImg = true;
-				}
-				// 获取文章评论数量
-				articleCommentService.getArticleCommentCount(this.article.id,data=>{
-					if (data.status == "success") {
-						this.CommentNum = data.result.count;		
-					}else{
-						this.CommentNum = 0;
-					}					
-				});
+				// let resArticleFile = articleFileService.getFileByArticle(this.article.id);
+				// if (resArticleFile&&resArticleFile.status == "success") {
+				// 	this.ArticleFile = resArticleFile.result.filelist;				
+				// } else {
+				// 	this.failImg = true;
+				// }
+				// // 获取文章评论数量
+				// articleCommentService.getArticleCommentCount(this.article.id,data=>{
+				// 	if (data.status == "success") {
+				// 		this.CommentNum = data.result.count;		
+				// 	}else{
+				// 		this.CommentNum = 0;
+				// 	}					
+				// });
 
-				this.publishtime = this.$Tool.publishTimeFormat(this.article.publishtime);
+				// this.publishtime = this.$Tool.publishTimeFormat(this.article.publishtime);
 			// if(article.type == 1){
 			// }
+			this.$options.methods.getArticleInfo.call(this);
 		})
 	},	
 	watch:{
 		article(){
-			let resArticleFile = articleFileService.getFileByArticle(this.article.id);
-				if (resArticleFile&&resArticleFile.status == "success") {
-					this.ArticleFile = resArticleFile.result.filelist;				
-				} else {
-					this.failImg = true;
-				}
+			// let resArticleFile = articleFileService.getFileByArticle(this.article.id);
+			// 	if (resArticleFile&&resArticleFile.status == "success") {
+			// 		this.ArticleFile = resArticleFile.result.filelist;				
+			// 	} else {
+			// 		this.failImg = true;
+			// 	}
 
-				// 获取文章评论数量
-				articleCommentService.getArticleCommentCount(this.article,data=>{
-					if (data && data.status == "success") {
-						this.CommentNum = data.result.count;		
-					}else{
-						this.CommentNum = 0;
-					}					
-				});
+			// 	// 获取文章评论数量
+			// 	articleCommentService.getArticleCommentCount(this.article,data=>{
+			// 		if (data && data.status == "success") {
+			// 			this.CommentNum = data.result.count;		
+			// 		}else{
+			// 			this.CommentNum = 0;
+			// 		}					
+			// 	});
 
-				this.publishtime = this.$Tool.publishTimeFormat(this.article.publishtime);
+			// 	this.publishtime = this.$Tool.publishTimeFormat(this.article.publishtime);
+			this.$options.methods.getArticleInfo.call(this);
+				
 		}
 	},
 	methods:{
-
+		getArticleInfo(){
+			articleFileService.getFileByArticle(this.article.id,data=>{
+				if (data&&data.status == "success") {
+					this.ArticleFile = data.result.filelist;				
+				} else {
+					this.failImg = true;
+				}				
+			});
+			userService.getUserById(this.article.author,data=>{
+				if (data && data.status == "success") {
+					this.publisher = data.result.user.username;
+				}
+			});
+			// 获取文章评论数量
+			articleCommentService.getArticleCommentCount(this.article.id,data=>{
+				if (data.status == "success") {
+					this.CommentNum = data.result.count;		
+				}else{
+					this.CommentNum = 0;
+				}					
+			});
+			this.publishtime = this.$Tool.publishTimeFormat(this.article.publishtime);		
+		}
 	}
 }
 </script>

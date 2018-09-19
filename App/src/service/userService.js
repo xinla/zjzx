@@ -5,8 +5,8 @@ import commonUtil from '@/service/util/commonUtil'
 const controller =config.successServer+'/user';
 const service ={}
 
-let token = localStorage.getItem('token');
-let userid =  localStorage.getItem('id');
+const token = localStorage.getItem('token');
+const userid =  localStorage.getItem('id');
 
 //获取手机验证码
 service.getCode = function(mobile,call){
@@ -36,28 +36,18 @@ service.loginByMobile = function(mobile,code,call){
 service.getUserById = function(targetuserid,call) {
 	
 	let username = localStorage.getItem('username');
-	// axios.get(controller+'/getUserById',{params:{
-	// 	token:token,
-	// 	userid:id,
-	// 	targetuserid:targetuserid
-	// }}).then(function(res){
-	// 	call(res.data);
-	// })
+
 	var params = {
 		token,
 		userid,
 		username,
 		targetuserid,
-
 	};
-
+	if (call) {
+		commonUtil.ajax(controller+'/getUserById',params,call);
+		return;
+	}
 	var resUserInfo = commonUtil.ajaxAsync(controller+'/getUserById',params);
-//	$.post
-	///call(resMap);
-	// $.post(controller+'/getUserById',params,function(data){
-	// 	debugger;
-	// 	call(data);
-	// });
 
 	return resUserInfo;
 }
@@ -66,8 +56,8 @@ service.getUserById = function(targetuserid,call) {
 service.updateUser = function(user) {
 	// debugger;
 	let params = {
-		token:token,
-		userid:userid,
+		token,
+		userid,
 		record: JSON.stringify(user)
 	}
 	let userMap = commonUtil.ajaxAsync(controller+'/updateUser',params);
@@ -80,9 +70,7 @@ service.updateUser = function(user) {
 
 service.getCurentUser = function(call){
 
-	let id =  localStorage.getItem('id');
-
-	var resMap = service.getUserById(id,call);
+	var resMap = service.getUserById(userid,call);
 
 	return resMap;
 }

@@ -25,8 +25,9 @@
 		<fieldset class="video" v-if="record.type==2">
 			<!-- <dt>上传视频</dt> -->
 			<dd>
+				<img v-for="(item,index) in record_file" :src="fileRoot+item.thumbnail" alt="">
 				<label for="upvideo" class="uplab iconfont">&#xe800;</label>
-				<input type="file"  id="upvideo" value="" accept="video/*" >
+				<input type="file"  id="upvideo" value="" accept="video/*" @change="uploadFile">
 			</dd>
 		</fieldset>
 		<dd>
@@ -100,7 +101,8 @@ export default{
 		uploadFile(e){
 			this.$loading.open(2);
 			let file = e.target.files[0];           
-		    let param = new FormData(); //创建form对象
+		    let param = new FormData(); //创建form对象        	
+		    if (!file) {this.$loading.close(); return;}
 		    param.append('file',file,file.name);//通过append向form对象添加数据
 		    if(this.record.type==1){
 			    fileService.uploadPic(param,(data)=>{
@@ -113,9 +115,9 @@ export default{
 				})
 		    }else if(this.record.type==2){
 		    	fileService.uploadVideo(param,(data)=>{
-		    		let obj = {};
-		          	obj.url = data.result.url;
-		          	obj.filename = data.result.filename;
+		    		let obj = data.result;
+		          	// obj.thumbnail = data.result.thumbnail;
+		          	// obj.filename = data.result.filename;
 		          	obj.type =2;
 		          	this.record_file.push(obj);
 		          	this.$loading.close();
@@ -123,16 +125,29 @@ export default{
 		    }else{
 		    	alert("错误");
 		    }
+
 		},
 		publish(){
+			if (!this.record.title || !this.record.content) {return;}
 			this.record.author = Number(localStorage.id?localStorage.id:0);
 			Object.assign(this.record,this.position);
 			if (this.record.type == 1) {
 				let res = articleService.publishArticle(this.record,this.record_file);
 				if(res.status=="success")	{
-					alert("success")
+					this.record_file.length=0;
+					this.record.title = "";
+					this.record.content = "";
+					this.$vux.alert.show({
+					  content:'发布成功',
+					})
+					setTimeout(()=>{
+						this.$vux.alert.hide();
+					},1000)
 				}else{
-					alert("错误提示：" +res.result.tip + "错误代码：" + res.result.errorcode)
+					// alert("错误提示：" +res.result.tip + "错误代码：" + res.result.errorcode)
+					this.$vux.alert.show({
+					  content:'发布失败',
+					})
 				}
 			} else if (this.record.type == 2) {
 				articleService.publishArticle(this.record,this.record_file)

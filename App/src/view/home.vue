@@ -6,7 +6,7 @@
 			<z-tab></z-tab>
 			<div class="main">
 				<loading-main v-show="ifLoad"></loading-main>
-				<router-view></router-view>			
+				<router-view></router-view>		
 			</div>
 		</div>
 		<member v-show="4 == showIndex"></member>
@@ -173,7 +173,7 @@
 <style scoped>
 	.main{
 		padding:6em 0.5em 3.5em;
-		height: 100%;
+		height: 100vh;
 		background: #fff;
 		overflow-x: hidden;
 	}
