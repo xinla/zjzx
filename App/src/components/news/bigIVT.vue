@@ -1,5 +1,5 @@
 <template>
-	<div class="text-wrap bfc-o">
+	<div class="text-wrap bfc-o" @click="$Tool.goPage({ name:'detail',query:{id,}})">
 		<h1>test测试test测试test测试test测试test测试tes</h1>
 		<img class="big" src="http://img.zcool.cn/community/0195be57cd70d90000012e7eb0dae8.jpg@1280w_1l_2o_100sh.jpg" alt="">
 		<p class="pub">

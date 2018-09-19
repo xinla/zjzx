@@ -18,16 +18,16 @@
 				<div class="thumb-wrap">
 					<img v-for="(item,index) in record_file" :src="fileRoot+item.url" alt="">
 					<label for="upimg" class="uplab iconfont">&#xe800;</label>
-					<input type="file" name="file" id="upimg" value="" accept="image/*" multiple @change="uploadFile">
+					<input type="file" id="upimg" accept="image/*" multiple @change="uploadFile">
 				</div>
 			</dd>
 		</fieldset>
 		<fieldset class="video" v-if="record.type==2">
 			<!-- <dt>上传视频</dt> -->
-			<dd>
+			<dd class="thumb-wrap">
 				<img v-for="(item,index) in record_file" :src="fileRoot+item.thumbnail" alt="">
 				<label for="upvideo" class="uplab iconfont">&#xe800;</label>
-				<input type="file"  id="upvideo" value="" accept="video/*" @change="uploadFile">
+				<input type="file"  id="upvideo" accept="video/*" @change="uploadFile">
 			</dd>
 		</fieldset>
 		<dd>
@@ -99,10 +99,21 @@ export default{
 	},
 	methods:{
 		uploadFile(e){
-			this.$loading.open(2);
 			let file = e.target.files[0];           
+		    if (this.record.type==1 && !this.$Tool.checkPic(file.name)) {
+		    	this.$vux.alert.show({
+				  content:'格式错误',
+				})
+			    return;
+			 }
+			 if(this.record.type==2 && !this.$Tool.checkVideo(file.name)) {
+		    	this.$vux.alert.show({
+				  content:'格式错误',
+				})
+			    return;
+			 }
+			this.$loading.open(2);
 		    let param = new FormData(); //创建form对象        	
-		    if (!file) {this.$loading.close(); return;}
 		    param.append('file',file,file.name);//通过append向form对象添加数据
 		    if(this.record.type==1){
 			    fileService.uploadPic(param,(data)=>{
@@ -128,32 +139,35 @@ export default{
 
 		},
 		publish(){
-			if (!this.record.title || !this.record.content) {return;}
+			if (!this.record.title) {return;}
 			this.record.author = Number(localStorage.id?localStorage.id:0);
 			Object.assign(this.record,this.position);
+			let res;
 			if (this.record.type == 1) {
-				let res = articleService.publishArticle(this.record,this.record_file);
-				if(res.status=="success")	{
-					this.record_file.length=0;
-					this.record.title = "";
-					this.record.content = "";
-					this.$vux.alert.show({
-					  content:'发布成功',
-					})
-					setTimeout(()=>{
-						this.$vux.alert.hide();
-					},1000)
-				}else{
-					// alert("错误提示：" +res.result.tip + "错误代码：" + res.result.errorcode)
-					this.$vux.alert.show({
-					  content:'发布失败',
-					})
-				}
+				res = articleService.publishArticle(this.record,this.record_file);	
 			} else if (this.record.type == 2) {
-				articleService.publishArticle(this.record,this.record_file)
+				debugger;
+				res = articleService.publishArticle(this.record,this.record_file);
 			} else {
 
-			} 
+			}
+			debugger;
+			if(res.status=="success") {
+				this.record_file.length=0;
+				this.record.title = "";
+				this.record.content = "";
+				this.$vux.alert.show({
+				  content:'发布成功',
+				})
+				setTimeout(()=>{
+					this.$vux.alert.hide();
+				},1000)
+			}else{
+				// alert("错误提示：" +res.result.tip + "错误代码：" + res.result.errorcode)
+				this.$vux.alert.show({
+				  content:'发布失败',
+				})
+			}
 		},
 		check(str){
 			let reg = /[^\w\s\u4e00-\u9fa5\(\)\（\）\-]/g;
@@ -169,7 +183,10 @@ export default{
 		}
 	},
 	watch:{
+		"$route"(){
+			this.record.type = this.$route.query.sort;	
 
+		}
 	}
 }
 </script>

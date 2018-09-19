@@ -27,6 +27,5 @@ service.uploadVideo = function(params,call){
 	})
 }
 
-
 export default service
 

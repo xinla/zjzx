@@ -21,6 +21,17 @@
 				</div>
 				<div class="content">
 					{{ article.content }}
+					<div class="phone-content" v-if="ArticleFile.length">
+						<img v-for="(item,index) in ArticleFile" :src="fileRoot + item.url" :alt="item.filename" v-if="article.type == 1">
+						<video autobuffer autoloop loop controls v-else>
+							<source :src="fileRoot + ArticleFile[0].url">
+							<param name="src" :value="fileRoot + ArticleFile[0].url">
+							<param name="autoplay" value="false">
+							<param name="autoStart" value="0">
+							<p><a :href="fileRoot + ArticleFile[0].url">Download this video file.</a></p>
+							</object>
+						</video>
+					</div>
 				</div>
 				<div class="key-wrap">
 					关键词：<span class="key" v-for="item in article.keywords">{{ item }}</span>
@@ -210,6 +221,8 @@ import articleCommentService from '@/service/article_commentService'
 import articleCollectService from '@/service/articleCollectService'
 import readHistoryService from '@/service/readHistoryService'
 import praiseService from '@/service/praiseService'
+import articleFileService from '@/service/article_fileService'
+
 export default {
 	data(){
 		return {
@@ -231,6 +244,7 @@ export default {
 				username:'',
 				imageurl:'',
 			},
+			ArticleFile:[],
 			commentList:[],
 			replyList:[],
 			proFail1:false,
@@ -330,6 +344,11 @@ export default {
 				}						
 			});
 		}
+		articleFileService.getFileByArticle(this.article.id,data=>{
+			if (data&&data.status == "success") {
+				this.ArticleFile = data.result.filelist;				
+			}				
+		});
 		//获取文章点赞量
 		praiseService.getPraiseCount(this.id,1,(data)=>{
 			if (data && data.status == "success") {
@@ -785,10 +804,10 @@ export default {
 	    border-radius: 10px;
 	    border: 1px solid #ddd;
 	    line-height: 30px;
-	    padding: 0 10px;
 	    margin:3px;
 	    float: left;
         color: #666;
+        width:23%;
 	}
 	.icon2,.icon3 {
 	    font-size: 22px;

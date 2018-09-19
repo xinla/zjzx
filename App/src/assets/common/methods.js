@@ -193,6 +193,17 @@ const tool = {
       }
     }
     return dateString;
+  },
+  //图片格式判断
+  checkPic(str){
+    let reg = /\.(jpg|png|jpeg)$/i;
+    str = str.toString();
+    return reg.test(str);
+  },
+  //视频格式判断
+  checkVideo(str){
+    let reg = /\.(mp4)$/i;
+    return reg.test(str);
   }
 }
 

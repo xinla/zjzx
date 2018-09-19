@@ -1,9 +1,10 @@
 <template>
   <div id="app">
     <load-main v-show=""></load-main>
-    <keep-alive>
+      <router-view class="routerView"></router-view>       
+    <!-- <keep-alive>
       <router-view class="routerView"></router-view>      
-    </keep-alive>
+    </keep-alive> -->
     <!-- transition :name="transitionName">
     </transition> -->
   </div>

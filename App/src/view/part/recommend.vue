@@ -1,9 +1,9 @@
 <template>
 	<div class="main-content" @scroll="loadMore">
 		<template v-for="(item,index) in arcList">
-			<multIT :article="item" v-if="item.type==1" :ifPublisher="true"></multIT>
-			<bigIVT :article="item" v-else-if="item.type==2"></bigIVT>	
-			<smaIVT :article="item" v-else="item.type==3"></smaIVT>
+			<multIT :article="item" :ifPublisher="true"></multIT>
+			<!-- <bigIVT :article="item" v-else-if="item.type==2"></bigIVT>	 -->
+			<!-- <smaIVT :article="item" v-else="item.type==3"></smaIVT> -->
 		</template>
 	</div>
 </template>

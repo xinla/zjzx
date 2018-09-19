@@ -11,8 +11,8 @@ const token = localStorage.getItem('token');
 service.publishArticle = function(record,record_file) {
 	
 	let params = {
-		userid:userid,
-		token:token,
+		userid,
+		token,
 		record:JSON.stringify(record),
 		record_file:JSON.stringify(record_file)
 	};
