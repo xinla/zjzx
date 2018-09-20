@@ -11,13 +11,12 @@ window.$ = $;
 import router from './router'
 import store from './store/index'
 
-
+import 'animate.css/animate.min.css'
 //css样式
-import './assets/font/reset.css'
-import './assets/font/iconfont.css'
+import './assets/styles/reset.css'
+import './assets/styles/iconfont.css'
 
-// import './plugins/video/zy.media.min.css'
-// import './plugins/video/zy.media.min.js'
+
 
 //服务端请求
 import Request from './assets/request/axiosServer'
@@ -35,34 +34,6 @@ Vue.use(Tool);
 import axios from 'axios'
 Vue.prototype.$http = axios
 
-//底部导航--全局组件
-/*import TabBar from '@/components/TabBar';
-Vue.use(TabBar);
-
-//头部导航--全局组件
-import NavBar from '@/components/NavBar';
-Vue.use(NavBar);
-
-//滚动全局组件
-import scroll from '@/components/scroll';
-Vue.use(scroll);
-
-
-
-//Toast插件
-import Toast from '@/plugins/Toast'
-Vue.use(Toast);
-
-
-
-
-
-
-//让图片居中显示
-import resizeImg from '@/components/resizeImg';
-Vue.use(resizeImg);
-
-*/
 //Loading插件
 import {Loading,LoadText} from '@/plugins/loading'
 Vue.use(Loading);
@@ -113,12 +84,12 @@ new Vue({
   router,
   store,
   created() {
-  	window.GoTruth = this;
-  	// this.initSystem();
+    window.GoTruth = this;
+    // this.initSystem();
   },
 /*  methods: {
-  	//判断系统
-  	initSystem(){
+    //判断系统
+    initSystem(){
         let System = {
           isWechat:navigator.userAgent.indexOf('MicroMessenger') > -1,
           isIOS:!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),

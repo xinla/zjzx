@@ -1,0 +1,126 @@
+/*theme-color*/
+@bgColor:#f4f5f6;
+@mainColor:#d60139;//cc
+@sucColor:#4cd964;//成功的颜色
+@errColor:#FF584D;//失败的颜色
+@defaultBg:#d8d8d8;//一般背景色
+@borderColor:#e8e8e8;
+@redColor:#ec414d; //特殊红色
+@C1:#1A1A1A;
+@C2:#333333;
+@C3:#525252;
+@C4:#6b6b6b;
+@C5:#8a8a8a;
+@C6:#999999;
+@C7:#b8b8b8;
+@C8:#cccccc;
+@C9:#e8e8e8;//线的颜色
+
+/*size*/
+@navHeight: .72rem;
+@headerHeight: .88rem;
+
+
+
+
+
+
+
+/*font-szie*/
+.mix-font-Size(@size){
+  font-size:@size*100/375vw;
+  @media (min-width: 450px) {
+    font-size:~"@{size}px";
+  }
+}
+
+/* 1px解决方案 */
+.mix-1px (@top, @right, @bottom, @left, @color:@C9) {
+  position: relative;
+  @scale: 2;
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% * @scale;
+    height: 100% * @scale;
+    border: 0 @color solid;
+    box-sizing: border-box;
+    transform-origin: 0 0;
+    transform: scale(1 / @scale);
+    pointer-events: none;
+    z-index: 0;
+
+    & when (@top > 0) {
+      border-top-width: 1px;
+    }
+
+    & when (@right > 0) {
+      border-right-width: 1px;
+    }
+
+    & when (@bottom > 0) {
+      border-bottom-width: 1px;
+    }
+
+    & when (@left > 0) {
+      border-left-width: 1px;
+    }
+  }
+}
+
+/* 清除1px */
+.mix-1px-clear () {
+  &:before {
+    display: none;
+  }
+}
+
+/* 垂直居中 */
+.flex-y-center () {
+  display: flex;
+  align-items: center;
+}
+
+/* 水平居中 */
+.flex-x-center () {
+  display: flex;
+  justify-content: center;
+}
+
+/* 水平垂直居中 */
+.flex-center () {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 超出部分出省略号 */
+.text-overflow () {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* 多行文本超出部分省略号 */
+.ellipsis-line(@line:2) {
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:@line;
+  overflow:hidden;
+}
+
+/*页面滚动*/
+.overflow-auto(){
+  overflow: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+.triangle(top,@b_width:10px,@color:#cdcdcd) when(iscolor(@color)){
+  border-width: @b_width;
+  border-color:transparent transparent @color transparent;
+  border-style:solid dashed dashed dashed;
+}

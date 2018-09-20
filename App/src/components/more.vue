@@ -1,5 +1,5 @@
 <template>
-	<div class="top-bar-box">
+	<!-- <div class="top-bar-box">
 		<div class="top-bar-head">
 			<i class="iconfont" @click="goback()">&#xe68c;</i>
 		</div>
@@ -24,6 +24,26 @@
 				</ul>
 			</div>
 		</div>
+	</div> -->
+	<div class="more-wrapper">
+		<div class="mask"></div>
+		<div class="more-container">
+			<div class="more-title">
+				<i class="iconfont">&#xe68c;</i>
+			</div>
+			<div class="more-content">
+				<div class="more-content-item">
+					<div class="more-content-title clearfix">
+						<div class="title fl">
+							<h4>我的频道</h4>
+							<span>点击进入频道</span>
+						</div>
+						<button class="more-button fr">编辑</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 	</div>
 </template>
 
@@ -63,8 +83,62 @@
 		}
 	}
 </script>
-<style scoped>
-	[data-dpr="1"] .iconfont {
+<style lang="less" scoped>
+	.mask {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 999;
+		background-color: rgba(0,0,0,0.5);
+	}
+	.more-container {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 1000;
+		background-color: #fff;
+		border-radius: .2rem .2rem 0 0;
+		.more-title {
+			height: .87rem;
+			line-height: .87rem;
+			border-bottom: .01rem solid @borderColor;
+			padding: 0 .3rem;
+			i{
+				font-size: .45rem;
+				font-weight: 700;
+			}
+		}
+		.more-content {
+			padding: 0 .3rem;
+			.more-content-title{
+				height: .7rem;
+				line-height: .7rem;
+				h4{
+					display: inline-block;
+					font-weight: normal;
+					font-size: .3rem;
+					margin-right: .22rem;
+				}
+				span{
+					font-size: .2rem;
+					color: #999;
+				}
+				.more-button {
+					background-color: #fff;
+					padding: .08rem .19rem;
+					border: .01rem solid @mainColor;
+					color:@mainColor;
+					border-radius: .28rem;
+				}
+			}
+		}
+	}
+
+	/*[data-dpr="1"] .iconfont {
 		font-size: 24px;
 	}
 	[data-dpr="2"] .iconfont {
@@ -168,5 +242,5 @@
 		background-color: #fff;
 		 box-shadow:.07em -0.03em .4em .2em #f1f1f1;
 		border-radius: .3em;
-	}
+	}*/
 </style>

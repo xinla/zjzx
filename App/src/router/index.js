@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import home from '@/view/home'
 import detail from '@/view/detail'
-import one from '@/components/news/one'
 
 Vue.use(Router)
 
@@ -54,13 +53,6 @@ export default new Router({
       name: 'search',
       component: (resolve)=>{
         require(['@/view/search.vue'],resolve)
-      }
-    },
-    {
-      path: '/topBarBox',
-      name: 'topBarBox',
-      component: (resolve)=>{
-        require(['@/components/topBarBox.vue'],resolve)
       }
     },
     //会员中心首页

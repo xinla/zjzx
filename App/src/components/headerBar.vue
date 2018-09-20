@@ -1,103 +1,128 @@
 <template>
 	<div class="header">
-		<div class="logo">
-			<img src="@/assets/images/logo.png" alt="">
+		<div class="header-logo">
+			<img src="@/assets/images/logo.png" alt="直击真相">
 		</div>
-		<div class="search">
-			<input type="text" class="" placeholder="请输入搜索关键词~">
-			<i class="iconfont">&#xeafe;</i>
+		<div class="header-input">
+			<i class="iconfont">&#xe627;</i>
+			<span>请输入搜索关键词~</span>
 		</div>
-		<div class="release">
-			<i class="iconfont" @click="showRelease()">&#xe7f9;</i>
-			<ul class="quick-nav" v-if="ifRelease">
-				<li class="quick-nav-ietm" @click="$Tool.goPage({ name:'release',query:{title:'发布图文',sort:1}})">发布图文</li>
-				<li class="quick-nav-ietm" @click="$Tool.goPage({ name:'release',query:{title:'发布视频',sort:2}})">发布视频</li>
-				<li class="quick-nav-ietm" @click="$Tool.goPage({ name:'release',query:{title:'发起讨论',sort:3}})">发起讨论</li>
-			</ul>
-		</div> 
+		<div class="header-menu">
+			<div @click="handleRelease">
+				<i class="iconfont menu-icon">&#xe603;</i>
+				<p class="menu-text">发布</p>
+			</div>
+			<transition  enter-active-class="animated fadeIn" leave-active-class=" animated fadeOut">
+				<div class="header-dialog" v-show="releaseShow">
+					<div class="arrow-tip"></div>
+					<ul class="header-nav">
+						<li  @click="$Tool.goPage({ name:'release',query:{title:'发布图文',sort:1}})"><i class="iconfont">&#xe686;</i>发布图文</li>
+						<li @click="$Tool.goPage({ name:'release',query:{title:'发布视频',sort:2}})"><i class="iconfont">&#xe604;</i>发布视频</li>
+						<li @click="$Tool.goPage({ name:'release',query:{title:'发起讨论',sort:3}})"><i class="iconfont">&#xe6b3;</i>发起讨论</li>
+					</ul>
+				</div>
+			</transition>
+		</div>
 	</div>
 </template>
 <script>
 	export default {
+		name:'homeHeader',
 		data(){
 			return {
-				ifRelease:false,
+				releaseShow:false,
 			}
 		},
 		methods:{
-			showRelease(){
-				this.ifRelease=!this.ifRelease;
+			handleRelease(){
+				this.releaseShow=!this.releaseShow;
 			}
 		}
 	}
 </script>
 
-<style scoped>
-	.header {
+<style lang="less" scoped>
+.header{
+		display: flex;
 		width: 100%;
+		height: @headerHeight;
+		background-color: @mainColor;
 		position: fixed;
 		top: 0;
-		z-index: 9999;
-		background-color: #ec414d;
-		line-height: 3.5em;
-		height: 3.5em;
-	}
-	.header>div{
-		float: left;
-		height: 100%;
-		text-align:center;
-		position: relative;
-	}
-	.logo{
-		width: 20%;
-	}
-	.logo img {
-		width: 90%;
-		max-height: 3.4em;
-	}
-	.release {
-		width: 10%;
-	}
-	.iconfont{
-		vertical-align: top;
-	}
-	.release i{
-		color: #fff;
-	}
-	[data-dpr="1"] .iconfont {
-		font-size: 24px;
-	}
-	[data-dpr="2"] .iconfont {
-		font-size: 48px;
-	}
-	[data-dpr="3"] .iconfont {
-		font-size: 72px;
-	}
-	.search {
-		width: 70%;
-	}
-	.search i {
-		color: #999;
-		position: absolute;
-		top: 0;
-		right: 0;
-	}
-	.search input {
-	    width: 100%;
-	    background: #fff;
-	    line-height: 2.3em;
-	    border-radius: 0.2rem;
-	    vertical-align: baseline;
-        text-indent: 2%;
-        border:0;
-	}
-	.quick-nav {
-	    position: absolute;
-	    width: 200%;
-	    right: 0;
-	    background: #222;
-	    line-height: 2em;
-	    border-radius: 0 0 .5em .5em;
-	    color: #fff;
+		left: 0;
+		z-index: 999;
+		.header-logo {
+			float: left;
+			width: 1.9rem;
+			img{
+				width: 90%;
+				margin-top: .2rem;
+			}
+		}
+		.header-input {
+			flex: 1;
+			height: .56rem;
+			line-height: .56rem;
+			margin-top: .16rem;
+			padding-left: .2rem;
+			background-color: #fff;
+			border-radius: .1rem;
+			color:#ccc;
+			span{
+				vertical-align: top;
+			}
+
+		}
+		.header-menu {
+			min-width:1rem;
+			padding: .08rem 0 .1rem;
+			float: right;
+			text-align: center;
+			color: #fff;
+			.menu-icon{
+				font-size: .5rem;
+			}
+			.menu-text {
+				margin-top: -.05rem;
+				font-size: .2rem;
+			}
+			.header-dialog{
+				width: 2.72rem;
+				position: absolute;
+				right: .14rem;
+				top: 1.08rem;
+				border-radius: .14rem;
+				background-color:#595959;
+				.arrow-tip{
+					width: 0;   
+					height: 0;   
+					border-left: .2rem solid transparent;  
+					border-right: .19rem solid transparent; 
+					border-bottom: .2rem solid #595959;
+					font-size: 0;  
+					line-height: 0;  
+					position: absolute;
+					top: -.2rem;
+					left: 2.2rem;
+					z-index: 9999;
+				}
+				.header-nav {
+					padding: 0 .24rem;
+					li {
+						padding: .24rem 0;
+						text-align: left;
+						border-bottom: .02rem solid #656566;
+						font-size: .28rem;
+						&:nth-last{
+							border-color: red;
+						}
+						i{
+							font-size: .32rem;
+							margin-right: .32rem;
+						}
+					}
+				}
+			}
+		}
 	}
 </style>
