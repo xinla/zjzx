@@ -16,6 +16,8 @@ import store from './store/index'
 import './assets/font/reset.css'
 import './assets/font/iconfont.css'
 
+// import './plugins/video/zy.media.min.css'
+// import './plugins/video/zy.media.min.js'
 
 //服务端请求
 import Request from './assets/request/axiosServer'

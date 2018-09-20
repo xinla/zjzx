@@ -23,14 +23,11 @@
 					{{ article.content }}
 					<div class="phone-content" v-if="ArticleFile.length">
 						<img v-for="(item,index) in ArticleFile" :src="fileRoot + item.url" :alt="item.filename" v-if="article.type == 1">
-						<video autobuffer autoloop loop controls v-else>
-							<source :src="fileRoot + ArticleFile[0].url">
-							<param name="src" :value="fileRoot + ArticleFile[0].url">
-							<param name="autoplay" value="false">
-							<param name="autoStart" value="0">
-							<p><a :href="fileRoot + ArticleFile[0].url">Download this video file.</a></p>
-							</object>
-						</video>
+						<div class="zy_media" v-else>
+							<video autobuffer autoloop loop controls>
+								<source :src="fileRoot + ArticleFile[0].url">
+							</video>							
+						</div>
 					</div>
 				</div>
 				<div class="key-wrap">
@@ -388,6 +385,7 @@ export default {
 		this.loadComment();
 		// console.log(this.focusState)
 		// console.log(this.ifCollect)
+		zymedia('video',{autoplay: true});
 	},	
 	methods:{
 		loadComment(){

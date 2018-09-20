@@ -10,14 +10,12 @@
 
 <script>
 import multIT from '@/components/news/multIT'
-import smaIVT from '@/components/news/smaIVT'
 import bigIVT from '@/components/news/bigIVT'
 
 import articleService from '@/service/articleService'
 export default {
 	components:{
 		multIT,
-		smaIVT,
 		bigIVT,
 	},
 	mounted () {	

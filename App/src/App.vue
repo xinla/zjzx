@@ -55,7 +55,7 @@ export default {
   		// 	//前进
   		// 	this.transitionName = 'slide-left';
   		// }
-      console.log(this.$router.ifLoading);
+      // console.log(this.$router.ifLoading);
   	}
   },
 }
