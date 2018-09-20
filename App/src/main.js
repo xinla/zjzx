@@ -16,8 +16,6 @@ import 'animate.css/animate.min.css'
 import './assets/styles/reset.css'
 import './assets/styles/iconfont.css'
 
-
-
 //服务端请求
 import Request from './assets/request/axiosServer'
 // Vue.use(Request);
@@ -53,6 +51,11 @@ Vue.component('PromptBlank',PromptBlank);
 // import BottomPopup from '@/plugins/BottomPopup'
 // Vue.use(BottomPopup);
 
+// 视频插件
+import VideoPlayer from 'vue-video-player'
+require('video.js/dist/video-js.css')
+require('vue-video-player/src/custom-theme.css')
+Vue.use(VideoPlayer)
 
 //Swiper组件
 import VueAwesomeSwiper from 'vue-awesome-swiper'

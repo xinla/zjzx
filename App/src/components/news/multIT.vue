@@ -5,12 +5,12 @@
 			<!-- picture -->
 			<div class="img-wrap bfc-o" v-if="1 == article.type">
 				<template>
-					<img v-for="(item,index) in ArticleFile" v-if="index<3" :src="fileRoot+item.url" :alt="item.filename">		
+					<img v-for="(item,index) in ArticleFile" v-if="index < 3" :src="fileRoot + item.url" :alt="item.filename">		
 				</template>
 				<!-- <img src="#" alt="图片获取失败" v-if="failImg"> -->
 			</div>
 			<!-- video -->
-			<div class="big" v-if="2 == article.type">
+			<div class="big" v-else-if="2 == article.type">
 				<img class="big" :src="fileRoot + ArticleFile[0].thumbnail" alt="">
 			</div>
 		</div>

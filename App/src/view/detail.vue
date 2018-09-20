@@ -21,12 +21,15 @@
 				</div>
 				<div class="content">
 					{{ article.content }}
-					<div class="phone-content" v-if="ArticleFile.length">
-						<img v-for="(item,index) in ArticleFile" :src="fileRoot + item.url" :alt="item.filename" v-if="article.type == 1">
-						<div class="zy_media" v-else>
-							<video autobuffer autoloop loop controls>
-								<source :src="fileRoot + ArticleFile[0].url">
-							</video>							
+					<div class="phone-content">
+						<img v-for="(item,index) in ArticleFile" :src="fileRoot + item.url" :alt="item.filename" >
+						<div >
+							<video-player class="video-player vjs-custom-skin" 
+								ref="videoPlayer"
+							 	:playsinline="true"
+							  	:options="playerOptions">							  	
+							</video-player>	
+							<!-- :src="fileRoot + ArticleFile[0].url"			 -->
 						</div>
 					</div>
 				</div>
@@ -307,6 +310,31 @@ export default {
 			lock:false,
 			//load文字提示
 			loadText:"正在加载",
+			// 视频
+			playerOptions : {
+				playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
+				autoplay: false, //如果true,浏览器准备好时开始回放。
+				muted: false, // 默认情况下将会消除任何音频。
+				loop: false, // 导致视频一结束就重新开始。
+				preload: 'auto', // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
+				language: 'zh-CN',
+				aspectRatio: '16:9', // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
+				fluid: true, // 当true时，Video.jsplayer将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
+				sources: [
+					{
+					type: "video/mp4",
+					src: "http://www.w3cschool.cc/try/demo_source/mov_bbb.mp4" //url地址
+					}
+				],
+				poster: "", //你的封面地址 // width: document.documentElement.clientWidth,
+				notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
+				controlBar: {
+					timeDivider: true,
+					durationDisplay: true,
+					remainingTimeDisplay: false,
+					fullscreenToggle: true //全屏按钮
+				}
+			}
 		}
 	},
 	mounted(){
@@ -341,9 +369,16 @@ export default {
 				}						
 			});
 		}
+		// 文章附件
 		articleFileService.getFileByArticle(this.article.id,data=>{
-			if (data&&data.status == "success") {
-				this.ArticleFile = data.result.filelist;				
+			if (data && data.status == "success") {
+				if (this.article.type == 1) {
+					this.ArticleFile = data.result.filelist;				
+				}else{
+					this.playerOptions.sources[0].src = this.fileRoot + data.result.filelist[0].url;
+					this.playerOptions.poster = this.fileRoot + data.result.filelist[0].thumbnail;
+				}
+
 			}				
 		});
 		//获取文章点赞量
@@ -385,7 +420,6 @@ export default {
 		this.loadComment();
 		// console.log(this.focusState)
 		// console.log(this.ifCollect)
-		zymedia('video',{autoplay: true});
 	},	
 	methods:{
 		loadComment(){
@@ -1006,4 +1040,5 @@ export default {
 		color: #f40;
 		background: none;
 	}
+	.video-js .vjs-big-play-button{}
 </style>
