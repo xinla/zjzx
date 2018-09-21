@@ -1,4 +1,3 @@
-
 import config from '@/lib/config/config'
 import axios from 'axios'
 import commonUtil from '@/service/util/commonUtil'
@@ -81,7 +80,7 @@ service.logOut = function(){
 	let params = {
 		logid,
 		token,
-		userid
+		userid,
 	}
 	let resLogOut = commonUtil.ajaxAsync(controller+'/logOut',params);
 

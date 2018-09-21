@@ -23,9 +23,9 @@
 			</dd>
 		</fieldset>
 		<fieldset class="video" v-if="record.type==2">
-			<!-- <dt>上传视频</dt> -->
+			<!-- 上传视频 -->
 			<dd class="thumb-wrap">
-				<img v-for="(item,index) in record_file" :src="fileRoot+item.thumbnail" alt="">
+				<img v-for="(item,index) in record_file" :src="fileRoot + item.thumbnail" alt="">
 				<label for="upvideo" class="uplab iconfont">&#xe800;</label>
 				<input type="file"  id="upvideo" accept="video/*" @change="uploadFile">
 			</dd>
@@ -132,6 +132,7 @@ export default{
 		          	obj.type =2;
 		          	this.record_file.push(obj);
 		          	this.$loading.close();
+		          	console.log(obj)
 		    	})
 		    }else{
 		    	alert("错误");
@@ -146,7 +147,7 @@ export default{
 			if (this.record.type == 1) {
 				res = articleService.publishArticle(this.record,this.record_file);	
 			} else if (this.record.type == 2) {
-				debugger;
+				// debugger;
 				res = articleService.publishArticle(this.record,this.record_file);
 			} else {
 

@@ -4,6 +4,8 @@ import commonUtil from '@/service/util/commonUtil'
 const controller =config.successServer+'/praise';
 const service ={}
 
+const token = localStorage.getItem('token');
+const userid =  localStorage.getItem('id');
 //点赞量
 service.getPraiseCount = function(itemid,type,call){
 	var params = {
@@ -24,7 +26,7 @@ service.getPraiseCount = function(itemid,type,call){
 //是否点赞
 service.testPraise = function(itemid,type,call){
 	var params = {
-		userid:config.userid,//:"用户id",
+		userid,//:"用户id",
 		itemid,//:"对象id",
 		type,//:"点赞类型", //1:文章，2:评论
 	};
@@ -41,8 +43,8 @@ service.testPraise = function(itemid,type,call){
 //执行点赞
 service.doPraise = function(itemid,type){
 	var params = {
-		token:config.token,
-		userid:config.userid,//:"用户id",
+		token,
+		userid,//:"用户id",
 		itemid,//:"对象id",
 		type,//:"点赞类型", //1:文章，2:评论
 	};

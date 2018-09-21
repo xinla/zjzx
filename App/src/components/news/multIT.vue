@@ -4,13 +4,12 @@
 			<h1>{{article.title}}</h1>
 			<!-- picture -->
 			<div class="img-wrap bfc-o" v-if="1 == article.type">
-				<template>
-					<img v-for="(item,index) in ArticleFile" v-if="index < 3" :src="fileRoot + item.url" :alt="item.filename">		
-				</template>
+					<img v-for="(item,index) in ArticleFile" v-if="index < 3" :src="fileRoot + item.url">		
 				<!-- <img src="#" alt="图片获取失败" v-if="failImg"> -->
 			</div>
 			<!-- video -->
 			<div class="big" v-else-if="2 == article.type">
+				<i class="iconfont icon-play-circle"></i>
 				<img class="big" :src="fileRoot + ArticleFile[0].thumbnail" alt="">
 			</div>
 		</div>
@@ -130,10 +129,10 @@ export default {
 </script>
 <style scoped>
 	.text-wrap{
-		padding: 1em 0 0em;
 	    border-bottom: 1px solid #eee;
 	}
 	h1{
+		margin: 1em 0 .5em;
 		font-weight: normal;
 		font-size: 16px
 	}
@@ -152,7 +151,7 @@ export default {
 		width: 2.2rem;
 		height: 2.2rem;
 		max-width: 200px;
-		margin: 0.5em 1% 0;
+		margin:0 1%;
 	}
 	small.delete {
         font-size: 0.85em;
@@ -163,5 +162,16 @@ export default {
 	    border-radius: 1.6em;
 	    vertical-align: middle;
 	    top: 0.85em;
+	}
+	img{
+		background: url('../../assets/images/imgErrorBg.png') #efefef no-repeat center;
+	    background-size: 80%;
+	}
+	.icon-play-circle{
+		position: absolute;
+	    top: 47%;
+	    left: 47%;
+	    font-size: 50px;
+	    color: #666;		
 	}
 </style>

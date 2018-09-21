@@ -1,5 +1,5 @@
 <template>
-	<div >
+	<div>
 		<top @hrefTo="this.$Tool.goBack">
 			<template slot="title">{{ '文章详情' }}</template>
 		</top>
@@ -41,10 +41,11 @@
 			<div class="btn-a-wrap bfc-o" id="commentAnchor">
 				<button type="button" class="btn-a" :class="{'liked':likeStatus}" @click="doLike(1)">
 					{{ likeNum }}
-					<span class="bfc-d">
+					<like :likeStatus="likeStatus"></like>
+					<!-- <span class="bfc-d">
 						<i class="iconfont icon2">&#xe7c8;</i>
 						<i class="iconfont icon2 like-animate" :class="[{'like-animate-up':likeStatus}]">&#xe7c8;</i>	
-					</span>
+					</span> -->
 				</button>
 				<button type="button" class="btn-a"><i class="iconfont icon2">&#xe7c3;</i>不喜欢</button>
 				<button type="button" class="btn-a"><i class="iconfont icon3">&#xe883;</i>微信</button>
@@ -73,12 +74,13 @@
 										</span>
 									</button>
 									<div class="like-wrap fr">
-										<button type="button" class="like-btn" :class="{'liked':item.ifLike}">
+										<button type="button" class="like-btn" :class="{'liked':item.ifLike}" @click="doLike(2,item.id,index)">
 											<var>{{item.likeNum}}</var>
-											<span class="bfc-d">
+											<like :likeStatus="index==curLike?ifLike:0"></like>
+											<!-- <span class="bfc-d">
 												<i class="iconfont icon2" >&#xe7c8;</i>
 												<i class="iconfont icon2 like-animate" :class="[{'like-animate-up':index==curLike?ifLike:0}]" @click="doLike(2,item.id,index)">&#xe7c8;</i>
-											</span>
+											</span> -->
 										</button>
 										<!-- <i class="iconfont icon2 report-comment-btn ">&#xe77e;</i> -->
 									</div>
@@ -120,7 +122,7 @@
 				<div class="reply-wrap" v-if="ifReply" @scroll="scrollBotLoad" >
 					<div class="reply-li bfc-o">
 						<div class="uphoto-wrap fl">
-							<img class="uphoto" :src="commentList[commentIndex].imageurl?(fileRoot+commentList[commentIndex]):imgurl" alt="">
+							<img class="uphoto" :src="commentList[commentIndex].imageurl?(fileRoot+commentList[commentIndex].imageurl):imgurl" alt="">
 						</div>
 						<div class="comment-detail">				
 							<p>
@@ -135,12 +137,12 @@
 										<div>
 											<time v-text="$Tool.publishTimeFormat(commentList[commentIndex].commenttime)"></time>	
 											<i class="iconfont report-comment-btn" @click="report()">&#xe77e;</i>		
+											<!-- <span>-</span> -->
+											<span class="rep-show">
+												<var>{{commentList[commentIndex].likeNum || 0}}</var>人赞过
+												<!-- <i class="iconfont">&#xe7f6;</i> -->
+											</span>
 										</div>
-										<span>-</span>
-										<span class="rep-show">
-											<var>{{commentList[commentIndex].likeNum || 0}}</var>人赞过
-											<!-- <i class="iconfont">&#xe7f6;</i> -->
-										</span>
 										<!-- <span class="rep-hide" @click="hideReply">
 											收起回复<i class="iconfont">&#xe7f4;</i>
 										</span> -->
@@ -199,7 +201,7 @@
 			<transition name="slide-ud">
 				<div class="report-wrap bf" v-if="ifReport">
 					<group title="选择举报类别">
-					    <radio :options="reportList" fill-mode v-model="value" :selected-label-style="{color:'#f40'}" @radio-checked-icon-color="" @on-change="change"></radio>
+					    <radio :options="reportList" fill-mode  :selected-label-style="{color:'#f40'}" @radio-checked-icon-color="" @on-change="changeReport"></radio>
 					</group>
 					<div class="ac">
 						<button type="button" class="report-btn" @click="reportCancle">取消</button>
@@ -213,17 +215,22 @@
 
 <script>
 import config from '@/lib/config/config'
+import like from '@/components/common/like'
 import listUtil from '@/service/util/listUtil'
-import articleService from '@/service/articleService'
 import userService from '@/service/userService'
 import followService from '@/service/followService'
+import praiseService from '@/service/praiseService'
+import reportService from '@/service/reportService'
+import articleService from '@/service/articleService'
+import readHistoryService from '@/service/readHistoryService'
+import articleFileService from '@/service/article_fileService'
 import articleCommentService from '@/service/article_commentService'
 import articleCollectService from '@/service/articleCollectService'
-import readHistoryService from '@/service/readHistoryService'
-import praiseService from '@/service/praiseService'
-import articleFileService from '@/service/article_fileService'
 
 export default {
+	components:{
+		like,
+	},
 	data(){
 		return {
 			userId:localStorage.id,
@@ -299,7 +306,6 @@ export default {
 					value:"违法，造谣"
 				},
 			],
-			reportSelected:0,
 			//评论加载分页
 			pageNum1:1,
 			//回复加载分页
@@ -334,6 +340,13 @@ export default {
 					remainingTimeDisplay: false,
 					fullscreenToggle: true //全屏按钮
 				}
+			},
+			reportInfo:{
+				reportreasion:'',//"举报原因"，
+				reporttime:'',//"举报时间" ,
+				// itemid:'',//"对象id",
+				// reportuserid:'',//"被举报人id",
+				// type:'',//"类型"  1.文章举报  
 			}
 		}
 	},
@@ -738,29 +751,32 @@ export default {
 		report(){
 			this.ifReport = true;
 		},
-		change(value, label){
+		changeReport(value, label){
 			// console.log('change:', value, label);
-			this.reportSelected = value;
+			this.reportInfo.reportreasion = label;
 		},
 		reportCancle(){
 			this.ifReport = false;
 		},
-		reportConfirm(){
-			if (userId) {
-
-				this.$vux.alert.show({
-				  content:'感谢您的反馈，我们会着实核查！',
-				})
-				setTimeout(()=>{
-					this.$vux.alert.hide();
-				},1000)
+		reportConfirm(itemid,reportuserid){
+			if (this.userId) {
+				this.reportInfo.itemid = this.replyCommentId;
+				this.reportInfo.reportuserid = this.replyUserId;
+				this.reportInfo.type = this.article.type;
+				let resDoReport = reportService.doReport(this.reportInfo);
+				if (resDoReport && resDoReport.status == "success") {
+					this.$vux.alert.show({
+					  content:'感谢您的反馈，我们会着实核查！',
+					})				
+				}else{
+					this.$vux.alert.show({
+					  content:'举报失败，亲稍后再试',
+					})
+				}
 			} else {
 				this.$vux.alert.show({
 				  content:'请先登录',
 				})
-				setTimeout(()=>{
-					this.$vux.alert.hide();
-				},1000)
 			}
 			this.ifReport = false;
 		},
