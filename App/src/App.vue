@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <load-main v-show=""></load-main>
+    <load-main v-show="ifLoad"></load-main>
       <router-view class="routerView"></router-view>       
     <!-- <keep-alive>
       <router-view class="routerView"></router-view>      
@@ -21,10 +21,13 @@ export default {
   data() {
   	return {
   		transitionName: '',
-      ifLoad:false,
+      ifLoad:true,
   	}
   },
   mounted(){
+    setTimeout(()=>{
+      this.ifLoad = false;
+    },3000)
     // var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
     // document.querySelector('html').setAttribute("data-dpr",1);
     // document.querySelector('meta[name="viewport"]').setAttribute("content","width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no");

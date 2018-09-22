@@ -1,9 +1,6 @@
 <template>
 	<div>
-		<template v-for="(item,index) in arcList">
-			<multIT :article="item" v-if="item.type==1"></multIT>
-			<bigIVT :article="item" v-else="item.type==2"></bigIVT>	
-		</template>
+		<multIT :article="item" :ifPublisher="true" v-for="(item,index) in arcList"></multIT>
 		<prompt-blank v-if="proIf" :mes="proMes"></prompt-blank>
 	</div>
 </template>
@@ -11,13 +8,11 @@
 <script>
 import multIT from '@/components/news/multIT'
 import smaIVT from '@/components/news/smaIVT'
-import bigIVT from '@/components/news/bigIVT'
 import articleService from '@/service/articleService'
 export default {
 	components:{
 		multIT,
 		smaIVT,
-		bigIVT,
 	},
 	mounted(){
 		var resAllList = articleService.getArticleByUser(1,10);

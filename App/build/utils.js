@@ -109,3 +109,4 @@ exports.createNotifierCallback = () => {
     })
   }
 }
+

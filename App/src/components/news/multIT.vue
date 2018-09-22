@@ -3,14 +3,13 @@
 		<div @click="$Tool.goPage({ name:'detail',query:{id,}})">
 			<h1>{{article.title}}</h1>
 			<!-- picture -->
-			<div class="img-wrap bfc-o" v-if="1 == article.type">
-					<img v-for="(item,index) in ArticleFile" v-if="index < 3" :src="fileRoot + item.url">		
-				<!-- <img src="#" alt="图片获取失败" v-if="failImg"> -->
+			<div class="img-wrap bfc-o" v-if="1 == article.type && ArticleFile.length">
+				<img v-for="(item,index) in ArticleFile" v-if="index < 3" :src="item.url?(fileRoot+item.url):imgurl">			
 			</div>
 			<!-- video -->
-			<div class="big" v-else-if="2 == article.type">
+			<div class="big" v-else-if="2 == article.type && ArticleFile.length">
 				<i class="iconfont icon-play-circle"></i>
-				<img class="big" :src="fileRoot + ArticleFile[0].thumbnail" alt="">
+				<img class="big" :src="ArticleFile[0].thumbnail?(fileRoot + ArticleFile[0].thumbnail):imgurl" alt="">
 			</div>
 		</div>
 		<p class="pub">
@@ -31,6 +30,7 @@ export default {
 	data(){
 		return {
 			id:this.article.id,
+			imgurl:require('@/assets/images/userPhoto.jpg'),
 			ArticleFile:[
 				{
 					thumbnail:"",
@@ -43,7 +43,6 @@ export default {
 			publishtime:this.article.publishtime,
 			fileRoot:config.fileRoot+'/',
 			publisher:"",
-			failImg:false,
 		}
 	},
 	props:{
@@ -53,51 +52,13 @@ export default {
 		ifDel:false,
 	},
 	mounted(){
-
 		this.$nextTick(()=>{
-
-				// let resArticleFile = articleFileService.getFileByArticle(this.article.id);
-				// if (resArticleFile&&resArticleFile.status == "success") {
-				// 	this.ArticleFile = resArticleFile.result.filelist;				
-				// } else {
-				// 	this.failImg = true;
-				// }
-				// // 获取文章评论数量
-				// articleCommentService.getArticleCommentCount(this.article.id,data=>{
-				// 	if (data.status == "success") {
-				// 		this.CommentNum = data.result.count;		
-				// 	}else{
-				// 		this.CommentNum = 0;
-				// 	}					
-				// });
-
-				// this.publishtime = this.$Tool.publishTimeFormat(this.article.publishtime);
-			// if(article.type == 1){
-			// }
 			this.$options.methods.getArticleInfo.call(this);
 		})
 	},	
 	watch:{
 		article(){
-			// let resArticleFile = articleFileService.getFileByArticle(this.article.id);
-			// 	if (resArticleFile&&resArticleFile.status == "success") {
-			// 		this.ArticleFile = resArticleFile.result.filelist;				
-			// 	} else {
-			// 		this.failImg = true;
-			// 	}
-
-			// 	// 获取文章评论数量
-			// 	articleCommentService.getArticleCommentCount(this.article,data=>{
-			// 		if (data && data.status == "success") {
-			// 			this.CommentNum = data.result.count;		
-			// 		}else{
-			// 			this.CommentNum = 0;
-			// 		}					
-			// 	});
-
-			// 	this.publishtime = this.$Tool.publishTimeFormat(this.article.publishtime);
-			this.$options.methods.getArticleInfo.call(this);
-				
+			this.$options.methods.getArticleInfo.call(this);				
 		}
 	},
 	methods:{
@@ -105,8 +66,6 @@ export default {
 			articleFileService.getFileByArticle(this.article.id,data=>{
 				if (data&&data.status == "success") {
 					this.ArticleFile = data.result.filelist;				
-				} else {
-					this.failImg = true;
 				}				
 			});
 			userService.getUserById(this.article.author,data=>{
@@ -132,9 +91,10 @@ export default {
 	    border-bottom: 1px solid #eee;
 	}
 	h1{
-		margin: 1em 0 .5em;
+		margin:.3em 0;
 		font-weight: normal;
-		font-size: 16px
+		font-size: 16px;
+	    line-height: 1.5em;
 	}
 	[data-dpr='2'] h1{
 		font-size: 36px;

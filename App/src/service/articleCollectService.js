@@ -4,10 +4,13 @@ import commonUtil from '@/service/util/commonUtil'
 const controller =config.successServer+'/article_collect';
 const service ={}
 
+const token = localStorage.getItem('token');
+const userid =  localStorage.getItem('id');
+
 service.articleCollect = function(articleid){
 	var params = {
-		token:config.token,//:"令牌"
-		userid:config.userid,//:"用户id",
+		token,//:"令牌"
+		userid,//:"用户id",
 		// userid,
 		// token,
 		articleid,//:"文章id",
@@ -20,7 +23,7 @@ service.articleCollect = function(articleid){
 
 service.testCollect = function(articleid,call){
 	var params = {
-		userid:config.userid,//:"用户id",
+		userid,//:"用户id",
 		articleid,//:"文章id",
 	};
 
@@ -28,5 +31,5 @@ service.testCollect = function(articleid,call){
 
 }
 
-export default service
+export default service;
 

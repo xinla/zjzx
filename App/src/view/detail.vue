@@ -22,8 +22,10 @@
 				<div class="content">
 					{{ article.content }}
 					<div class="phone-content">
-						<img v-for="(item,index) in ArticleFile" :src="fileRoot + item.url" :alt="item.filename" >
-						<div >
+						<div v-if="1 == article.type">
+							<img v-for="(item,index) in ArticleFile" :src="fileRoot + item.url" :alt="item.filename">							
+						</div>
+						<div v-else>
 							<video-player class="video-player vjs-custom-skin" 
 								ref="videoPlayer"
 							 	:playsinline="true"
@@ -48,8 +50,8 @@
 					</span> -->
 				</button>
 				<button type="button" class="btn-a"><i class="iconfont icon2">&#xe7c3;</i>不喜欢</button>
-				<button type="button" class="btn-a"><i class="iconfont icon3">&#xe883;</i>微信</button>
-				<button type="button" class="btn-a"><i class="iconfont icon3">&#xe882;</i>QQ</button>
+				<button type="button" class="btn-a" @click="share(1)"><i class="iconfont icon3">&#xe883;</i>微信</button>
+				<button type="button" class="btn-a" @click="share(3)"><i class="iconfont icon3">&#xe882;</i>QQ</button>
 			</div>	
 			<div class="comment">				
 				<ul class="comment-ul">
@@ -226,6 +228,7 @@ import readHistoryService from '@/service/readHistoryService'
 import articleFileService from '@/service/article_fileService'
 import articleCommentService from '@/service/article_commentService'
 import articleCollectService from '@/service/articleCollectService'
+import shareService from '@/service/shareService'
 
 export default {
 	components:{
@@ -243,7 +246,7 @@ export default {
 				title:"标题",
 				content:"内容",
 				author:Number,
-				type:Number,
+				type:2,
 				publishtime:"发布时间",
 				publisharea:"发布地区",
 			},
@@ -449,8 +452,10 @@ export default {
 					let resUserInfo = userService.getUserById(item.douserid);
 					if (resUserInfo && resUserInfo.status == "success") {
 						// item.imageurl = resUserInfo.result.user.imageurl;
-						// item.username = resUserInfo.result.user.username;						
-						this.$set(item,"imageurl",resUserInfo.result.user.imageurl);
+						// item.username = resUserInfo.result.user.username;	
+							this.$set(item,"imageurl",resUserInfo.result.user.imageurl);					
+						// $("img").load(()=>{
+						// })					
 						this.$set(item,"username",resUserInfo.result.user.username);
 					}
 					//获取文章一级评论回复数量
@@ -732,8 +737,20 @@ export default {
 			let resArticleCollect = articleCollectService.articleCollect(articleid);
 			if (resArticleCollect && resArticleCollect.status == "success") {
 				if (resArticleCollect.result == 1 ) {
-					this.ifCollect = true;				
+					this.$vux.alert.show({
+					  content:'收藏成功！',
+					})
+					setTimeout(()=>{
+						this.$vux.alert.hide();
+					},1000)			
+					this.ifCollect = true;	
 				} else {
+					this.$vux.alert.show({
+					  content:'取消收藏',
+					})
+					setTimeout(()=>{
+						this.$vux.alert.hide();
+					},1000)	
 					this.ifCollect = false;				
 				}
 			}
@@ -782,7 +799,38 @@ export default {
 		},
 		replySb(userName){
 			this.commentConAdd = "  //@" + userName;
-		}
+		},
+		share(type){
+			let msg = {
+				href:config.domain + location.href.substr(location.href.indexOf('/',10)),
+				title:this.article.title,
+				content:this.article.content.substr(0,100),
+				// thumbs:this.ArticleFile[0]['imageurl'],
+			}
+			if (this.ArticleFile.length) {
+				msg.thumbs = this.ArticleFile[0]['imageurl'];
+			} else {
+				this.$set(msg,"thumbs",this.playerOptions.poster);
+			}
+				// console.log(msg);
+			if (type == 1) {
+				shareService.shareToWxHy(msg,data=>{
+					console.log(msg);
+				})				
+			} else if (type == 2) {
+				shareService.shareToWxPyq(msg,data=>{
+					console.log(msg);
+				})
+			}else if(type == 3){
+				shareService.shareToQQ(msg,data=>{
+					console.log(msg);
+				})
+			}else {
+				shareService.shareToXl(msg,data=>{
+					console.log(msg);
+				})
+			}
+		},
 	},
 }
 </script>
@@ -793,6 +841,7 @@ export default {
         margin: 50px 0;
         height: 100%;
         overflow-y: auto;
+        line-height: 22px;
 	}
 	.content-wrap{
 		padding: 0 15px;
@@ -833,6 +882,9 @@ export default {
 	    margin: 0.3rem 0;
 	    line-height: 25px;
 	    font-size: 16px;
+	}
+	.content img{
+		width: 100%;
 	}
 	.key {
 	    display: inline-block;
