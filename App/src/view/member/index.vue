@@ -104,7 +104,7 @@
 </template>
 
 <script>
-	import zNav from '@/components/navBar'
+	import zNav from '@/components/bottomNav'
 	import config from '@/lib/config/config'
 	import fileService from '@/service/fileService'
 	export default {

@@ -12,7 +12,7 @@ Loading.install = function (Vue,options) {
   //将这个实例挂载在我创建的div上
   let LoadingDom = document.createElement('div');
   instance.$mount(LoadingDom);
-  //并将此div加入全局挂载点内部
+  //并将此div加入全局body内部
   document.body.appendChild(instance.$el);
 
   //声明一个定时器
@@ -51,10 +51,11 @@ LoadText.install = function (Vue,options) {
   //生成一个该子类的实例
   const instance = new vLoadText();
 
-  //将这个实例挂载在我创建的div上
+  //将这个实例挂载在我创建的div上,(vue不能直接$mount到body或html上，只能$mount到普通的element)
   let LoadingDom = document.createElement('div');
+  // let LoadingDom = document.body;
   instance.$mount(LoadingDom);
-  //并将此div加入全局挂载点内部
+  //并将此div加入全局body内部
   document.body.appendChild(instance.$el);
 
   //声明一个定时器

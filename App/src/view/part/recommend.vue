@@ -1,6 +1,7 @@
 <template>
 	<div class="main-content" @scroll="loadMore">
-		<multIT v-for="(item,index) in arcList" :article="item" :ifPublisher="true"></multIT>
+		<loading-main v-show="ifLoad"></loading-main>
+		<multIT v-for="(item,index) in arcList" :article="item" :ifPublisher="true" :key="index"></multIT>
 			<!-- <bigIVT :article="item" v-else-if="item.type==2"></bigIVT>	 -->
 			<!-- <smaIVT :article="item" v-else="item.type==3"></smaIVT> -->
 	</div>
@@ -18,12 +19,14 @@ export default {
 	},
 	mounted () {	
 		this.$options.methods.getArtList.call(this);
+		this.ifLoad = false;
 	},
 	data(){
 		return {
 			arcList:[],
 			pageSize:1,
 			lock:false,
+			ifLoad:true,
 		}
 	},
 	methods:{
@@ -34,14 +37,13 @@ export default {
 				this.arcList = this.arcList.concat(resArticlePage.recordPage.list);	
 				this.pageSize++;
 				this.lock = false;
-
 				// console.log(this.arcList);articlePage
 			}
 		},
 		loadMore(){
 			if (!this.lock && ($(".main-content").scrollTop() + $(".main-content").height()) > $(".main-content")[0].scrollHeight-350) {
 				this.$options.methods.getArtList.call(this);
-				console.log(1)
+				// console.log(1)
 			}
 		}
 	}

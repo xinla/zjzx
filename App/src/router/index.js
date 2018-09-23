@@ -2,7 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import home from '@/view/home'
 import detail from '@/view/detail'
-
+Router.prototype.go = function () {
+  this.isBack = true;
+  window.history.go(-1);
+}
 Vue.use(Router)
 
 export default new Router({
@@ -17,7 +20,7 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'home',
+      name: '/',
       redirect:'/recommend',
       component: (resolve)=>{
         require(['@/view/home.vue'],resolve)
@@ -285,3 +288,4 @@ export default new Router({
     }
   ]
 })
+

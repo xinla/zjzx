@@ -39,6 +39,8 @@ Vue.use(Loading);
 //通用top
 import Top from '@/components/common/top'
 Vue.component('Top',Top);
+import LoadingMain from '@/components/common/loadingMain'
+Vue.component('LoadingMain',LoadingMain);
 //通用空白页提示
 import PromptBlank from '@/components/common/promptBlank'
 Vue.component('PromptBlank',PromptBlank);
@@ -107,15 +109,15 @@ new Vue({
   render: h => h(App),
 }).$mount('#app');
 
-router.beforeEach((to, from, next) => {
-  this.ifLoading= 1;
-  next()
-  // console.log("bb")
+// router.beforeEach((to, from, next) => {
+//   next()
+//   // console.log("bb")
 
-})
-router.afterEach((to, from) => {
-  // localStorage.ifLoading = 0;
-  this.ifLoading= 0;
-  // 
-  // console.log("aa")
-})
+// })
+// router.afterEach((to, from) => {
+//   // console.log("aa")
+// })
+
+
+
+

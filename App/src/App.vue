@@ -1,23 +1,21 @@
 <template>
   <div id="app">
-    <load-main v-show="ifLoad"></load-main>
-      <router-view class="routerView"></router-view>       
+    <!-- <load-main v-show="ifLoad"></load-main> -->
     <!-- <keep-alive>
       <router-view class="routerView"></router-view>      
     </keep-alive> -->
-    <!-- transition :name="transitionName">
-    </transition> -->
+    <transition :name="transitionName">
+      <keep-alive>
+        <router-view class="routerView"></router-view> 
+      </keep-alive>      
+    </transition>
   </div>
 </template>
 
 <script>
-import loadMain from '@/components/common/loadingMain'
 
 export default {
   name: 'App',
-  components:{
-    loadMain,
-  },
   data() {
   	return {
   		transitionName: '',
@@ -43,22 +41,27 @@ export default {
   },
   watch: {
   	//监听路由
-  	'$route'(to,from) {
-  		//前进后退转场动画
-  		// const toDepth = to.path.split('/').length;
-  		// const fromDepth = from.path.split('/').length;
-
-  		// if(toDepth == fromDepth) {
-  		// 	//同级
-  		// 	this.transitionName ='';
-  		// } else if(toDepth < fromDepth) {
-  		// 	//后退
-  		// 	this.transitionName = 'slide-right';
-  		// } else {
-  		// 	//前进
-  		// 	this.transitionName = 'slide-left';
-  		// }
-      // console.log(this.$router.ifLoading);
+  	$route(to,from) {
+  		// 前进后退转场动画
+      if (this.$router['isBack'] == undefined) {
+        this.$router['isBack'] = false;return;
+      }
+      this.transitionName = this.$router['isBack'] ? 'slide-right' : 'slide-left';
+      this.$router['isBack'] = false;
+      // const toDepth = to.path.split('/').length;
+      // const fromDepth = from.path.split('/').length;
+      // if(toDepth == fromDepth) {
+      //  //同级
+      //  this.transitionName ='';
+      // } else if(toDepth < fromDepth) {
+      //  //后退
+      //  this.transitionName = 'slide-right';
+      // } else {
+      //  //前进
+      //  this.transitionName = 'slide-left';
+      // }
+      // console.log(this.transitionName)
+      // console.log(this.$router['isBack']);
   	}
   },
 }
@@ -91,5 +94,18 @@ export default {
     height: 100%;
     overflow-x: hidden;
   }
+
+.routerView {
+  position: absolute;
+  transition: all .3s cubic-bezier(.55,0,.1,1);
+}
+.slide-left-enter, .slide-right-leave-active {
+  opacity: 0;
+  transform: translate(200px, 0);
+}
+.slide-left-leave-active, .slide-right-enter {
+  opacity: 0;
+  transform: translate(-200px, 0);
+}
 
 </style>

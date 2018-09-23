@@ -98,14 +98,6 @@ export default {
 		});
 		
 	},
-	methods:{
-	},
-	watch:{
-		// $route(to,from){
-		// 	let par = this.$route.query.current;
-		// 	this.show = par;
-		// }
-	}
 }
 </script>
 

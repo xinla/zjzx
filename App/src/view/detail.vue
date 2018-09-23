@@ -3,6 +3,7 @@
 		<top @hrefTo="this.$Tool.goBack">
 			<template slot="title">{{ '文章详情' }}</template>
 		</top>
+		<loading-main v-show="ifLoad"></loading-main>
 		<div class="detail" @scroll="scrollBotLoad">
 			<section class="content-wrap" v-if="!proFail1">
 				<h1>{{ article.title }}</h1>
@@ -40,7 +41,7 @@
 				</div>
 			</section>
 			<prompt-blank v-if="proFail1" :mes="failMes1"></prompt-blank>			
-			<div class="btn-a-wrap bfc-o" id="commentAnchor">
+			<div class="btn-a-wrap bfc-o">
 				<button type="button" class="btn-a" :class="{'liked':likeStatus}" @click="doLike(1)">
 					{{ likeNum }}
 					<like :likeStatus="likeStatus"></like>
@@ -49,9 +50,9 @@
 						<i class="iconfont icon2 like-animate" :class="[{'like-animate-up':likeStatus}]">&#xe7c8;</i>	
 					</span> -->
 				</button>
-				<button type="button" class="btn-a"><i class="iconfont icon2">&#xe7c3;</i>不喜欢</button>
-				<button type="button" class="btn-a" @click="share(1)"><i class="iconfont icon3">&#xe883;</i>微信</button>
-				<button type="button" class="btn-a" @click="share(3)"><i class="iconfont icon3">&#xe882;</i>QQ</button>
+				<button type="button" class="btn-a"><i class="iconfont icon2 icon-delete"></i>不喜欢</button>
+				<button type="button" class="btn-a" @click="share(1)"><i class="iconfont icon2 icon-wechat-fill"></i>微信</button>
+				<button type="button" class="btn-a" @click="share(3)"><i class="iconfont icon2 icon-QQ"></i>QQ</button>
 			</div>	
 			<div class="comment">				
 				<ul class="comment-ul">
@@ -98,126 +99,137 @@
 		<!-- 伪评论框 -->
 		<div class="comment-form comment-form-a bf" v-show="!ifCommentSwitch">
 			<div class="input-commnet-wrap-a" @click="commentSwitch">				
-				<div class="input-commnet-content"><i class="iconfont comment-icon ">&#xe86e;</i>留下你的高见</div>			
+				<div class="input-commnet-content"><i class="iconfont icon-edit-fill"></i>留下你的高见</div>			
 			</div>
 			
-			<i class="iconfont icon-comment-a icon-comment-num" @click="toComment()">&#xe78a;
+			<i class="iconfont icon-comment-a icon-message" @click="toComment()">
 				<sup class="commment-num"><span class="commment-num-span">{{commentNum}}</span></sup>
 			</i>
-			<i :class="['iconfont icon-comment-a icon-collect',{'collected':ifCollect}]" @click="collect(id)">&#xe7df;</i>
-			<i class="iconfont icon-comment-a icon-forward">&#xe7e7;</i>
+			<i :class="['iconfont icon-comment-a icon-star',{'collected':ifCollect}]" @click="collect(id)"></i>
+			<i class="iconfont icon-comment-a icon-share" @click="showShare"></i>
 		</div>
-		<div class="mask" v-show="ifCommentSwitch">	
-			<div class="mask-sub" @click="commentSwitch">
-				<!-- 取消层 -->
-			</div>
-			<!-- 真评论框 -->
-			<div class="comment-form bf">
-				<div class="input-commnet-wrap">
-					<input type="text" class="input-commnet-content" v-model="commentCon" maxlength="100" autofocus placeholder="留下你的高见">	
+		<transition name="slide-ud">
+			<div class="mask" v-show="ifCommentSwitch">	
+				<div class="mask-sub" @click="commentSwitch">
+					<!-- 取消层 -->
 				</div>
-				<input type="button"class="submit-comment" value="发布" @click="comment()">
-			</div>
-			<!-- 回复列表 -->
-			<transition name="slide-ud">
-				<!-- v-scrollLoad="scrollBotLoad" -->
-				<div class="reply-wrap" v-if="ifReply" @scroll="scrollBotLoad" >
-					<div class="reply-li bfc-o">
-						<div class="uphoto-wrap fl">
-							<img class="uphoto" :src="commentList[commentIndex].imageurl?(fileRoot+commentList[commentIndex].imageurl):imgurl" alt="">
-						</div>
-						<div class="comment-detail">				
-							<p>
-								<span class="uname oe bfc-d">{{commentList[commentIndex].username}}</span>
-								<button type="button" class="focus-b bfc-p" @click="doFocus(replyUserId,2)">{{replyUserFocusState?'已关注':'关注'}}</button>
-							</p>	
-							<p class="ucomment">{{commentList[commentIndex].content}}</p>
-							<div>
-								<div>
-									<!-- <button type="button" class="reply reply-btn" @click="">回复</button>&nbsp;-&nbsp; -->
-									<div class="reply reply-sh">
-										<div>
-											<time v-text="$Tool.publishTimeFormat(commentList[commentIndex].commenttime)"></time>	
-											<i class="iconfont report-comment-btn" @click="report()">&#xe77e;</i>		
-											<!-- <span>-</span> -->
-											<span class="rep-show">
-												<var>{{commentList[commentIndex].likeNum || 0}}</var>人赞过
-												<!-- <i class="iconfont">&#xe7f6;</i> -->
-											</span>
-										</div>
-										<!-- <span class="rep-hide" @click="hideReply">
-											收起回复<i class="iconfont">&#xe7f4;</i>
-										</span> -->
-									</div>
-									<!-- <div class="like-wrap fr">
-										<var>125</var>
-										<button type="button" class="like-btn">
-											<i class="iconfont icon2">&#xe7c8;</i>
-											<transition name="up-hide">
-												<i class="iconfont icon2 like-animate" v-if="ifLike" @click="dolike()">&#xe7c8;</i>												
-											</transition>
-										</button>
-										<i class="iconfont icon2 report-comment-btn">&#xe77e;</i>
-									</div> -->
-								</div>	
-							</div>
-						</div>
+				<!-- 真评论框 -->
+				<div class="comment-form bf">
+					<div class="input-commnet-wrap">
+						<input type="text" class="input-commnet-content" v-model="commentCon" maxlength="100" autofocus placeholder="留下你的高见">	
 					</div>
-					<!-- 评论的回复列表 -->
-					<ul class="reply-main">
-						<li class="reply-li bfc-o" v-for="(item,index) in replyList">
+					<input type="button"class="submit-comment" value="发布" @click="comment()">
+				</div>
+				<!-- 回复列表 -->
+				<transition name="slide-ud">
+					<!-- v-scrollLoad="scrollBotLoad" -->
+					<div class="reply-wrap" v-if="ifReply" @scroll="scrollBotLoad" >
+						<div class="reply-li bfc-o">
 							<div class="uphoto-wrap fl">
-								<img class="uphoto" :src="item.imageurl?(fileRoot+item.imageurl):imgurl" alt="">
+								<img class="uphoto" :src="commentList[commentIndex].imageurl?(fileRoot+commentList[commentIndex].imageurl):imgurl" alt="">
 							</div>
 							<div class="comment-detail">				
 								<p>
-									<span class="uname oe bfc-d">{{item.username}}</span>
-									<span class="delComment fr" v-if="item.douserid == userId" @click="deleteCom(item.id,index,2)">删除</span>
+									<span class="uname oe bfc-d">{{commentList[commentIndex].username}}</span>
+									<button type="button" class="focus-b bfc-p" @click="doFocus(replyUserId,2)">{{replyUserFocusState?'已关注':'关注'}}</button>
 								</p>	
-								<p class="ucomment">{{item.content}}</p>
+								<p class="ucomment">{{commentList[commentIndex].content}}</p>
 								<div>
 									<div>
 										<!-- <button type="button" class="reply reply-btn" @click="">回复</button>&nbsp;-&nbsp; -->
-										<button type="button" class="reply reply-sh">
-											<time v-text="$Tool.publishTimeFormat(item.commenttime)"></time>
-											<span>-</span>
-											<span class="rep-show" @click="replySb(item.username)">
-												<var>{{item.replyCount || 0}}</var>回复
-												<!-- <i class="iconfont">&#xe7f6;</i> -->
-											</span>
+										<div class="reply reply-sh">
+											<div>
+												<time v-text="$Tool.publishTimeFormat(commentList[commentIndex].commenttime)"></time>	
+												<i class="iconfont report-comment-btn" @click="report()">&#xe77e;</i>		
+												<!-- <span>-</span> -->
+												<span class="rep-show">
+													<var>{{commentList[commentIndex].likeNum || 0}}</var>人赞过
+													<!-- <i class="iconfont">&#xe7f6;</i> -->
+												</span>
+											</div>
 											<!-- <span class="rep-hide" @click="hideReply">
 												收起回复<i class="iconfont">&#xe7f4;</i>
 											</span> -->
-										</button>
+										</div>
 										<!-- <div class="like-wrap fr">
-											<var>125</var><button type="button" class="like-btn"><i class="iconfont icon2">&#xe7c8;</i><i class="iconfont icon2 like-animate">&#xe7c8;</i></button>
-											<i class="iconfont icon2 report-comment-btn ">&#xe77e;</i>
+											<var>125</var>
+											<button type="button" class="like-btn">
+												<i class="iconfont icon2">&#xe7c8;</i>
+												<transition name="up-hide">
+													<i class="iconfont icon2 like-animate" v-if="ifLike" @click="dolike()">&#xe7c8;</i>												
+												</transition>
+											</button>
+											<i class="iconfont icon2 report-comment-btn">&#xe77e;</i>
 										</div> -->
 									</div>	
 								</div>
 							</div>
-						</li>
-					</ul>									
-				</div>
-			</transition>
-			<transition name="slide-ud">
-				<div class="report-wrap bf" v-if="ifReport">
-					<group title="选择举报类别">
-					    <radio :options="reportList" fill-mode  :selected-label-style="{color:'#f40'}" @radio-checked-icon-color="" @on-change="changeReport"></radio>
-					</group>
-					<div class="ac">
-						<button type="button" class="report-btn" @click="reportCancle">取消</button>
-						<button type="button" class="report-btn" @click="reportConfirm">确定</button>
+						</div>
+						<!-- 评论的回复列表 -->
+						<ul class="reply-main">
+							<li class="reply-li bfc-o" v-for="(item,index) in replyList">
+								<div class="uphoto-wrap fl">
+									<img class="uphoto" :src="item.imageurl?(fileRoot+item.imageurl):imgurl" alt="">
+								</div>
+								<div class="comment-detail">				
+									<p>
+										<span class="uname oe bfc-d">{{item.username}}</span>
+										<span class="delComment fr" v-if="item.douserid == userId" @click="deleteCom(item.id,index,2)">删除</span>
+									</p>	
+									<p class="ucomment">{{item.content}}</p>
+									<div>
+										<div>
+											<!-- <button type="button" class="reply reply-btn" @click="">回复</button>&nbsp;-&nbsp; -->
+											<button type="button" class="reply reply-sh">
+												<time v-text="$Tool.publishTimeFormat(item.commenttime)"></time>
+												<span>-</span>
+												<span class="rep-show" @click="replySb(item.username)">
+													<var>{{item.replyCount || 0}}</var>回复
+													<!-- <i class="iconfont">&#xe7f6;</i> -->
+												</span>
+												<!-- <span class="rep-hide" @click="hideReply">
+													收起回复<i class="iconfont">&#xe7f4;</i>
+												</span> -->
+											</button>
+											<!-- <div class="like-wrap fr">
+												<var>125</var><button type="button" class="like-btn"><i class="iconfont icon2">&#xe7c8;</i><i class="iconfont icon2 like-animate">&#xe7c8;</i></button>
+												<i class="iconfont icon2 report-comment-btn ">&#xe77e;</i>
+											</div> -->
+										</div>	
+									</div>
+								</div>
+							</li>
+						</ul>									
 					</div>
-				</div>
-			</transition>
-		</div>
+				</transition>
+				<!-- 举报 -->
+				<transition name="slide-ud">
+					<div class="report-wrap bf" v-if="ifReport">
+						<group title="选择举报类别">
+						    <radio :options="reportList" fill-mode  :selected-label-style="{color:'#f40'}" @radio-checked-icon-color="" @on-change="changeReport"></radio>
+						</group>
+						<div class="ac">
+							<button type="button" class="report-btn" @click="reportCancle">取消</button>
+							<button type="button" class="report-btn" @click="reportConfirm">确定</button>
+						</div>
+					</div>
+				</transition>
+			</div>
+		</transition>
+		<!-- 分享组件 -->
+		<share v-model="ifShare"
+		@shareWX="share(1)"
+		@shareQQ="share(3)"
+		@shareXL="share(3)"
+		@shareOO="share(3)"
+		></share>
 	</div>
 </template>
 
 <script>
 import config from '@/lib/config/config'
 import like from '@/components/common/like'
+import share from '@/components/common/share'
 import listUtil from '@/service/util/listUtil'
 import userService from '@/service/userService'
 import followService from '@/service/followService'
@@ -233,9 +245,11 @@ import shareService from '@/service/shareService'
 export default {
 	components:{
 		like,
+		share,
 	},
 	data(){
 		return {
+			ifLoad:true,
 			userId:localStorage.id,
 			id:Number,//文章id =>article.id
 			imgurl:require('@/assets/images/userPhoto.jpg'),
@@ -309,6 +323,8 @@ export default {
 					value:"违法，造谣"
 				},
 			],
+			//显影分享
+			ifShare:false,
 			//评论加载分页
 			pageNum1:1,
 			//回复加载分页
@@ -436,6 +452,7 @@ export default {
 		this.loadComment();
 		// console.log(this.focusState)
 		// console.log(this.ifCollect)
+		this.ifLoad = false;
 	},	
 	methods:{
 		loadComment(){
@@ -758,12 +775,9 @@ export default {
 			
 		},
 		toComment(){
-			// console.log($("#commentAnchor").offset().top)
-			// $("html,body").animate({scrollTop:$("#commentAnchor").offset().top},500);
-			// document.body.scrollTop = $("#commentAnchor").offset().top;
 			let dis = $(".detail").scrollTop() + $(".btn-a-wrap").offset().top -100;
 			$(".detail").animate({scrollTop:dis},100);
-			console.log(1)
+			// console.log(1)
 		},
 		report(){
 			this.ifReport = true;
@@ -831,6 +845,9 @@ export default {
 				})
 			}
 		},
+		showShare(){
+			this.ifShare = true;
+		}
 	},
 }
 </script>
@@ -909,14 +926,12 @@ export default {
         color: #666;
         width:23%;
 	}
-	.icon2,.icon3 {
+	.icon2{
 	    font-size: 22px;
 	    vertical-align:sub;
 	    cursor: pointer;
 	    color: inherit;
-	}
-	.icon3{
-		color: #2cbf57;
+        margin: 0 2px;
 	}
 	/* comment */
 	.comment {
@@ -1002,7 +1017,7 @@ export default {
 	    line-height: 35px;
 	    height: 35px;
 	}
-	.comment-icon {
+	.icon-edit-fill {
 	    font-size: 20px;
 		color: #666;
 	}
@@ -1014,7 +1029,7 @@ export default {
 		font-size: 24px;
 		color: #666;
 	}
-	.icon-comment-num{
+	.icon-message{
 		position: relative;
 	}
 	.commment-num {

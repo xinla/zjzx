@@ -7,8 +7,8 @@
 				<img v-for="(item,index) in ArticleFile" v-if="index < 3" :src="item.url?(fileRoot+item.url):imgurl">			
 			</div>
 			<!-- video -->
-			<div class="big" v-else-if="2 == article.type && ArticleFile.length">
-				<i class="iconfont icon-play-circle"></i>
+			<div class="big bfc-o" v-else-if="2 == article.type && ArticleFile.length">
+				<i class="iconfont icon-play-circle cc"></i>
 				<img class="big" :src="ArticleFile[0].thumbnail?(fileRoot + ArticleFile[0].thumbnail):imgurl" alt="">
 			</div>
 		</div>
@@ -48,7 +48,10 @@ export default {
 	props:{
 		article:Object,
 		whi:Number,
-		ifPublisher:true,
+		ifPublisher:{
+			type:Boolean,
+			default:true,
+		},
 		ifDel:false,
 	},
 	mounted(){
@@ -128,9 +131,8 @@ export default {
 	    background-size: 80%;
 	}
 	.icon-play-circle{
-		position: absolute;
-	    top: 47%;
-	    left: 47%;
+		width:50px;
+		height:50px;
 	    font-size: 50px;
 	    color: #666;		
 	}

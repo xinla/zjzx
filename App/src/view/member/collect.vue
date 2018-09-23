@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<multIT :article="item" :ifPublisher="true" v-for="(item,index) in arcList"></multIT>
+		<multIT :article="item" :ifPublisher="true" v-for="(item,index) in arcList" :key="index"></multIT>
 		<prompt-blank v-if="proIf" :mes="proMes"></prompt-blank>
 	</div>
 </template>

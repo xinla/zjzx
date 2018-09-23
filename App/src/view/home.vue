@@ -9,7 +9,7 @@
 				<router-view></router-view>		
 			</div>
 		</div>
-		<member v-show="4 == showIndex"></member>
+		<!-- <member v-show="4 == showIndex"></member> -->
 
 		<div class="footer-nav">
 			<div :class="['footer-item',{'current':1 == showIndex}]" @click="show(1)">
@@ -38,8 +38,9 @@
 	import homeHeader from '@/components/headerBar'
 	import homeMore from'@/components/more'
 	import homeNav from '@/components/swiperNav'
-	import loadingMain from '@/components/common/loadingMain'
+	import bottomNav from '@/components/bottomNav'
 	import member from '@/view/member/index'
+
 	import homeService from '@/service/homeService'
 	import articleService from '@/service/articleService'
 
@@ -47,7 +48,6 @@
 		components:{
 			homeHeader,
 			homeNav,
-			loadingMain,
 			member,
 			homeMore
 		},

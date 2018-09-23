@@ -1,10 +1,10 @@
 <template>
 	<div class="swiperNav">
 		<ul class="nav">
-			<li class="nav-item">推荐</li>
-			<li class="nav-item" v-for="(item,index) in classfyList" :key="item.classifyname">
+			<router-link :to="{path:'recommend',}" class="nav-item" tag="li">推荐</router-link>
+			<router-link :to="{path:'fangpian',}" class="nav-item" v-for="(item,index) in classfyList" :key="item.classifyname" tag='li'>
 				{{item.classifyname}}
-			</li>
+			</router-link>
 		</ul>
 		<router-link to="/more">
 			<div class="nav-add">
@@ -30,12 +30,12 @@ import articleClassifyService from '@/service/article_classifyService'
 		mounted(){
 			this.$nextTick(()=>{
 				articleClassifyService.getArticleClassifyList(data=>{
-				if (data && data.status == "success") {
-					this.classfyList = data.result.classfyList;					
-				}
-			});
+					if (data && data.status == "success") {
+						this.classfyList = data.result.classfyList;					
+						// console.log(this.classfyList)
+					}
+				});
 			})
-			
 		}
 	}
 </script>
@@ -87,6 +87,9 @@ import articleClassifyService from '@/service/article_classifyService'
 			}
 		}
 		
+		.router-link-active{
+			color:@currentColor;
+		}
 		
 	}
 </style>
