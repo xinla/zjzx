@@ -1,14 +1,18 @@
 <template>
   <div id="app">
     <!-- <load-main v-show="ifLoad"></load-main> -->
-    <!-- <keep-alive>
+    <keep-alive>
       <router-view class="routerView"></router-view>      
-    </keep-alive> -->
-    <transition :name="transitionName">
-      <keep-alive>
-        <router-view class="routerView"></router-view> 
+    </keep-alive>
+    <!-- <transition :name="transitionName">
+      <keep-alive v-if="!$route.meta.keepAlive">
+        <router-view  class="routerView"></router-view> 
       </keep-alive>      
-    </transition>
+      <router-view v-else class="routerView"></router-view> 
+    </transition> -->
+    <!-- <transition :name="transitionName">
+      <router-view v-if="$route.meta.keepAlive" class="routerView"></router-view> 
+    </transition> -->
   </div>
 </template>
 

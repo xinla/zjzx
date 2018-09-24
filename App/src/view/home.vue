@@ -6,10 +6,13 @@
 			<home-nav></home-nav>
 			<div class="main">
 				<loading-main v-show="ifLoad"></loading-main>
-				<router-view></router-view>		
+				<keep-alive>
+					<router-view></router-view>		
+					
+				</keep-alive>
 			</div>
 		</div>
-		<!-- <member v-show="4 == showIndex"></member> -->
+		<member v-show="4 == showIndex"></member>
 
 		<div class="footer-nav">
 			<div :class="['footer-item',{'current':1 == showIndex}]" @click="show(1)">

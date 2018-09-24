@@ -48,6 +48,9 @@ export default new Router({
       name: 'detail',
        component: (resolve)=>{
         require(['@/view/detail.vue'],resolve)
+      },
+      meta: {
+        keepAlive: true // 不需要缓存
       }
     },
     //搜索页面
@@ -286,6 +289,6 @@ export default new Router({
         }
       ]
     }
-  ]
+  ],
 })
 

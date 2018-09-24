@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<top @hrefTo="$Tool.goPage({name:'member'})">
+		<top @hrefTo="$Tool.goPage({name:'/'})">
 			<template slot="title">{{title}}</template>
 		</top>
 		<div class="top-fix ac">
