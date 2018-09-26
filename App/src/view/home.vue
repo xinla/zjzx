@@ -6,6 +6,8 @@
 			<div class="main-wrap">
 				<div class="bfc-o">
 					<tab :line-width=2 active-color='#fc378c' v-model="classifyIndex">
+						<tab-item :selected="currentClassiftyName == '推荐'" @click="currentClassiftyName = '推荐'">推荐
+						</tab-item>
 						<tab-item :selected="currentClassiftyName == item.classifyname" v-for="(item,index) in classifyList" @click="currentClassiftyName = item.classifyname" :key="index">{{item.classifyname}}
 						</tab-item>
 					</tab>
@@ -17,13 +19,14 @@
 				</div>
 			<div class="main">
 				<loading-main v-show="ifLoad"></loading-main>
-				<swiper v-model="classifyIndex" height="500px" :show-dots="false">
+				<swiper v-model="classifyIndex" @on-index-change="swiperChange()" height="500px" :show-dots="false">
 			        <swiper-item>
-			          	<div class="main-content" @scroll="loadMore">
-			          		<multIT v-for="(item,index) in (0 == classifyIndex?arcListA:[])" :article="item" :ifPublisher="true" :key="index"></multIT>
-			          	</div>
+			          	<articleList></articleList>
 			        </swiper-item>
-			        <swiper-item>
+			         <swiper-item v-for="(item,index) in classifyList">
+			          	<articleList :classify="item.classifycode"></articleList>
+			        </swiper-item>
+<!-- 			        <swiper-item>
 			          	<div class="main-content" @scroll="loadMore">
 			          		<multIT v-for="(item,index) in (1 == classifyIndex?arcListB:[])" :article="item" :ifPublisher="true" :key="index"></multIT>
 			          	</div>
@@ -37,7 +40,7 @@
 			          	<div class="main-content" @scroll="loadMore">
 			          		<multIT v-for="(item,index) in (3 == classifyIndex?arcListB:[])" :article="item" :ifPublisher="true" :key="index"></multIT>
 			          	</div>
-			        </swiper-item>
+			        </swiper-item> -->
 		      </swiper>
 			</div>
 	
@@ -78,7 +81,7 @@ import multIT from '@/components/news/multIT'
 
 import member from '@/view/member/index'
 
-import recommend from '@/view/part/recommend'
+import articleList from '@/view/part/recommend'
 // import fangPian from '@/view/part/fangPian'
 
 
@@ -97,6 +100,7 @@ import articleClassifyService from '@/service/article_classifyService'
 			Swiper, 
 			SwiperItem,
 			multIT,
+			articleList,
 		},
 		created () {
 			// debugger;
@@ -115,7 +119,9 @@ import articleClassifyService from '@/service/article_classifyService'
 				classifyIndex:0,
 				currentClassiftyName:"推荐",
 				pageSize:1,
+				pageSizeB:1,
 				lock:false,
+				turn:false,
 			}
 		},
 		mounted () {
@@ -132,7 +138,7 @@ import articleClassifyService from '@/service/article_classifyService'
 				}
 			});
 
-			this.$options.methods.getArtList.call(this);
+			// this.$options.methods.getArtList.call(this);
 			this.ifLoad = false;
 	    },
 		methods:{
@@ -202,29 +208,35 @@ import articleClassifyService from '@/service/article_classifyService'
 	        },
 	        getArtList(){
 				this.lock = true;
-				let resArticlePage = articleService.articlePage(this.pageSize,15);
-				if (resArticlePage && resArticlePage.status == "success") {
-					this.arcListA = this.arcListA.concat(resArticlePage.recordPage.list);
+				if(this.turn){
+					let resArticlePage = articleService.articlePage(this.pageSize,15,this.classifyIndex);
+					if (resArticlePage && resArticlePage.status == "success") {
+							this.arcListA = this.arcListA.concat(resArticlePage.recordPage.list);
+							this.turn = false;		
+							this.pageSize++;
+							this.lock = false;
+						}
 					// this.arcListB = this.arcListB.concat(resArticlePage.recordPage.list);	
-					this.pageSize++;
-					this.lock = false;
 					// console.log(this.arcList);articlePage
+				}else{
+					let resArticlePage = articleService.articlePage(this.pageSizeB,15,this.classifyIndex);
+					if (resArticlePage && resArticlePage.status == "success") {
+							this.arcListB = this.arcListB.concat(resArticlePage.recordPage.list);
+							this.turn = true;		
+							this.pageSizeB++;
+							this.lock = false;
+						}
 				}
 			},
 			loadMore(e){
-				if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
-					this.$options.methods.getArtList.call(this);
-					// console.log(1)
-				}
-				// let that = this;
-				// $(".main-content").scroll(function(){
-				// 	if ( ($(this).scrollTop() + $(this).height()) > $(this)[0].scrollHeight-350) {
-				// 	that.$options.methods.getArtList.call(that);
-				// // 	console.log(that)
-				// // console.log(this)
+				// if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
+				// 	this.$options.methods.getArtList.call(this);
+				// 	// console.log(1)
 				// }
-				// })
 				// console.log(e.target)
+			},
+			swiperChange(){
+				// this.$options.methods.getArtList.call(this);
 			}
 
 	    },
