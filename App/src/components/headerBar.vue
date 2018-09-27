@@ -3,9 +3,11 @@
 		<div class="header-logo">
 			<img src="@/assets/images/logo.png" alt="直击真相">
 		</div>
-		<div class="header-input">
-			<i class="iconfont">&#xe627;</i>
-			<span>请输入搜索关键词~</span>
+		<div class="header-input" @click="$Tool.goPage({ name:'search' })">
+			<!-- <i class="iconfont">&#xe627;</i> -->
+			<marquee>
+		      <marquee-item v-for="(item,index) in keyWords" :key="index">{{item}}</marquee-item>
+		    </marquee>
 		</div>
 		<div class="header-menu">
 			<div @click="handleRelease">
@@ -26,19 +28,25 @@
 	</div>
 </template>
 <script>
-	export default {
-		name:'homeHeader',
-		data(){
-			return {
-				releaseShow:false,
-			}
-		},
-		methods:{
-			handleRelease(){
-				this.releaseShow=!this.releaseShow;
-			}
+import { Marquee, MarqueeItem } from 'vux'
+export default {
+	components:{
+		Marquee,
+		MarqueeItem,
+	},
+	name:'homeHeader',
+	data(){
+		return {
+			keyWords:["特朗普被打，并向中国至歉","信用卡新规","我已经爱上你"],
+			releaseShow:false,
+		}
+	},
+	methods:{
+		handleRelease(){
+			this.releaseShow=!this.releaseShow;
 		}
 	}
+}
 </script>
 
 <style lang="less" scoped>
@@ -47,10 +55,9 @@
 		width: 100%;
 		height: @headerHeight;
 		background-color: @mainColor;
-		position: fixed;
+		position: relative;
 		top: 0;
 		left: 0;
-		z-index: 999;
 		.header-logo {
 			float: left;
 			width: 1.9rem;
@@ -67,7 +74,7 @@
 			padding-left: .2rem;
 			background-color: #fff;
 			border-radius: .1rem;
-			color:#ccc;
+			color:#444;
 			span{
 				vertical-align: top;
 			}

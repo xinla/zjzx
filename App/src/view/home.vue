@@ -1,9 +1,9 @@
 <!-- 首页新闻页面 -->
 <template>
 	<div>
-		<div class="index" v-show="1 == showIndex">
+		<div class="index" v-show="1 == showIndex || 3 == showIndex">
 			<home-header></home-header>
-			<div class="main-wrap">
+			<div class="main-wrap" v-show="1 == showIndex">
 				<div class="bfc-o">
 					<tab :line-width=2 active-color='#fc378c' v-model="classifyIndex">
 						<tab-item :selected="currentClassiftyName == '推荐'" @click="currentClassiftyName = '推荐'">推荐
@@ -17,37 +17,38 @@
 						</div>
 					</router-link>					
 				</div>
-			<div class="main">
-				<loading-main v-show="ifLoad"></loading-main>
-				<swiper v-model="classifyIndex" @on-index-change="swiperChange()" height="500px" :show-dots="false">
-			        <swiper-item>
-			          	<articleList></articleList>
-			        </swiper-item>
-			         <swiper-item v-for="(item,index) in classifyList">
-			          	<articleList :classify="item.classifycode"></articleList>
-			        </swiper-item>
-<!-- 			        <swiper-item>
-			          	<div class="main-content" @scroll="loadMore">
-			          		<multIT v-for="(item,index) in (1 == classifyIndex?arcListB:[])" :article="item" :ifPublisher="true" :key="index"></multIT>
-			          	</div>
-			        </swiper-item>
-			        <swiper-item>
-			          	<div class="main-content" @scroll="loadMore">
-			          		<multIT v-for="(item,index) in (2 == classifyIndex?arcListA:[])" :article="item" :ifPublisher="true" :key="index"></multIT>
-			          	</div>
-			        </swiper-item>
-			        <swiper-item>
-			          	<div class="main-content" @scroll="loadMore">
-			          		<multIT v-for="(item,index) in (3 == classifyIndex?arcListB:[])" :article="item" :ifPublisher="true" :key="index"></multIT>
-			          	</div>
-			        </swiper-item> -->
-		      </swiper>
+				<div class="main">
+					<loading-main v-show="ifLoad"></loading-main>
+					<swiper v-model="classifyIndex" @on-index-change="swiperChange()" height="500px" :show-dots="false">
+				        <swiper-item>
+				          	<articleList></articleList>
+				        </swiper-item>
+				         <swiper-item v-for="(item,index) in classifyList" :key="index">
+				          	<articleList :classify="item.classifycode"></articleList>
+				        </swiper-item>
+					<!--<swiper-item>
+				          	<div class="main-content" @scroll="loadMore">
+				          		<multIT v-for="(item,index) in (1 == classifyIndex?arcListB:[])" :article="item" :ifPublisher="true" :key="index"></multIT>
+				          	</div>
+				        </swiper-item>
+				        <swiper-item>
+				          	<div class="main-content" @scroll="loadMore">
+				          		<multIT v-for="(item,index) in (2 == classifyIndex?arcListA:[])" :article="item" :ifPublisher="true" :key="index"></multIT>
+				          	</div>
+				        </swiper-item>
+				        <swiper-item>
+				          	<div class="main-content" @scroll="loadMore">
+				          		<multIT v-for="(item,index) in (3 == classifyIndex?arcListB:[])" :article="item" :ifPublisher="true" :key="index"></multIT>
+				          	</div>
+				        </swiper-item> -->
+			      </swiper>
+				</div>
 			</div>
 	
-			</div>
+			<zjzx-video class="main-wrap" v-show="3 == showIndex"></zjzx-video>
 		</div>
 		<member v-show="4 == showIndex"></member>
-
+		
 		<div class="footer-nav">
 			<div :class="['footer-item',{'current':1 == showIndex}]" @click="show(1)">
 				<i class="iconfont icon-index footer-icon"></i>
@@ -72,7 +73,7 @@
 
 <script>	
 // import config from '@/lib/config/config'
-import { Tab, TabItem, Sticky, Divider, XButton, Swiper, SwiperItem } from 'vux'
+import { Tab, TabItem, Swiper, SwiperItem } from 'vux'
 import homeHeader from '@/components/headerBar'
 import homeMore from'@/components/more'
 import homeNav from '@/components/swiperNav'
@@ -80,8 +81,9 @@ import bottomNav from '@/components/bottomNav'
 import multIT from '@/components/news/multIT'
 
 import member from '@/view/member/index'
+import zjzxVideo from '@/view/video'
 
-import articleList from '@/view/part/recommend'
+import articleList from '@/view/part/articleList'
 // import fangPian from '@/view/part/fangPian'
 
 
@@ -101,6 +103,7 @@ import articleClassifyService from '@/service/article_classifyService'
 			SwiperItem,
 			multIT,
 			articleList,
+			zjzxVideo,
 		},
 		created () {
 			// debugger;
@@ -272,7 +275,6 @@ import articleClassifyService from '@/service/article_classifyService'
 </script>
 <style lang="less" scoped>
 	.main-wrap{
-		padding:3em 0px 0;
 		height: 100vh;
 		width: 100%;
 		background: #fff;
@@ -280,7 +282,6 @@ import articleClassifyService from '@/service/article_classifyService'
 	}
 	.main{
 		height: calc(100% - 90px);
-		padding:0 0.5em;
 		overflow-y:auto;
 	}
 	.footer-nav {
@@ -315,7 +316,7 @@ import articleClassifyService from '@/service/article_classifyService'
 		height: @navHeight;
 		line-height: @navHeight;
 		text-align: center;
-		background-color: rgba(255,255,255,.8);
+		background-color: rgb(255,255,255);
 		box-shadow:-.1rem 0px .4rem #cccccc;
 		color:#000;
 		i {

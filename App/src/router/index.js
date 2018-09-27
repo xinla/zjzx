@@ -18,29 +18,13 @@ export default new Router({
         require(['@/view/test.vue'],resolve)
       }
     },
+    //首页
     {
       path: '/',
       name: '/',
-      redirect:'/recommend',
       component: (resolve)=>{
         require(['@/view/home.vue'],resolve)
       },
-      children:[
-        {
-          path:'recommend',
-          name:'recommend',
-          component:(resolve)=>{
-            require(['@/view/part/recommend.vue'],resolve)
-          }
-        },
-        {
-          path:'fangpian',
-          name:'fangpian',
-          component:(resolve)=>{
-            require(['@/view/part/fangpian.vue'],resolve)
-          }
-        },
-      ]
     },
     //新闻详情页面
     {

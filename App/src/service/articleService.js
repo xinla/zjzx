@@ -64,16 +64,16 @@ service.getCollectArticlePage = function(page,size){
 	return resCollectArticleList;
 }
 // 获取文章列表
-service.articlePage = function(page,size,classify){
+service.articlePage = function(page,size,classify,type){
 	let params = {
 		page,
 		size,
 		classify,//:"文章分类"
+		type,//："文章类型" //1：图文，2:视屏
 		state:"3",//  审核通过
 		// keyword:"",// 根据 title或者content 进行模糊匹配
 		// author:"",//:"发布人id",
 		// authorname:"",//:"发布人姓名" //模糊匹配
-		// type:"",//："文章类型" //1：图文，2:视屏
 		// publisharea:"",//:"发布地区" code
 	}
 
