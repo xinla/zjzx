@@ -1,12 +1,16 @@
 <template>
-	<div class="text-wrap bfc-o" @click="$Tool.goPage({ name:'detail',query:{id,} })">
-		<div>
+	<div class="text-wrap bfc-o">
+		<div @click="$Tool.goPage({ name:'detail',query:{id,}})">
 			<h1>{{article.title}}</h1>
-			<video-player class="video-player vjs-custom-skin" 
-				ref="videoPlayer"
-			 	:playsinline="true"
-			  	:options="playerOptions">							  	
-			</video-player>	
+			<!-- picture -->
+			<div class="img-wrap bfc-o" v-if="1 == article.type && ArticleFile.length">
+				<img v-for="(item,index) in ArticleFile" v-if="index < 3" :src="item.url?(fileRoot+item.url):imgurl">			
+			</div>
+			<!-- video -->
+			<div class="big bfc-o" v-else-if="2 == article.type && ArticleFile.length">
+				<i class="iconfont icon-play-circle cc"></i>
+				<img class="big" :src="ArticleFile[0].thumbnail?(fileRoot + ArticleFile[0].thumbnail):imgurl" alt="">
+			</div>
 		</div>
 		<p class="pub">
 			<span v-if="ifPublisher">{{publisher}}</span>
@@ -39,26 +43,6 @@ export default {
 			publishtime:this.article.publishtime,
 			fileRoot:config.fileRoot+'/',
 			publisher:"",
-			playerOptions : {
-				preload: 'auto', // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
-				language: 'zh-CN',
-				aspectRatio: '16:9', // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
-				fluid: true, // 当true时，Video.jsplayer将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
-				sources: [
-					{
-						type: "video/mp4",
-						src: "http://www.w3cschool.cc/try/demo_source/mov_bbb.mp4" //url地址
-					}
-				],
-				poster: "", //你的封面地址 
-				notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
-				controlBar: {
-					timeDivider: true,
-					durationDisplay: true,
-					remainingTimeDisplay: false,
-					fullscreenToggle: true //全屏按钮
-				}
-			},
 		}
 	},
 	props:{
@@ -83,9 +67,8 @@ export default {
 	methods:{
 		getArticleInfo(){
 			articleFileService.getFileByArticle(this.article.id,data=>{
-				if (data && data.status == "success") {
-					this.playerOptions.sources[0].src = this.fileRoot + data.result.filelist[0].url;
-					this.playerOptions.poster = this.fileRoot + data.result.filelist[0].thumbnail;				
+				if (data&&data.status == "success") {
+					this.ArticleFile = data.result.filelist;				
 				}				
 			});
 			userService.getUserById(this.article.author,data=>{
@@ -111,7 +94,7 @@ export default {
 	    border-bottom: 1px solid #eee;
 	}
 	h1{
-		margin:.3em;
+		margin:.3em 0;
 		font-weight: normal;
 		font-size: 16px;
 	    line-height: 1.5em;
@@ -123,7 +106,6 @@ export default {
 		font-size: 54px;
 	}
 	.pub{
-		margin:0 .3em;
 		line-height: 2.5em;
 	    color: #999;
 	}
@@ -149,19 +131,7 @@ export default {
 	    background-size: 80%;
 	}
 	.icon-play-circle{
-		width:50px;
-		height:50px;
 	    font-size: 50px;
 	    color: #666;		
-	}
-</style>
-<style>
-	
-	.vjs-custom-skin > .video-js .vjs-big-play-button{
-		width: 2em;
-		height: 2em;
-		border-radius: 50%;
-		margin: 0 !important;
-		transform: translate(-50%,-50%);
 	}
 </style>

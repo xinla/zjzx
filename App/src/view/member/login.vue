@@ -150,7 +150,7 @@
 							 this.$store.dispatch('UserLogin',token);
 							 this.$store.dispatch('UserId',id);
 							 this.$store.dispatch('UserLogid',logid);
-							 this.$Tool.goPage({name: 'home',replace:true});
+							 this.$Tool.goPage({name: '/',replace:true});
 							 localStorage.userData = JSON.stringify(data.result.user);			
 						}
 						if(data.status == 'error') {

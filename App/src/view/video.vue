@@ -61,6 +61,5 @@ export default {
 	.main-content{
 		height: calc(100vh - 90px);
 		overflow-y: auto;
-		padding:0 0.5em;
 	}
 </style>

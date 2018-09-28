@@ -100,6 +100,7 @@ export default {
 				top: 1.08rem;
 				border-radius: .14rem;
 				background-color:#595959;
+				z-index: 9;
 				.arrow-tip{
 					width: 0;   
 					height: 0;   

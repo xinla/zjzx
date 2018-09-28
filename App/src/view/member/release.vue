@@ -8,16 +8,16 @@
 			<label for="sort1" class="iconfont sort-lab">&#xe7f6;</label>
 		</dd>	
 		<!-- <dt>标题</dt> -->
-		<dd><input type="text" v-model="record.title" placeholder="标题" maxlength="25" @keyup="check('title')"></dd>
+		<dd><input type="text" v-model="record.title" placeholder="标题" maxlength="25"></dd>
 		<!-- <dt>地点</dt> -->
 		<fieldset class="imgText" v-if="record.type==1">		
 			<!-- <dt>内容</dt> -->
-			<dd><textarea id="contents" v-model="record.content" @keyup="check('content')" placeholder="内容"></textarea></dd>
+			<dd><textarea id="contents" v-model="record.content" placeholder="内容"></textarea></dd>
 			<!-- <dt>上传图片</dt> -->
 			<dd>
 				<div class="thumb-wrap">
 					<img v-for="(item,index) in record_file" :src="fileRoot+item.url" alt="">
-					<label for="upimg" class="uplab iconfont">&#xe800;</label>
+					<label for="upimg" class="icon-plus iconfont"></label>
 					<input type="file" id="upimg" accept="image/*" multiple @change="uploadFile">
 				</div>
 			</dd>
@@ -26,7 +26,7 @@
 			<!-- 上传视频 -->
 			<dd class="thumb-wrap">
 				<img v-for="(item,index) in record_file" :src="fileRoot + item.thumbnail" alt="">
-				<label for="upvideo" class="uplab iconfont">&#xe800;</label>
+				<label for="upvideo" class="icon-plus iconfont">&#xe800;</label>
 				<input type="file"  id="upvideo" accept="video/*" @change="uploadFile">
 			</dd>
 		</fieldset>
@@ -35,7 +35,7 @@
 			<router-link :to="{ path:'/memberBase/position',query:{title:'选择位置'} }" class="tag">{{ record.selectedpublishname }}</router-link>
 		</dd>
 
-		<dd colspan="2"><button type="submit" @click="publish">发布</button></dd>
+		<dd colspan="2"><button type="button" @click="publish">发布</button></dd>
 	</dl>
 </template>
 
@@ -74,10 +74,7 @@ export default{
 		}
 	},
 	mounted(){
-		if(!localStorage.id){
-			alert("你还未登录，亲先登录再发布")
-			location.href="/member";
-		}
+		
 		this.record.type = this.$route.query.sort;	
 		this.record.selectedpublishname = localStorage.position?localStorage.position:0;
 		this.record.selectedpublishaddress = localStorage.selectedpublishaddress?localStorage.selectedpublishaddress:0;
@@ -140,7 +137,27 @@ export default{
 
 		},
 		publish(){
-			if (!this.record.title) {return;}
+			if(!localStorage.id){
+				this.$vux.alert.show({
+				  content:'你还未登录，亲先登录再发布',
+				})
+				location.href="/member";
+				return;
+			}
+			if (!this.record.title) {
+				this.$vux.alert.show({
+				  content:'标题不能为空',
+				})
+				return;
+			}
+			let reg = /[^\w\s\u4e00-\u9fa5\(\)\（\）\-\+]/g;
+			if (reg.test(this.record.title) || reg.test(this.record.content)) {
+					this.record.title = this.record.title.replace(reg,'');
+					this.record.content = this.record.content.replace(reg,'');
+					this.$vux.alert.show({
+					  content:'内容含有非法字符，已为您删除，请确认',
+					})
+				}
 			this.record.author = Number(localStorage.id?localStorage.id:0);
 			Object.assign(this.record,this.position);
 			let res;
@@ -152,9 +169,9 @@ export default{
 			} else {
 
 			}
-			debugger;
+			// debugger;
 			if(res.status=="success") {
-				this.record_file.length=0;
+				this.record_file=[];
 				this.record.title = "";
 				this.record.content = "";
 				this.$vux.alert.show({
@@ -170,18 +187,6 @@ export default{
 				})
 			}
 		},
-		check(str){
-			let reg = /[^\w\s\u4e00-\u9fa5\(\)\（\）\-]/g;
-			if(str=="title"){
-				if (reg.test(this.record.title)) {
-					this.record.title = this.record.title.replace(reg,'');
-				}				
-			}else if (str == "content") {
-				if (reg.test(this.record.content)) {
-					this.record.content = this.record.content.replace(reg,'');
-				}
-			}
-		}
 	},
 	watch:{
 		"$route"(){
@@ -224,7 +229,7 @@ export default{
 	    vertical-align: middle;
 	    z-index: 8;
 	}
-	.uplab {
+	.icon-plus {
 	    width: 65px;
 	    height: 65px;
 	    display: inline-block;

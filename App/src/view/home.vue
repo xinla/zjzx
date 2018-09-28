@@ -75,15 +75,17 @@
 // import config from '@/lib/config/config'
 import { Tab, TabItem, Swiper, SwiperItem } from 'vux'
 import homeHeader from '@/components/headerBar'
-import homeMore from'@/components/more'
-import homeNav from '@/components/swiperNav'
-import bottomNav from '@/components/bottomNav'
-import multIT from '@/components/news/multIT'
-
-import member from '@/view/member/index'
-import zjzxVideo from '@/view/video'
+// import homeMore from'@/components/more'
+// import homeNav from '@/components/swiperNav'
+// import bottomNav from '@/components/bottomNav'
+// import multIT from '@/components/news/multIT'
 
 import articleList from '@/view/part/articleList'
+
+import zjzxVideo from '@/view/video'
+import member from '@/view/member/index'
+import detail from '@/view/detail'
+
 // import fangPian from '@/view/part/fangPian'
 
 
@@ -94,15 +96,15 @@ import articleClassifyService from '@/service/article_classifyService'
 	export default {
 		components:{
 			homeHeader,
-			homeNav,
-			member,
-			homeMore,
+			// homeNav,
+			// homeMore,
+			// multIT,
 			Tab,
 			TabItem,
 			Swiper, 
 			SwiperItem,
-			multIT,
 			articleList,
+			member,
 			zjzxVideo,
 		},
 		created () {

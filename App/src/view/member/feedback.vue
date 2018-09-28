@@ -8,13 +8,12 @@
 			<div class="feedback-box" v-show="showF">
 					<p>问题和意见</p>
 					<textarea name="" placeholder="描述" required ></textarea>
-					<label for="upimg" class="upimg iconfont">&#xe800;</label>
-					<input type="file" name="file" id="upimg" value="" accept="image/*" placeholder="上传图片">
-					<div class="thumb">
-						<img src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">
-						<img src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg" alt="">
+					<div class="thumb-wrap">
+						<img v-for="(item,index) in record_file" :src="fileRoot+item.url" alt="">
+						<label for="upimg" class="icon-plus iconfont"></label>
+						<input type="file" id="upimg" accept="image/*" multiple @change="uploadFile">
 					</div>
-					<button type="submit">发送</button>
+					<button type="button" @click="publish">提交</button>
 					
 			</div>
 			<table class="qa" v-show="showQ">
@@ -101,11 +100,19 @@
 </template>
 
 <script>
+import config from '@/lib/config/config'
+import fileService from '@/service/fileService'
+
 export default{
 	data(){
 		return {
+			fileRoot:config.fileRoot +'/',
 			showF:true,
 			showQ:false,
+			record:{
+				content:"",
+			},
+			record_file:[],
 		}
 	},
 	methods:{
@@ -117,11 +124,71 @@ export default{
 			this.showF = false;
 			this.showQ = true;
 		},
+		uploadFile(e){
+			let file = e.target.files[0];           
+		    if (!this.$Tool.checkPic(file.name)) {
+		    	this.$vux.alert.show({
+				  content:'格式错误',
+				})
+			    return;
+			 }
+			this.$loading.open(2);
+		    let param = new FormData(); //创建form对象        	
+		    param.append('file',file,file.name);//通过append向form对象添加数据
+		    fileService.uploadPic(param,(data)=>{
+		    	let obj = {};
+	          	obj.url = data.result.url;
+	          	obj.filename = data.result.filename;
+	          	this.record_file.push(obj);
+	          	this.$loading.close();
+			})
+
+		},
+		publish(){
+			if(!localStorage.id){
+				this.$vux.alert.show({
+				  content:'你还未登录，亲先登录再反馈',
+				})
+				location.href="/member";
+				return;
+			}
+			if (!this.record.title) {
+				this.$vux.alert.show({
+				  content:'标题不能为空',
+				})
+				return;
+			}
+			let reg = /[^\w\s\u4e00-\u9fa5\(\)\（\）\-\+]/g;
+			if (reg.test(this.record.content)) {
+					this.record.content = this.record.content.replace(reg,'');
+					this.$vux.alert.show({
+					  content:'内容含有非法字符，已为您删除，请确认',
+					})
+				}
+			this.record.author = Number(localStorage.id || 0);
+			let res;
+				res = articleService.publishArticle(this.record,this.record_file);	
+			// debugger;
+			if(res.status=="success") {
+				this.record_file.length=0;
+				this.record.content = "";
+				this.$vux.alert.show({
+				  content:'反馈成功',
+				})
+				setTimeout(()=>{
+					this.$vux.alert.hide();
+				},1000)
+			}else{
+				// alert("错误提示：" +res.result.tip + "错误代码：" + res.result.errorcode)
+				this.$vux.alert.show({
+				  content:'反馈失败',
+				})
+			}
+		},
 	}
 	
 }
 </script>
-
 
 <style rel="stylesheet" scoped>
 	.tabbar {
@@ -169,7 +236,10 @@ export default{
 	    text-indent: 6px;
 	    border: 1px solid #bbb;
 	}
-	.thumb img{
+	.thumb-wrap{
+		margin: 10px 0;
+	}
+	.thumb-wrap img{
 		width: 100px;
 		height: 100px;
 		margin-right: 5px;
@@ -180,8 +250,9 @@ export default{
 	    line-height: 30px;
 	    margin: 15px auto;
 	    border-radius: 8px;
+	    background: #ddd;
 	}
-	.upimg{
+	.icon-plus{
 	    width: 65px;
 	    height: 65px;
 	    display: inline-block;

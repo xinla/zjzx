@@ -81,7 +81,24 @@ service.articlePage = function(page,size,classify,type){
 
 	return resArticlePage;
 }
+// 搜索文章列表
+service.searchArticlePage = function(page,size,keyword){
+	let params = {
+		page,
+		size,
+		keyword,// 根据 title或者content 进行模糊匹配
+		state:"3",//  审核通过
+		// classify,//:"文章分类"
+		// type,//："文章类型" //1：图文，2:视屏
+		// author:"",//:"发布人id",
+		// authorname:"",//:"发布人姓名" //模糊匹配
+		// publisharea:"",//:"发布地区" code
+	}
+	
+	let resArticlePage = commonUtil.ajaxAsync(controller+'/articlePage',params);
 
+	return resArticlePage;
+}
 // 获取文章详情
 service.getArticleById = function(recordid){
 	var params = {

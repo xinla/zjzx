@@ -1,7 +1,9 @@
 <template>
 	<div class="top tf ac">
-		<div class="bfc-p back" @click="$emit('hrefTo')"><i class="iconfont hreficon bfc-d">
-			<slot name="href">&#xe7f3;</slot></i>
+		<div class="bfc-p back" @click="$emit('hrefTo')">
+			<i class="iconfont icon-left bfc-d">
+				<slot name="href"></slot>
+			</i>
 		</div>
 		<slot name="title">标题</slot>
 		<div class="bfc-p r-nav" v-if="showNav"><slot name="nav"></slot></div>
@@ -40,7 +42,7 @@ export default {
 		right: 0;
 		font-size: 14px;
 	}
-	.hreficon{
+	.icon-left{
 		font-size: 20px;
 		vertical-align: top;
 	}

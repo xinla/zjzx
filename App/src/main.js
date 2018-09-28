@@ -44,7 +44,9 @@ Vue.component('LoadingMain',LoadingMain);
 //通用空白页提示
 import PromptBlank from '@/components/common/promptBlank'
 Vue.component('PromptBlank',PromptBlank);
-
+//单文章视图组件
+import multIT from '@/components/common/multIT'
+Vue.component('multIT',multIT);
 //Confirm插件
 // import Confirm from '@/plugins/confirm'
 // Vue.use(Confirm);
