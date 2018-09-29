@@ -4,30 +4,40 @@
 			<i class="iconfont icon-left" @click="this.$Tool.goBack"></i>
 			<div class="search-box">
 				<!-- <i class="iconfont icon-sousuo1"></i> -->
-				<input class="search-input" type="text" v-model="keywords" placeholder="请输入关键字" ref="searchInput">
+				<input class="search-input" type="text" v-model="keywords" placeholder="请输入关键字" ref="searchInput" @keyup="getMatchkeywords">
 				<i class="iconfont icon-close-circle-fill" @click="reset()"></i>
 			</div>
 			<div class="dosearch" @click="search">搜索</div>
 		</div>
 		<!-- 输入关键词匹配 -->
 		<ul class="matchkey-wrap" v-show="ifMatch">
-			<li class="match-li" v-for="item in matchKeywords" @click="quickSearch(item)"><i class="iconfont icon-select"></i>{{item.keyword}}</li>
+			<li class="match-li" v-for="item in matchKeywords" @click="quickSearch(item.keyword)"><i class="iconfont icon-select"></i>{{item.keyword}}</li>
 		</ul>
 		<!-- 热词 -->
-		<ul class="search-key" v-if="!searchResult.length">
-			<li class="hotkey-li" v-for="(item,index) in hotKeywords" @click="quickSearch(item)">
+		<ul class="search-key" v-show="!searchResult.length">
+			<li class="hotkey-li" v-for="(item,index) in hotKeywords" @click="quickSearch(item.keyword)">
 				{{item.keyword}}
 			</li>
 		</ul>
+		<!-- 历史记录 -->
 		<div class="search-around" v-if="!searchResult.length && !resultTip">
-			<div class="search-history">
+			<div class="search-history" v-show="historyKeywords.length">
 				<div class="search-head clearfix">
 					<span class="fl">历史记录</span>
-					<i class="iconfont fr">&#xe646;</i>
+					<i class="iconfont fr" v-if="!ifDeleteAll" @click="historyNum = historyKeywords.length;ifDeleteAll = true;">&#xe646;</i>
+					<div class="fr" v-else>
+						<span @click="historyKeywords = [];">删除全部</span>
+						<span @click="ifDeleteAll = false;">完成</span>					
+					</div>
 				</div>
 				<div class="search-body">
 					<ul class="search-list clearfix">
-						<li v-for="item in historyKeywords" @click="quickSearch(item)">{{item.keyword}}</li>
+						<li class="oe history-li" v-for="(item,index) in historyKeywords" v-if="index < historyNum" @click="quickSearch(item)">
+							{{item}}
+							<div class="deletehistory" v-if="ifDeleteAll" @click="e=>{historyKeywords.splice(index,1);e.stopPropagation();}">								
+								<i class="iconfont fr icon-close-circle"></i>
+							</div>
+						</li>
 					</ul>
 				
 				</div>
@@ -39,7 +49,7 @@
 				</div>
 				<div class="search-body">
 					<ul class="search-list clearfix">
-						<li v-for="item in guessList"><a href="javascript:void(0)">{{item.guesstext}}</a></li>
+						<li class="oe" v-for="item in guessList">{{item.guesstext}}</li>
 					</ul>
 				</div>
 			</div>			
@@ -72,22 +82,36 @@ export default {
 			ifLoad:true,
 			ifMatch:false,
 			resultTip:"",
+			historyNum:4,
+			ifDeleteAll:false,
 		}
 	},
 	mounted(){
 		this.getHotKeywords();
-		this.getHistoryKeywords();
+		let temp = localStorage.getItem("keywords");
+		this.historyKeywords = JSON.parse(temp) || [];
+		// console.log(this.historyKeywords)
 	},
 	methods:{
 		search(){
 			if (!this.keywords) {return;}
+			if (!this.$Tool.checkInput(this.keywords)) {
+				this.keywords = this.$Tool.replaceNo(this.keywords);				
+				this.$vux.alert.show({
+				  content:'搜索内容不合法，已为您删除，请确认！',
+				})
+				return;
+			}
 			this.ifMatch = false;			
 			this.searchResult = [];
 			this.pageSize = 1;
 			searchService.addSearchRecord(this.keywords);
+			if (!this.historyKeywords.includes(this.keywords)) {
+				this.historyKeywords.unshift(this.keywords);				
+			}
+			let temp = JSON.stringify(this.historyKeywords);
+			localStorage.setItem("keywords",temp);
 			this.searchMore();
-			console.log(this.ifMatch)
-
 		},
 		searchMore(){
 			this.ifLoad = true;
@@ -115,10 +139,21 @@ export default {
 		},
 		// 根据输入关键字获取匹配关键字列表
 		getMatchkeywords(){
+			if (this.keywords == "") {
+				this.matchKeywords = [];
+				this.ifMatch = false;
+				this.searchResult = [];
+				this.resultTip = '';
+				return;
+			}
 			searchService.getKeywordList(this.keywords,data=>{
 				if (data && data.status == "success") {
-					this.matchKeywords = data.recordList;	
-					this.ifMatch = true;
+					this.matchKeywords = data.recordList;
+					if (this.matchKeywords.length) {
+						this.ifMatch = true;						
+					}else{
+						this.ifMatch = false;
+					}
 				}
 			})
 		},
@@ -129,16 +164,8 @@ export default {
 				}
 			})
 		},
-		getHistoryKeywords(){
-			searchService.getUserKeywordList(data=>{
-				if (data && data.status == "success") { 
-					this.historyKeywords = data.recordList;	
-					// console.log(data)				
-				}
-			})
-		},
 		quickSearch(key){
-			this.keywords = key.keyword;
+			this.keywords = key;
 			this.search();
 		},
 		reset(){
@@ -152,11 +179,12 @@ export default {
 				this.ifMatch = false;
 				this.searchResult = [];
 				this.resultTip = '';
-				// return;
-			}else{
-				
-			this.getMatchkeywords.call(this);
+				return;
 			}
+		},
+		historyKeywords(val){
+			let temp = JSON.stringify(val);
+			localStorage.setItem("keywords",temp);
 		}
 	},
 }
@@ -283,18 +311,13 @@ export default {
 		border: 0;
 	}
 	.search-list li {
+		position: relative;
 		width: 50%;
 		min-width: 45%;
 		float: left;
-		padding-left: 1.25em;
+		padding:0 1.25em;
 		border-right: .04em solid #e8e8e8; 
 		border-bottom: .04em solid #e8e8e8; 
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	}
-	.search-list li:last-child{
-		border-right: none;
 	}
 	.main-content{
 		height: calc(100vh - 50px);
@@ -322,5 +345,14 @@ export default {
 	}
 	.icon-select{
 		float: right;
+	}
+	.deletehistory{
+		position:absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;left: 0;
+	}
+	.icon-close-circle{
+		margin-right: 6px;
 	}
 </style>

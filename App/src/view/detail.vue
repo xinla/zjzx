@@ -247,11 +247,16 @@ export default {
 		like,
 		share,
 	},
+	props:{
+		id:{
+			type:Number,
+		}
+	},
 	data(){
 		return {
 			ifLoad:true,
 			userId:localStorage.id,
-			id:Number,//文章id =>article.id
+			// id:Number,//文章id =>article.id
 			imgurl:require('@/assets/images/userPhoto.jpg'),
 			fileRoot:config.fileRoot+'/',
 			focusState:false,
@@ -371,7 +376,7 @@ export default {
 		}
 	},
 	mounted(){
-		this.id = this.$route.query.id;
+		// this.id = this.$route.query.id;
 		//添加阅读记录
 		readHistoryService.addReadHistory(this.id,(data)=>{});
 		// if (resAddReadHistory && resAddReadHistory.status == "success") {

@@ -7,11 +7,11 @@
 		<div class="main">
 			<div class="feedback-box" v-show="showF">
 					<p>问题和意见</p>
-					<textarea name="" placeholder="描述" required ></textarea>
+					<textarea name="" v-model="content" placeholder="描述" required ></textarea>
 					<div class="thumb-wrap">
-						<img v-for="(item,index) in record_file" :src="fileRoot+item.url" alt="">
-						<label for="upimg" class="icon-plus iconfont"></label>
-						<input type="file" id="upimg" accept="image/*" multiple @change="uploadFile">
+						<img v-if="image" :src="image">
+						<label for="upimg" class="icon-plus iconfont" v-if="!image"></label>
+						<input type="file" id="upimg" accept="image/*" @change="uploadFile">
 					</div>
 					<button type="button" @click="publish">提交</button>
 					
@@ -100,20 +100,19 @@
 </template>
 
 <script>
-import config from '@/lib/config/config'
-import fileService from '@/service/fileService'
+import feedbackService from '@/service/feedbackService'
 
 export default{
 	data(){
 		return {
-			fileRoot:config.fileRoot +'/',
 			showF:true,
 			showQ:false,
-			record:{
-				content:"",
-			},
-			record_file:[],
+			content:"",
+			image:"",
 		}
+	},
+	mounted(){
+		this.getFeedback();
 	},
 	methods:{
 		showFeedback(){
@@ -125,23 +124,32 @@ export default{
 			this.showQ = true;
 		},
 		uploadFile(e){
-			let file = e.target.files[0];           
+			let file = e.target.files[0];    
+			if (!file) {return;}
 		    if (!this.$Tool.checkPic(file.name)) {
 		    	this.$vux.alert.show({
-				  content:'格式错误',
+				  content:'格式错误，仅限jpg、png、jpeg格式',
 				})
 			    return;
 			 }
+			 if (!FileReader) {
+			 	alert("错误提示：")
+			 }
 			this.$loading.open(2);
-		    let param = new FormData(); //创建form对象        	
-		    param.append('file',file,file.name);//通过append向form对象添加数据
-		    fileService.uploadPic(param,(data)=>{
-		    	let obj = {};
-	          	obj.url = data.result.url;
-	          	obj.filename = data.result.filename;
-	          	this.record_file.push(obj);
-	          	this.$loading.close();
-			})
+			let _this = this;
+		    let fileReader = new FileReader();
+		    fileReader.readAsDataURL(file);
+		    fileReader.onload = function(){
+		    	_this.image = this.result;
+		    }
+		    fileReader.onerror = function(){
+		    	this.$vux.alert.show({
+				  content:'文件读取失败，请重试',
+				})
+		    }
+			this.$loading.close();
+			// console.log(this.image)
+			// debugger;
 
 		},
 		publish(){
@@ -152,26 +160,24 @@ export default{
 				location.href="/member";
 				return;
 			}
-			if (!this.record.title) {
+			if (!this.content) {
 				this.$vux.alert.show({
-				  content:'标题不能为空',
+				  content:'内容不能为空',
 				})
 				return;
 			}
-			let reg = /[^\w\s\u4e00-\u9fa5\(\)\（\）\-\+]/g;
-			if (reg.test(this.record.content)) {
-					this.record.content = this.record.content.replace(reg,'');
-					this.$vux.alert.show({
-					  content:'内容含有非法字符，已为您删除，请确认',
-					})
-				}
-			this.record.author = Number(localStorage.id || 0);
-			let res;
-				res = articleService.publishArticle(this.record,this.record_file);	
+			if (!this.$Tool.checkInput(this.content)) {
+				this.content = this.$Tool.replaceNo(this.content);
+				this.$vux.alert.show({
+				  content:'内容含有非法字符，已为您删除，请确认',
+				})
+				return;
+			}
+			let resFeedback = feedbackService.submitFeedback(this.content,this.image);	
 			// debugger;
-			if(res.status=="success") {
-				this.record_file.length=0;
-				this.record.content = "";
+			if(resFeedback && resFeedback.status=="success") {
+				this.image = "";
+				this.content = "";
 				this.$vux.alert.show({
 				  content:'反馈成功',
 				})
@@ -185,6 +191,15 @@ export default{
 				})
 			}
 		},
+		getFeedback(){
+			feedbackService.getUserFeedBack(data=>{
+				if (data && data.status == "success") {
+					let recordList = data.recordList;
+					this.image = recordList[0].image;
+					console.log(recordList[0].image)
+				}
+			});
+		}
 	}
 	
 }

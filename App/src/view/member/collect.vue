@@ -6,15 +6,11 @@
 </template>
 
 <script>
-import multIT from '@/components/news/multIT'
-import smaIVT from '@/components/news/smaIVT'
 import config from '@/lib/config/config'
 import articleService from '@/service/articleService'
 
 export default {
 	components:{
-		multIT,
-		smaIVT,
 	},
 	mounted(){
 		var resAllList = articleService.getCollectArticlePage(1,10);

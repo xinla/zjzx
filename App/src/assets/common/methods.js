@@ -171,8 +171,14 @@ const tool = {
   },
   //输入区内容合法验证
   checkInput(val){
+    val = String(val);
     var reg = /[^\w\s\u4e00-\u9fa5\(\)\（\）\-]/g;
-    return !reg.test(val);
+    return !reg.test(val); //合法返回true
+  },
+  // 非法字符替换
+  replaceNo(val){
+    var reg = /[^\w\s\u4e00-\u9fa5\(\)\（\）\-]/g;
+    return String(val).replace(reg,""); //返回替换后合法的字串
   },
   /*发布时间格式化
   @dateString:2018-1-6 15:25:42

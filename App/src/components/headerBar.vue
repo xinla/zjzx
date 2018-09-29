@@ -6,7 +6,7 @@
 		<div class="header-input" @click="$Tool.goPage({ name:'search' })">
 			<!-- <i class="iconfont">&#xe627;</i> -->
 			<marquee>
-		      <marquee-item v-for="(item,index) in keyWords" :key="index">{{item}}</marquee-item>
+		      <marquee-item v-for="(item,index) in keywords" :key="index">{{item.keyword}}</marquee-item>
 		    </marquee>
 		</div>
 		<div class="header-menu">
@@ -29,21 +29,36 @@
 </template>
 <script>
 import { Marquee, MarqueeItem } from 'vux'
+import searchService from '@/service/searchService'
 export default {
 	components:{
 		Marquee,
 		MarqueeItem,
 	},
-	name:'homeHeader',
 	data(){
 		return {
-			keyWords:["特朗普被打，并向中国至歉","信用卡新规","我已经爱上你"],
+			keywords:[],
 			releaseShow:false,
 		}
+	},
+	created(){
+		this.getHotKeywords();
 	},
 	methods:{
 		handleRelease(){
 			this.releaseShow=!this.releaseShow;
+		},
+		getHotKeywords(){
+			searchService.getHotKeyword(data=>{
+				if (data && data.status == "success") { 
+					this.keywords = data.recordList;
+				}
+			});
+		},
+	},
+	watch:{
+		keywords(){
+
 		}
 	}
 }

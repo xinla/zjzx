@@ -31,18 +31,10 @@ service.getKeywordList = function(keyword,call){
 service.getHotKeyword = function(call){
 	var params = {
 	};
-	
-	commonUtil.ajax(controller+'/getHotKeyword',params,call);
-
-}
-//获取用户最近关键字列表
-service.getUserKeywordList = function(call){
-	var params = {
-		userid,//:"当前用户id",
-		number:4,//"获取数量"	
-	};
-	
-	commonUtil.ajax(controller+'/getUserKeywordList',params,call);
+	if (call) {
+		commonUtil.ajax(controller+'/getHotKeyword',params,call);
+		return;
+	}
 
 }
 export default service

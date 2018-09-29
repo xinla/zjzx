@@ -1,5 +1,3 @@
-
-
 import config from '@/lib/config/config'
 import axios from 'axios'
 const controller =config.successServer+'/map';

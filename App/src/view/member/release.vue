@@ -150,13 +150,14 @@ export default{
 				})
 				return;
 			}
-			let reg = /[^\w\s\u4e00-\u9fa5\(\)\（\）\-\+]/g;
-			if (reg.test(this.record.title) || reg.test(this.record.content)) {
-					this.record.title = this.record.title.replace(reg,'');
-					this.record.content = this.record.content.replace(reg,'');
+
+			if (!this.$Tool.checkInput(this.record.title) || !this.$Tool.checkInput(this.record.content)) {
+					this.record.title = this.$Tool.replaceNo(this.record.title);
+					this.record.content = this.$Tool.replaceNo(this.record.content);
 					this.$vux.alert.show({
 					  content:'内容含有非法字符，已为您删除，请确认',
 					})
+					return;
 				}
 			this.record.author = Number(localStorage.id?localStorage.id:0);
 			Object.assign(this.record,this.position);

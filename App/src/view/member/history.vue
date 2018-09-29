@@ -6,14 +6,8 @@
 </template>
 
 <script>
-import multIT from '@/components/news/multIT'
-import smaIVT from '@/components/news/smaIVT'
 import articleService from '@/service/articleService'
 export default {
-	components:{
-		multIT,
-		smaIVT,
-	},
 	mounted(){
 		var resAllList = articleService.getArticleByUser(1,10);
 		if (resAllList&&resAllList.status == "success") {

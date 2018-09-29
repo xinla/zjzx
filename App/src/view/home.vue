@@ -1,54 +1,41 @@
 <!-- 首页新闻页面 -->
 <template>
 	<div>
-		<div class="index" v-show="1 == showIndex || 3 == showIndex">
-			<home-header></home-header>
-			<div class="main-wrap" v-show="1 == showIndex">
-				<div class="bfc-o">
-					<tab :line-width=2 active-color='#fc378c' v-model="classifyIndex">
-						<tab-item :selected="currentClassiftyName == '推荐'" @click="currentClassiftyName = '推荐'">推荐
-						</tab-item>
-						<tab-item :selected="currentClassiftyName == item.classifyname" v-for="(item,index) in classifyList" @click="currentClassiftyName = item.classifyname" :key="index">{{item.classifyname}}
-						</tab-item>
-					</tab>
-					<router-link to="/more">
-						<div class="nav-add">
-							<i class="iconfont">&#xe610;</i>
-						</div>
-					</router-link>					
+		<template v-show="!ifDetail">
+			<div class="index" v-show="1 == showIndex || 3 == showIndex">
+				<home-header></home-header>
+				<div class="main-wrap" v-show="1 == showIndex">
+					<div class="bfc-o">
+						<tab :line-width=2 active-color='#fc378c' v-model="classifyIndex">
+							<tab-item :selected="currentClassiftyName == '推荐'" @click="currentClassiftyName = '推荐'">推荐
+							</tab-item>
+							<tab-item :selected="currentClassiftyName == item.classifyname" v-for="(item,index) in classifyList" @click="currentClassiftyName = item.classifyname" :key="index">{{item.classifyname}}
+							</tab-item>
+						</tab>
+						<router-link to="/more">
+							<div class="nav-add">
+								<i class="iconfont">&#xe610;</i>
+							</div>
+						</router-link>					
+					</div>
+					<div class="main">
+						<loading-main v-show="ifLoad"></loading-main>
+						<swiper v-model="classifyIndex" @on-index-change="swiperChange()" height="500px" :show-dots="false">
+					        <swiper-item>
+					          	<articleList @bb="alert(1)"></articleList>
+					        </swiper-item>
+					         <swiper-item v-for="(item,index) in classifyList" :key="index">
+					          	<articleList :classify="item.classifycode"></articleList>
+					        </swiper-item>
+				      </swiper>
+					</div>
 				</div>
-				<div class="main">
-					<loading-main v-show="ifLoad"></loading-main>
-					<swiper v-model="classifyIndex" @on-index-change="swiperChange()" height="500px" :show-dots="false">
-				        <swiper-item>
-				          	<articleList></articleList>
-				        </swiper-item>
-				         <swiper-item v-for="(item,index) in classifyList" :key="index">
-				          	<articleList :classify="item.classifycode"></articleList>
-				        </swiper-item>
-					<!--<swiper-item>
-				          	<div class="main-content" @scroll="loadMore">
-				          		<multIT v-for="(item,index) in (1 == classifyIndex?arcListB:[])" :article="item" :ifPublisher="true" :key="index"></multIT>
-				          	</div>
-				        </swiper-item>
-				        <swiper-item>
-				          	<div class="main-content" @scroll="loadMore">
-				          		<multIT v-for="(item,index) in (2 == classifyIndex?arcListA:[])" :article="item" :ifPublisher="true" :key="index"></multIT>
-				          	</div>
-				        </swiper-item>
-				        <swiper-item>
-				          	<div class="main-content" @scroll="loadMore">
-				          		<multIT v-for="(item,index) in (3 == classifyIndex?arcListB:[])" :article="item" :ifPublisher="true" :key="index"></multIT>
-				          	</div>
-				        </swiper-item> -->
-			      </swiper>
-				</div>
-			</div>
-	
-			<zjzx-video class="main-wrap" v-show="3 == showIndex"></zjzx-video>
-		</div>
-		<member v-show="4 == showIndex"></member>
 		
+				<zjzx-video class="main-wrap" v-show="3 == showIndex"></zjzx-video>
+			</div>
+		</template>
+		<member v-show="4 == showIndex"></member>
+		<detail :id="articleId" v-show="ifDetail"></detail>
 		<div class="footer-nav">
 			<div :class="['footer-item',{'current':1 == showIndex}]" @click="show(1)">
 				<i class="iconfont icon-index footer-icon"></i>
@@ -106,6 +93,7 @@ import articleClassifyService from '@/service/article_classifyService'
 			articleList,
 			member,
 			zjzxVideo,
+			detail,
 		},
 		created () {
 			// debugger;
@@ -127,6 +115,8 @@ import articleClassifyService from '@/service/article_classifyService'
 				pageSizeB:1,
 				lock:false,
 				turn:false,
+				articleId:0,
+				ifDetail:false,
 			}
 		},
 		mounted () {
