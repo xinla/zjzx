@@ -22,7 +22,7 @@
 						<loading-main v-show="ifLoad"></loading-main>
 						<swiper v-model="classifyIndex" @on-index-change="swiperChange()" height="500px" :show-dots="false">
 					        <swiper-item>
-					          	<articleList @bb="alert(1)"></articleList>
+					          	<articleList ></articleList>
 					        </swiper-item>
 					         <swiper-item v-for="(item,index) in classifyList" :key="index">
 					          	<articleList :classify="item.classifycode"></articleList>
@@ -35,7 +35,7 @@
 			</div>
 		</template>
 		<member v-show="4 == showIndex"></member>
-		<detail :id="articleId" v-show="ifDetail"></detail>
+		<!-- <detail :id="articleId" v-show="ifDetail"></detail> -->
 		<div class="footer-nav">
 			<div :class="['footer-item',{'current':1 == showIndex}]" @click="show(1)">
 				<i class="iconfont icon-index footer-icon"></i>

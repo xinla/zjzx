@@ -33,9 +33,9 @@ export default new Router({
        component: (resolve)=>{
         require(['@/view/detail.vue'],resolve)
       },
-      meta: {
-        keepAlive: true // 不需要缓存
-      }
+      // meta: {
+      //   keepAlive: false // 不需要缓存
+      // }
     },
     //搜索页面
     {
@@ -275,4 +275,3 @@ export default new Router({
     }
   ],
 })
-

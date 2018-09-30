@@ -22,6 +22,7 @@ export default {
 	},
 	props:{
 		classify:{
+			type:Number,
 			default:0,
 		},
 	},
@@ -35,7 +36,8 @@ export default {
 			arcList:[],
 			pageSize:1,
 			lock:false,
-			ifLoad:true,			
+			ifLoad:true,
+			scrollTop:0,			
 		}
 	},
 	methods:{
@@ -57,9 +59,15 @@ export default {
 		loadMore(e){
 			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
 				this.$options.methods.getArtList.call(this);
-				// console.log(1)
 			}
+			this.scrollTop = $(e.target).scrollTop();
+				console.log(this.scrollTop);
 		},
+		beforeRouteEnter(to,from,next){
+			next(vm=>{
+				vm.id = vm.$route.query.id;			
+			})
+		}
 
 	}
 }

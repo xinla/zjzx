@@ -10,7 +10,12 @@ import config from '@/lib/config/config'
 import articleService from '@/service/articleService'
 
 export default {
-	components:{
+	data(){
+		return {
+			arcList:[],
+			proMes:'',
+			proIf:false,
+		}
 	},
 	mounted(){
 		var resAllList = articleService.getCollectArticlePage(1,10);
@@ -26,13 +31,6 @@ export default {
 		}
 		// console.log(resAllList)
 	},
-	data(){
-		return {
-			arcList:[],
-			proMes:'',
-			proIf:false,
-		}
-	}
 }
 </script>
 

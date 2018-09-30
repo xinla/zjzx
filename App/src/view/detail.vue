@@ -247,16 +247,16 @@ export default {
 		like,
 		share,
 	},
-	props:{
-		id:{
-			type:Number,
-		}
-	},
+	// props:{
+	// 	id:{
+	// 		type:Number,
+	// 	}
+	// },
 	data(){
 		return {
 			ifLoad:true,
 			userId:localStorage.id,
-			// id:Number,//文章id =>article.id
+			id:Number,//文章id =>article.id
 			imgurl:require('@/assets/images/userPhoto.jpg'),
 			fileRoot:config.fileRoot+'/',
 			focusState:false,
@@ -376,91 +376,100 @@ export default {
 		}
 	},
 	mounted(){
-		// this.id = this.$route.query.id;
-		//添加阅读记录
-		readHistoryService.addReadHistory(this.id,(data)=>{});
-		// if (resAddReadHistory && resAddReadHistory.status == "success") {
-		// }
-		//获取文章信息
-		let resArticleDetail = articleService.getArticleById(this.id);
-		if (resArticleDetail&&resArticleDetail.status == "success") {
-			this.article = resArticleDetail.record;
-		} else {
-			this.proFail1 = true;
-		}
-		// console.log(resArticleDetail)
-		//获取发布人信息
-		let resUserInfo = userService.getUserById(this.article.author);
-		if (resUserInfo && resUserInfo.status == "success") {
-			this.artUser = resUserInfo.result.user;
-		}
-		// console.log(resUserInfo)
-		// 是否关注发布人
-		if (localStorage.getItem('token')) {
-			followService.testFollow(this.article.author,(data)=>{
-				if (data && data.status == "success") {
-					if (data.result == 1) {
-						this.focusState = true;
-					} else {
-						this.focusState = false;
-					}
-				}						
-			});
-		}
-		// 文章附件
-		articleFileService.getFileByArticle(this.article.id,data=>{
-			if (data && data.status == "success") {
-				if (this.article.type == 1) {
-					this.ArticleFile = data.result.filelist;				
-				}else{
-					this.playerOptions.sources[0].src = this.fileRoot + data.result.filelist[0].url;
-					this.playerOptions.poster = this.fileRoot + data.result.filelist[0].thumbnail;
-				}
-
-			}				
-		});
-		//获取文章点赞量
-		praiseService.getPraiseCount(this.id,1,(data)=>{
-			if (data && data.status == "success") {
-				this.likeNum = data.result.count;
-			}		
-		});
-		//用户是否给文章点赞
-		praiseService.testPraise(this.id,1,(data)=>{
-			if (data && data.status == "success") {
-				if (data.result == 1) {
-					this.likeStatus = true;
-				} else {
-					this.likeStatus = false;
-				}
-			}			
-		});
-		//获取评论数量
-		articleCommentService.getArticleCommentCount(this.id,(data)=>{
-			if (data.status == "success") {
-				this.commentNum = data.result.count;
-			}			
-		});
-		
-		// console.log(resArticleCommentList)
-		// console.log(this.commentList)
-		//是否收藏
-		articleCollectService.testCollect(this.id,(data)=>{
-			if (data && data.status == "success") {
-				if (data.result == 1 ) {
-					this.ifCollect = true;				
-				} else {
-					this.ifCollect = false;				
-				}
-			}		
-		});
-		//评论滚动近底部，自动加载 一屏1080
-		this.loadComment();
-		// console.log(this.focusState)
-		// console.log(this.ifCollect)
-		this.ifLoad = false;
+		this.id = this.$route.query.id;
+		this.loadArticle();
 	},	
 	methods:{
+		loadArticle(){
+			if (!this.id) {
+				this.$vux.alert.show({
+					  content: '获取出错，请返回！',
+					})
+				return;
+			}
+			//添加阅读记录
+			readHistoryService.addReadHistory(this.id,(data)=>{});
+			// if (resAddReadHistory && resAddReadHistory.status == "success") {
+			// }
+			//获取文章信息
+			let resArticleDetail = articleService.getArticleById(this.id);
+			if (resArticleDetail&&resArticleDetail.status == "success") {
+				this.article = resArticleDetail.record;
+			} else {
+				this.proFail1 = true;
+			}
+			// console.log(resArticleDetail)
+			//获取发布人信息
+			let resUserInfo = userService.getUserById(this.article.author);
+			if (resUserInfo && resUserInfo.status == "success") {
+				this.artUser = resUserInfo.result.user;
+			}
+			// console.log(resUserInfo)
+			// 是否关注发布人
+			if (localStorage.getItem('token')) {
+				followService.testFollow(this.article.author,(data)=>{
+					if (data && data.status == "success") {
+						if (data.result == 1) {
+							this.focusState = true;
+						} else {
+							this.focusState = false;
+						}
+					}						
+				});
+			}
+			// 文章附件
+			articleFileService.getFileByArticle(this.article.id,data=>{
+				if (data && data.status == "success") {
+					if (this.article.type == 1) {
+						this.ArticleFile = data.result.filelist;				
+					}else if(this.article.type == 2){
+						this.playerOptions.sources[0].src = this.fileRoot + data.result.filelist[0].url;
+						this.playerOptions.poster = this.fileRoot + data.result.filelist[0].thumbnail;
+					}
+
+				}				
+			});
+			//获取文章点赞量
+			praiseService.getPraiseCount(this.id,1,(data)=>{
+				if (data && data.status == "success") {
+					this.likeNum = data.result.count;
+				}		
+			});
+			//用户是否给文章点赞
+			praiseService.testPraise(this.id,1,(data)=>{
+				if (data && data.status == "success") {
+					if (data.result == 1) {
+						this.likeStatus = true;
+					} else {
+						this.likeStatus = false;
+					}
+				}			
+			});
+			//获取评论数量
+			articleCommentService.getArticleCommentCount(this.id,(data)=>{
+				if (data.status == "success") {
+					this.commentNum = data.result.count;
+				}			
+			});
+			
+			// console.log(resArticleCommentList)
+			// console.log(this.commentList)
+			//是否收藏
+			articleCollectService.testCollect(this.id,(data)=>{
+				if (data && data.status == "success") {
+					if (data.result == 1 ) {
+						this.ifCollect = true;				
+					} else {
+						this.ifCollect = false;				
+					}
+				}		
+			});
+			//评论滚动近底部，自动加载 一屏1080
+			this.loadComment();
+			// console.log(this.focusState)
+			// console.log(this.ifCollect)
+			this.ifLoad = false;
+		},
 		loadComment(){
 			// 获取文章一级评论列表
 			this.ifLoad = true;
@@ -855,6 +864,16 @@ export default {
 			this.ifShare = true;
 		}
 	},
+	watch:{
+		id(){
+			this.loadArticle();
+		}
+	},
+	beforeRouteEnter(to,from,next){
+		next(vm=>{
+			vm.id = vm.$route.query.id;			
+		})
+	}
 }
 </script>
 
