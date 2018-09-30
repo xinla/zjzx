@@ -24,6 +24,8 @@
 					</ul>
 				</div>
 			</transition>
+			<div class="mask" v-show="maskShow" @click="handleMask"></div>
+
 		</div>
 	</div>
 </template>
@@ -39,6 +41,7 @@ export default {
 		return {
 			keywords:[],
 			releaseShow:false,
+			maskShow:false
 		}
 	},
 	created(){
@@ -47,6 +50,11 @@ export default {
 	methods:{
 		handleRelease(){
 			this.releaseShow=!this.releaseShow;
+			this.maskShow=!this.maskShow;
+		},
+		handleMask(){
+			this.releaseShow = false;
+			this.maskShow=false;
 		},
 		getHotKeywords(){
 			searchService.getHotKeyword(data=>{
@@ -115,7 +123,7 @@ export default {
 				top: 1.08rem;
 				border-radius: .14rem;
 				background-color:#595959;
-				z-index: 9;
+				z-index: 12;
 				.arrow-tip{
 					width: 0;   
 					height: 0;   
@@ -145,6 +153,16 @@ export default {
 						}
 					}
 				}
+			}
+			.mask {
+				width: 100vw;
+				height: 100vh;
+				position: absolute;
+				left: 0;
+				top: 0.88rem;
+				bottom: inherit;
+				z-index: 9;
+				background-color: transparent;
 			}
 		}
 	}

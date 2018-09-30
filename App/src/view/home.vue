@@ -12,11 +12,11 @@
 							<tab-item :selected="currentClassiftyName == item.classifyname" v-for="(item,index) in classifyList" @click="currentClassiftyName = item.classifyname" :key="index">{{item.classifyname}}
 							</tab-item>
 						</tab>
-						<router-link to="/more">
+						<!-- <router-link to="/more"> -->
 							<div class="nav-add">
 								<i class="iconfont">&#xe610;</i>
 							</div>
-						</router-link>					
+						<!-- </router-link>					 -->
 					</div>
 					<div class="main">
 						<loading-main v-show="ifLoad"></loading-main>
@@ -104,6 +104,7 @@ import articleClassifyService from '@/service/article_classifyService'
 		},
 		data(){
 			return {
+				show12:false,
 				ifLoad:false,
 				showIndex:1,
 				classifyList:[],
@@ -271,12 +272,27 @@ import articleClassifyService from '@/service/article_classifyService'
 		width: 100%;
 		background: #fff;
 		overflow: hidden;
+		.main{
+			height: calc(100% - 90px);
+			overflow-y:auto;
+		}
+		.nav-add {
+			position: absolute;
+			right: 0;
+			top: 0;
+			width: .72rem;
+			height: @navHeight;
+			line-height: @navHeight;
+			text-align: center;
+			background-color: rgb(255,255,255);
+			box-shadow:-.1rem 0px .4rem #cccccc;
+			color:#000;
+			i {
+				font-size: .40rem;
+			}
+		}
 	}
-	.main{
-		height: calc(100% - 90px);
-		overflow-y:auto;
-	}
-	.footer-nav {
+	.footer-nav{
 		width: 100%;
 		position: fixed;
 		left: 0;
@@ -284,44 +300,33 @@ import articleClassifyService from '@/service/article_classifyService'
 		text-align: center;
 		overflow: hidden;
 		background-color: #fff;
-		box-shadow: 0 0 0.4em  #ccc;
-	}
-	.footer-item {
-		float: left;
-		width: 25%;
-		height: 100%;
-		color: #999;
-	}
-	.footer-icon {
-	    display: block;
-	    font-size: 1.5em;
-	    line-height: 1.5em;
-	}
-	.footer-item a.router-link-active,.current{
-		color: #f40;
-	}
-	.nav-add {
-		position: absolute;
-		right: 0;
-		top: 0;
-		width: .72rem;
-		height: @navHeight;
-		line-height: @navHeight;
-		text-align: center;
-		background-color: rgb(255,255,255);
-		box-shadow:-.1rem 0px .4rem #cccccc;
-		color:#000;
-		i {
-			font-size: .40rem;
+		border-top: .1rem solid @borderColor;
+		.footer-item {
+			float: left;
+			width: 25%;
+			height: .88rem;
+			padding: .12rem 0;
+			color: #999;
+			.footer-icon {
+				display: block;
+				font-size: .4rem;
+			}
+			.footer-text{
+				font-size: .2rem;
+			}
+		}
+		.footer-item a.router-link-active,.current{
+			color: #f40;
 		}
 	}
+	
 	.main-content{
 		height: 100%;
 		overflow-y: auto;
 	}
-	.router-link-active{
-		color:@currentColor;
-	}
+	// .router-link-active{
+	// 	color:@currentColor;
+	// }
 	/*vux 样式修改*/
 	.vux-tab-wrap{
       	padding-top: 38px;

@@ -154,10 +154,10 @@ img,a{-webkit-touch-callout:none;}
 .clearfix:after{clear:both;/*清除浮动*/}
 .clearfix{zoom:1;/*为IE6，7的兼容性设置*/}
 
-[data-dpr="2"] body{
+/*[data-dpr="2"] body{
   font-size: 28px;
 }
 [data-dpr="3"] body{
   font-size: 42px;
-}
+}*/
 /*init end*/
