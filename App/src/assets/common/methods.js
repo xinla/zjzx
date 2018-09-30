@@ -202,7 +202,7 @@ const tool = {
   },
   //图片格式判断
   checkPic(str){
-    let reg = /\.(jpg|png|jpeg)$/i;
+    let reg = /\.(jpg|png|jpeg|gif)$/i;
     str = str.toString();
     return reg.test(str);
   },

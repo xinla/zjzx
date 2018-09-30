@@ -178,16 +178,16 @@
 <script>
 	import {Bus} from '@/store/eventBus'
 	import config from '@/lib/config/config'
-	import top from '@/components/common/top'
-	import fileService from '@/service/fileService'
 	import zSwitch from '@/components/common/switch'
-	import userService from '@/service/userService'
+	import VueCropper from 'vue-cropper'
 	import textArea from '@/components/textarea'
 	import bottomPopup from '@/components/bottomPopup'
+	
+	import fileService from '@/service/fileService'
+	import userService from '@/service/userService'
 	import provinceService from '@/service/provinceService'
 	export default {
 		components:{
-			top,
 			zSwitch,
 			textArea,
 			bottomPopup

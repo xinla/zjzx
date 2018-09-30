@@ -1,9 +1,7 @@
 <template>
-	<div>
-		<div class="test cc">
-			直击真相
-			<div class="move">				
-			</div>
+	<div class="test cc">
+		直击真相
+		<div class="move">				
 		</div>
 	</div>
 </template>
@@ -17,7 +15,7 @@ export default{
 <style rel="stylesheet" scoped>
 	.test{
 	    font-size: 1.4em;
-	    height: 1.4em;
+	    height: 1em;
 	    width: 4.2em;
 	    color: #ddd;
 	    overflow: hidden;

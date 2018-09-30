@@ -111,9 +111,6 @@ export default{
 			image:"",
 		}
 	},
-	mounted(){
-		this.getFeedback();
-	},
 	methods:{
 		showFeedback(){
 			this.showF = true;
@@ -128,7 +125,7 @@ export default{
 			if (!file) {return;}
 		    if (!this.$Tool.checkPic(file.name)) {
 		    	this.$vux.alert.show({
-				  content:'格式错误，仅限jpg、png、jpeg格式',
+				  content:'格式错误，仅限jpg、png、jpeg、gif格式',
 				})
 			    return;
 			 }
@@ -191,15 +188,15 @@ export default{
 				})
 			}
 		},
-		getFeedback(){
-			feedbackService.getUserFeedBack(data=>{
-				if (data && data.status == "success") {
-					let recordList = data.recordList;
-					this.image = recordList[0].image;
-					console.log(recordList[0].image)
-				}
-			});
-		}
+		// getFeedback(){
+		// 	feedbackService.getUserFeedBack(data=>{
+		// 		if (data && data.status == "success") {
+		// 			let recordList = data.recordList;
+		// 			this.image = recordList[0].image;
+		// 			console.log(recordList[0].image)
+		// 		}
+		// 	});
+		// }
 	}
 	
 }

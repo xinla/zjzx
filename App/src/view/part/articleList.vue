@@ -6,7 +6,7 @@
 				<multIT v-for="(item,index) in arcList" :article="item" :ifPublisher="true" :key="index"></multIT>
 				<!-- <bigIVT :article="item" v-else-if="item.type==2"></bigIVT>	 -->
 				<!-- <smaIVT :article="item" v-else="item.type==3"></smaIVT> -->
-				<load-more tip="正在加载"></load-more>				
+				<load-more v-show="arcList.length" tip="正在加载"></load-more>				
 			</div>
 		</downRefresh>
 	</div>
@@ -25,11 +25,12 @@ export default {
 			type:Number,
 			default:0,
 		},
+		show:{
+			type:Boolean,
+			default:false,
+		}
 	},
-	mounted () {	
-		this.$options.methods.getArtList.call(this);
-		this.ifLoad = false;
-		// console.log(this.$el);
+	mounted () {
 	},
 	data(){
 		return {
@@ -61,20 +62,27 @@ export default {
 				this.$options.methods.getArtList.call(this);
 			}
 			this.scrollTop = $(e.target).scrollTop();
-				console.log(this.scrollTop);
+			// console.log(this.scrollTop);
 		},
-		beforeRouteEnter(to,from,next){
-			next(vm=>{
-				vm.id = vm.$route.query.id;			
-			})
-		}
 
+	},
+	watch:{
+		$route(){
+			$(".main-content").eq(this.classify).scrollTop(this.scrollTop);
+		},
+		show(val){
+			if (val) {				
+				this.getArtList();
+				this.ifLoad = false;
+			}
+		}
 	}
 }
 </script>
 
 <style rel="stylesheet" scoped>
 	.main-content{
+		position: relative;
 		height: calc(100vh - 130px);
 		overflow-y: auto;
 		padding:0 0.5em;

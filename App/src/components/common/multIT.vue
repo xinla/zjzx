@@ -1,6 +1,6 @@
 <template>
-	<div class="text-wrap bfc-o">
-		<div @click="$Tool.goPage({ name:'detail',query:{id,}})">
+	<div class="text-wrap bfc-o"  @click="$Tool.goPage({ name:'detail',query:{id,}})">
+		<div>
 			<h1>{{article.title}}</h1>
 			<!-- picture -->
 			<div class="img-wrap bfc-o" v-if="1 == article.type && ArticleFile.length">
@@ -26,6 +26,8 @@ import articleFileService from '@/service/article_fileService'
 import articleCommentService from '@/service/article_commentService'
 import userService from '@/service/userService'
 import articleService from '@/service/articleService'
+
+// import store from '@/store/store'
 export default {
 	data(){
 		return {
@@ -56,12 +58,12 @@ export default {
 	},
 	mounted(){
 		this.$nextTick(()=>{
-			this.$options.methods.getArticleInfo.call(this);
+			this.getArticleInfo();
 		})
 	},	
 	watch:{
 		article(){
-			this.$options.methods.getArticleInfo.call(this);				
+			this.getArticleInfo();		
 		}
 	},
 	methods:{

@@ -28,10 +28,10 @@
 						<loading-main v-show="ifLoad"></loading-main>
 						<swiper v-model="classifyIndex" @on-index-change="swiperChange()" height="500px" :show-dots="false">
 					        <swiper-item>
-					          	<articleList ></articleList>
+					          	<articleList :show="true"></articleList>
 					        </swiper-item>
 					         <swiper-item v-for="(item,index) in classifyList" :key="index">
-					          	<articleList :classify="item.classifycode"></articleList>
+					          	<articleList :classify="item.classifycode" :show="item.classifycode == classifyIndex"></articleList>
 					        </swiper-item>
 				      </swiper>
 					</div>
@@ -147,7 +147,7 @@ import articleClassifyService from '@/service/article_classifyService'
 			});
 	    		this.ifLoad = false;
 	    	})
-	    	
+	    	console.log(0 == this.classifyIndex)
 
 			// this.$options.methods.getArtList.call(this);
 			
