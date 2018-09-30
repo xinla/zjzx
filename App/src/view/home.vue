@@ -12,11 +12,17 @@
 							<tab-item :selected="currentClassiftyName == item.classifyname" v-for="(item,index) in classifyList" @click="currentClassiftyName = item.classifyname" :key="index">{{item.classifyname}}
 							</tab-item>
 						</tab>
-						<!-- <router-link to="/more"> -->
-							<div class="nav-add">
+							<div class="nav-add" @click="handleMore" v-model="showMore">
 								<i class="iconfont">&#xe610;</i>
 							</div>
-						<!-- </router-link>					 -->
+						<div v-transfer-dom>
+							<popup v-model="showMore" position="bottom" height="100%">
+								<div class="more-title" @click="handleClose">
+									<i class="iconfont">&#xe68c;</i>
+								</div>
+								<home-more></home-more>
+							</popup>	
+						</div>
 					</div>
 					<div class="main">
 						<loading-main v-show="ifLoad"></loading-main>
@@ -60,9 +66,9 @@
 
 <script>	
 // import config from '@/lib/config/config'
-import { Tab, TabItem, Swiper, SwiperItem } from 'vux'
+import {TransferDom, Tab, TabItem, Swiper, SwiperItem, Popup  } from 'vux'
 import homeHeader from '@/components/headerBar'
-// import homeMore from'@/components/more'
+import homeMore from'@/components/more'
 // import homeNav from '@/components/swiperNav'
 // import bottomNav from '@/components/bottomNav'
 // import multIT from '@/components/news/multIT'
@@ -81,10 +87,13 @@ import articleService from '@/service/articleService'
 import articleClassifyService from '@/service/article_classifyService'
 
 	export default {
+		directives: {
+    		TransferDom
+  		},
 		components:{
 			homeHeader,
 			// homeNav,
-			// homeMore,
+			homeMore,
 			// multIT,
 			Tab,
 			TabItem,
@@ -94,6 +103,7 @@ import articleClassifyService from '@/service/article_classifyService'
 			member,
 			zjzxVideo,
 			detail,
+			Popup
 		},
 		created () {
 			// debugger;
@@ -104,7 +114,7 @@ import articleClassifyService from '@/service/article_classifyService'
 		},
 		data(){
 			return {
-				show12:false,
+				showMore:false,
 				ifLoad:false,
 				showIndex:1,
 				classifyList:[],
@@ -127,17 +137,30 @@ import articleClassifyService from '@/service/article_classifyService'
 	    	// document.addEventListener('DOMContentLoaded', this.recalc, false);
 	    	// this.recalc();
 	    	// 
-	    	articleClassifyService.getArticleClassifyList(data=>{
+
+	    	this.$nextTick(()=>{
+	    		articleClassifyService.getArticleClassifyList(data=>{
 				if (data && data.status == "success") {
 					this.classifyList = data.result.classfyList;					
 					// console.log(this.classifyList)
 				}
 			});
+	    		this.ifLoad = false;
+	    	})
+	    	
 
 			// this.$options.methods.getArtList.call(this);
-			this.ifLoad = false;
+			
 	    },
 		methods:{
+			//导航栏添加弹出popup
+			handleMore(){
+				this.showMore = true;
+			},
+			//关闭popup
+			handleClose(){
+				this.showMore = false;
+			},
 			// recalc(){
 			// 	var win=window,
 			// 	doc=document,
@@ -291,6 +314,29 @@ import articleClassifyService from '@/service/article_classifyService'
 				font-size: .40rem;
 			}
 		}
+
+		.vux-popup-dialog{
+			background-color: transparent;
+
+		}
+
+	}
+	.more-title {
+		width: 100%;
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 99999;
+		height: .87rem;
+		background-color: #fff;
+		border-radius: .3rem .3rem 0 0;
+		line-height: .87rem;
+		border-bottom: .01rem solid @borderColor;
+		padding: 0 .3rem;
+		i{
+			font-size: .45rem;
+			font-weight: 700;
+		}
 	}
 	.footer-nav{
 		width: 100%;
@@ -337,6 +383,7 @@ import articleClassifyService from '@/service/article_classifyService'
 	.vux-tab-container{
 		height: 38px;
 	}
+	
 </style>
 <style>
 	.vux-tab{
