@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="scroll-wrap" @scroll="$emit('scrolling',this)">
 		<div class="refresh ac" :class="{animate:animate}" :style="{'height':lineHeight + 'px',lineHeight: lineHeight + 'px',}">
 			{{ tipText }}
 		</div>
@@ -31,6 +31,8 @@ export default {
 		  this.$el.addEventListener('touchend', this._touchEnd);   
 		},
 		_touchStart(e){
+			console.log(this.$el.scrollTop)
+			if(this.$el.scrollTop > 0){return;}
 			this.animate = false;
 			let touch = e.changedTouches[0];
 	        this.tipText = '下拉刷新';
@@ -38,6 +40,7 @@ export default {
 	        this.startY = touch.clientY;
 		},
 		_touchMove(e){         
+			if(this.$el.scrollTop > 0){return;}
 			let touch = e.changedTouches[0]; 
 	        // 获取下拉的距离
 			let move = touch.clientY - this.startY;
@@ -53,6 +56,7 @@ export default {
 			}       
 		},
 		_touchEnd(e){        
+			if(this.$el.scrollTop > 0){return;}
 			let touch = e.changedTouches[0];        
 			this.endX = touch.clientX;        
 			this.endY = touch.clientY;        
@@ -72,6 +76,9 @@ export default {
 </script>
 
 <style rel="stylesheet" scoped>
+	.scroll-wrap{
+		overflow-y: auto;
+	}
 	.refresh{
 		background: #fafafa;
 		overflow: hidden;

@@ -379,7 +379,8 @@
 				})
 			},
 			uploadAvatar(e){
-				let file = e.target.files[0];    
+				let file = e.target.files[0];   
+				console.log( e.target.files) 
 				if (!file) {return;}
 			    if (!this.$Tool.checkPic(file.name)) {
 			    	this.$vux.alert.show({
@@ -396,7 +397,7 @@
 				let fileReader = new FileReader();	
 			    fileReader.readAsDataURL(file);
 				fileReader.onload = (e) => {
-					// console.log(e)
+					console.log(e)
 					this.photOption.img = e.target.result;
 					this.uploadImgName = file.name;
 				}
@@ -411,7 +412,7 @@
 			photoConfirm(){
 				// 获取截图的base64 数据
 				let _this = this;
-				this.$refs.cropper.getCropData((data) => {
+				this.$refs.cropper.getCropBlob((data) => {
 					_this.photOption.img = ''
 					_this.upFile = data;
 					_this.$set(_this.upFile,"name",_this.uploadImgName);
@@ -420,8 +421,21 @@
 				this.ifCropper = false;
 			},
 			photoCancle(){
-				 this.photOption.img = ''
+				this.photOption.img = ''
+				this.ifCropper = false;
+
 			},
+			// 将base64的图片转换为file文件
+		    convertBase64UrlToBlob(urlData) {
+		      let bytes = window.atob(urlData.split(',')[1]);//去掉url的头，并转换为byte
+		      //处理异常,将ascii码小于0的转换为大于0
+		      let ab = new ArrayBuffer(bytes.length);
+		      let ia = new Uint8Array(ab);
+		      for (var i = 0; i < bytes.length; i++) {
+		        ia[i] = bytes.charCodeAt(i);
+		      }
+		      return new Blob([ab], { type: 'image/jpeg' });
+		    },
 			show() {
 				console.log(this.value1);
 				console.log(this.user.username);

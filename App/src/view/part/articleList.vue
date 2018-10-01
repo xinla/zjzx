@@ -1,15 +1,13 @@
 <template>
-	<div>
-		<downRefresh @refresh="getArtList()">
-			<div class="main-content" @scroll="loadMore">				
-				<loading-main v-show="ifLoad"></loading-main>
-				<multIT v-for="(item,index) in arcList" :article="item" :ifPublisher="true" :key="index"></multIT>
-				<!-- <bigIVT :article="item" v-else-if="item.type==2"></bigIVT>	 -->
-				<!-- <smaIVT :article="item" v-else="item.type==3"></smaIVT> -->
-				<load-more v-show="arcList.length" tip="正在加载"></load-more>				
-			</div>
-		</downRefresh>
-	</div>
+	<downRefresh class="main-content" @refresh="getArtList()"  @scrolling="loadMore">
+		<div>				
+			<loading-main v-show="!arcList.length"></loading-main>
+			<multIT v-for="(item,index) in arcList" :article="item" :ifPublisher="true" :key="index"></multIT>
+			<!-- <bigIVT :article="item" v-else-if="item.type==2"></bigIVT>	 -->
+			<!-- <smaIVT :article="item" v-else="item.type==3"></smaIVT> -->
+			<load-more v-show="arcList.length" tip="正在加载"></load-more>				
+		</div>
+	</downRefresh>
 </template>
 
 <script>
@@ -37,7 +35,7 @@ export default {
 			arcList:[],
 			pageSize:1,
 			lock:false,
-			ifLoad:true,
+			// ifLoad:true,
 			scrollTop:0,			
 		}
 	},
@@ -62,7 +60,7 @@ export default {
 				this.$options.methods.getArtList.call(this);
 			}
 			this.scrollTop = $(e.target).scrollTop();
-			// console.log(this.scrollTop);
+			console.log(this.scrollTop);
 		},
 
 	},
@@ -73,7 +71,8 @@ export default {
 		show(val){
 			if (val) {				
 				this.getArtList();
-				this.ifLoad = false;
+				// this.ifLoad = false;
+				console.log(1)
 			}
 		}
 	}
