@@ -1,7 +1,15 @@
 <template>
 	<div class="text-wrap bfc-o"  @click="$Tool.goPage({ name:'detail',query:{id,}})">
 		<div>
+			<!-- 单图文 -->
+			<div class="img-wrap fr" v-if="imgList.length < 3">
+				<img v-for="(item,index) in imgList" v-if="index == 0" :src="item?item:imgurl">	
+			</div>
 			<h1>{{article.title}}</h1>
+			<!-- 三图文 -->
+			<div class="img-wrap bfc-o" v-if="imgList.length >=3">
+				<img v-for="(item,index) in imgList" v-if="index < 3" :src="item?item:imgurl">	
+			</div>
 			<!-- picture -->
 			<div class="img-wrap bfc-o" v-if="1 == article.type && ArticleFile.length">
 				<img v-for="(item,index) in ArticleFile" v-if="index < 3" :src="item.url?(fileRoot+item.url):imgurl">			
@@ -45,6 +53,7 @@ export default {
 			publishtime:this.article.publishtime,
 			fileRoot:config.fileRoot+'/',
 			publisher:"",
+			imgList:[],
 		}
 	},
 	props:{
@@ -86,7 +95,9 @@ export default {
 					this.CommentNum = 0;
 				}					
 			});
-			this.publishtime = this.$Tool.publishTimeFormat(this.article.publishtime);		
+
+			this.publishtime = this.$Tool.publishTimeFormat(this.article.publishtime);	
+			this.imgList = this.$Tool.extractImg(this.article.content,3);
 		}
 	}
 }
@@ -135,5 +146,9 @@ export default {
 	.icon-play-circle{
 	    font-size: 50px;
 	    color: #666;		
+	}
+	.img-wrap.fr{
+		margin-bottom: 5px;
+		margin-left: 5px;
 	}
 </style>

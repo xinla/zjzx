@@ -172,6 +172,35 @@
 		>
 			
 		</alert>
+		<div class="vueCropper mask" v-if="ifCropper">
+			<vueCropper
+	            ref="cropper"
+	            :img="photOption.img"
+	            :outputSize="photOption.size"
+	            :outputType="photOption.outputType"
+	            :info="false"
+	            :full="photOption.full"
+	            :canMove="photOption.canMove"
+	            :canMoveBox="photOption.canMoveBox"
+	            :fixedBox="photOption.fixedBox"
+	            :original="photOption.original"
+	            :autoCropWidth="photOption.autoCropWidth"
+	            :autoCropHeight="photOption.autoCropHeight"
+	            :autoCrop="photOption.autoCrop"
+	            :fixed="photOption.fixed"
+	            :fixedNumber="photOption.fixedNumber"
+	            :centerBox="photOption.centerBox"
+	            >          	
+	        </vueCropper>
+	        <ul class="bf ac">
+	        	<li class="operate-li" @click="photoConfirm">
+	        		确定
+	        	</li>
+	        	<li class="operate-li" @click="photoCancle">
+	        		取消
+	        	</li>
+	        </ul>			
+		</div>
 	</div>
 </template>
 
@@ -179,7 +208,7 @@
 	import {Bus} from '@/store/eventBus'
 	import config from '@/lib/config/config'
 	import zSwitch from '@/components/common/switch'
-	import VueCropper from 'vue-cropper'
+	import vueCropper from 'vue-cropper'
 	import textArea from '@/components/textarea'
 	import bottomPopup from '@/components/bottomPopup'
 	
@@ -190,7 +219,8 @@
 		components:{
 			zSwitch,
 			textArea,
-			bottomPopup
+			bottomPopup,
+			vueCropper
 		},
 		data(){
 			return {
@@ -231,6 +261,29 @@
 				alertMes:'',
 				verCode:'',
 				inputMobile:'',
+				photOption: {
+	                img: '',//裁切图片的地址
+	                outputSize: 0.6,//裁剪生成图片的质量 0.1-1
+	                full: false,//是否输出原图比例的截图
+	                outputType: 'png',//裁剪生成图片的格式
+	                canMove: true,//图片是否允许滚轮缩放
+	                fixedBox: true,//固定截图框大小 不允许改变
+	                original: false,//上传图片按照原始比例渲染
+	                canMoveBox: true,//截图框能否拖动
+	                canMove:true,// 上传图片是否可以移动
+		            autoCropWidth: 100,//截图框大小
+		            autoCropHeight: 100,//截图框大小
+	                autoCrop:true,//是否默认生成截图框
+	                // 开启宽度和高度比例
+	                fixed: true,
+	                fixedNumber: [1, 1],
+	                centerBox:true,
+	            },
+	            ifCropper:false,
+	            upFile:{
+	            	name:"",
+	            },
+	            uploadImgName:"",
 			}
 		},
 		
@@ -302,11 +355,10 @@
 		},
 		methods: {
 			//上传头像
-			uploadAvatar(e) {
+			commitUpload() {
 				this.$loading.open(2);
-				let file = e.target.files[0];           
 		          let param = new FormData(); //创建form对象
-		          param.append('file',file,file.name);//通过append向form对象添加数据
+		          param.append('file',this.upFile,this.uploadImgName);//通过append向form对象添加数据
 		          fileService.uploadHeadImage(param,(data)=>{
 		          	if (data && data.status == "success") {
 			          	let src = data.result.url;
@@ -325,6 +377,50 @@
 					// console.log(this.imgurl);
 					// console.log(data);
 				})
+			},
+			uploadAvatar(e){
+				let file = e.target.files[0];    
+				if (!file) {return;}
+			    if (!this.$Tool.checkPic(file.name)) {
+			    	this.$vux.alert.show({
+					  content:'格式错误，仅限jpg、png、jpeg、gif格式',
+					})
+				    return;
+				 }
+				 if (!FileReader) {
+				 	alert("错误提示：版本太低不支持")
+				 	return;
+				 }
+				this.ifCropper = true;
+				this.$loading.open(2);
+				let fileReader = new FileReader();	
+			    fileReader.readAsDataURL(file);
+				fileReader.onload = (e) => {
+					// console.log(e)
+					this.photOption.img = e.target.result;
+					this.uploadImgName = file.name;
+				}
+				fileReader.onerror = function(){
+			    	this.$vux.alert.show({
+					  content:'文件读取失败，请重试',
+					})
+			    }
+				this.$loading.close();
+
+			},
+			photoConfirm(){
+				// 获取截图的base64 数据
+				let _this = this;
+				this.$refs.cropper.getCropData((data) => {
+					_this.photOption.img = ''
+					_this.upFile = data;
+					_this.$set(_this.upFile,"name",_this.uploadImgName);
+				});
+				this.commitUpload();
+				this.ifCropper = false;
+			},
+			photoCancle(){
+				 this.photOption.img = ''
 			},
 			show() {
 				console.log(this.value1);
@@ -520,5 +616,17 @@
 	}
 	.editInfo-modal-item .black{
 		color:#999;
+	}
+	.vuecropper{
+	}
+	.operate-li{
+	    display: inline-block;
+	    width: 20%;
+	    color: #fff;
+	    text-align: center;
+	    line-height: 36px;
+	    background: rgba(139, 139, 139, 0.99);
+	    border-radius: 10px;
+	    margin: 0 14%;
 	}
 </style>

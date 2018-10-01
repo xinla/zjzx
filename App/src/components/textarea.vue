@@ -64,7 +64,7 @@
 		}
 	}
 </script>
-<style>
+<style scoped>
 	.inputArea {
 		position: fixed;
 		top: 0;

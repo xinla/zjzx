@@ -130,7 +130,8 @@ export default{
 			    return;
 			 }
 			 if (!FileReader) {
-			 	alert("错误提示：")
+			 	alert("错误提示：版本太低不支持")
+			 	return;
 			 }
 			this.$loading.open(2);
 			let _this = this;

@@ -21,12 +21,12 @@
 					<button type="button" class="focus bfc-p" @click="doFocus(article.author,1)">{{focusState?'已关注':'关注'}}</button>
 				</div>
 				<div class="content">
-					{{ article.content }}
+					<div v-html="article.content"></div>
 					<div class="phone-content">
 						<div v-if="1 == article.type">
 							<img v-for="(item,index) in ArticleFile" :src="fileRoot + item.url" :alt="item.filename">							
 						</div>
-						<div v-else>
+						<div v-else-if="2 == article.type">
 							<video-player class="video-player vjs-custom-skin" 
 								ref="videoPlayer"
 							 	:playsinline="true"

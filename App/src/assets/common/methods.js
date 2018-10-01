@@ -203,14 +203,32 @@ const tool = {
   //图片格式判断
   checkPic(str){
     let reg = /\.(jpg|png|jpeg|gif)$/i;
-    str = str.toString();
+    str = String(str);
     return reg.test(str);
   },
   //视频格式判断
   checkVideo(str){
+    str = String(str);
     let reg = /\.(mp4)$/i;
     return reg.test(str);
-  }
+  },
+  //提取图片
+  //@str 图文内容
+  //@num 图片最大数量
+  extractImg(str,num){
+    str = String(str);
+    let reg = /<img.*src=[\'\"]?([^\'\"]*)[\'\"]?/gi,
+        arr = str.match(reg),
+        srcList = [];
+    if (arr && arr.length) {
+      if (arr.length > num) {arr.length = num}
+      arr.forEach((item,index)=>{
+        srcList.push(item.replace(/<img.*src=[\'\"]|[\'\"]/ig,""));
+      })
+    }
+    return srcList;     
+  },
+
 }
 
 export default {
