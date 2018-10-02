@@ -1,12 +1,18 @@
 <template>
-	<div class="top tf ac">
-		<div class="bfc-p back" @click="$emit('hrefTo')">
-			<i class="iconfont icon-left bfc-d">
+
+	<div class="top-back">
+		<div class="top-back-icon"  @click="$emit('hrefTo')">
+			<i class="iconfont icon-arrow-left">
 				<slot name="href"></slot>
 			</i>
 		</div>
-		<slot name="title">标题</slot>
-		<div class="bfc-p r-nav" v-if="showNav"><slot name="nav"></slot></div>
+		<div class="top-back-title">
+			<slot name="title"></slot>
+		</div>
+		
+		<div class="top-back-nav">
+			<slot name="nav"></slot>
+		</div>
 	</div>
 </template>
 <script>
@@ -24,26 +30,34 @@ export default {
 	},
 }	
 </script>
-<style scoped>
-	.top{
-		font-size: 16px;
-		background: #fff;
-	    line-height: 50px;
+<style lang="less">
+.top-back {
+	display: flex;
+	height: .87rem;
+	padding: 0 .34rem;
+	line-height: .87rem;
+	background-color: #fff;
+	margin-bottom: 10px;
+	border-bottom: .02rem solid @borderColor;
+	.top-back-icon{
+		width: .4rem;
+		.iconfont{
+			font-size: .4rem;
+			color: #666;
+		}
 	}
-	.back,.r-nav{
-	    color: #666;
-		top: 0;
-		padding: 0 5px;
+	
+	.top-back-title{
+		width: calc(100% - .67rem);
+		text-align: center;
+		color: #666;
+		font-size: .32rem;
 	}
-	.back{
-		left: 0;
+	.top-back-nav{
+		width: .6rem;
+		height: .3rem;
+		margin-top: .27rem;
+		font-size: .4rem;
 	}
-	.r-nav{
-		right: 0;
-		font-size: 14px;
-	}
-	.icon-left{
-		font-size: 20px;
-		vertical-align: top;
-	}
+}
 </style>
