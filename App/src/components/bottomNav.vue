@@ -14,7 +14,7 @@
 		</div>
 		<div class="footer-item">
 			<router-link :to="{path:'/vie'}" exact>
-				<i class="iconfont icon-video footer-icon"></i>
+				<i class="iconfont icon-shipin footer-icon"></i>
 				<span class="footer-text">视频</span>
 			</router-link>
 		</div>

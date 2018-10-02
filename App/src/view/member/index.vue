@@ -1,386 +1,351 @@
 <template>
-	<div class="member-wrap">
-		<div class="member-head">
-			<div class="member-headtop clearfix">
-				<div class="member-dark fl" @click="setDYNodel()">
-					<i class="iconfont">&#xe650;</i>
-					<span v-text="dayNight=='day'?'夜间':'白天'"></span>
-				</div>
-				<div class="member-sign-in fr">
-					<i class="iconfont">&#xe65d;</i>
-					<span>签到</span>
-				</div>
-			</div>
-			<!-- 未登录 -->
-			<div class="member-login" v-if="!ifLogin">
-				<ul class="member-login-way clearfix">
-					<li><i class="iconfont">&#xe61f;</i></li>
-					<li><i class="iconfont">&#xe61d;</i></li>
-					<li><i class="iconfont">&#xe7e5;</i></li>
-					<li><i class="iconfont">&#xe66e;</i></li>
-				</ul>
-				<div class="member-login-btn">
-					<router-link :to="{path:loginLink}">
-						<a href="javascript:void(0)">登录/注册</a>
-					</router-link>
-				</div>
-			</div>
-
-			<!-- 已登录 -->
-			<router-link :to="{ path:'/personBase/published',query:{current:1} }">				
-				<div class="member-user clearfix" v-if="ifLogin">
-					<div class="member-user-headimg fl">
-						<img :src="userPhoto" alt="">
-
-					</div>
-					<div class="member-user-box fl">
-						<h3 class="username">{{ userName }}</h3>
-						<div class="follow dib">关注<span>{{ focusNum }}</span></div>
-						<div class="fans dib">粉丝<span>{{ fansNum }}</span></div>
-					</div>
-					<div class="member-user-arrow fr">
-						<i class="iconfont">&#xe628;</i>
-					</div>
-				</div>
-			</router-link>
-
-
-			<div class="member-func">
-				<ul class="member-func-list clearfix">
-					<!-- <li class="member-func-item">
-						<i class="iconfont">&#xe616;</i>
-						<span>评论</span>
-					</li> -->
-					<router-link :to="{name:'collect',query:{current:4}}" class="member-func-item" tag="li">
-						<i class="iconfont">&#xe7a7;</i>
-						<span>收藏</span>
-					</router-link>
-					<router-link :to="{path:'history',query:{current:5}}" class="member-func-item" tag="li">
-						<i class="iconfont">&#xe629;</i>
-						<span>历史</span>
-					</router-link>
-					<router-link :to="{path:'/',query:{}}" class="member-func-item" tag="li">
-						<i class="iconfont">&#xe642;</i>
-						<span>占位</span>
-					</router-link>
-
-				</ul>
-			</div>
-		</div>
-		<div class="member-body" >
-			<ul class="member-modal">
-				<li class="member-modal-item clearfix" v-for='item in modal1'>
-					<router-link :to="{ path:item.link,query:{title:item.text} }">
-						<div class="member-icon fl">
-							<img :src="item.icon">
-						</div>
-						<p class="fl">{{item.text}}<b class="iconfont icon-arrow">&#xe628;</b></p>
-					</router-link>
-				</li>
-			</ul>
-			<ul class="member-modal">
-				<li class="member-modal-item clearfix" v-for='item in modal2'>
-					<router-link :to="{ path:item.link,query:{title:item.text} }">
-						<div class="member-icon fl">
-							<img :src="item.icon">
-						</div>
-						<p class="fl">{{item.text}}<b class="iconfont icon-arrow">&#xe628;</b></p>
-					</router-link>
-				</li>
-			</ul>
-			<ul class="member-modal">
-				<li class="member-modal-item clearfix" v-for='item in modal3'>
-					<router-link :to="{ path:item.link,query:{title:item.text} }">
-						<div class="member-icon fl">
-							<img :src="item.icon">
-						</div>
-						<p class="fl">{{item.text}}<b class="iconfont icon-arrow">&#xe628;</b></p>
-					</router-link>
-				</li>
-			</ul>
-		</div>
-		<zNav></zNav>
-	</div>
+  <div class="member-wrap">
+    <div class="member-header">
+      <!-- 未登录状态 -->
+       <div class="member-login-way" v-if="!ifLogin">
+        <h4 class="member-title">一键登录</h4>
+        <ul class="clearfix">
+          <li class="icon-item" v-for="item in loginArr" :key="item.id"><i class="iconfont" :class="item.class"></i></li>
+        </ul>
+        <router-link :to="{path:loginLink}">
+	        <div class="member-btn">
+	          <button>登录/注册</button>
+	        </div>
+	    </router-link>
+      </div>
+      <!-- 已登录 -->
+      <router-link :to="{ path:'/personBase/published',query:{current:1} }">
+	      <div class="member-login-in"  v-if="ifLogin">
+	        <div class="member-user">
+	          <div class="member-user-image">
+	            <img :src="userPhoto" alt="用户头像">
+	      		</div>
+	            <div class="member-user-desc">
+	              <h4 class="member-username">{{userName}}</h4>
+	              <p class="member-user-item member-user-focus">关注<span>{{focusNum}}</span></p>
+	              <p class="member-user-item member-user-fans">粉丝<span>{{fansNum}}</span></p>
+	            </div>
+	            <div class="member-user-arrow">
+	              <i class="iconfont icon-arrow-right"></i>
+	            </div>
+	          </div>
+	        </div>
+	     </router-link>
+      </div>
+      <div class="member-desc">
+        <ul class="member-desc-list">
+          <router-link class="member-desc-item" v-for="item in tabArr" :key="item.id" tag="li" :to="{path:item.path,query:{current:item.current}}">
+            <i class="iconfont" :class="item.class"></i>
+            <span class="member-desc-txt">{{item.desc}}</span>
+          </router-link>
+        </ul>
+      </div>
+      <div class="member-body">
+        <ul class="member-body-list">
+          <router-link class="member-body-item" v-for="item in menuArr" :key="item.id" tag="li" :to="{path:item.path,query:{title:item.desc}}">
+            <i class="iconfont icon-item" :class="item.class"></i>
+            <p class="member-body-desc">
+              <span>{{item.desc}}</span>
+              <i class="iconfont icon-arrow-right arrow-item"></i>
+            </p>
+          </router-link>
+        </ul>
+      </div>
+    </div>
 </template>
-
 <script>
-	import zNav from '@/components/bottomNav'
-	import config from '@/lib/config/config'
-	import fileService from '@/service/fileService'
-	export default {
-		components:{
-			zNav,
-		},
-		created(){
-			var userData;
-			if(localStorage.getItem('token')){
-				userData = JSON.parse(localStorage.userData);
-				this.userName = userData.username;
-				this.ifLogin=true;
-				if( userData.imageurl ){
-					try {
-						this.userPhoto = config.fileRoot + '/' + userData.imageurl;			
-					} 
-					catch(err){
-						console.log(41)
-					}
-				}				
-			}
+import config from '@/lib/config/config'
+import fileService from '@/service/fileService'
+export default {
 
-			if (localStorage.dayNight) {
-				if (localStorage.dayNight=='day') {
-					this.dayNight='day';
-				} else {
-					this.dayNight='night';
-				}
-			}
-		
-		},
-		data() {
-			return {
-				ifLogin:false,
-				userName:'用户名',
-				userPhoto:require('@/assets/images/userPhoto.jpg'),
-				focusNum:0,
-				fansNum:0,
-				dayNight:'day',
-				loginLink:'/memberBase/login',
-				modal1: [
-					{
-						icon: require('@/assets/images/icon-msg.png'),
-						text: '消息通知',
-						link: '/memberBase/messages'
-					},
-					{
-						icon: require('@/assets/images/icon-money.png'),
-						text: '我的钱包',
-						link: '/memberBase/wallet'
-					},
+  created() {
+  	this.$nextTick(()=>{
+  		 let userData;
+    if (localStorage.getItem('token')) {
+      userData = JSON.parse(localStorage.userData);
+      this.userName = userData.username;
+      this.ifLogin = true;
+      if (userData.imageurl) {
+        try {
+          this.userPhoto = config.fileRoot + '/' + userData.imageurl;
+        } catch (err) {
+          console.log(41)
+        }
+      }
+    }
+    console.log(this.ifLogin);
 
-				],
-				modal2: [
-					{
-						icon: require('@/assets/images/icon-zan.png'),
-						text: '积分商城',
-						link: '/memberBase/wallet'
-					},
-					{
-						icon: require('@/assets/images/icon-fankui.png'),
-						text: '用户反馈',
-						link: '/memberBase/feedback'
-					}
-				],
-				modal3: [
-					{
-						icon: require('@/assets/images/icon-setup.png'),
-						text: '系统设置',
-						link: '/memberBase/set'
-					},
-				],
+    if (localStorage.dayNight) {
+      if (localStorage.dayNight == 'day') {
+        this.dayNight = 'day';
+      } else {
+        this.dayNight = 'night';
+      }
+    }
+  	})
+   
 
-				
-			}
-		},
-		methods:{
-			transArgs(link,title){
-				this.router.push({
-					path:link,
-					query:{
-						title:title,
-					}
-				});
-			},
-			setDYNodel(){
-				if (this.dayNight=="day") {
-					localStorage.dayNight="night";	
-					this.dayNight="night";				
-				} else {
-					localStorage.dayNight="day";								
-					this.dayNight="day";				
-				}
-				// location.reload();
-				history.go(0)
-			}
-		}
-	}
+  },
+  data() {
+    return {
+      loginArr: [
+        { id: 1, class: 'icon-icon-copy' },
+        { id: 2, class: 'icon-qq' },
+        { id: 3, class: 'icon-weixin1' },
+        { id: 4, class: 'icon-weibo1' },
+      ],
+      tabArr: [
+        { id: 1, desc: '收藏', class: 'icon-not-collection', path: '/personBase/collect', current: 4 },
+        { id: 2, desc: '历史', class: 'icon-history', path: '/personBase/history', current: 5 },
+        { id: 3, desc: '夜间', class: 'icon-yejian' },
+      ],
+      menuArr: [
+        { id: 1, desc: '消息通知', class: 'icon-my-msg', path: '/topBase/message' },
+        { id: 2, desc: '我的关注', class: 'icon-zuji', path: '/topBase/focus' },
+        { id: 3, desc: '用户反馈', class: 'icon-dfabu', path: '/topBase/feedback' },
+        { id: 4, desc: '系统设置', class: 'icon-setup', path: '/topBase/set' }
+      ],
+      loginLink: '/topBase/login',
+ 		userName: '用户名',
+      ifLogin: false,
+      userPhoto: require('@/assets/images/userPhoto.jpg'),
+      focusNum: 0,
+      fansNum: 0,
+      dayNight: 'day',
+
+    }
+  },
+  methods: {
+    transArgs(link, title) {
+      this.router.push({
+        path: link,
+        query: {
+          title: title,
+        }
+      });
+    },
+    setDYNodel() {
+      if (this.dayNight == "day") {
+        localStorage.dayNight = "night";
+        this.dayNight = "night";
+      } else {
+        localStorage.dayNight = "day";
+        this.dayNight = "day";
+      }
+      // location.reload();
+      history.go(0)
+    }
+  }
+}
+
 </script>
+<style lang="less" scoped>
+.member-header {
+  padding: .3rem .4rem;
+  background-position: 0 0;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url('../../assets/images/logo-bg.png');
+  color: #fff;
 
-<style lang="css" scoped>
-	.member-wrap {
-		padding-bottom: 75px;
-	}
-	.member-head {
-		background-color: #fff;
-		padding: 15px 15px;
-	}
-	.member-headtop {
-		position: relative;
-		margin-bottom: 25px;
-	}
-	.member-headtop > div {
-		padding: 8px 12px;
-		text-align: center;
-		border: 1px solid #e8e8e8;
-		border-radius: 10px;
-		background-color: #fff;
-		font-size: 15px;
-		color: #1497ea;
-	}
-	.member-dark i {
-		font-size: 18px;
-		vertical-align: bottom;
-	}
-	.member-login {
-		padding: 0 20px;
-		border-bottom:1px solid #e8e8e8;
-	}
-	.member-login-way {
-		margin-bottom: 25px;
-	}
-	.member-login-way li {
-		float: 	left;
-		width: 25%;	
-		text-align: center;
-	}
-	.member-login-way li:last-child{
-		margin-right: 0;
-	}
-	.member-login-way i {
-		font-size: 32px;
-	}
-	.member-login-way li:first-child i {
-		color: #1ab2e8;
-	}
-	.member-login-way li:nth-child(2) i {
-		color: #1c999f;
-	}
-	.member-login-way li:nth-child(3) i {
-		color: #06bb14;
-	}
-	.member-login-way li:last-child i {
-		color: #d81e06;
-	}
+  .member-login-way {
+    .member-title {
+      font-size: .3rem;
+      line-height: .6rem;
+      letter-spacing: .02rem;
+    }
 
-	.member-login-btn {
-		text-align: center;
-		margin-top: 25px;
-		padding-bottom: 20px;
-	}
-	.member-login-btn a {
-		display: inline-block;
-		background-color: #ec414d;
-		padding: 6px 10px;
-		border-radius: 12px;
-		color: #fff;
-	}
+    ul {
+      padding: .5rem 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+      align-items: center;
+      justify-content: center;
 
-	.member-user {
-		padding: 20px 15px;
-		border-bottom:1px solid #e8e8e8;
-	}
-	.member-user-headimg{
-		width: 96px;
-		height: 96px;
-		
-	}
-	.member-user-headimg img{
-		display: block;
-		width: 100%;
-		height: 100%;
-		border-radius: 50%;
-		border: 1px solid #e8e8e8;
-	}
+      .icon-item {
+        flex: 1;
+        text-align: center;
 
-	.member-user-box {
-		padding-left: 20px;
-	}
+        .iconfont {
+          font-size: .6rem;
+          background-color: #fff;
+          padding: .2rem;
+          border-radius: 50%;
+        }
+      }
 
-	.member-user-box h3.username {
-		padding: 15px 0;
-		font-size: 18px;
-		font-weight: 600;
-		letter-spacing: 1px;
-	}
-	.member-user-box .follow,
-	.member-user-box .fans {
-		font-size: 14px;
-		color: #666;
-		margin-right: 8px;
-	}
+      .icon-item:first-child i {
+        color: #1ab2e8;
+      }
 
-	.member-user-box .follow span,
-	.member-user-box .fans span {
-		color: #222;
-		margin-left: 5px;
-		font-weight: 600;
-	}
-	.member-user-arrow {
-		margin-top: 25px;
-	}
-	.member-user-arrow  i{
-		font-size: 25px;
-		color: #999;
-	}
-	.member-func-list {
-		padding: .7em 0;
-		padding-top: 1em;
-		padding-bottom: .7em;
-		display: flex;
-	}
-	.member-func-item {
-		flex: 1;
-		text-align: center;
-		color: #666;
-	}
-	.member-func-list i{
-		display: block;
-		font-size: 24px;
-	}
+      .icon-item:nth-child(2) i {
+        color: #1c999f;
+      }
 
-	.member-func-list span {
-		display: block;
-		font-size: 16px;
-		padding-top: 6px;
-	}
-	.member-modal {
-		margin-top: 20px;
-		background-color: #fff;
-		padding-left: 15px;
+      .icon-item:nth-child(3) i {
+        color: #06bb14;
+      }
 
-	}
-	.member-modal-item {
-		width: 100%;
-		height: 50px;
-		line-height: 50px;
-	}
-	.member-modal-item .member-icon {
-		width: 20px;
-		height: 20px;
-		margin-top: 15px;
-	}
-	.member-modal-item .member-icon img {
-		display: block;
-		width: 100%;
-		height: 100%;
-	}
-	.member-modal-item p {
-		float: left;
-		width: calc(100% - 20px);
-		font-size: 16px;
-		border-bottom: 1px solid #e8e8e8;
-		text-indent: 15px;
-		padding-right: 15px;
-		position: relative;
-		letter-spacing: 1px;
-	}
+      .icon-item:last-child i {
+        color: #d81e06;
+      }
+    }
 
-	.member-modal .member-modal-item:last-child p {
-		border-bottom: none;
-	}
-	.member-modal-item b{
-		position: absolute;
-		top: 0;
-		right: 15px;
-		color: #999;
-	}
+    .member-btn {
+      text-align: center;
+      padding-top: .3rem;
+
+      button {
+        width: 2.4rem;
+        height: .7rem;
+        line-height: .7rem;
+        background-color: @mainColor;
+        color: #f1f1f1;
+        font-size: .28rem;
+        letter-spacing: .02rem;
+        border-radius: .24rem;
+      }
+    }
+  }
+
+  .member-user {
+    display: flex;
+    overflow: hidden;
+    padding: .15rem 0;
+
+    .member-user-image {
+      width: 1.4rem;
+      height: 1.4rem;
+      margin-right: .34rem;
+
+      img {
+      	display: block;
+      	width: 100%;
+      	height: 100%;
+        border-radius: 50%;
+        border: .04rem solid @borderColor;
+      }
+    }
+
+    .member-user-desc {
+      padding-top: .3rem;
+
+      .member-username {
+        width: 3rem;
+        max-width: 3rem;
+        letter-spacing: .02rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-bottom: .3rem;
+        font-size: .3rem;
+      }
+
+      .member-user-item {
+        display: inline-block;
+        color: #f1f1f1;
+        font-size: .24rem;
+        margin-right: .34rem;
+
+        span {
+          margin-left: .1rem;
+        }
+      }
+    }
+
+    .member-user-arrow {
+      margin-left: auto;
+
+      .iconfont {
+        font-size: .45rem;
+        display: block;
+        line-height: 1.4rem;
+      }
+    }
+  }
+}
+
+.member-desc {
+  background-color: #fff;
+
+  .member-desc-list {
+    display: flex;
+    border-bottom: .02rem solid @borderColor;
+    border-top: .02rem solid @borderColor;
+    padding: .18rem 0;
+
+    .member-desc-item {
+      flex: 1;
+      text-align: center;
+
+      .iconfont {
+        display: block;
+        margin-bottom: .13rem;
+        font-size: .48rem;
+      }
+
+      .icon-not-collection {
+        color: #f68f17;
+      }
+
+      .icon-history {
+        color: #f65d88;
+      }
+
+      .icon-yejian {
+        color: #678eff;
+      }
+
+      .member-desc-txt {
+        font-size: .28rem;
+        font-weight: 500;
+      }
+
+    }
+  }
+}
+
+.member-body {
+  margin-top: .4rem;
+  padding-bottom: .4rem;
+
+  .member-body-item {
+    display: flex;
+    height: .8rem;
+    line-height: .8rem;
+    background-color: #fff;
+    border-top: .02rem solid @borderColor;
+
+    .icon-item {
+      font-size: .32rem;
+      width: 1rem;
+      text-align: center;
+    }
+
+    .member-body-desc {
+      width: calc(100% - 1rem);
+      height: 100%;
+      color: #333;
+      font-size: .28rem;
+      border-bottom: .02rem solid @borderColor;
+
+      .arrow-item {
+        float: right;
+        padding-right: .3rem;
+      }
+    }
+  }
+
+  .member-body-item:nth-child(2n) {
+    border-top: none;
+    border-bottom: .02rem solid @borderColor;
+    margin-bottom: .4rem;
+  }
+
+  .member-body-item:nth-child(2n) .member-body-desc {
+    border-bottom: none;
+  }
+}
+
 </style>

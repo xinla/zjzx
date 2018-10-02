@@ -52,7 +52,7 @@
 				<span class="footer-text">消息</span>
 			</div>
 			<div :class="['footer-item',{'current':3 == showIndex}]" @click="show(3)">
-				<i class="iconfont icon-video footer-icon"></i>
+				<i class="iconfont icon-shipin footer-icon"></i>
 				<span class="footer-text">视频</span>
 			</div>
 			<div :class="['footer-item',{'current':4 == showIndex}]" @click="show(4)">
@@ -351,7 +351,7 @@ import articleClassifyService from '@/service/article_classifyService'
 		text-align: center;
 		overflow: hidden;
 		background-color: #fff;
-		border-top: .1rem solid @borderColor;
+		border-top: .02rem solid @borderColor;
 		.footer-item {
 			float: left;
 			width: 25%;
@@ -367,7 +367,7 @@ import articleClassifyService from '@/service/article_classifyService'
 			}
 		}
 		.footer-item a.router-link-active,.current{
-			color: #f40;
+			color: @mainColor;
 		}
 	}
 	

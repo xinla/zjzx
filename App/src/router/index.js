@@ -74,8 +74,8 @@ export default new Router({
     },
     //会员中心
     {
-      path:'/memberBase',
-      name:'memberBase',
+      path:'/topBase',
+      name:'topBase',
       redirect:'/member',
       component: (resolve)=>{
         require(['@/components/common/baseTop.vue'],resolve)

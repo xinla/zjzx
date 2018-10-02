@@ -14,7 +14,7 @@
 					</div>
 					<ul class="more-list clearfix">
 						<li class="more-item">关注</li>
-						<li class="more-item" v-for="(item,index) in newList" :key="item.classifycode">
+						<li class="more-item" v-for="(item,index) in oldList" :key="item.classifycode" @click="removeChannel(item)">
 							{{item.classifyname}}
 							<i class="iconfont remove-icon" v-show="removeShow">&#xe68c;</i>
 						</li>
@@ -28,7 +28,7 @@
 						</div>
 					</div>
 					<ul class="more-list clearfix">
-						<li class="more-item more-add-item" v-for="(item,index) in newList" :key="item.classifycode">
+						<li class="more-item more-add-item" v-for="(item,index) in newList" :key="item.classifycode" @click="addChannel(item)">
 							<i class="iconfont add-icon">&#xe603;</i>
 							{{item.classifyname}}		
 						</li>
@@ -59,23 +59,39 @@
 					{classifycode:7, classifyname:'汽车'},
 					{classifycode:8, classifyname:'体育'},
 					{classifycode:9, classifyname:'财经'},
-					{classifycode:10, classifyname:'国际'},
-					{classifycode:11, classifyname:'时尚'},
-					{classifycode:12, classifyname:'游戏'},
-					{classifycode:13, classifyname:'旅游'},
-					{classifycode:15, classifyname:'历史'},
-					{classifycode:16, classifyname:'历史'},
-					{classifycode:17, classifyname:'历史'},
-					{classifycode:18, classifyname:'历史'},
-					{classifycode:19, classifyname:'历史'},
-					{classifycode:20, classifyname:'历史'},
-					{classifycode:21, classifyname:'历史'},
-					{classifycode:22, classifyname:'历史'},
-					{classifycode:23, classifyname:'历史'}
+					{classifycode:10, classifyname:'国际'},	
+				],
+				oldList:[
+					{classifycodes:1, classifyname:'时尚'},
+					{classifycodes:2, classifyname:'游戏'},
+					{classifycodes:3, classifyname:'旅游'},
+					{classifycodes:5, classifyname:'的额'},
+					{classifycodes:6, classifyname:'戳博'},
+					{classifycodes:7, classifyname:'二恶'},
+					{classifycodes:8, classifyname:'额外人人'},
+					{classifycodes:9, classifyname:'破额'},
+					{classifycodes:10, classifyname:'哈哈'},
+					{classifycodes:11, classifyname:'英语'},
+					{classifycodes:12, classifyname:'皮皮'},
+					{classifycodes:13, classifyname:'那你'}
 				]
 			}
 		},
 		methods:{
+			// 添加频道
+			addChannel(item){
+					this.oldList.push(item);
+					this.newList.splice(item,1)
+			},
+			// 移除频道
+			removeChannel(item){
+				let suc = "成功";
+				if(this.editText == suc){
+					this.newList.push(item);
+					this.oldList.splice(item,1)
+				}
+
+			},
 			handleEdit(){
 				this.removeShow = !this.removeShow;
 				if(this.removeShow == false) {

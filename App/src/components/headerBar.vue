@@ -11,7 +11,7 @@
 		</div>
 		<div class="header-menu">
 			<div @click="handleRelease">
-				<i class="iconfont menu-icon">&#xe603;</i>
+				<i class="iconfont icon-add menu-icon"></i>
 				<p class="menu-text">发布</p>
 			</div>
 			<transition  enter-active-class="animated fadeIn" leave-active-class=" animated fadeOut">
