@@ -29,6 +29,9 @@ export default {
 		}
 	},
 	mounted () {
+		if (!this.classify) {
+			this.getArtList();			
+		}
 	},
 	data(){
 		return {
@@ -60,7 +63,7 @@ export default {
 				this.$options.methods.getArtList.call(this);
 			}
 			this.scrollTop = $(e.target).scrollTop();
-			console.log(this.scrollTop);
+			// console.log(this.scrollTop);
 		},
 
 	},
@@ -72,7 +75,7 @@ export default {
 			if (val) {				
 				this.getArtList();
 				// this.ifLoad = false;
-				console.log(1)
+				// console.log(1)
 			}
 		}
 	}

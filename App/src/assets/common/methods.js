@@ -184,8 +184,12 @@ const tool = {
   @dateString:2018-1-6 15:25:42
   */
   publishTimeFormat(dateString){
-    let pubMillis = new Date(dateString.replace(/-/g,'/')).getTime(),
-        curMillis = new Date().getTime(),
+    let pubDate = new Date(String(dateString).replace(/-/g,'/')),
+        curDate = new Date(),
+        pubMillis = pubDate.getTime(),
+        pubYear = pubDate.getFullYear(),
+        curMillis = curDate.getTime(),
+        curYear = curDate.getFullYear(),
         difference = curMillis - pubMillis;
     if (difference < 4.32e+7) { //12小时内
       if (difference < 3.6e+6) { //60分钟内
@@ -197,6 +201,8 @@ const tool = {
       } else {
         dateString = Math.floor(difference/3600000) + "小时前";
       }
+    }else if (pubYear == curYear) {
+      dateString = dateString.substr(5);
     }
     return dateString;
   },

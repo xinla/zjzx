@@ -26,7 +26,7 @@
 					</div>
 					<div class="main">
 						<loading-main v-show="ifLoad"></loading-main>
-						<swiper v-model="classifyIndex" @on-index-change="swiperChange()" height="500px" :show-dots="false">
+						<swiper v-model="classifyIndex" height="500px" :show-dots="false">
 					        <swiper-item>
 					          	<articleList :show="0 == classifyIndex"></articleList>
 					        </swiper-item>
@@ -41,7 +41,6 @@
 			</div>
 		</template>
 		<member v-show="4 == showIndex"></member>
-		<!-- <detail :id="articleId" v-show="ifDetail"></detail> -->
 		<div class="footer-nav">
 			<div :class="['footer-item',{'current':1 == showIndex}]" @click="show(1)">
 				<i class="iconfont icon-index footer-icon"></i>
@@ -77,7 +76,6 @@ import articleList from '@/view/part/articleList'
 
 import zjzxVideo from '@/view/video'
 import member from '@/view/member/index'
-import detail from '@/view/detail'
 
 // import fangPian from '@/view/part/fangPian'
 
@@ -102,7 +100,6 @@ import articleClassifyService from '@/service/article_classifyService'
 			articleList,
 			member,
 			zjzxVideo,
-			detail,
 			Popup
 		},
 		created () {
@@ -140,14 +137,13 @@ import articleClassifyService from '@/service/article_classifyService'
 
 	    	this.$nextTick(()=>{
 	    		articleClassifyService.getArticleClassifyList(data=>{
-				if (data && data.status == "success") {
-					this.classifyList = data.result.classfyList;					
-					// console.log(this.classifyList)
-				}
-			});
+					if (data && data.status == "success") {
+						this.classifyList = data.result.classfyList;					
+						// console.log(this.classifyList)
+					}
+				});
 	    		this.ifLoad = false;
 	    	})
-	    	// console.log(0 == this.classifyIndex)
 
 			// this.$options.methods.getArtList.call(this);
 			

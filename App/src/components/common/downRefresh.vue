@@ -1,5 +1,5 @@
 <template>
-	<div class="scroll-wrap" @scroll="$emit('scrolling',this)">
+	<div class="scroll-wrap" @scroll="$emit('scrolling',$event)">
 		<div class="refresh ac" :class="{animate:animate}" :style="{'height':lineHeight + 'px',lineHeight: lineHeight + 'px',}">
 			{{ tipText }}
 		</div>

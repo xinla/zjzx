@@ -176,7 +176,7 @@
 			<vueCropper
 	            ref="cropper"
 	            :img="photOption.img"
-	            :outputSize="photOption.size"
+	            :outputSize="photOption.outputSize"
 	            :outputType="photOption.outputType"
 	            :info="false"
 	            :full="photOption.full"
@@ -271,8 +271,8 @@
 	                original: false,//上传图片按照原始比例渲染
 	                canMoveBox: true,//截图框能否拖动
 	                canMove:true,// 上传图片是否可以移动
-		            autoCropWidth: 100,//截图框大小
-		            autoCropHeight: 100,//截图框大小
+		            autoCropWidth: 300,//截图框大小
+		            autoCropHeight: 300,//截图框大小
 	                autoCrop:true,//是否默认生成截图框
 	                // 开启宽度和高度比例
 	                fixed: true,
@@ -282,6 +282,7 @@
 	            ifCropper:false,
 	            upFile:{
 	            	name:"",
+	            	name2:"",
 	            },
 	            uploadImgName:"",
 			}
@@ -291,7 +292,7 @@
 			this.$nextTick(()=>{
 				let data = userService.getCurentUser();
 				if (data&&data.status == "success") {
-					this.$data.user = data.result.user;					
+					this.user = data.result.user;					
 					localStorage.userData = JSON.stringify(data.result.user);
 				}
 				// console.log(this.$data.user)
@@ -357,14 +358,20 @@
 			//上传头像
 			commitUpload() {
 				this.$loading.open(2);
-		          let param = new FormData(); //创建form对象
-		          param.append('file',this.upFile,this.uploadImgName);//通过append向form对象添加数据
-		          fileService.uploadHeadImage(param,(data)=>{
+		        let param = new FormData(); //创建form对象
+					// console.log(this.upFile)
+		        param.append('file',this.upFile,this.upFile.name);//通过append向form对象添加数据
+					// debugger;
+		        // debugger
+		        fileService.uploadHeadImage(param,(data)=>{
 		          	if (data && data.status == "success") {
 			          	let src = data.result.url;
 			          	this.$loading.close();
 			          	this.imgurl = config.fileRoot +'/'+ src;
 			          	this.user.imageurl=src;
+			          	console.log(this.user)
+					debugger
+
 			          	userService.updateUser(this.user)	          		
 		          	} else {
 			          	this.$loading.close();
@@ -379,8 +386,8 @@
 				})
 			},
 			uploadAvatar(e){
-				let file = e.target.files[0];   
-				console.log( e.target.files) 
+				let file = e.target.files[0]; 
+				// console.log(file)  
 				if (!file) {return;}
 			    if (!this.$Tool.checkPic(file.name)) {
 			    	this.$vux.alert.show({
@@ -397,8 +404,14 @@
 				let fileReader = new FileReader();	
 			    fileReader.readAsDataURL(file);
 				fileReader.onload = (e) => {
-					console.log(e)
-					this.photOption.img = e.target.result;
+					let data
+					if (typeof e.target.result === 'object') {
+						// 把Array Buffer转化为blob 如果是base64不需要
+						data = window.URL.createObjectURL(new Blob([e.target.result]))
+					} else {
+						data = e.target.result
+					}
+					this.photOption.img = data;
 					this.uploadImgName = file.name;
 				}
 				fileReader.onerror = function(){
@@ -407,35 +420,29 @@
 					})
 			    }
 				this.$loading.close();
-
+				//取消两次选择同一个文件是不能触发onchange事件问题
+				e.target.value = "";
 			},
 			photoConfirm(){
-				// 获取截图的base64 数据
-				let _this = this;
+				// 获取截图的blob数据
 				this.$refs.cropper.getCropBlob((data) => {
-					_this.photOption.img = ''
-					_this.upFile = data;
-					_this.$set(_this.upFile,"name",_this.uploadImgName);
+					this.upFile = data;
+					this.photOption.img = ''
+					this.$set(this.upFile,"name",this.uploadImgName);
+					// console.log(this.upFile)
+					// debugger;
+					this.commitUpload();
+					this.ifCropper = false;
+					
 				});
-				this.commitUpload();
-				this.ifCropper = false;
+					// console.log(this.upFile)
+					// debugger;
 			},
 			photoCancle(){
 				this.photOption.img = ''
 				this.ifCropper = false;
 
 			},
-			// 将base64的图片转换为file文件
-		    convertBase64UrlToBlob(urlData) {
-		      let bytes = window.atob(urlData.split(',')[1]);//去掉url的头，并转换为byte
-		      //处理异常,将ascii码小于0的转换为大于0
-		      let ab = new ArrayBuffer(bytes.length);
-		      let ia = new Uint8Array(ab);
-		      for (var i = 0; i < bytes.length; i++) {
-		        ia[i] = bytes.charCodeAt(i);
-		      }
-		      return new Blob([ab], { type: 'image/jpeg' });
-		    },
 			show() {
 				console.log(this.value1);
 				console.log(this.user.username);
@@ -616,7 +623,6 @@
 		width: 100%;
 		height: 100%;
 	}
-
 	.editInfo-tit{
 		padding: 0 15px 15px 15px;
 		color: #999;
@@ -631,8 +637,6 @@
 	.editInfo-modal-item .black{
 		color:#999;
 	}
-	.vuecropper{
-	}
 	.operate-li{
 	    display: inline-block;
 	    width: 20%;
@@ -642,5 +646,14 @@
 	    background: rgba(139, 139, 139, 0.99);
 	    border-radius: 10px;
 	    margin: 0 14%;
+	}
+</style>
+<style>	
+	/*vuecropper 样式修改*/
+	.cropper-modal{
+	    background: rgb(66, 66, 66);
+	}
+	.vue-cropper{
+		background-image: none !important;
 	}
 </style>

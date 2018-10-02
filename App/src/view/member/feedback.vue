@@ -1,22 +1,25 @@
 <template>
 	<div>
 		<div class="tabbar bfc-o">
-			<div :class="['tablist', {'current-tab':showF}]" @click="showFeedback()">意见反馈</div>
-			<div :class="['tablist', {'current-tab':showQ}]" @click="showQuestion()">常见问题</div>
+			<div :class="['tablist', {'current-tab':showSwitch}]" @click="showFeedback()">意见反馈</div>
+			<div :class="['tablist', {'current-tab':!showSwitch}]" @click="showQuestion()">常见问题</div>
 		</div>
 		<div class="main">
-			<div class="feedback-box" v-show="showF">
+			<div class="feedback-box" v-show="showSwitch">
 					<p>问题和意见</p>
 					<textarea name="" v-model="content" placeholder="描述" required ></textarea>
 					<div class="thumb-wrap">
-						<img v-if="image" :src="image">
+						<div class="thumb bfc-d" v-if="image">
+							<i class="iconfont icon-close-circle" @click="removeImg"></i>
+							<img :src="image">							
+						</div>
 						<label for="upimg" class="icon-plus iconfont" v-if="!image"></label>
 						<input type="file" id="upimg" accept="image/*" @change="uploadFile">
 					</div>
 					<button type="button" @click="publish">提交</button>
 					
 			</div>
-			<table class="qa" v-show="showQ">
+			<table class="qa" v-show="!showSwitch">
 				<tr class="qa-list">
 					<td class="qa-left">
 						Q：
@@ -91,11 +94,6 @@
 				</tr>
 			</table>		
 		</div>
-		<div class="clip-wrap mask">
-			<div class="cc">
-				
-			</div>
-		</div>
 	</div>
 </template>
 
@@ -105,20 +103,17 @@ import feedbackService from '@/service/feedbackService'
 export default{
 	data(){
 		return {
-			showF:true,
-			showQ:false,
+			showSwitch:true,
 			content:"",
 			image:"",
 		}
 	},
 	methods:{
 		showFeedback(){
-			this.showF = true;
-			this.showQ = false;
+			this.showSwitch = true;
 		},
 		showQuestion(){
-			this.showF = false;
-			this.showQ = true;
+			this.showSwitch = false;
 		},
 		uploadFile(e){
 			let file = e.target.files[0];    
@@ -134,18 +129,18 @@ export default{
 			 	return;
 			 }
 			this.$loading.open(2);
-			let _this = this;
 		    let fileReader = new FileReader();
 		    fileReader.readAsDataURL(file);
-		    fileReader.onload = function(){
-		    	_this.image = this.result;
+		    fileReader.onload = (e) => {
+		    	this.image = e.target.result;
 		    }
-		    fileReader.onerror = function(){
+		    fileReader.onerror = () => {
 		    	this.$vux.alert.show({
 				  content:'文件读取失败，请重试',
 				})
 		    }
 			this.$loading.close();
+			e.target.value = "";
 			// console.log(this.image)
 			// debugger;
 
@@ -189,6 +184,9 @@ export default{
 				})
 			}
 		},
+		removeImg(){
+			this.image = "";
+		}
 		// getFeedback(){
 		// 	feedbackService.getUserFeedBack(data=>{
 		// 		if (data && data.status == "success") {
@@ -281,11 +279,13 @@ export default{
 		height: 0;
 		width: 0;
 	}
-	.mask{
-		display: none;
+	.thumb{
+		display: inline-block;
 	}
-	.cc{
-		width: 300px;
-		height: 300px;
+	.icon-close-circle{
+		position:absolute;
+		top: -8px;
+		right:0;
+		line-height: 20px;
 	}
 </style>

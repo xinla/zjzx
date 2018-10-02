@@ -82,11 +82,15 @@ export default {
 					this.ArticleFile = data.result.filelist;				
 				}				
 			});
-			userService.getUserById(this.article.author,data=>{
-				if (data && data.status == "success") {
-					this.publisher = data.result.user.username;
-				}
-			});
+			if (this.article.author) {
+				userService.getUserById(this.article.author,data=>{
+					if (data && data.status == "success") {
+						this.publisher = data.result.user.username;
+					}
+				});				
+			}else{
+				this.publisher = "真相官方";
+			}
 			// 获取文章评论数量
 			articleCommentService.getArticleCommentCount(this.article.id,data=>{
 				if (data.status == "success") {
