@@ -33,7 +33,7 @@
 		</div>
 		<div class="member-tab">
 			<ul class="member-switch">
-				<router-link class="member-switch-item active" v-for="(item, index) in switchList" tag="li" :to="{path:item.path,query:{current:item.query}}" exact>{{item.desc}}
+				<router-link class="member-switch-item active" v-for="(item, index) in switchList" tag="li" :to="{path:item.path,query:{current:item.query}}" :key="item.query" exact>{{item.desc}}
 				</router-link>
 			</ul>
 		</div>
@@ -125,7 +125,7 @@ export default {
 			.member-msg-image{
 				width: 1.4rem;
 				height: 1.4rem;
-				margin-right: .5rem;
+				// margin-right: .6rem;
 				img {
 					display: block;
 					width: 100%;
@@ -134,18 +134,22 @@ export default {
 					border: .04rem solid @borderColor;
 				}
 			}
-			.member-msg-list{
-				display: flex;
-				overflow: hidden;
-				padding-top: .1rem;
-				.member-msg-item{
-					text-align: center;
-					margin-right: .7rem;
-					font-size: .24rem;
-					span{
-						display: block;
-						margin-bottom: .1rem;
+			.member-msg-modal {
+				position: absolute;
+				right: .4rem;
+				.member-msg-list{
+					display: flex;
+					overflow: hidden;
+					padding-top: .1rem;
+					.member-msg-item{
+						text-align: center;
+						margin-right: .7rem;
+						font-size: .24rem;
+						span{
+							display: block;
+							margin-bottom: .1rem;
 
+						}
 					}
 				}
 			}

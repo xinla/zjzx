@@ -5,14 +5,18 @@
 			<div class="img-wrap fr" v-if="imgList.length < 3">
 				<img v-for="(item,index) in imgList" v-if="index == 0" :src="item?item:imgurl">	
 			</div>
-			<h1>{{article.title}}</h1>
+			<h1 class="articel-title">{{article.title}}</h1>
 			<!-- 三图文 -->
 			<div class="img-wrap bfc-o" v-if="imgList.length >=3">
 				<img v-for="(item,index) in imgList" v-if="index < 3" :src="item?item:imgurl">	
 			</div>
 			<!-- picture -->
-			<div class="img-wrap bfc-o" v-if="1 == article.type && ArticleFile.length">
-				<img v-for="(item,index) in ArticleFile" v-if="index < 3" :src="item.url?(fileRoot+item.url):imgurl">			
+			<div class="img-wrap img-three bfc-o" v-if="1 == article.type && ArticleFile.length">
+				<ul class="img-list clearfix">
+					<li class="img-item" v-for="(item, index) in ArticleFile" v-if="index < 3">
+						<img :src="item.url?(fileRoot+item.url):imgurl" alt="">
+					</li>
+				</ul>
 			</div>
 			<!-- video -->
 			<div class="big bfc-o" v-else-if="2 == article.type && ArticleFile.length">
@@ -63,7 +67,7 @@ export default {
 			type:Boolean,
 			default:true,
 		},
-		ifDel:false,
+		ifDel:true,
 	},
 	mounted(){
 		this.$nextTick(()=>{
@@ -106,8 +110,52 @@ export default {
 	}
 }
 </script>
-<style scoped>
-	.text-wrap{
+<style lang="less" scoped>
+	.text-wrap {
+		padding: .3rem;
+		border-bottom: .02rem solid @borderColor;
+		background-color: #fff;
+		.articel-title {
+			font-size: .28rem;
+			font-weight: 500;
+			line-height: .4rem;
+			margin-bottom: .2rem; 
+		}
+		.img-three{
+			margin-bottom: .35rem;
+			.img-item {
+				float: left;
+				width: 32%;
+				height: 1.3rem;
+				border: .02rem solid @borderColor;
+				margin-right: 2%;
+				img{
+					display: block;
+					width: 100%;
+					height: 100%;
+					object-fit: fill;
+				}
+			}
+			.img-item:last-child{
+				margin-right: 0;
+			}
+		}
+		.pub {
+			line-height: .4rem;
+			font-size: .24rem;
+			color: #999;
+			.delete{
+				width: .5rem;
+				height: .4rem;
+				line-height: .4rem;
+				border: .02rem solid @borderColor;
+				border-radius: .12rem;
+				text-align: center;
+				font-size: .2rem;
+			}
+		}
+	}
+	/* .text-wrap{
 	    border-bottom: 1px solid #eee;
 	    background-color: #fff;
 	    padding: .3rem .2rem;
@@ -136,7 +184,7 @@ export default {
 		margin:0 1%;
 	}
 	small.delete {
-        font-size: 0.85em;
+	        font-size: 0.85em;
 	    background: #eee;
 	    width: 1.1em;
 	    line-height: 1.1em;
@@ -156,5 +204,5 @@ export default {
 	.img-wrap.fr{
 		margin-bottom: 5px;
 		margin-left: 5px;
-	}
+	} */
 </style>
