@@ -196,6 +196,13 @@ export default{
 		// 		}
 		// 	});
 		// }
+	},
+	beforeRouteEnter (to, from, next) {
+		if (!localStorage.id ) { 
+            GoTruth.$Tool.loginPrompt(); 
+        }else{
+          next();
+        } 
 	}
 	
 }

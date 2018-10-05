@@ -31,15 +31,15 @@ service.loginByMobile = function(mobile,code,call){
 	})
 }
 
-//获取用户的Id和token令牌
+//获取用户的信息
 service.getUserById = function(targetuserid,call) {
 	
 	let username = localStorage.getItem('username');
 
 	var params = {
-		token,
-		userid,
-		username,
+		token:token || 13,
+		userid:userid ||13,
+		username:username || 13,
 		targetuserid,
 	};
 	if (call) {

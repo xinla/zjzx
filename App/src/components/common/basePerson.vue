@@ -6,7 +6,7 @@
 		<div class="member-msg">
 			<div class="member-msg-header">
 				<div class="member-msg-image">
-					<img src="../../assets/images/header.jpeg" alt="">
+					<img :src="userPhoto" alt="">
 				</div>
 				<div class="member-msg-modal">
 					<ul class="member-msg-list">
@@ -33,7 +33,7 @@
 		</div>
 		<div class="member-tab">
 			<ul class="member-switch">
-				<router-link class="member-switch-item active" v-for="(item, index) in switchList" tag="li" :to="{path:item.path,query:{current:item.query}}" :key="item.query" exact>{{item.desc}}
+				<router-link class="member-switch-item active" v-for="(item, index) in switchList" tag="li" :to="{path:item.path,query:{current:item.query}}" :key="index" exact>{{item.desc}}
 				</router-link>
 			</ul>
 		</div>
@@ -97,16 +97,21 @@ export default {
 			if (data && data.status == "success" ) {
 				this.fansNum = data.result.count;
 			}
-		});
-		
+		});		
 		//获取关注数量
 		followService.getUserFollowCount(data=>{
 			if (data && data.status == "success" ) {
 				this.focusNum = data.result.count;
 			}
-		});
-		
+		});		
 	},
+	beforeRouteEnter (to, from, next) {
+		if (!localStorage.id ) { 
+            GoTruth.$Tool.loginPrompt(); 
+        }else{
+          next();
+        } 
+	}
 }
 </script>
 

@@ -5,7 +5,7 @@
 			<multIT v-for="(item,index) in arcList" :article="item" :ifPublisher="true" :key="index"></multIT>
 			<!-- <bigIVT :article="item" v-else-if="item.type==2"></bigIVT>	 -->
 			<!-- <smaIVT :article="item" v-else="item.type==3"></smaIVT> -->
-			<load-more v-show="arcList.length" tip="正在加载"></load-more>				
+			<load-more v-show="arcList.length && ifLoad" tip="正在加载"></load-more>				
 		</div>
 	</downRefresh>
 </template>
@@ -38,13 +38,14 @@ export default {
 			arcList:[],
 			pageSize:1,
 			lock:false,
-			// ifLoad:true,
+			ifLoad:true,
 			scrollTop:0,			
 		}
 	},
 	methods:{
 		getArtList(){
 			this.lock = true;
+			this.ifLoad = true;
 			let resArticlePage;
 			if(this.classify == 0){
 				resArticlePage = articleService.articlePage(this.pageSize,15);
@@ -55,6 +56,7 @@ export default {
 				this.arcList = this.arcList.concat(resArticlePage.recordPage.list);	
 				this.pageSize++;
 				this.lock = false;
+				this.ifLoad = false;
 				// console.log(this.arcList);articlePage
 			}
 		},

@@ -31,33 +31,37 @@ export default{
 			login:false,
 		}
 	},
+	mounted(){
+		this.login=true;
+	},
 	methods:{
 		clearCache(){
 
 		},
 		exit(){
+			if (!localStorage.id) {
+				this.$vux.alert.show({
+				  	content:'您还没登录哦！',
+				})
+				return;
+			}
 			let resLogOut = userService.logOut();
 			if (resLogOut && resLogOut.status=="success") {
 				localStorage.clear();
 				this.$vux.alert.show({
 				  	content:'退出成功',
 				})
-				setTimeout(()=>{
-					this.$vux.alert.hide();
-				},1000)			
+				// setTimeout(()=>{
+				// 	this.$vux.alert.hide();
+				// },1000)			
 			} else {
 				this.$vux.alert.show({
 				  	content:'退出失败',
-				})
-				setTimeout(()=>{
-					this.$vux.alert.hide();
-				},1000)	
+				})	
 			}
-		}
+		},
 	},
-	mounted(){
-		this.login=true;
-	}
+	
 }
 </script>
 

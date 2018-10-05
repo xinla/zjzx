@@ -290,6 +290,7 @@
 		
 		mounted(){
 			this.$nextTick(()=>{
+				if (!localStorage.id) {return;}
 				let data = userService.getCurentUser();
 				if (data&&data.status == "success") {
 					this.user = data.result.user;					
@@ -348,11 +349,7 @@
 				if(this.$data.user.mobile == null) {
 					this.user.mobile='未绑定'
 				}
-
-
-			})
-			
-			
+			})			
 		},
 		methods: {
 			//上传头像
@@ -559,6 +556,13 @@
 					},1000)
 				}
 			}
+		},
+		beforeRouteEnter (to, from, next) {
+			if (!localStorage.id ) { 
+	            GoTruth.$Tool.loginPrompt(); 
+            }else{
+              next();
+            } 
 		}
 	}
 		

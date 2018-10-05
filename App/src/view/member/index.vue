@@ -1,7 +1,7 @@
 <template>
   <div class="member-wrap">
     <div class="member-header">
-      <!-- 未登录状态 -->
+      <!-- 未登录 -->
        <div class="member-login-way" v-if="!ifLogin">
         <h4 class="member-title">一键登录</h4>
         <ul class="clearfix">
@@ -57,34 +57,30 @@
 import config from '@/lib/config/config'
 import fileService from '@/service/fileService'
 export default {
-
   created() {
   	this.$nextTick(()=>{
-  		 let userData;
-    if (localStorage.getItem('token')) {
-      userData = JSON.parse(localStorage.userData);
-      this.userName = userData.username;
-      this.ifLogin = true;
-      if (userData.imageurl) {
-        try {
-          this.userPhoto = config.fileRoot + '/' + userData.imageurl;
-        } catch (err) {
-          console.log(41)
+  		let userData;
+      if (localStorage.getItem('token')) {
+        userData = JSON.parse(localStorage.userData);
+        this.userName = userData.username;
+        this.ifLogin = true;
+        if (userData.imageurl) {
+          try {
+            this.userPhoto = config.fileRoot + '/' + userData.imageurl;
+          } catch (err) {
+            console.log(41)
+          }
         }
       }
-    }
-    console.log(this.ifLogin);
-
-    if (localStorage.dayNight) {
-      if (localStorage.dayNight == 'day') {
-        this.dayNight = 'day';
-      } else {
-        this.dayNight = 'night';
+      // console.log(this.ifLogin);
+      if (localStorage.dayNight) {
+        if (localStorage.dayNight == 'day') {
+          this.dayNight = 'day';
+        } else {
+          this.dayNight = 'night';
+        }
       }
-    }
-  	})
-   
-
+  	})  
   },
   data() {
     return {
@@ -100,8 +96,8 @@ export default {
         { id: 3, desc: '夜间', class: 'icon-yejian' },
       ],
       menuArr: [
-        { id: 1, desc: '消息通知', class: 'icon-my-msg', path: '/topBase/message' },
-        { id: 2, desc: '我的关注', class: 'icon-zuji', path: '/topBase/focus' },
+        { id: 1, desc: '消息通知', class: 'icon-my-msg', path: '/topBase/messages' },
+        { id: 2, desc: '我的关注', class: 'icon-zuji', path: '/personBase/focus' },
         { id: 3, desc: '用户反馈', class: 'icon-dfabu', path: '/topBase/feedback' },
         { id: 4, desc: '系统设置', class: 'icon-setup', path: '/topBase/set' }
       ],

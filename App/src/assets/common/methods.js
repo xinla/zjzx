@@ -234,7 +234,22 @@ const tool = {
     }
     return srcList;     
   },
-
+  //////
+  // 未登录提示 //
+  //////
+  loginPrompt(back){
+    GoTruth.$vux.confirm.show({
+      content:"您还没登录哦！",
+      onConfirm () {
+        GoTruth.$Tool.goPage({name:'login'});
+      },
+      onCancel () {
+        if (back) {
+          GoTruth.$Tool.goBack();
+        }
+      }
+    })
+  }
 }
 
 export default {

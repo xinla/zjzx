@@ -15,8 +15,18 @@ export default {
 
 		}
 	},
+	mounted:{
+
+	},
 	methods:{
 
+	},
+	beforeRouteEnter (to, from, next) {
+		if (!localStorage.id ) { 
+            GoTruth.$Tool.loginPrompt(); 
+        }else{
+          next();
+        } 
 	}
 }
 </script>

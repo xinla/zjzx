@@ -26,7 +26,7 @@
 					<span class="fl">历史记录</span>
 					<i class="iconfont fr" v-if="!ifDeleteAll" @click="historyNum = historyKeywords.length;ifDeleteAll = true;">&#xe646;</i>
 					<div class="fr" v-else>
-						<span @click="historyKeywords = [];">删除全部</span>
+						<span @click="deleteAll()">删除全部</span>
 						<span @click="ifDeleteAll = false;">完成</span>					
 					</div>
 				</div>
@@ -170,6 +170,16 @@ export default {
 		},
 		reset(){
 			this.keywords = "";
+		},
+		deleteAll(){
+			let _this = this;
+			this.$vux.confirm.show({
+				content:"确定要删除么",
+				onConfirm () {
+					_this.historyKeywords = [];
+					_this.ifDeleteAll = false;
+				}
+			})
 		},
 	},
 	watch:{

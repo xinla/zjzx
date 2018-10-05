@@ -26,7 +26,7 @@
 		</div>
 		<p class="pub">
 			<span v-if="ifPublisher">{{publisher}}</span>
-			<span>{{CommentNum}}条评论</span>
+			<span>{{CommentNum}}评</span>
 			<span>{{publishtime}}</span>
 			<small class="delete fr" @click="$emit('delete',[id,whi])" v-if="ifDel">X</small>
 		</p>

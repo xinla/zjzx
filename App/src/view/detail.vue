@@ -241,6 +241,7 @@ import articleFileService from '@/service/article_fileService'
 import articleCommentService from '@/service/article_commentService'
 import articleCollectService from '@/service/articleCollectService'
 import shareService from '@/service/shareService'
+import messageService from '@/service/messageService'
 
 export default {
 	components:{
@@ -485,7 +486,7 @@ export default {
 					if (resUserInfo && resUserInfo.status == "success") {
 						// item.imageurl = resUserInfo.result.user.imageurl;
 						// item.username = resUserInfo.result.user.username;	
-							this.$set(item,"imageurl",resUserInfo.result.user.imageurl);					
+						this.$set(item,"imageurl",resUserInfo.result.user.imageurl);					
 						// $("img").load(()=>{
 						// })					
 						this.$set(item,"username",resUserInfo.result.user.username);
@@ -562,116 +563,91 @@ export default {
 			} else {}
 		},
 		doFocus(id,type){
-			//type:1文章发布者，2评论者
 			// 关注/取消关注
-			if (localStorage.getItem('token')) {
-				let resFocusState = followService.doFollow(id);
-				if (resFocusState && resFocusState.status == "success") {
-					if (type==1) {
-						if (resFocusState.result == 1) {
-							this.focusState = true;
-						} else {
-							this.focusState = false;
-						}
+			//type:1文章发布者，2评论者
+			if (!localStorage.id ) { this.$Tool.loginPrompt(); return; }
+			this.$loading.open();
+			let resFocusState = followService.doFollow(id);
+			if (resFocusState && resFocusState.status == "success") {
+				if (type==1) {
+					if (resFocusState.result == 1) {
+						this.focusState = true;
+						//发送消息
+						messageService.sendMessage(id);
 					} else {
-						if (resFocusState.result == 1) {
-							this.replyUserFocusState = true;
-						} else {
-							this.replyUserFocusState = false;
-						}
+						this.focusState = false;
 					}
-				}			
+				} else {
+					if (resFocusState.result == 1) {
+						this.replyUserFocusState = true;
+					} else {
+						this.replyUserFocusState = false;
+					}
+				}
 			}else{
 				this.$vux.alert.show({
-				  content: '请先登录',
+				  content:'关注失败，请重试',
 				})
-				setTimeout(()=>{
-					this.$vux.alert.hide();
-				},1000)
-			}
-		console.log(this.focusState)
+			}	
+			this.$loading.close();	
+		// console.log(this.focusState)
 
 		},
 		comment(type){
-			if (localStorage.id) {
-				let userId = localStorage.id;
-				if (this.commentCon && this.$Tool.checkInput(this.commentCon)) {
-					if (this.commentType == 1) {
-						//执行发送评论
-						let resArticleComment = articleCommentService.articleComment(this.id,this.commentCon,userId,this.article.author,1);	
-						if (resArticleComment && resArticleComment.status == "success") {
-							// 获取文章评论列表(更新)
-							this.lock = false;//开锁
-							this.pageNum1 = 1;
-							this.$options.methods.loadComment.call(this);							
-							this.ifCommentSwitch =false;
-							this.commentCon = "";
-							this.commentNum ++;
-							let dis = $(".detail").scrollTop() + $(".btn-a-wrap").offset().top -100;
-							$(".detail").animate({scrollTop:dis},100);
-						} else {
-							this.$vux.alert.show({
-							  content:'评论失败，亲重试',
-							})
-							setTimeout(()=>{
-								this.$vux.alert.hide();
-							},1000)
-						}
+			if (!localStorage.id ) { this.$Tool.loginPrompt(); return; }
+			let userId = localStorage.id;
+			if (this.commentCon && this.$Tool.checkInput(this.commentCon)) {
+				if (this.commentType == 1) {
+					//执行发送评论
+					let resArticleComment = articleCommentService.articleComment(this.id,this.commentCon,userId,this.article.author,1);	
+					if (resArticleComment && resArticleComment.status == "success") {
+						// 获取文章评论列表(更新)
+						this.lock = false;//开锁
+						this.pageNum1 = 1;
+						this.loadComment.call(this);							
+						this.ifCommentSwitch =false;
+						this.commentCon = "";
+						this.commentNum ++;
+						let dis = $(".detail").scrollTop() + $(".btn-a-wrap").offset().top -100;
+						$(".detail").animate({scrollTop:dis},100);
 					} else {
-						let comment = this.commentConAdd?(this.commentCon + this.commentConAdd):this.commentCon;
-						//执行发送评论回复
-						let resACommentReply = articleCommentService.articleComment(this.id,comment,userId,this.replyUserId,2,this.replyCommentId);	
-						if (resACommentReply && resACommentReply.status == "success") {
-							this.commentCon = "";
-							this.commentConAdd = "";
-							this.commentList[this.commentIndex].replyCount ++;
-							// this.ifReply = true;
-							// 获取文章评论回复列表(更新)
-							// let resReplyList = articleCommentService.getReplyList(this.replyCommentId,1,10)
-							// if (resReplyList && resReplyList.status == "success") {
-							// 	this.replyList = resReplyList.recordPage.list;
-							// 	// console.log(resReplyList)
-							// 	//获取评论回复人信息
-							// 	for (var i = 0,len = this.replyList.length; i < len; i++) {
-							// 		let resUserInfo = userService.getUserById(this.replyList[i].douserid);
-							// 		// console.log(resUserInfo)
-							// 		if (resUserInfo && resUserInfo.status == "success") {
-							// 			this.replyList[i].imageurl = resUserInfo.result.user.imageurl;
-							// 			this.replyList[i].username = resUserInfo.result.user.username;
-							// 		}
-							// 		// console.log(1)
-							// 	}
-							// }
-							this.$options.methods.loadReply.call(this);
-							$(".reply-wrap").animate({scrollTop:0},100);
-							
-						} else {
-							this.$vux.alert.show({
-							  content:'评论失败，亲重试',
-							})
-							setTimeout(()=>{
-								this.$vux.alert.hide();
-							},1000)
-						}
+						this.$vux.alert.show({
+						  content:'评论失败，请重试',
+						})
+						setTimeout(()=>{
+							this.$vux.alert.hide();
+						},1000)
 					}
-
 				} else {
-					this.$vux.alert.show({
-					  content: '内容不合法，亲修改后提交',
-					})
-					setTimeout(()=>{
-						this.$vux.alert.hide();
-					},1000)
+					let comment = this.commentConAdd?(this.commentCon + this.commentConAdd):this.commentCon;
+					//执行发送评论回复
+					let resACommentReply = articleCommentService.articleComment(this.id,comment,userId,this.replyUserId,2,this.replyCommentId);	
+					if (resACommentReply && resACommentReply.status == "success") {
+						this.commentCon = "";
+						this.commentConAdd = "";
+						this.commentList[this.commentIndex].replyCount ++;
+						// this.ifReply = true;
+						this.loadReply();
+						$(".reply-wrap").animate({scrollTop:0},100);
+						
+					} else {
+						this.$vux.alert.show({
+						  content:'评论失败，请重试',
+						})
+						setTimeout(()=>{
+							this.$vux.alert.hide();
+						},1000)
+					}
 				}
+
 			} else {
 				this.$vux.alert.show({
-				  content:'请先登录',
+				  content: '内容不合法，亲修改后提交',
 				})
 				setTimeout(()=>{
 					this.$vux.alert.hide();
 				},1000)
 			}
-
 		},
 		commentSwitch(e){
 			this.ifCommentSwitch = !this.ifCommentSwitch;
@@ -698,28 +674,10 @@ export default {
 				}			
 			}
 			// 获取文章评论回复列表
-			// let resReplyList = articleCommentService.getReplyList(commentid,1,10)
-			// if (resReplyList && resReplyList.status == "success") {
-			// 	this.replyList = resReplyList.recordPage.list;
-			// 	//获取回复人信息
-			// 	for (var i = 0,len = this.replyList.length; i < len; i++) {
-			// 		let resUserInfo = userService.getUserById(this.replyList[i].douserid);
-			// 		if (resUserInfo && resUserInfo.status == "success") {
-			// 			this.replyList[i].imageurl = resUserInfo.result.user.imageurl;
-			// 			this.replyList[i].username = resUserInfo.result.user.username;
-			// 		}
-			// 		//获取回复数量
-			// 		// let resReplyCount = articleCommentService.getReplyCount(this.replyList[i].commentid);
-			// 		// if (resReplyCount && resReplyCount.status == "success") {
-			// 		// 	this.replyList[i].replyCount = resReplyCount.result.count;
-			// 		// }	
-					
-			// 	}
-			// }
-			this.$options.methods.loadReply.call(this);
+			this.loadReply();
 		},
 		doLike(type,itemid,index){
-			if (!localStorage.id ) { return; }
+			if (!localStorage.id ) { this.$Tool.loginPrompt(); return; }
 			if (type == 1) {
 				//文章点赞
 				let resDoPraise = praiseService.doPraise(this.id,1);
@@ -765,7 +723,7 @@ export default {
 			}			
 		},
 		collect(articleid){
-			if (!localStorage.id) { return; }
+			if (!localStorage.id ) { this.$Tool.loginPrompt(); return; }			
 			let resArticleCollect = articleCollectService.articleCollect(articleid);
 			if (resArticleCollect && resArticleCollect.status == "success") {
 				if (resArticleCollect.result == 1 ) {
@@ -805,23 +763,18 @@ export default {
 			this.ifReport = false;
 		},
 		reportConfirm(itemid,reportuserid){
-			if (this.userId) {
-				this.reportInfo.itemid = this.replyCommentId;
-				this.reportInfo.reportuserid = this.replyUserId;
-				this.reportInfo.type = this.article.type;
-				let resDoReport = reportService.doReport(this.reportInfo);
-				if (resDoReport && resDoReport.status == "success") {
-					this.$vux.alert.show({
-					  content:'感谢您的反馈，我们会着实核查！',
-					})				
-				}else{
-					this.$vux.alert.show({
-					  content:'举报失败，亲稍后再试',
-					})
-				}
-			} else {
+			if (!localStorage.id ) { this.$Tool.loginPrompt(); return; }			
+			this.reportInfo.itemid = this.replyCommentId;
+			this.reportInfo.reportuserid = this.replyUserId;
+			this.reportInfo.type = this.article.type;
+			let resDoReport = reportService.doReport(this.reportInfo);
+			if (resDoReport && resDoReport.status == "success") {
 				this.$vux.alert.show({
-				  content:'请先登录',
+				  content:'感谢您的反馈，我们会着实核查！',
+				})				
+			}else{
+				this.$vux.alert.show({
+				  content:'举报失败，亲稍后再试',
 				})
 			}
 			this.ifReport = false;
@@ -862,7 +815,7 @@ export default {
 		},
 		showShare(){
 			this.ifShare = true;
-		}
+		},
 	},
 	watch:{
 		id(){

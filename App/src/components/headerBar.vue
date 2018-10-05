@@ -18,9 +18,9 @@
 				<div class="header-dialog" v-show="releaseShow">
 					<div class="arrow-tip"></div>
 					<ul class="header-nav">
-						<li  @click="$Tool.goPage({ name:'release',query:{title:'发布图文',sort:1}})"><i class="iconfont">&#xe686;</i>发布图文</li>
-						<li @click="$Tool.goPage({ name:'release',query:{title:'发布视频',sort:2}})"><i class="iconfont">&#xe604;</i>发布视频</li>
-						<li @click="$Tool.goPage({ name:'release',query:{title:'发起讨论',sort:3}})"><i class="iconfont">&#xe6b3;</i>发起讨论</li>
+						<li  @click="$Tool.goPage({ name:'release',query:{title:'发布图文',sort:1}});releaseShow = false;"><i class="iconfont">&#xe686;</i>发布图文</li>
+						<li @click="$Tool.goPage({ name:'release',query:{title:'发布视频',sort:2}});releaseShow = false;"><i class="iconfont">&#xe604;</i>发布视频</li>
+						<li @click="$Tool.goPage({ name:'release',query:{title:'发起讨论',sort:3}});releaseShow = false;"><i class="iconfont">&#xe6b3;</i>发起讨论</li>
 					</ul>
 				</div>
 			</transition>

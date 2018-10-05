@@ -7,7 +7,7 @@ const service ={}
 const userid = localStorage.getItem('id');
 const token = localStorage.getItem('token');
 
-//保存关键字
+//获取消息分页
 service.getMessagePage = function(page,size){
 	var params = {	
 		page,//:"当前页",
@@ -18,14 +18,67 @@ service.getMessagePage = function(page,size){
 	commonUtil.ajax(controller+'/getMessagePage',params,call);
 
 }
-//根据输入的关键字获取关键字列表
-service.getKeywordList = function(keyword,call){
+//发送关注消息
+service.sendFocusMessage = function(targetuserid,content,itemid,type,call){
 	var params = {
-		keyword,//:"关键字"	
+		userid,//:"当前用户id",
+		token,//:"令牌"
+		douserid:userid,//:"发送者id",
+		targetuserid,//:"接受者id"， 
+		content,//："消息内容",
+		itemid,//:"项目id"，
+		type,//："消息类型"	
 	};
+	if (call) {
+		commonUtil.ajax(controller+'/sendMessage',params,call);
+		return;
+	}
 	
-	commonUtil.ajax(controller+'/getKeywordList',params,call);
+	var res = commonUtil.ajaxAsync(controller+'/sendMessage',params);
+
+	return res;
 
 }
+//发送文章动态相关消息
+service.sendArticleMessage = function(targetuserid,content,itemid,type,call){
+	var params = {
+		userid,//:"当前用户id",
+		token,//:"令牌"
+		douserid:userid,//:"发送者id",
+		targetuserid,//:"接受者id"， 
+		content,//："消息内容",
+		itemid,//:"项目id"，
+		type,//："消息类型"	
+	};
+	if (call) {
+		commonUtil.ajax(controller+'/sendMessage',params,call);
+		return;
+	}
+	
+	var res = commonUtil.ajaxAsync(controller+'/sendMessage',params);
 
+	return res;
+
+}
+//发送文章评论的回复相关消息
+service.sendReplyMessage = function(targetuserid,content,itemid,type,call){
+	var params = {
+		userid,//:"当前用户id",
+		token,//:"令牌"
+		douserid:userid,//:"发送者id",
+		targetuserid,//:"接受者id"， 
+		content,//："消息内容",
+		itemid,//:"项目id"，
+		type,//："消息类型"	
+	};
+	if (call) {
+		commonUtil.ajax(controller+'/sendMessage',params,call);
+		return;
+	}
+	
+	var res = commonUtil.ajaxAsync(controller+'/sendMessage',params);
+
+	return res;
+
+}
 export default service
