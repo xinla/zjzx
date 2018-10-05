@@ -33,12 +33,15 @@ export default {
 <style lang="less">
 .top-back {
 	display: flex;
-	height: .87rem;
+	width: 100%;
+	height: @topHeigth;
 	padding: 0 .34rem;
-	line-height: .87rem;
+	line-height: @topHeigth;
 	background-color: #fff;
-	margin-bottom: 10px;
 	border-bottom: .02rem solid @borderColor;
+	position: fixed;
+	left: 0;
+	top: 0;
 	.top-back-icon{
 		width: .4rem;
 		.iconfont{

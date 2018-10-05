@@ -25,7 +25,7 @@
 	              <p class="member-user-item member-user-focus">关注<span>{{focusNum}}</span></p>
 	              <p class="member-user-item member-user-fans">粉丝<span>{{fansNum}}</span></p>
 	            </div>
-	            <div class="member-user-arrow">
+	            <div class="member-user-arrow" @click="handleMember">
 	              <i class="iconfont icon-arrow-right"></i>
 	            </div>
 	          </div>
@@ -34,7 +34,7 @@
       </div>
       <div class="member-desc">
         <ul class="member-desc-list">
-          <router-link class="member-desc-item" v-for="item in tabArr" :key="item.id" tag="li" :to="{path:item.path,query:{current:item.current}}">
+          <router-link class="member-desc-item" v-for="item in tabArr" :key="item.id" tag="li" :to="{path:item.path,query:{current:item.query}}">
             <i class="iconfont" :class="item.class"></i>
             <span class="member-desc-txt">{{item.desc}}</span>
           </router-link>
@@ -95,8 +95,8 @@ export default {
         { id: 4, class: 'icon-weibo1' },
       ],
       tabArr: [
-        { id: 1, desc: '收藏', class: 'icon-not-collection', path: '/personBase/collect', current: 4 },
-        { id: 2, desc: '历史', class: 'icon-history', path: '/personBase/history', current: 5 },
+        { id: 1, desc: '收藏', class: 'icon-not-collection', path: '/personBase/collect', query: 4 },
+        { id: 2, desc: '历史', class: 'icon-history', path: '/personBase/history', query: 5 },
         { id: 3, desc: '夜间', class: 'icon-yejian' },
       ],
       menuArr: [
@@ -116,6 +116,9 @@ export default {
     }
   },
   methods: {
+    handleMember(){
+      console.log(11111);
+    },
     transArgs(link, title) {
       this.router.push({
         path: link,

@@ -23,7 +23,7 @@ export default{
 			this.list = resFans.result.recordPage.list;
 			if (this.list.length == 0) {
 				this.proIf = true;
-				this.proMes = "啥都没有啊";
+				this.proMes = "您想要的真相消失啦~~~";
 			}
 		} else {
 			this.proIf = true;

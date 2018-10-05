@@ -109,6 +109,8 @@ export default {
 <style scoped>
 	.text-wrap{
 	    border-bottom: 1px solid #eee;
+	    background-color: #fff;
+	    padding: .3rem .2rem;
 	}
 	h1{
 		margin:.3em 0;

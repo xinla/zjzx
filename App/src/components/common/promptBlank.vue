@@ -1,6 +1,8 @@
 <template>
 	<div class="prompt-blank ac">
-		{{mes}}
+		<i class="iconfont icon-nomsg"></i>
+		<p>{{mes}}</p>
+
 	</div>
 </template>
 
@@ -9,14 +11,22 @@ export default{
 	props:{
 		mes:{
 			type:String,
-			default:"啥都没有哦"
+			default:"您想要的真相消失啦~~~"
 		}
 	}
 }
 </script>
 
-<style rel="stylesheet" scoped>
+<style lang="less">
 	.prompt-blank{
-		padding: 100px 0;
+		color: #999;
+		font-size: .24rem;
+		padding: .5rem;
+		background-color: transparent;
+		.iconfont{
+			display: block;
+			font-size: 1rem;
+			margin-bottom: .2rem;
+		}
 	}
 </style>
