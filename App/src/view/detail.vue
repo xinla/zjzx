@@ -41,7 +41,7 @@
 				</div>
 			</section>
 			<prompt-blank v-if="proFail1" :mes="failMes1"></prompt-blank>			
-			<div class="btn-a-wrap bfc-o">
+			<div class="btn-a-wrap bfc-o" v-if="!detailType">
 				<button type="button" class="btn-a" :class="{'liked':likeStatus}" @click="doLike(1)">
 					{{ likeNum }}
 					<like :likeStatus="likeStatus"></like>
@@ -53,8 +53,13 @@
 				<button type="button" class="btn-a"><i class="iconfont icon2 icon-delete"></i>不喜欢</button>
 				<button type="button" class="btn-a" @click="share(1)"><i class="iconfont icon2 icon-wechat-fill"></i>微信</button>
 				<button type="button" class="btn-a" @click="share(3)"><i class="iconfont icon2 icon-QQ"></i>QQ</button>
-			</div>	
-			<div class="comment">				
+			</div>
+			<ul class="switch-b ac" v-else>
+				<li :class="['switch-b-li',{current:current == 1}]" @click="switchB(1)">评论</li>
+				<li :class="['switch-b-li',{current:current == 2}]" @click="switchB(2)">转发</li>
+				<li :class="['switch-b-li',{current:current == 3}]" @click="switchB(3)">点赞</li>
+			</ul>	
+			<div class="comment" v-if="ifSwitchB">
 				<ul class="comment-ul">
 					<li class="comment-li bfc-o" v-for="(item,index) in commentList">
 						<div class="uphoto-wrap fl">
@@ -95,6 +100,7 @@
 				<prompt-blank v-if="proFail2" :mes="failMes2"></prompt-blank>
 				<load-more :show-loading="false" :tip="loadText" v-show="ifLoad"></load-more>			
 			</div>
+			<memberList v-else :list="listMember" :mes="proMes"></memberList>
 		</div>
 		<!-- 伪评论框 -->
 		<div class="comment-form comment-form-a bf" v-show="!ifCommentSwitch">
@@ -230,6 +236,8 @@
 import config from '@/lib/config/config'
 import like from '@/components/common/like'
 import share from '@/components/common/share'
+import memberList from '@/components/common/memberList'
+
 import listUtil from '@/service/util/listUtil'
 import userService from '@/service/userService'
 import followService from '@/service/followService'
@@ -247,6 +255,7 @@ export default {
 	components:{
 		like,
 		share,
+		memberList,
 	},
 	// props:{
 	// 	id:{
@@ -258,6 +267,7 @@ export default {
 			ifLoad:true,
 			userId:localStorage.id,
 			id:Number,//文章id =>article.id
+			detailType:0,
 			imgurl:require('@/assets/images/userPhoto.jpg'),
 			fileRoot:config.fileRoot+'/',
 			focusState:false,
@@ -373,11 +383,20 @@ export default {
 				// itemid:'',//"对象id",
 				// reportuserid:'',//"被举报人id",
 				// type:'',//"类型"  1.文章举报  
-			}
+			},
+			//转发，点赞列表
+			listMember:[],
+			//转发，点赞提示
+			proMes:"",
+			//转发、点赞，评论切换
+			ifSwitchB:true,
+			//当前
+			current:1,
 		}
 	},
 	mounted(){
 		this.id = this.$route.query.id;
+		this.detailType = this.$route.query.detailType || 0;
 		this.loadArticle();
 	},	
 	methods:{
@@ -816,6 +835,29 @@ export default {
 		showShare(){
 			this.ifShare = true;
 		},
+		switchB(type){
+			if (type == 1) {
+				this.ifSwitchB = true;
+				this.current = 1;
+				return;
+			}
+			if(type == 2) {
+				this.ifSwitchB = false;
+				this.current = 2;
+				if(this.listMember.length == 0){
+					this.proMes = "还没有人转发哦"
+				}
+				return;
+			}
+			if(type == 3) {
+				this.ifSwitchB = false;
+				this.current = 3;
+				if(this.listMember.length == 0){
+					this.proMes = "还没有人点赞哦"
+				}
+				return;
+			}
+		}
 	},
 	watch:{
 		id(){
@@ -834,7 +876,7 @@ export default {
 	.detail{
 	    color: #555;
         margin: 50px 0;
-        height: 100%;
+        height: calc(100% - 90px);
         overflow-y: auto;
         line-height: 22px;
 	}
@@ -1100,6 +1142,17 @@ export default {
 		right: 0;
 		color: #f40;
 		background: none;
+	}
+	.switch-b{
+		line-height: 30px;
+		background: #fff;
+	}
+	.switch-b-li {
+	    display: inline-block;
+	    width: 20%;
+	}
+	.current{
+		border-bottom: 1px solid #ddd;
 	}
 	.video-js .vjs-big-play-button{}
 </style>

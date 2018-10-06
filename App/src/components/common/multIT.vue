@@ -1,5 +1,5 @@
 <template>
-	<div class="text-wrap bfc-o"  @click="$Tool.goPage({ name:'detail',query:{id,}})">
+	<div class="text-wrap bfc-o"  @click="$Tool.goPage({ name:'detail',query:{id,detailType,}})">
 		<div>
 			<!-- 单图文 -->
 			<div class="img-wrap fr" v-if="imgList.length < 3">
@@ -28,7 +28,7 @@
 			<span v-if="ifPublisher">{{publisher}}</span>
 			<span>{{CommentNum}}评</span>
 			<span>{{publishtime}}</span>
-			<small class="delete fr" @click="$emit('delete',[id,whi])" v-if="ifDel">X</small>
+			<small class="delete fr" @click="$emit('delete',[id,whi,$event]);" v-if="ifDel">X</small>
 		</p>
 	</div>
 </template>
@@ -63,6 +63,10 @@ export default {
 	props:{
 		article:Object,
 		whi:Number,
+		detailType:{
+			type:String,
+			default:"",
+		},
 		ifPublisher:{
 			type:Boolean,
 			default:true,

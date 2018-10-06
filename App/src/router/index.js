@@ -26,12 +26,20 @@ export default new Router({
         require(['@/view/home.vue'],resolve)
       },
     },
-    //新闻详情页面
+    //新闻详情页面(浏览者视图)
     {
       path: '/detail',
       name: 'detail',
        component: (resolve)=>{
         require(['@/view/detail.vue'],resolve)
+      },
+    },
+    //新闻详情页面(作者视图)
+    {
+      path: '/articleDetail',
+      name: 'articleDetail',
+       component: (resolve)=>{
+        require(['@/view/member/articleDetail.vue'],resolve)
       },
       // meta: {
       //   keepAlive: false // 不需要缓存
@@ -205,11 +213,21 @@ export default new Router({
       },
       children:[
         {
+          path:'published',
+          name:'published',
+          component: (resolve)=>{
+            require(['@/view/member/published.vue'],resolve)
+          },
+          // meta: {
+          //   keepAlive: true,// 去缓存
+          // },
+        },
+        {
           path:'focus',
           name:'focus',
           component: (resolve)=>{
             require(['@/view/member/focus.vue'],resolve)
-          }
+          },         
         },
         {
           path:'fans',
@@ -230,13 +248,6 @@ export default new Router({
           name:'history',
           component: (resolve)=>{
             require(['@/view/member/history.vue'],resolve)
-          }
-        },
-        {
-          path:'published',
-          name:'published',
-          component: (resolve)=>{
-            require(['@/view/member/published.vue'],resolve)
           }
         },
       ]

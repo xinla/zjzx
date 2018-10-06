@@ -358,7 +358,6 @@
 		        let param = new FormData(); //创建form对象
 					// console.log(this.upFile)
 		        param.append('file',this.upFile,this.upFile.name);//通过append向form对象添加数据
-					// debugger;
 		        // debugger
 		        fileService.uploadHeadImage(param,(data)=>{
 		          	if (data && data.status == "success") {
@@ -366,8 +365,8 @@
 			          	this.$loading.close();
 			          	this.imgurl = config.fileRoot +'/'+ src;
 			          	this.user.imageurl=src;
-			          	console.log(this.user)
-					debugger
+			          	// console.log(this.user)
+					// debugger
 
 			          	userService.updateUser(this.user)	          		
 		          	} else {
@@ -563,6 +562,13 @@
             }else{
               next();
             } 
+		},
+		beforeRouteLeave (to, from, next){
+			if (JSON.stringify(this.user) != localStorage.userData) {
+			}
+				console.log(1)
+				location.reload();
+			next();
 		}
 	}
 		

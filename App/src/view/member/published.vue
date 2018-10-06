@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<multIT v-for="(item,index) in arcList" :article="item" :whi="index" :ifPublisher="false" :ifDel="true" @delete="deleteArticle" :key="index"></multIT>
+		<multIT v-for="(item,index) in arcList" :article="item" :whi="index" detailType=1 :ifPublisher="false" :ifDel="true" @delete="deleteArticle" :key="index"></multIT>
 			<!-- <bigIVT :article="item" v-else="item.type==2"></bigIVT>	 -->
 		<prompt-blank v-if="proIf" :mes="proMes"></prompt-blank>
 	</div>
@@ -36,7 +36,7 @@ export default {
 		}
 	},
 	methods:{
-		deleteArticle([id,whi]){
+		deleteArticle([id,whi,event]){
 			let _this = this;
 			this.$vux.confirm.show({
 				content:"确定要删除么",
@@ -44,6 +44,7 @@ export default {
 					deleteArt.call(_this,whi);
 				}
 			})
+			event.stopPropagation();
 			function deleteArt (index) {
 				let resDelete = articleService.deleteArticleById(id);
 				if (resDelete && resDelete.status == "success") {
