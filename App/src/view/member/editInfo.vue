@@ -1,177 +1,147 @@
 <template>
 	<div class="editInfo-wrap">
-		<div class="editInfo-body">	
-			<ul class="editInfo-modal">
-				<li class="editInfo-modal-item clearfix">
-					<input type="file" id="uphoto" name="file" accept="image/*" class="uploadInput"  @change="uploadAvatar">
-					<span class="fl">头像</span>
-					<label for="uphoto">						
-						<div class="editInfo-right fr clearfix">
-							<div class="editInfo-head-img fl"> 								
-								<img :src="imgurl" alt="">
-							</div>
-							<i class="iconfont icon-arrow fr">&#xe628;</i>
-						</div>
-					</label>
-				</li>	
-				<li class="editInfo-modal-item clearfix" @click="userNameFn">
-					<span class="fl">用户名</span>
-					<div class="editInfo-right fr clearfix">
-						<div class="editInfo-head-tip fl">	
-							<span>{{user.username}}</span>
-						</div> 
-						<i class="iconfont icon-arrow fr">&#xe628;</i>
-					</div>
-				</li>	
-				<li class="editInfo-modal-item clearfix" @click="userMsgFn">
-					<span class="fl">介绍</span>
-					<div class="editInfo-right fr clearfix">
-						<div class="editInfo-head-tip fl">	
-							<span>{{user.introduce}}</span>
-						</div>
-						<i class="iconfont icon-arrow fr">&#xe628;</i>
-					</div>
-				</li>	
-			</ul>
-			
-			
-			<ul class="editInfo-modal">
-				<li class="editInfo-modal-item clearfix" @click="userSexFn">
-				<span class="fl">性别</span>
-				<div class="editInfo-right fr clearfix">
-					<div class="editInfo-head-tip fl">	
-						<span>{{user.sex}}</span>
-					</div>
-					<i class="iconfont icon-arrow fr">&#xe628;</i>
+		<!-- 用户资料编辑 -->
+		<ul class="editInfo-list">
+			<li class="editInfo-item clearfix">
+				<input type="file" id="uphoto" name="file" accept="image/*" class="uploadInput"  @change="uploadAvatar">
+				<span class="editInfo-tit fl">头像</span>
+				<i class="iconfont icon-arrow-right fr"></i>
+				<div class="editInfo-box editInfo-img fr">
+					<img :src="imgurl" ref='refAlt'>
 				</div>
-			</li>	
-				<li class="editInfo-modal-item clearfix" @click="userBirthFn"> 
-					<span class="fl">生日</span>
-					<div class="editInfo-right fr clearfix">
-						<div class="editInfo-head-tip fl">	
-							<span :class="dateColor">{{user.birthday}}</span>
-						</div>
-						<i class="iconfont icon-arrow fr">&#xe628;</i>
-					</div>
-				</li>	
-				<router-link :to="{path:'province',query:{title:'选择城市'}}" class="editInfo-modal-item clearfix" tag="li">
-					<span class="fl">地区</span>
-					<div class="editInfo-right fr clearfix">
-						<div class="editInfo-head-tip fl">	
-						<span :class="areaColor">{{address}}</span>
-						</div>
-						<i class="iconfont icon-arrow fr">&#xe628;</i>
-					</div>
-				</router-link>	
-				<li class="editInfo-modal-item clearfix">
-					<span class="fl">手机号</span>
-					<div class="editInfo-right fr clearfix" @click="showPhone=!showPhone">
-						<div class="editInfo-head-tip fl">	
-							<span>{{this.$Tool.mobileInput(user.mobile)}}</span>
-						</div>
-						<i class="iconfont icon-arrow fr">&#xe628;</i>
-					</div>
-				</li>	
-			</ul>
-			<h4 class="editInfo-tit">开启后，可以让你的好友找到你</h4>
-			<ul class="editInfo-switch">
-				<li class="editInfo-switch-item clearfix">
-					<span class="fl">允许将我推荐给好友</span>
-					<z-switch class="switch-btn fr" v-model='value1' @click.native='show'></z-switch>
-				</li>
-			</ul>
-			<h4 class="editInfo-tit">开启后，可以向你推荐好友</h4>
-			<ul class="editInfo-switch">
-				<li class="editInfo-switch-item clearfix">
-					<span class="fl">允许给我推荐可能认识的人</span>
-					<z-switch class="switch-btn fr" v-model='value1' @click.native='show'></z-switch>
-				</li>
-			</ul>
-			<h4 class="editInfo-tit">开启后，分享到微信QQ等平台的页面会展示你的头像</h4>
-			<ul class="editInfo-switch">
-				<li class="editInfo-switch-item clearfix">
-					<span class="fl">分享页显示我的头像</span>
-					<z-switch class="switch-btn fr" v-model='value1' @click.native='show'></z-switch>
-				</li>
-			</ul>
-			<h4 class="editInfo-tit">社交平台账号绑定</h4>
-			<ul class="editInfo-switch">
-				<li class="editInfo-switch-item clearfix">
-					<span class="fl">微信</span>
-					<z-switch class="switch-btn fr" v-model='value1' @click.native='show'></z-switch>
-				</li>
-				<li class="editInfo-switch-item clearfix">
-					<span class="fl">新浪微博</span>
-					<z-switch class="switch-btn fr" v-model='value1' @click.native='show'></z-switch>
-				</li>
-				<li class="editInfo-switch-item clearfix">
-					<span class="fl">腾讯QQ</span>
-					<z-switch class="switch-btn fr" v-model='value1' @click.native='show'></z-switch>
-				</li>
-			</ul>
+			</li>
+			<li class="editInfo-item clearfix" @click="userNameFn">
+				<span class="editInfo-tit fl">用户名</span>
+				<i class="iconfont icon-arrow-right fr"></i>
+				<div class="editInfo-desc editInfo-username fr">
+					<span class="desc">{{user.username}}</span>
+				</div>
+			</li>
+			<li class="editInfo-item clearfix" @click="userIntroduceFn">
+				<span class="editInfo-tit fl">个人介绍</span>
+				<i class="iconfont icon-arrow-right fr"></i>
+				<div class="editInfo-desc editInfo-suggest fr">
+					<span class="desc">{{user.introduce}}</span>
+				</div>
+			</li>
+		</ul>
+		<ul class="editInfo-list" style="margin-bottom: 0;">
+			<li class="editInfo-item clearfix" @click="userBirthFn">
+				<span class="editInfo-tit fl">生日</span>
+				<i class="iconfont icon-arrow-right fr"></i>
+				<div class="editInfo-desc editInfo-birth fr">
+					<span class="desc">{{user.birthday}}</span>
+				</div>
+			</li>
+			<li class="editInfo-item clearfix" @click="userSexFn">
+				<span class="editInfo-tit fl">性别</span>
+				<i class="iconfont icon-arrow-right fr"></i>
+				<div class="editInfo-desc editInfo-sex fr">
+					<span class="desc">{{user.sex}}</span>
+				</div>
+			</li>
+			<router-link :to="{path:'province',query:{title:'选择城市'}}" class="editInfo-item clearfix" tag="li">
+				<span class="editInfo-tit fl">地区</span>
+				<i class="iconfont icon-arrow-right fr"></i>
+				<div class="editInfo-desc editInfo-area fr">
+					<span class="desc">{{address}}</span>
+				</div>
+			</router-link>
+			<li class="editInfo-item clearfix" @click="userMobileFn">
+				<span class="editInfo-tit fl">手机号</span>
+				<i class="iconfont icon-arrow-right fr"></i>
+				<div class="editInfo-desc editInfo-tel fr">
+					<span class="desc">{{this.$Tool.mobileInput(user.mobile)}}</span>
+				</div>
+			</li>
+		</ul>
 
-			<h4 class="editInfo-tit">高级设置</h4>
-			<ul class="editInfo-switch">
-				<li class="editInfo-switch-item ac">
-					<span style="color: #f40;">敬请期待</span>
-				</li>
-			</ul>
-		</div>
-		<!-- 用户名 -->
-		<text-area 
-			v-show="showObj.showName"
-			:explain="explain" 
-			:placeholder="placeholder.p1" 
-			:maxlength="maxlength.m1"
-			ref="getInput"
-			@handleSend="handleSend1"
-			@handleCancel="cancel"
-			@descValue="descValue"
-		>
-		</text-area>
-		<!-- 用户介绍 -->
-		<text-area 
-			v-show="showObj.showMsg"
-			:placeholder="placeholder.p2" 
-			:maxlength="maxlength.m2"
-			ref="getInput"
-			@handleSend="handleSend2"
-			@handleCancel="cancel"
-			@descValue="descValue"
-		>
-		</text-area>
-		<!-- 性别选项 -->
-		<bottom-popup 
-			v-show="showObj.showSex"
-			:list="list"
-			@handleCancel="cancel"
-			@handleSex="handleSex">
-		</bottom-popup>
-		<!-- -phone change -->
-		<confirm 
-		v-model="showPhone"
-		show-input hide-on-blur
-		title="绑定手机号"
-		@on-confirm="checkPhone"
-		:input-attrs="{type:'number'}"
-		confirm-text="验证"
-		>			
-		</confirm>
-		<confirm 
-		v-model="showVerCode"
-		show-input hide-on-blur
-		title="输入验证码"
-		@on-confirm="checkCode"
-		:input-attrs="{type:'number'}"
-		>			
-		</confirm>
-		<alert 
-		v-model="showAlert"
-		hide-on-blur
-		:content="alertMes"
-		>
+		<!-- 手机设置 -->
+		<div class="editInfo-setup">
+			<span class="editInfo-setup-tip">开启后可以让你的好友找到你</span>
+			<group>
+		    	<x-switch title="允许将我推荐给好友" v-model="value"></x-switch>
+		  	</group>
+		  	<span class="editInfo-setup-tip">开启后,可以向你推荐好友</span>
+			<group>
+		    	<x-switch title="允许将我推荐可能认识的人" v-model="value"></x-switch>
+		  	</group>
+		  	<span class="editInfo-setup-tip">开启后,分享到微信QQ等平台的页面会展示你的头像</span>
+			<group>
+		    	<x-switch title="分享页显示我的头像" v-model="value"></x-switch>
+		  	</group>
+		  	<span class="editInfo-setup-tip">社交平台账号绑定</span>
+			<group>
+		    	<x-switch title="微信" v-model="value"></x-switch>
+		    	<x-switch title="新浪微博" v-model="value"></x-switch>
+		    	<x-switch title="腾讯QQ" v-model="value"></x-switch>
+		  	</group>
+		  	<span class="editInfo-setup-tip">高级设置</span>
+		  	<x-button  type="warn" style="border-radius:99px;">敬请期待</x-button>
 			
-		</alert>
+		</div>
+
+		<!-- 用户名弹框 -->
+		<div v-transfer-dom class="transdom">
+			<popup v-model="popList.show">
+				<div class="popup-wrap">
+					<div class="popup-area">
+						<textarea  :placeholder="popList.placeholder" 
+							v-focus autofocus 
+							:maxlength="popList.length"
+							v-model.trim="popList.desc"
+							@input="handleDesc"
+							>
+								
+						</textarea>
+						<span class="popup-num">{{this.popList.length - this.popList.desc.length}}</span>
+					</div>
+					<div class="popup-tip clearfix">
+						<span class="popup-tip-desc fl">{{popList.tip}}</span>
+						<button class="popup-btn fr" :class="{btnActive:popList.btnToggle}" @click="handleSubmitOne" v-show="popList.showOne">确定</button>
+						<button class="popup-btn fr" :class="{btnActive:popList.btnToggle}" @click="handleSubmitTwo" v-show="popList.showTwo">确定</button>
+					</div>
+				</div>
+			</popup>
+		</div>
+		<!-- 性别弹框 -->
+		<div v-transfer-dom class="transdom">
+			<popup v-model="showSex">
+				<div class="popup-sex">
+					<ul class="popup-sex-list">
+						<li v-for="(item,index) in sexList" @click="handleSex(item)">{{item}}</li>
+					</ul>
+					<button type="button" class="popup-sex-btn" @click="handleSexCancel">取消</button>
+				</div>
+			</popup>
+		</div>
+		<!-- 绑定手机号选项 -->
+		<div v-transfer-dom>
+			<confirm 
+				v-model="showMobile"
+				 show-input
+				 hide-on-blur
+				 title="绑定手机号"
+				 :input-attrs="{type:'number'}"
+				 @on-confirm="handleCheckMobile"
+				confirm-text="验证">
+			</confirm>
+		
+		</div>
+
+		<!-- 绑定手机号验证码选项 -->
+		<div v-transfer-dom>
+			<confirm 
+				v-model="showCode"
+				show-input hide-on-blur
+				title="输入验证码"
+				@on-confirm="handleCheckCode"
+				:input-attrs="{type:'number'}">			
+			</confirm>
+		</div>
+		<!-- 公共alert -->
+		<alert v-model="showAlert" hide-on-blur :content="alertDesc"></alert>
+		<!-- 图片裁剪 -->
 		<div class="vueCropper mask" v-if="ifCropper">
 			<vueCropper
 	            ref="cropper"
@@ -207,60 +177,39 @@
 <script>
 	import {Bus} from '@/store/eventBus'
 	import config from '@/lib/config/config'
-	import zSwitch from '@/components/common/switch'
 	import vueCropper from 'vue-cropper'
-	import textArea from '@/components/textarea'
-	import bottomPopup from '@/components/bottomPopup'
-	
+	import { XSwitch, Group, XButton,Loading ,TransferDom, Popup} from 'vux'
 	import fileService from '@/service/fileService'
 	import userService from '@/service/userService'
 	import provinceService from '@/service/provinceService'
 	export default {
+		directives:{
+			TransferDom,
+			focus: {
+				inserted: function (el) {
+					el.focus()
+				}
+			}
+		},
 		components:{
-			zSwitch,
-			textArea,
-			bottomPopup,
+			XSwitch,
+    		Group,
+    		XButton,
+    		Loading,
+			Popup,
 			vueCropper
 		},
 		data(){
 			return {
-				placeholder:{p1:'请输入用户名',p2:'请输入个性签名'},
-				maxlength:{m1:20,m2:60},
-				explain:'支持英文、数字',
-				title:'编辑资料',
-				value1:false,
-				imgurl:require('@/assets/images/userPhoto.jpg'),
-				message:'',
-				user:{
-					username:'',
-					introduce:'',
-					mobile:Number,
-					sex:'',
-					birthday:'',
-					province:'',
-					city:''
-				},
-				desc:"",
-				showObj:{
-					value1:false,
-					showName:false,
-					showMsg:false,
-					showSex:false
-				},
-				list:['保密','男','女'],
-				dateColor:{blue:true},
-				areaColor:{blue:true},
-				address:"",
-				// provinceList:{				
-				// 	province:'',
-				// 	provinceid:''
-				// },
-				showPhone:false,
-				showVerCode:false,
+				value:false,
 				showAlert:false,
-				alertMes:'',
-				verCode:'',
-				inputMobile:'',
+				ifCropper:false,
+	            upFile:{
+	            	name:"",
+	            	name2:"",
+	            },
+	            uploadImgName:"",
+				address:'',
 				photOption: {
 	                img: '',//裁切图片的地址
 	                outputSize: 0.6,//裁剪生成图片的质量 0.1-1
@@ -279,12 +228,35 @@
 	                fixedNumber: [1, 1],
 	                centerBox:true,
 	            },
-	            ifCropper:false,
-	            upFile:{
-	            	name:"",
-	            	name2:"",
-	            },
-	            uploadImgName:"",
+				user:{
+					username:'',
+					introduce:'',
+					birthday:'',
+					sex:'',
+					province:'',
+					city:'',
+					mobile:Number
+				},
+				imgurl:require('@/assets/images/userPhoto.jpg'),
+				popList:{
+					show:false,
+					desc:'',
+					placeholder:'',
+					length:Number,
+					tip:'',
+					btnToggle:false,
+					oldDesc:'',
+					showOne:false,
+					showTwo:false
+				},
+				showSex:false,
+				sexList:['男','女','保密'],
+				showMobile:false,
+				showCode:false,
+				showAlert:false,
+				alertDesc:'',
+				inputMobile:'',
+				inputCode:''
 			}
 		},
 		
@@ -292,52 +264,47 @@
 			this.$nextTick(()=>{
 				if (!localStorage.id) {return;}
 				let data = userService.getCurentUser();
-				if (data&&data.status == "success") {
-					this.user = data.result.user;					
+				if(data&&data.status == 'success') {
+					this.user = data.result.user;
+					localStorage.userData = JSON.stringify(data.result.user);
 				}
-				// console.log(this.$data.user)
-				// let addData = provinceService.getProvinceList();
-				// this.$data.provinceList = addData.result.provinceList;
-				 // this.$data.user.username=this.userNameValue;
-				// console.log(this.$data.user.username);
 				//判断用户头像
-				if(this.$data.user.imageurl == null) {
-					// this.imgurl = '';
-				}else{
+				if(this.$data.user.imageurl != null) {
 					this.imgurl = config.fileRoot +'/'+ this.user.imageurl;
 				}
-
 				//个人介绍
 				if(this.$data.user.introduce == null) {
-					this.user.introduce = '暂无介绍';
+					this.user.introduce = "这个人很懒、暂无个性签名"
 				}
 				//判断性别
 				if(this.$data.user.sex == null) {
 					this.user.sex='保密'
 				}
+
 				//判断生日
 				if(this.$data.user.birthday == null) {
 					this.user.birthday = '待完善';
-				}else{
-					this.dateColor.blue=false;
 				}
 				//判断地区					
 				if(this.$data.user.province == null&&!localStorage.choiceAddress) {
 					this.address = '待完善'
 				}else if (localStorage.choiceAddress) {
 					let temp = JSON.parse(localStorage.choiceAddress);
-					this.areaColor.blue=false;
 					this.user.province = temp.province;
 					this.user.city = temp.city;
 					if (this.user.province = this.user.city) {
 						this.address = this.user.province;
+						if(this.address){
+							this.$vux.toast.show({
+								text: '修改成功'
+							});
+						}
 					} else {
 						this.address = this.user.province + this.user.city;					
 					}
 					userService.updateUser(this.$data.user);
 					localStorage.removeItem("choiceAddress");
 				} else {
-					this.areaColor.blue=false;
 					if (this.user.province = this.user.city) {
 						this.address = this.user.province;
 					} else {
@@ -348,39 +315,39 @@
 				if(this.$data.user.mobile == null) {
 					this.user.mobile='未绑定'
 				}
-			})			
+			});
+		},
+		watch:{
 		},
 		methods: {
 			//上传头像
-			commitUpload() {
-				this.$loading.open(2);
-		        let param = new FormData(); //创建form对象
-					// console.log(this.upFile)
-		        param.append('file',this.upFile,this.upFile.name);//通过append向form对象添加数据
-		        // debugger
-		        fileService.uploadHeadImage(param,(data)=>{
+			commitUpload(){
+				this.$vux.loading.show({
+				 text: 'Loading'
+				});
+				let param = new FormData();
+				param.append('file',this.upFile,this.upFile.name); //通过append向form对象添加数据
+				fileService.uploadHeadImage(param,(data)=>{
 		          	if (data && data.status == "success") {
 			          	let src = data.result.url;
-			          	this.$loading.close();
+			          	this.$vux.loading.hide();
+			          	this.$vux.toast.show({
+						 text: '头像上传成功'
+						});
 			          	this.imgurl = config.fileRoot +'/'+ src;
 			          	this.user.imageurl=src;
-			          	// console.log(this.user)
-					// debugger
-
 			          	let res = userService.updateUser(this.user);
 			          	if(res && res.status == "success"){
 				          	this.$store.dispatch('userImg',src);
-			          	}
+			          	}	          		
 		          	} else {
-			          	this.$loading.close();
+			          	this.$vux.loading.hide();
 		          		this.showAlert=true;
-						this.alertMes="请求失败，请稍后再试";
+						this.alertDesc="请求失败，请稍后再试";
 						setTimeout(()=>{
 							this.showAlert=false;
 						},1000)
 		          	}
-					// console.log(this.imgurl);
-					// console.log(data);
 				})
 			},
 			uploadAvatar(e){
@@ -398,11 +365,13 @@
 				 	return;
 				 }
 				this.ifCropper = true;
-				this.$loading.open(2);
+				this.$vux.loading.show({
+				 text: 'Loading'
+				});
 				let fileReader = new FileReader();	
 			    fileReader.readAsDataURL(file);
 				fileReader.onload = (e) => {
-					let data
+					let data;
 					if (typeof e.target.result === 'object') {
 						// 把Array Buffer转化为blob 如果是base64不需要
 						data = window.URL.createObjectURL(new Blob([e.target.result]))
@@ -417,151 +386,177 @@
 					  content:'文件读取失败，请重试',
 					})
 			    }
-				this.$loading.close();
+				this.$vux.loading.hide()
+				
 				//取消两次选择同一个文件是不能触发onchange事件问题
 				e.target.value = "";
 			},
+
+			//头像裁剪
 			photoConfirm(){
 				// 获取截图的blob数据
 				this.$refs.cropper.getCropBlob((data) => {
 					this.upFile = data;
 					this.photOption.img = ''
 					this.$set(this.upFile,"name",this.uploadImgName);
-					// console.log(this.upFile)
-					// debugger;
 					this.commitUpload();
 					this.ifCropper = false;
 					
 				});
-					// console.log(this.upFile)
-					// debugger;
 			},
 			photoCancle(){
 				this.photOption.img = ''
 				this.ifCropper = false;
-
 			},
-			show() {
-				console.log(this.value1);
-				console.log(this.user.username);
 
-			},
 			//用户名
-			userNameFn(){	
-				this.showObj.showName = true;
-				console.log(this.$data.user.username);
+			userNameFn(){
+				this.popList.showOne = true;
+				this.popList.showTwo = false;
+				this.popList.show = true;
+				this.popList.desc = this.user.username;
+				this.popList.placeholder = "请输入用户名";
+				this.popList.length = 20;
+				this.popList.tip = "支持英文、数字";
+				if(this.popList.desc.length > 0) {
+					this.popList.btnToggle = true;
+				}
+			},
+			handleSubmitOne(){
+				this.$data.user.username = this.popList.desc;
+				this.descfunc((data)=>{
+					if(data && data.status == "success") {
+						this.$store.dispatch('userName',this.popList.desc);
+					}
+				});
 			},
 
-			handleSend1(val){
-				this.$data.user.username = val;
-				let res = userService.updateUser(this.$data.user);
-				if(res && res.status == "success"){
-		          	this.$store.dispatch('userImg',val);
-	          	}
-				this.showObj.showName=false;
-			},
-
-			//用户介绍
-			userMsgFn(){
-				this.showObj.showMsg = true;
+			// 个人介绍
+			userIntroduceFn(){
+				this.popList.showOne = false;
+				this.popList.showTwo = true;
+				this.popList.show = true;
+				this.popList.desc = this.user.introduce;
+				this.popList.placeholder = "请输入个性签名";
+				this.popList.length = 40;
+				this.popList.tip = "";
+				if(this.popList.desc.length > 0) {
+					this.popList.btnToggle = true;
+				}
 			},
 			
-			handleSend2(val){
-				this.$data.user.introduce = val;
-				let data = userService.updateUser(this.$data.user);
-				this.showObj.showMsg=false;
+			handleSubmitTwo(){
+				this.$data.user.introduce = this.popList.desc;
+				this.descfunc(()=>{});	
 			},
-			//用户性别
-			userSexFn(){
-				this.showObj.showSex = true;
+			//限制文字字数
+			handleDesc(){
+				let descNum = this.popList.length - this.popList.desc.length;
+				if(descNum >= this.popList.length) {
+					this.popList.btnToggle = false;
+				}else{
+					this.popList.btnToggle = true;
+				}	
 			},
-			handleSex(val) {
-				this.$data.user.sex = val;
-				let data = userService.updateUser(this.$data.user);
-				this.showObj.showSex=false;
-			},
-			//点击mask关闭
-			cancel(){
-				this.showObj.showName = false;
-				this.showObj.showMsg = false;
-				this.showObj.showSex = false;
-			},
-			descValue(data){
-				this.$data.user.username = data;
-			},
-			//用户生日
+
+			// 生日
 			userBirthFn(){
 				let thiz = this;
+				let date = new Date();
 				this.$vux.datetime.show({
-					value:thiz.user.birthday,
-					confirmText:'确定',
+					confirmText:'完成',
 					cancelText:'取消',
-					startDate:"1900-01-01",
-					endDate:new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+(new Date().getDay()+2),
-					onConfirm (val){
+					startDate:'1900-01-01',
+					endDate: date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate(),
+					value:thiz.user.birthday,
+					onConfirm(val){
 						thiz.$data.user.birthday = val;
 						let data = userService.updateUser(thiz.$data.user);
-						
+						if(data.status == 'success') {
+							thiz.$vux.toast.show({
+								text: '修改成功'
+							});
+						}
 					}
 				})
 			},
-			//用户地区
-			userAreaFn(){
-				this.$TooL.goPage({name:'province'});
-				// Bus.$on('add',(val)=>{
-					
-				// 	thiz.$data.provinceList.province = val;
-				// 	console.log(thiz.$data.provinceList.province);
-				// 	// thiz.$data.user.province = val.provinceid;
-				// 	// thiz.$data.address = val.province;
-				// 	// let data = userService.getCurentUser();
 
-					
-				// 	// console.log(addData);
-				// })
-				// this.provinceList.province = thiz.$data.provinceList.province;	
+			// 性别选择
+			userSexFn(){
+				this.showSex = true;
 			},
-			checkPhone(val){
+			handleSex(item){
+				this.$data.user.sex = item;
+				let data = userService.updateUser(this.$data.user);
+				this.showSex = false;
+				if(data.status == "success") {
+					this.$vux.toast.show({
+						text: '修改成功'
+					});
+				}
+			},
+			handleSexCancel(){
+				this.showSex = false;
+			},
+
+			// 手机号绑定
+			userMobileFn(){	
+				this.showMobile = true;
+			},
+			handleCheckMobile(val){
 				if (val == this.user.mobile) {
-					return;
-				} else if (val.length == 11) {
-					userService.getCode(val,data=>{
-						if (data.status=='success') {
-							this.inputMobile = val;
-							this.verCode=data.result.code;
-							console.log(this.verCode)
-							this.showAlert=true;
-							this.alertMes="发送成功";
-							setTimeout(()=>{
-								this.showAlert=false;
-								this.showVerCode=true;
-							},1000)
-						} else {
-							this.showAlert=true;
-							this.alertMes="发送失败"
-						}
-						// console.log(data)
+					this.$vux.toast.show({
+					 text: '号码重复绑定',
+					 type:'cancel'
 					})
-				} else {
-					this.showAlert=true;
-					this.alertMes="号码有误";
+					return;
+				}else if(val.length == 11) {
+					userService.getCode(val,(data)=>{
+						if(data.status == "success") {
+							this.inputMobile = val;
+							this.inputCode = data.result.code;
+							this.showAlert = true;
+							this.alertDesc="发送成功";
+							setTimeout(()=>{
+								this.showAlert = false;
+								this.showCode = true;
+							},1000);
+						}else{
+							this.showAlert = true;
+							this.alertDesc = "发送失败";
+						}
+					})
+				}else {
+					this.showAlert = true;
+					this.alertDesc = "号码有误";
 				}
 			},
-			checkCode(val){
-				if (val == this.verCode) {
+			handleCheckCode(val){
+				if(val == this.inputCode) {
 					this.user.mobile = parseInt(this.inputMobile);
-					let res = userService.updateUser(this.user);
-			          	if(res && res.status == "success"){
-				          	this.$store.dispatch('userMobile',this.user.mobile);
-			          	}
-				} else {
-					this.showAlert=true;
-					this.alertMes="验证码错误";
+					let data = userService.updateUser(this.user);
+					if(data && data.status == "success"){
+						this.$store.dispatch('userMobile',this.user.mobile);
+					}
+				}else {
+					this.showAlert = true;
+					this.alertDesc = "验证码错误";
 					setTimeout(()=>{
-						this.showAlert=false;
-						this.showVerCode=true;
-					},1000)
+						this.showAlert = false;
+						this.showCode = true;
+					},1000);
 				}
+			},
+			//函数
+			descfunc(callback){
+				let data = userService.updateUser(this.$data.user);
+				this.popList.show = false;
+				if(data.status == "success") {
+					this.$vux.toast.show({
+						text: '修改成功'
+					});
+				}
+				callback (data);
 			}
 		},
 		beforeRouteEnter (to, from, next) {
@@ -570,104 +565,200 @@
             }else{
               next();
             } 
-		},
-		// beforeRouteLeave (to, from, next){
-		// 	next();
-		// }
+		}
 	}
 		
 </script>
 
-<style lang="css" scoped>
-	.editInfo-body {
-		/*padding-top: 50px;	*/
-		margin-top: 15px;
-	}
-	.editInfo-modal,.editInfo-switch {
-		margin-bottom: 15px;
-		background-color: #fff;
-		padding-left: 15px;
-		border-top: 1px solid #e8e8e8;
-		border-bottom: 1px solid #e8e8e8;
-	}
-	.editInfo-modal-item, .editInfo-switch-item {
-		line-height: 50px;
-		padding-right: 15px;
-		border-bottom: 1px solid #e8e8e8;
-		position: relative;
-	}
-	.editInfo-modal-item:last-child,.editInfo-switch-item:last-child {
-		border-bottom: none;
-	}
-	.editInfo-modal-item>span,
-	.editInfo-switch-item>span {
-		font-size: 16px;
-	}
-	.editInfo-modal-item i {
-		color: #999;
-		font-size: 20px;
-	}
-	.editInfo-head-img{
-		width: 30px;
-		height: 30px;
-		margin-top: 8px;
-		margin-right: 6px;
-		border-radius: 50%;
-	}
-	.editInfo-head-img img{
-		display: block;
-		width: 100%;
-		height: 100%;
-		border-radius: 50%;
-	}
-	.editInfo-head-tip {
-		width: 120px;
-		text-align: right;
-		margin-right: 6px;
-		color: #999;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow:ellipsis;
-	}
-	.uploadInput {
-		opacity: 0;
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-	}
-	.editInfo-tit{
-		padding: 0 15px 15px 15px;
-		color: #999;
-	}
-	.switch-btn {
-		margin-top: 10px;
-	}
+<style lang="less" scoped>
+	.editInfo-wrap{
+		margin-top: @topHeigth + .18rem;
+		padding-bottom: .18rem;
+		.editInfo-list {
+			padding: 0 .26rem;
+			border-top: .02rem solid @borderColor;
+			border-bottom: .02rem solid @borderColor;
+			background-color: #fff;
+			margin-bottom: .18rem;
+			.editInfo-item {
+				height: .9rem;
+				line-height: .9rem;
+				border-bottom: .02rem solid @borderColor;
+				position: relative;
+				.uploadInput {
+					opacity: 0;
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+				}
+				.editInfo-tit {
+					font-size: .32rem;
+				}
+				.editInfo-img {
+					width: .7rem;
+					height: .7rem;
+					border-radius: 50%;
+					border: .02rem solid @borderColor;
+					margin-top: .1rem;
+					margin-right: .1rem;
+					img{
+						display: block;
+						border-radius: 50%;
+					}
+				}
+				.editInfo-desc{
+					color: #999;
+					font-size: .28rem;
+					margin-right: .1rem;
+				}
+				.editInfo-username{
+					width: 3.5rem;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					text-align: right;
+				}
+				.editInfo-suggest {
+					width: 3.6rem;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					text-align: right;
+				}
+				.iconfont{
+					font-size: .5rem;
+					color: #999;
+				}
+			}
+			.editInfo-item:last-child{
+				border-bottom: none;
+			}
+		}
+		.editInfo-setup{
+			// padding: 0 .26rem;
+			.editInfo-setup-tip{
+				display: block;
+				padding: 0 .26rem;
+				margin: .15rem 0;
+				font-size: .24rem;
+				color: #999;
+			}
 
-	.editInfo-modal-item .blue{
-		color: #2a90d7;
-	}
-	.editInfo-modal-item .black{
-		color:#999;
+
+		}
 	}
 	.operate-li{
 	    display: inline-block;
 	    width: 20%;
 	    color: #fff;
 	    text-align: center;
-	    line-height: 36px;
+	    line-height: .72rem;
 	    background: rgba(139, 139, 139, 0.99);
-	    border-radius: 10px;
+	    border-radius: .2rem;
 	    margin: 0 14%;
+	}
+	
+
+	.popup-wrap {
+		padding: .26rem; 
+		width: 100%;
+		background-color: #f4f5f6;
+		.popup-area {
+			width: 100%;
+			height: 1.82rem;
+			position: relative;
+			margin-bottom: .14rem;
+			textarea{
+				width: 100%;
+				height: 100%;
+				background-color: #fff;
+				border: .02rem solid @borderColor;
+				border-radius: .2rem;
+				padding: .13rem .18rem;
+				font-size: .28rem;
+				resize:  none;
+			}
+			textarea::-webkit-input-placeholder{color:#999;}
+			textarea:-moz-placeholder{color:#999;}
+			textarea::-moz-placeholder{color:#999;}
+			textarea:-ms-input-placeholder{color:#999;}
+			.popup-num{
+				position: absolute;
+				bottom: .13rem;
+				right: .18rem;
+				font-size: .24rem;
+				color: #999;
+			}
+		}
+		.popup-tip {
+			height: .52rem;
+			line-height: .52rem;
+			.popup-tip-desc {
+				font-size: .28rem;
+				color: #999;
+			}
+			.popup-btn{
+				width: 1.04rem;
+				height: 100%;
+				text-align: center;
+				background-color: #cacaca;
+				border-radius: .1rem;
+				color: #fff;
+				pointer-events: none;
+			}
+			.btnActive{
+				background-color: @mainColor;
+				pointer-events: auto ;
+			}
+		}
+	}
+	.vux-popup-dialog{
+		background-color: transparent;
+		.popup-sex{
+			padding: .3rem;
+			.popup-sex-list{
+				background-color: #fff;
+				border-radius: .2rem;
+				overflow: hidden;
+				margin-bottom: .25rem;
+				li{
+					width: 100%;
+					height: 1rem;
+					line-height: 1rem;
+					text-align: center;
+					box-shadow: inset 0 -1px 0 0 #ebebeb;
+					font-size: .36rem;
+					color: #008CFF;
+				}
+			}
+			.popup-sex-btn{
+				width: 100%;
+				height: 1rem;
+				line-height: 1rem;
+				background-color: #fff;
+				font-size: .36rem;
+				border-radius: .2rem;
+				color: #6b6b6b;
+			}
+
+		}
 	}
 </style>
 <style>	
+
 	/*vuecropper 样式修改*/
 	.cropper-modal{
 	    background: rgb(66, 66, 66);
 	}
 	.vue-cropper{
 		background-image: none !important;
+	}
+	.vux-no-group-title {
+	    margin-top: 0 !important;
+	}
+	.weui-label{
+		font-size: .32rem;
 	}
 </style>

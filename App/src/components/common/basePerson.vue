@@ -53,9 +53,6 @@ import followService from '@/service/followService'
 export default {
 	data(){
 		return {
-			demo2: '美食',
-			 index: 0,
-			 // list2: list(),
 			title:'',
 			userPhoto:require('@/assets/images/userPhoto.jpg'),
 			focusNum:{
@@ -126,7 +123,7 @@ export default {
 
 <style lang="less" scoped>
 	.member-msg{
-		margin-top: @topHeigth;
+		margin-top: calc(@topHeigth + .18rem);
 		padding: .3rem .4rem;
 		background-position: 0 0;
 		background-size: 100% 100%;

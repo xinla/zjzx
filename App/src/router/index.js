@@ -34,17 +34,6 @@ export default new Router({
         require(['@/view/detail.vue'],resolve)
       },
     },
-    //新闻详情页面(作者视图)
-    {
-      path: '/articleDetail',
-      name: 'articleDetail',
-       component: (resolve)=>{
-        require(['@/view/member/articleDetail.vue'],resolve)
-      },
-      // meta: {
-      //   keepAlive: false // 不需要缓存
-      // }
-    },
     //搜索页面
     {
       path: '/search',

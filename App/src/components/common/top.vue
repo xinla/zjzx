@@ -42,6 +42,7 @@ export default {
 	position: fixed;
 	left: 0;
 	top: 0;
+	z-index: 99999;
 	.top-back-icon{
 		width: .4rem;
 		.iconfont{
