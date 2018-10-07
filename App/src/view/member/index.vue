@@ -55,30 +55,19 @@
 </template>
 <script>
 import config from '@/lib/config/config'
-import fileService from '@/service/fileService'
+import followService from '@/service/followService'
+
 export default {
-  created() {
+  // created() {
+  //   this.$nextTick(()=>{
+  //     this.loadUser();
+  //     this.loadDayNight();     
+  //   })  
+  // },
+  activated() {
   	this.$nextTick(()=>{
-      if (localStorage.getItem('token')) {
-    		let userImg = this.$store.userImg || localStorage.userImg;
-        this.userName = this.$store.userName || localStorage.userName;
-        this.ifLogin = true;
-        if (userImg) {
-          try {
-            this.userPhoto = config.fileRoot + '/' + userImg;
-          } catch (err) {
-            console.log(41)
-          }
-        }
-      }
-      // console.log(this.ifLogin);
-      if (localStorage.dayNight) {
-        if (localStorage.dayNight == 'day') {
-          this.dayNight = 'day';
-        } else {
-          this.dayNight = 'night';
-        }
-      }
+      this.loadUser();
+      this.loadDayNight();     
   	})  
   },
   data() {
@@ -101,7 +90,7 @@ export default {
         { id: 4, desc: '系统设置', class: 'icon-setup', path: '/topBase/set' }
       ],
       loginLink: '/topBase/login',
- 		userName: '用户名',
+ 		  userName: '用户名',
       ifLogin: false,
       userPhoto: require('@/assets/images/userPhoto.jpg'),
       focusNum: 0,
@@ -111,6 +100,43 @@ export default {
     }
   },
   methods: {
+    loadUser(){      
+      if (localStorage.getItem('token')) {
+        let userImg = localStorage.userImg;
+        this.userName = localStorage.userName;
+        this.ifLogin = true;
+        if (userImg) {
+          try {
+            this.userPhoto = config.fileRoot + '/' + userImg;
+          } catch (err) {
+            console.log(41)
+          }
+        }
+        //获取粉丝数量
+        followService.getUserVermicelliCount(data=>{
+          if (data && data.status == "success" ) {
+            this.fansNum = data.result.count;
+          }
+        });   
+        //获取关注数量
+        followService.getUserFollowCount(data=>{
+          if (data && data.status == "success" ) {
+            this.focusNum = data.result.count;
+          }
+        });
+      }else{
+        this.ifLogin = false;
+      }
+    },
+    loadDayNight(){
+      if (localStorage.dayNight) {
+        if (localStorage.dayNight == 'day') {
+          this.dayNight = 'day';
+        } else {
+          this.dayNight = 'night';
+        }
+      }
+    },
     handleMember(){
       console.log(11111);
     },
@@ -133,7 +159,18 @@ export default {
       // location.reload();
       history.go(0)
     }
-  }
+  },
+  // watch:{
+  //   "$store"(){
+  //     console.log(this.$store);
+  //     this.loadUser();
+  //   }
+  // },
+  // beforeRouteEnter (to, from, next) {
+  //   next(vm=>{
+  //     vm.loadUser();
+  //   })
+  // }
 }
 
 </script>

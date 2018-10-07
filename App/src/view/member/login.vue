@@ -154,9 +154,9 @@
 							 let userImg = data.result.user.imageurl;
 							 let userName = data.result.user.username;
 							 let userMobile = data.result.user.mobile;
-							 this.$store.dispatch('UserLogin',token);
-							 this.$store.dispatch('UserId',id);
-							 this.$store.dispatch('UserLogid',logid);
+							 this.$store.dispatch('userLogin',token);
+							 this.$store.dispatch('userId',id);
+							 this.$store.dispatch('userLogid',logid);
 							 this.$store.dispatch('userImg',userImg);
 							 this.$store.dispatch('userName',userName);
 							 this.$store.dispatch('userMobile',userMobile);

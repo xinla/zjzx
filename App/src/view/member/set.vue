@@ -45,19 +45,29 @@ export default{
 				})
 				return;
 			}
-			let resLogOut = userService.logOut();
-			if (resLogOut && resLogOut.status=="success") {
-				localStorage.clear();
-				this.$vux.alert.show({
-				  	content:'退出成功',
-				})
-				// setTimeout(()=>{
-				// 	this.$vux.alert.hide();
-				// },1000)			
-			} else {
-				this.$vux.alert.show({
-				  	content:'退出失败',
-				})	
+			let _this = this;
+			this.$vux.confirm.show({
+				content:"确定要退出吗",
+				onConfirm () {
+					temp.call(_this);
+				}
+			})
+			function temp (){
+				let resLogOut = userService.logOut();
+				if (resLogOut && resLogOut.status=="success") {
+					this.$store.dispatch("userLogout")
+					this.$Tool.goPage({name:"/"});
+					this.$vux.alert.show({
+					  	content:'退出成功',
+					})
+					setTimeout(()=>{
+						this.$vux.alert.hide();
+					},1000)			
+				} else {
+					this.$vux.alert.show({
+					  	content:'退出失败',
+					})	
+				}				
 			}
 		},
 	},

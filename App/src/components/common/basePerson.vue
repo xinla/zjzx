@@ -39,7 +39,7 @@
 		</div>
 		<div class="main">
 			<keep-alive>
-				<router-view></router-view>				
+				<router-view></router-view>
 			</keep-alive>
 		</div>
 	
@@ -66,8 +66,7 @@ export default {
 			publidsedNum:{
 				type:Number,
 				default:0,	
-			},	
-
+			},
 			switchList:[
 				{desc:'发布', path:'/personBase/published', query:1},
 				{desc:'关注', path:'/personBase/focus', query:2},
@@ -78,13 +77,10 @@ export default {
 			]
 		}
 	},
-	mounted(){
-		this.init();	
-	},
 	methods:{
 		init(){
-    		let userImg = this.$store.userImg || localStorage.userImg;	 	
-			this.title = this.$store.userName || localStorage.userName;
+    		let userImg = localStorage.userImg;	 	
+			this.title = localStorage.userName;
 			if( userImg ){
 				this.userPhoto = config.fileRoot + '/' + userImg;
 			}	
@@ -117,7 +113,7 @@ export default {
           	vm.init();
           });
         } 
-	}
+	},
 }
 </script>
 

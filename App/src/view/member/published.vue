@@ -15,18 +15,7 @@ export default {
 	components:{
 	},
 	mounted(){
-		var resAllList = articleService.getArticleByUser(1,10);
-		if (resAllList&&resAllList.status == "success") {
-			this.arcList = resAllList.result.recordPage.list;			
-			if (this.arcList.length == 0) {
-				this.proIf = true;
-				this.proMes = "您想要的真相消失啦~~~";
-			}
-		} else {
-			this.proIf = true;
-			this.proMes = "请求失败，请稍后再试！"
-		}
-		// console.log(resAllList)
+		// this.init();
 	},
 	data(){
 		return {
@@ -36,6 +25,19 @@ export default {
 		}
 	},
 	methods:{
+		init(){
+			var resAllList = articleService.getArticleByUser(1,10);
+			if (resAllList&&resAllList.status == "success") {
+				this.arcList = resAllList.result.recordPage.list;			
+				if (this.arcList.length == 0) {
+					this.proIf = true;
+					this.proMes = "您想要的真相消失啦~~~";
+				}
+			} else {
+				this.proIf = true;
+				this.proMes = "请求失败，请稍后再试！"
+			}
+		},
 		deleteArticle([id,whi,event]){
 			let _this = this;
 			this.$vux.confirm.show({
@@ -59,13 +61,15 @@ export default {
 					this.$vux.alert.show({
 					  content:'删除失败，请重试！',
 					})
-					setTimeout(()=>{
-						this.$vux.alert.hide();
-					},1000)
 				}
 			}
 
-		}
+		},
+	},
+	beforeRouteEnter (to, from, next) {
+		next(vm=>{
+			vm.init();
+		})
 	}
 }
 </script>
