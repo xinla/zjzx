@@ -294,7 +294,6 @@
 				let data = userService.getCurentUser();
 				if (data&&data.status == "success") {
 					this.user = data.result.user;					
-					localStorage.userData = JSON.stringify(data.result.user);
 				}
 				// console.log(this.$data.user)
 				// let addData = provinceService.getProvinceList();
@@ -368,7 +367,10 @@
 			          	// console.log(this.user)
 					// debugger
 
-			          	userService.updateUser(this.user)	          		
+			          	let res = userService.updateUser(this.user);
+			          	if(res && res.status == "success"){
+				          	this.$store.dispatch('userImg',src);
+			          	}
 		          	} else {
 			          	this.$loading.close();
 		          		this.showAlert=true;
@@ -452,7 +454,10 @@
 
 			handleSend1(val){
 				this.$data.user.username = val;
-				let data = userService.updateUser(this.$data.user);
+				let res = userService.updateUser(this.$data.user);
+				if(res && res.status == "success"){
+		          	this.$store.dispatch('userImg',val);
+	          	}
 				this.showObj.showName=false;
 			},
 
@@ -545,7 +550,10 @@
 			checkCode(val){
 				if (val == this.verCode) {
 					this.user.mobile = parseInt(this.inputMobile);
-					let data = userService.updateUser(this.$data.user);
+					let res = userService.updateUser(this.user);
+			          	if(res && res.status == "success"){
+				          	this.$store.dispatch('userMobile',this.user.mobile);
+			          	}
 				} else {
 					this.showAlert=true;
 					this.alertMes="验证码错误";
@@ -563,13 +571,9 @@
               next();
             } 
 		},
-		beforeRouteLeave (to, from, next){
-			if (JSON.stringify(this.user) != localStorage.userData) {
-			}
-				console.log(1)
-				location.reload();
-			next();
-		}
+		// beforeRouteLeave (to, from, next){
+		// 	next();
+		// }
 	}
 		
 </script>

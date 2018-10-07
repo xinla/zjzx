@@ -5,12 +5,12 @@ Vue.use(Vuex);
 
 //初始化变量
 let state = {
-
   token:window.localStorage.getItem('token'),
   id:null,
   logid:null,
-  username:null
-
+  username:null,
+  usetImg:"",
+  userMobile:null,
 }
 //创建改变状态的方法
 const mutations = {
@@ -31,8 +31,16 @@ const mutations = {
     window.localStorage.setItem('logid', data);
   },
   USERNAME(state,data) {
-    state.username = data;
+    state.userName = data;
     window.localStorage.setItem('userName',data);
+  },
+  USERIMG(state,data){
+    state.userImg = data;
+    localStorage.userImg = data;
+  },
+  USERMOBILE(state,data){
+    state.userMobile = data;
+    localStorage.userMobile = data;
   }
 
 }
@@ -50,8 +58,14 @@ const actions = {
   UserLogid({commit},data) {
     commit('LOGID', data);
   },
-  UserName({commit},data) {
+  userName({commit},data) {
     commit('USERNAME',data);
+  },
+  userImg({commit},data) {
+    commit("USERIMG",data);
+  },
+  userMobile({commit},data) {
+    commit("USERMOBILE",data);
   }
 }
 

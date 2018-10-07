@@ -82,36 +82,43 @@ export default {
 		}
 	},
 	mounted(){
-		var userData = JSON.parse(localStorage.userData);
-		this.title = userData.username;
-		if( userData.imageurl ){
-			this.userPhoto = config.fileRoot + '/' + userData.imageurl;
-		}	
-		//获取文章数量
-		articleService.getUserArticleCount(data=>{
-			if (data && data.status == "success" ) {
-				this.publidsedNum = data.result.count;			
-			}			
-		});
-		// console.log(resArticleCount)
-		//获取粉丝数量
-		followService.getUserVermicelliCount(data=>{
-			if (data && data.status == "success" ) {
-				this.fansNum = data.result.count;
-			}
-		});		
-		//获取关注数量
-		followService.getUserFollowCount(data=>{
-			if (data && data.status == "success" ) {
-				this.focusNum = data.result.count;
-			}
-		});		
+		this.init();	
+	},
+	methods:{
+		init(){
+    		let userImg = this.$store.userImg || localStorage.userImg;	 	
+			this.title = this.$store.userName || localStorage.userName;
+			if( userImg ){
+				this.userPhoto = config.fileRoot + '/' + userImg;
+			}	
+			//获取文章数量
+			articleService.getUserArticleCount(data=>{
+				if (data && data.status == "success" ) {
+					this.publidsedNum = data.result.count;			
+				}			
+			});
+			// console.log(resArticleCount)
+			//获取粉丝数量
+			followService.getUserVermicelliCount(data=>{
+				if (data && data.status == "success" ) {
+					this.fansNum = data.result.count;
+				}
+			});		
+			//获取关注数量
+			followService.getUserFollowCount(data=>{
+				if (data && data.status == "success" ) {
+					this.focusNum = data.result.count;
+				}
+			});
+		 }
 	},
 	beforeRouteEnter (to, from, next) {
 		if (!localStorage.id ) { 
             GoTruth.$Tool.loginPrompt(); 
         }else{
-          next();
+          next((vm)=>{
+          	vm.init();
+          });
         } 
 	}
 }

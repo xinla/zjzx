@@ -59,14 +59,13 @@ import fileService from '@/service/fileService'
 export default {
   created() {
   	this.$nextTick(()=>{
-  		let userData;
       if (localStorage.getItem('token')) {
-        userData = JSON.parse(localStorage.userData);
-        this.userName = userData.username;
+    		let userImg = this.$store.userImg || localStorage.userImg;
+        this.userName = this.$store.userName || localStorage.userName;
         this.ifLogin = true;
-        if (userData.imageurl) {
+        if (userImg) {
           try {
-            this.userPhoto = config.fileRoot + '/' + userData.imageurl;
+            this.userPhoto = config.fileRoot + '/' + userImg;
           } catch (err) {
             console.log(41)
           }

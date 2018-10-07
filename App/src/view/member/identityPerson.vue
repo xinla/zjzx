@@ -39,7 +39,7 @@ export default{
 		return {
 			achieved:{
 				ifRelease:true,
-				ifBind:JSON.parse(localStorage.userData).mobile,
+				ifBind:this.$store.userMobile || localStorage.mobile,
 			},
 			path:{
 				info:{},
@@ -48,7 +48,7 @@ export default{
 		}
 	},
 	mounted(){
-		if (localStorage.userData.mobile) {
+		if (this.achieved.ifBind) {
 			this.path.info={name:'identityPerson',query:{title:'个人认证'}};
 		}else{
 			this.path.info={name:'editInfo',query:{title:'资料编辑'}};

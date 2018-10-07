@@ -136,25 +136,34 @@
 			login() {
 				//登录按钮亮起代表信息格式填写正确
 				if(this.isOpacity == true) {
-					if(this.mobileErr){this.mobileErrText="请填写正确的手机号";return;}else{
+					if(this.mobileErr){
+						this.mobileErrText="请填写正确的手机号";
+						return;
+					}
+					else{
 						this.mobileErrText='';
 					}
 					this.$loading.open(2);
 					userService.loginByMobile(this.$data.mobile,this.$data.code,(data)=>{
-						if(data.status == 'success') {
+						if(data && data.status == 'success') {
 							// debugger;
 							this.$loading.close();
 							 let token = data.result.token;
 							 let id = data.result.user.id;
 							 let logid = data.result.user.logid;
+							 let userImg = data.result.user.imageurl;
+							 let userName = data.result.user.username;
+							 let userMobile = data.result.user.mobile;
 							 this.$store.dispatch('UserLogin',token);
 							 this.$store.dispatch('UserId',id);
 							 this.$store.dispatch('UserLogid',logid);
+							 this.$store.dispatch('userImg',userImg);
+							 this.$store.dispatch('userName',userName);
+							 this.$store.dispatch('userMobile',userMobile);
 							 this.$Tool.goPage({name: '/',replace:true});
 							 location.reload();
-							 localStorage.userData = JSON.stringify(data.result.user);			
-						}
-						if(data.status == 'error') {
+
+						}else if(data.status == 'error') {
 							this.code = '';
 							this.codeText=data.result.tip;
 						}else{
