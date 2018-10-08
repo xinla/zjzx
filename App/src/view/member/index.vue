@@ -7,7 +7,7 @@
         <ul class="clearfix">
           <li class="icon-item" v-for="item in loginArr" :key="item.id"><i class="iconfont" :class="item.class"></i></li>
         </ul>
-        <router-link :to="{path:loginLink}">
+        <router-link :to="{path:loginLink,query:{title:'用户登录'}}">
 	        <div class="member-btn">
 	          <button>登录/注册</button>
 	        </div>

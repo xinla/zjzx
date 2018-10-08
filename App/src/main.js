@@ -11,7 +11,9 @@ window.$ = $;
 import router from './router'
 import store from './store/index'
 
-import 'animate.css/animate.min.css'
+// import 'animate.css/animate.min.css'
+
+import animate from 'animate.css'
 //css样式
 import './assets/styles/reset.css'
 // import './assets/styles/iconfont.css'
