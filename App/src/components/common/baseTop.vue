@@ -3,9 +3,9 @@
 		<top @hrefTo="this.$Tool.goBack">
 			<template slot="title">{{title}}</template>
 		</top>
-		<div>			
-			<router-view></router-view>
-		</div>
+		<router-view class="router-view"></router-view>
+		<!-- <div>			
+		</div> -->
 	</div>
 </template>
 
@@ -35,5 +35,9 @@ export default{
 <style rel="stylesheet" scoped>
 	.hreficon{
 		width: 30px;
+	}
+	.router-view{
+	    margin-top: 1.05rem;
+	    padding: 0 0.18rem 0.18rem;
 	}
 </style>

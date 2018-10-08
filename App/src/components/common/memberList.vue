@@ -1,32 +1,59 @@
 <template>
 	<div>
 		<ul class="member" v-if="list.length">
-			<li class="member-list" v-for="item in list"><img class="uname" src="http://wallpapers1.hellowallpaper.com/animal_nature--20_24-1920x1200.jpg">{{ item.username }}</li>
+			<li class="member-list" v-for="item in userList">
+				<img class="uname" :src="item.imageurl?(fileRoot+item.imageurl):imgurl">
+				{{ item.username }}
+			</li>
 		</ul>
 		<prompt-blank v-if="!list.length" :mes="mes"></prompt-blank>
 	</div>
 </template>
 
 <script>
+import config from '@/lib/config/config'
 import userService from '@/service/userService'
 export default{
 	data(){
-		return{			
+		return{	
+			imgurl:require('@/assets/images/userPhoto.jpg'),
+			fileRoot:config.fileRoot+'/',
+			userList:[
+				{
+					username:'',
+					imageurl:'',
+				}
+			],		
 		}
 	},
 	props:{
 		list:{
 			type:Array,
 			default:[],
+			// { id :"记录id", userid :"点赞用户id", type:"点赞类型"，praisetime:"点赞时间", itemid:"项目id"}
 		},
 		mes:{
 			type:String,
 			default:"",
 		},
 	},
+	methods:{
+		init(){
+			//获取列表人信息
+			let temp = [];
+			for (var i = 0,len = this.list.length; i < len; i++) {
+				userService.getUserById(this.list[i].id,data=>{
+					if (data && data.status == "success") {
+						temp.push(data.result.user);
+					}					
+				});
+			}
+			this.userList = temp;
+		}
+	},
 	watch:{
 		list(){
-
+			this.init();
 		}
 	}
 }	

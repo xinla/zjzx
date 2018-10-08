@@ -8,7 +8,8 @@
 <script>
 import articleService from '@/service/articleService'
 export default {
-	mounted(){
+	activated(){
+		this.init();
 	},
 	data(){
 		return {
@@ -32,11 +33,11 @@ export default {
 			}
 		},
 	},
-	beforeRouteEnter (to, from, next) {
-		next(vm=>{
-			vm.init();
-		})
-	}
+	// beforeRouteEnter (to, from, next) {
+	// 	next(vm=>{
+	// 		vm.init();
+	// 	})
+	// }
 }
 </script>
 

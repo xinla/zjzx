@@ -37,11 +37,9 @@
 				</router-link>
 			</ul>
 		</div>
-		<div class="main">
-			<keep-alive>
-				<router-view></router-view>
-			</keep-alive>
-		</div>
+		<keep-alive>
+			<router-view class="router-view"></router-view>
+		</keep-alive>
 	
 	</div>
 </template>
@@ -202,6 +200,7 @@ export default {
 
 		}
 	}
-	.main{
+	.router-view{
+		background: #fff;
 	}
 </style>

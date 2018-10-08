@@ -23,7 +23,7 @@
 	            <div class="member-user-desc">
 	              <h4 class="member-username">{{userName}}</h4>
 	              <p class="member-user-item member-user-focus">关注<span>{{focusNum}}</span></p>
-	              <p class="member-user-item member-user-fans">粉丝<span>{{fansNum}}</span></p>
+	              <p class="member-user-item member-user-fans">粉丝<span>{{fansNum}}<badge></badge></span></p>
 	            </div>
 	            <div class="member-user-arrow" @click="handleMember">
 	              <i class="iconfont icon-arrow-right"></i>
@@ -46,6 +46,7 @@
             <i class="iconfont icon-item" :class="item.class"></i>
             <p class="member-body-desc">
               <span>{{item.desc}}</span>
+              <badge></badge>
               <i class="iconfont icon-arrow-right arrow-item"></i>
             </p>
           </router-link>

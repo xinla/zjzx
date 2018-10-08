@@ -53,5 +53,19 @@ service.doPraise = function(itemid,type){
 
 	return resDoPraise;
 }
+
+//点赞列表
+service.getPraiseList = function(itemid,type,page,size){
+	var params = {
+		itemid,//:"项目id",
+		type,//:"项目类型"//1:文章，2:评论
+		page,//:"当前页"
+		size,//:"分页大小"
+	};
+
+	var resMap = commonUtil.ajaxAsync(controller+'/getPraiseList',params);
+
+	return resMap;
+}
 export default service
 

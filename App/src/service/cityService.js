@@ -4,10 +4,6 @@ import commonUtil from '@/service/util/commonUtil'
 const controller =config.successServer+'/city';
 const service ={}
 
-
-
-
-
 service.getCityByProvince = function(provinceid) {
 	
 	var params = {

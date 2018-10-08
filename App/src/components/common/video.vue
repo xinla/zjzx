@@ -1,5 +1,5 @@
 <template>
-	<div class="text-wrap bfc-o" @click="$Tool.goPage({ name:'detail',query:{id,} })">
+	<div class="text-wrap bfc-o" @click="$Tool.goPage({ name:'detail',query:{id:article.id,} })">
 		<div>
 			<h1>{{article.title}}</h1>
 			<video-player class="video-player vjs-custom-skin" 
@@ -12,7 +12,7 @@
 			<span v-if="ifPublisher">{{publisher}}</span>
 			<span>{{CommentNum}}条评论</span>
 			<span>{{publishtime}}</span>
-			<small class="delete fr" @click="$emit('delete',[id,whi])" v-if="ifDel">X</small>
+			<small class="delete fr" @click="$emit('delete',[article.id,whi,$event])" v-if="ifDel">X</small>
 		</p>
 	</div>
 </template>
@@ -25,7 +25,6 @@ import articleService from '@/service/articleService'
 export default {
 	data(){
 		return {
-			id:this.article.id,
 			imgurl:require('@/assets/images/userPhoto.jpg'),
 			ArticleFile:[
 				{
@@ -64,6 +63,7 @@ export default {
 	props:{
 		article:Object,
 		whi:Number,
+		//判断是否显示发布人
 		ifPublisher:{
 			type:Boolean,
 			default:true,

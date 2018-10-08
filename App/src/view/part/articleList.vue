@@ -2,7 +2,7 @@
 	<downRefresh class="main-content" @refresh="getArtList()"  @scrolling="loadMore">
 		<div>				
 			<loading-main v-show="!arcList.length"></loading-main>
-			<multIT v-for="(item,index) in arcList" :article="item" :ifPublisher="true" :key="index"></multIT>
+			<multIT v-for="(item,index) in arcList" :article="item" :key="index"></multIT>
 			<!-- <bigIVT :article="item" v-else-if="item.type==2"></bigIVT>	 -->
 			<!-- <smaIVT :article="item" v-else="item.type==3"></smaIVT> -->
 			<load-more v-show="arcList.length && ifLoad" tip="正在加载"></load-more>				

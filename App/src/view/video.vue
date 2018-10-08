@@ -2,7 +2,7 @@
 	<down-refresh @refresh="getArtList()">
 		<div class="main-content" @scroll="loadMore">
 			<loading-main v-show="ifLoad"></loading-main>
-			<z-video v-for="(item,index) in arcList" :article="item" :ifPublisher="true" :key="index"></z-video>
+			<z-video v-for="(item,index) in arcList" :article="item" :key="index"></z-video>
 		</div>			
 	</down-refresh>
 </template>

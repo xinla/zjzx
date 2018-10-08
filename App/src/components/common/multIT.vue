@@ -1,5 +1,5 @@
 <template>
-	<div class="text-wrap bfc-o"  @click="$Tool.goPage({ name:'detail',query:{id,detailType,}})">
+	<div class="text-wrap bfc-o"  @click="$Tool.goPage({ name:'detail',query:{id:article.id,detailType,}})">
 		<div>
 			<!-- 单图文 -->
 			<div class="img-wrap fr" v-if="imgList.length < 3">
@@ -28,7 +28,7 @@
 			<span v-if="ifPublisher">{{publisher}}</span>
 			<span>{{CommentNum}}评</span>
 			<span>{{publishtime}}</span>
-			<small class="delete fr" @click="$emit('delete',[id,whi,$event]);" v-if="ifDel">X</small>
+			<small class="delete fr" @click="$emit('delete',[article.id,whi,$event]);" v-if="ifDel">X</small>
 		</p>
 	</div>
 </template>
@@ -43,7 +43,6 @@ import articleService from '@/service/articleService'
 export default {
 	data(){
 		return {
-			id:this.article.id,
 			imgurl:require('@/assets/images/userPhoto.jpg'),
 			ArticleFile:[
 				{
@@ -63,10 +62,12 @@ export default {
 	props:{
 		article:Object,
 		whi:Number,
+		//判断是否为作者详情视图(真:为作者视图；假（空）:为浏览视图)
 		detailType:{
 			type:String,
 			default:"",
 		},
+		//判断是否显示发布人
 		ifPublisher:{
 			type:Boolean,
 			default:true,
@@ -80,8 +81,8 @@ export default {
 	},	
 	watch:{
 		article(){
-			this.getArticleInfo();		
-		}
+			this.getArticleInfo();
+		},
 	},
 	methods:{
 		getArticleInfo(){
@@ -90,14 +91,16 @@ export default {
 					this.ArticleFile = data.result.filelist;				
 				}				
 			});
-			if (this.article.author) {
-				userService.getUserById(this.article.author,data=>{
-					if (data && data.status == "success") {
-						this.publisher = data.result.user.username;
-					}
-				});				
-			}else{
-				this.publisher = "真相官方";
+			if (this.ifPublisher) {
+				if (this.article.author) {
+					userService.getUserById(this.article.author,data=>{
+						if (data && data.status == "success") {
+							this.publisher = data.result.user.username;
+						}
+					});				
+				}else{
+					this.publisher = "真相官方";
+				}				
 			}
 			// 获取文章评论数量
 			articleCommentService.getArticleCommentCount(this.article.id,data=>{

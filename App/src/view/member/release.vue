@@ -26,7 +26,7 @@
 			<!-- 上传视频 -->
 			<dd class="thumb-wrap">
 				<img v-for="(item,index) in record_file" :src="fileRoot + item.thumbnail" alt="">
-				<label for="upvideo" class="icon-plus iconfont">&#xe800;</label>
+				<label for="upvideo" class="icon-plus iconfont"></label>
 				<input type="file"  id="upvideo" accept="video/*" @change="uploadFile">
 			</dd>
 		</fieldset>

@@ -11,7 +11,7 @@
 					<img :src="artUser.imageurl?(fileRoot+artUser.imageurl):imgurl" alt="" class="uphoto uphoto-big">
 					<div>
 						<div class="uname">
-							{{ artUser.username }}
+							{{ artUser.username || "真相官方" }}
 						</div>
 						<div class="ts">
 							<time v-text="$Tool.publishTimeFormat(article.publishtime)"></time>
@@ -137,7 +137,7 @@
 							<div class="comment-detail">				
 								<p>
 									<span class="uname oe bfc-d">{{commentList[commentIndex].username}}</span>
-									<button type="button" class="focus-b bfc-p" @click="doFocus(replyUserId,2)">{{replyUserFocusState?'已关注':'关注'}}</button>
+									<button type="button" class="focus-b bfc-p" @click="doFocus(replyUserId,2,)">{{replyUserFocusState?'已关注':'关注'}}</button>
 								</p>	
 								<p class="ucomment">{{commentList[commentIndex].content}}</p>
 								<div>
@@ -250,6 +250,7 @@ import articleCommentService from '@/service/article_commentService'
 import articleCollectService from '@/service/articleCollectService'
 import shareService from '@/service/shareService'
 import messageService from '@/service/messageService'
+import transmitService from '@/service/transmitService'
 
 export default {
 	components:{
@@ -397,10 +398,10 @@ export default {
 	mounted(){
 		this.id = this.$route.query.id;
 		this.detailType = this.$route.query.detailType || 0;
-		this.loadArticle();
+		this.init();
 	},	
 	methods:{
-		loadArticle(){
+		init(){
 			if (!this.id) {
 				this.$vux.alert.show({
 					  content: '获取出错，请返回！',
@@ -581,24 +582,26 @@ export default {
 				this.$options.methods.loadComment.call(this);
 			} else {}
 		},
-		doFocus(id,type){
+		doFocus(userId,type){
 			// 关注/取消关注
 			//type:1文章发布者，2评论者
 			if (!localStorage.id ) { this.$Tool.loginPrompt(); return; }
 			this.$loading.open();
-			let resFocusState = followService.doFollow(id);
+			let resFocusState = followService.doFollow(userId);
 			if (resFocusState && resFocusState.status == "success") {
 				if (type==1) {
 					if (resFocusState.result == 1) {
 						this.focusState = true;
-						//发送消息
-						messageService.sendMessage(id);
+						//给发布人发送消息
+						messageService.sendMessage(userId,"focus",this.id,1);
 					} else {
 						this.focusState = false;
 					}
 				} else {
 					if (resFocusState.result == 1) {
 						this.replyUserFocusState = true;
+						//给评论人发送消息
+						messageService.sendMessage(userId,"focus",this.replyCommentId,2);
 					} else {
 						this.replyUserFocusState = false;
 					}
@@ -627,6 +630,8 @@ export default {
 						this.ifCommentSwitch =false;
 						this.commentCon = "";
 						this.commentNum ++;
+						//给发布人发送消息
+						messageService.sendMessage(userId,"reply",this.id,1);
 						let dis = $(".detail").scrollTop() + $(".btn-a-wrap").offset().top -100;
 						$(".detail").animate({scrollTop:dis},100);
 					} else {
@@ -646,6 +651,8 @@ export default {
 						this.commentConAdd = "";
 						this.commentList[this.commentIndex].replyCount ++;
 						// this.ifReply = true;
+						//给评论人发送消息
+						messageService.sendMessage(userId,"reply",this.replyCommentId,2);
 						this.loadReply();
 						$(".reply-wrap").animate({scrollTop:0},100);
 						
@@ -704,6 +711,8 @@ export default {
 					if (resDoPraise.result.code == 1) {
 						this.likeStatus = true;
 						this.likeNum ++;
+						//给发布人发送消息
+						messageService.sendMessage(userId,"like",this.id,1);
 					} else {
 						this.likeStatus = false;
 						this.likeNum --;
@@ -718,6 +727,8 @@ export default {
 						this.ifLike = true;
 						this.commentList[index].likeNum ++;
 						this.commentList[index].ifLike = true;
+						//给评论人发送消息
+						messageService.sendMessage(userId,"like",this.replyCommentId,2);
 					} else {
 						// console.log(1)
 						this.curLike = index;
@@ -749,6 +760,8 @@ export default {
 					this.$vux.alert.show({
 					  content:'收藏成功！',
 					})
+					//给发布人发送消息
+						messageService.sendMessage(userId,"collect",this.id,1);
 					setTimeout(()=>{
 						this.$vux.alert.hide();
 					},1000)			
@@ -844,6 +857,10 @@ export default {
 			if(type == 2) {
 				this.ifSwitchB = false;
 				this.current = 2;
+				let res = transmitService.getTransmitList(this.id,1,10);
+				if (res && res.status == "success") {
+					this.listMember = res.recordPage.list;
+				}
 				if(this.listMember.length == 0){
 					this.proMes = "还没有人转发哦"
 				}
@@ -852,6 +869,10 @@ export default {
 			if(type == 3) {
 				this.ifSwitchB = false;
 				this.current = 3;
+				let res = praiseService.getPraiseList(this.id,1,1,10);
+				if (res && res.status == "success") {
+					this.listMember = res.recordPage.list;
+				}
 				if(this.listMember.length == 0){
 					this.proMes = "还没有人点赞哦"
 				}
@@ -861,12 +882,13 @@ export default {
 	},
 	watch:{
 		id(){
-			this.loadArticle();
+			this.init();
 		}
 	},
 	beforeRouteEnter(to,from,next){
 		next(vm=>{
-			vm.id = vm.$route.query.id;			
+			vm.id = vm.$route.query.id;	
+			vm.detailType = vm.$route.query.detailType || 0;
 		})
 	}
 }

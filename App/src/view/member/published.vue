@@ -7,15 +7,12 @@
 </template>
 
 <script>
-import config from '@/lib/config/config'
 
 import articleService from '@/service/articleService'
 
 export default {
-	components:{
-	},
-	mounted(){
-		// this.init();
+	activated(){
+		this.init();
 	},
 	data(){
 		return {
@@ -62,15 +59,21 @@ export default {
 					  content:'删除失败，请重试！',
 					})
 				}
+				console.log(this.arcList)
 			}
 
 		},
 	},
-	beforeRouteEnter (to, from, next) {
-		next(vm=>{
-			vm.init();
-		})
-	}
+	// watch:{
+	// 	arcList(){
+	// 		this.getArticleInfo();	
+	// 	}
+	// },
+	// beforeRouteEnter (to, from, next) {
+	// 	next(vm=>{
+	// 		vm.init();
+	// 	})
+	// }
 }
 </script>
 

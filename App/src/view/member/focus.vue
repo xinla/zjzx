@@ -1,7 +1,5 @@
 <template>
-	<div>
-		<memberList :list="list" :mes="proMes"></memberList>
-	</div>
+	<memberList :list="list" :mes="proMes"></memberList>
 </template>
 
 <script>
@@ -18,7 +16,7 @@ export default{
 		}
 	},
 	mounted(){
-		let res = userService.getUserVermicelli(1,10);
+		let res = userService.getUserFollow(1,10);
 		if (res&&res.status == "success") {
 			this.list = res.result.recordPage.list;
 			if (this.list.length == 0) {
