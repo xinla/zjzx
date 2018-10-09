@@ -1,5 +1,12 @@
 <template>
 	<div>
+		<!-- <div class="editor bfc-o">
+			<i class="iconfont icon-delete fr" v-if="!ifDeleteAll" @click="ifDeleteAll = true;"></i>
+			<div v-else>
+				<span @click="deleteAll()" class="deleteAll">删除全部</span>
+				<span class="fr" @click="ifDeleteAll = false;">完成</span>					
+			</div>
+		</div> -->
 		<multIT v-for="(item,index) in arcList" :article="item" :whi="index" detailType=1 :ifPublisher="false" :ifDel="true" @delete="deleteArticle" :key="index"></multIT>
 			<!-- <bigIVT :article="item" v-else="item.type==2"></bigIVT>	 -->
 		<prompt-blank v-if="proIf" :mes="proMes"></prompt-blank>
@@ -19,6 +26,7 @@ export default {
 			arcList:[],
 			proMes:'',
 			proIf:false,
+			// ifDeleteAll:false,
 		}
 	},
 	methods:{
@@ -78,5 +86,18 @@ export default {
 </script>
 
 <style rel="stylesheet" scoped>
-
+	.editor{
+		color: #aaa;
+		line-height: 40px;
+	    padding:0 0.3rem;
+		border-bottom: 0.02rem solid #e8e8e8;
+	}
+	.deleteAll{
+		border: 0.02rem solid #e8e8e8;
+		border-radius: 8px;
+		padding: 2px 6px;
+	}
+	.icon-delete{
+		font-size: 18px;
+	}
 </style>

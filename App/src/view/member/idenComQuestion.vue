@@ -72,7 +72,8 @@ export default{
 
 <style rel="stylesheet" scoped>
 	.qa{
-		margin:10px;
+		display: block;
+		padding: 0 10px;
 	}
 	.qa-list{
 		line-height: 20px;

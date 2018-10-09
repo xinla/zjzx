@@ -29,9 +29,7 @@ export default {
 		}
 	},
 	mounted () {
-		if (!this.classify) {
-			this.getArtList();			
-		}
+		this.getArtList();			
 	},
 	data(){
 		return {
@@ -72,13 +70,6 @@ export default {
 	watch:{
 		$route(){
 			$(".main-content").eq(this.classify).scrollTop(this.scrollTop);
-		},
-		show(val){
-			if (val) {				
-				this.getArtList();
-				// this.ifLoad = false;
-				// console.log(1)
-			}
 		}
 	}
 }

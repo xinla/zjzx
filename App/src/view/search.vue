@@ -24,7 +24,7 @@
 			<div class="search-history" v-show="historyKeywords.length">
 				<div class="search-head clearfix">
 					<span class="fl">历史记录</span>
-					<i class="iconfont fr" v-if="!ifDeleteAll" @click="historyNum = historyKeywords.length;ifDeleteAll = true;">&#xe646;</i>
+					<i class="iconfont fr icon-delete" v-if="!ifDeleteAll" @click="historyNum = historyKeywords.length;ifDeleteAll = true;"></i>
 					<div class="fr" v-else>
 						<span @click="deleteAll()">删除全部</span>
 						<span @click="ifDeleteAll = false;">完成</span>					
