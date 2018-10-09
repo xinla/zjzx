@@ -5,9 +5,12 @@
 		</top>
 		<div class="member-msg">
 			<div class="member-msg-header">
-				<div class="member-msg-image">
-					<img :src="userPhoto" alt="">
+				<div class="member-msg-image" v-for="(item, index) in list" @click="show(index)">
+					<img class="previewer-demo-img" :src="item.src">
 				</div>
+				<div v-transfer-dom>
+			      <previewer :list="list" ref="previewer" :options="options"></previewer>
+			    </div>
 				<div class="member-msg-modal">
 					<ul class="member-msg-list">
 						<li class="member-msg-item" @click="$Tool.goPage({ name:'release',query:{title:'发布图文',sort:1}})">
@@ -48,9 +51,27 @@
 import config from '@/lib/config/config'
 import articleService from '@/service/articleService'
 import followService from '@/service/followService'
+import { Previewer, TransferDom } from 'vux'
 export default {
+	directives: {
+		TransferDom
+	},
+	components: {
+		Previewer
+	},
 	data(){
 		return {
+			list:[{
+				src:'@/assets/images/defaultImg.png'
+			}],
+			options: {
+				getThumbBoundsFn (index) {
+					let thumbnail = document.querySelectorAll('.previewer-demo-img')[index]
+					let pageYScroll = window.pageYOffset || document.documentElement.scrollTop
+					let rect = thumbnail.getBoundingClientRect()
+					return {x: rect.left, y: rect.top + pageYScroll, w: rect.width}
+				}
+			},
 			title:'',
 			userPhoto:require('@/assets/images/userPhoto.jpg'),
 			focusNum:{
@@ -71,17 +92,25 @@ export default {
 				{desc:'粉丝', path:'/personBase/fans', query:3},
 				{desc:'收藏', path:'/personBase/collect', query:4},
 				{desc:'历史', path:'/personBase/history', query:5},
-
 			]
 		}
 	},
+	// mounted(){
+	// 	this.$nextTick(()=>{
+	// 		if(this.list[0].src == ""){
+				
+	// 		}
+	// 	})
+	// },
 	methods:{
 		init(){
-    		let userImg = localStorage.userImg;	 	
+    		let userImg = localStorage.userImg;	
+
 			this.title = localStorage.userName;
 			if( userImg ){
-				this.userPhoto = config.fileRoot + '/' + userImg;
-			}	
+				this.list[0].src = config.fileRoot + '/' + userImg;
+			}
+			console.log(userImg); 
 			//获取文章数量
 			articleService.getUserArticleCount(data=>{
 				if (data && data.status == "success" ) {
@@ -101,7 +130,10 @@ export default {
 					this.focusNum = data.result.count;
 				}
 			});
-		 }
+		 },
+		 show(index){
+			 this.$refs.previewer.show(index);
+		},
 	},
 	beforeRouteEnter (to, from, next) {
 		if (!localStorage.id ) { 
