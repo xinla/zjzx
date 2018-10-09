@@ -37,7 +37,7 @@ export default{
 		width: 30px;
 	}
 	.router-view{
-	    margin-top: 1.05rem;
-	    padding: 0 0.18rem 0.18rem;
+	    /*margin-top: 1.05rem;*/
+	    /*padding: 0 0.18rem 0.18rem;*/
 	}
 </style>

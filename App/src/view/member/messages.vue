@@ -1,11 +1,19 @@
 <template>
-	<!-- 文章动态通知 -->
-	<ul class="article">
-		<li class="article-li" v-for="(item,index) in list">
-			{{ item.itemid }}
-			<badge></badge>
-		</li>
-	</ul>
+	<div class="msg-wrap">
+		<ul class="msg-list">
+			<li class="msg-tip" v-if="tipShow">
+				<div class="msg-tip-box">
+					<i class="iconfont icon-nomsg"></i>
+					<p class="msg-tip-desc">暂无消息通知</p>
+				</div>
+				
+			</li>
+			<li class="msg-item" v-for="(item,index) in list" v-if="msgShow">
+				{{item.itemid}}<badge></badge>
+			</li>
+		</ul>
+	</div>
+	
 </template>
 
 <script>
@@ -20,14 +28,23 @@ export default {
 					userid :"接收人id", itemid :"项目id", type :"项目类型", createtime :"最新消息时间", isnew:"是否最新消息", newcount:"最新消息数量" 
 				}
 			],
+			tipShow:false,
+			msgShow:false
 		}
 	},
 	mounted(){
-		this.init();
+		this.$nextTick(()=>{
+			this.init();
+			if(!this.list.itemid){
+				this.tipShow = true;
+				this.msgShow = false;
+			}else{
+				this.tipShow = false;
+				this.msgShow = true;
+			}
+		})
+		
 	},
-	// activated(){
-	// 	this.init();
-	// },
 	methods:{
 		init(){
 			let res = messageService.getMessagePage(this.page,this.size);
@@ -36,7 +53,6 @@ export default {
 				this.list.push({ 
 					userid :"接收人id", itemid :"项目id", type :"项目类型", createtime :"最新消息时间", isnew:"是否最新消息", newcount:"最新消息数量" 
 				})
-				console.log(1)
 			}
 		}
 	},
@@ -51,16 +67,39 @@ export default {
 </script>
 
 <style lang="less" scoped>
-	.article{
-		background:#fff;
-		padding-bottom: 0;
-	}
-	.article-li{
-		line-height: 30px;
-		border-bottom: .02rem solid @borderColor;
+	.msg-wrap{
+		margin-top: @topHeigth;
+		width: 100%;
+		height: calc( 100vh - .87rem );
+		overflow-y: auto;
+		padding: 0 .2rem;
+		background-color: #fff;
+		.msg-list {
+			width: 100%;
+			.msg-item {
+				padding: .3rem 0;
+				border-bottom: .02rem solid @borderColor;
+			}
+			.msg-tip {
+				width: 100%;
+				height: calc( 100vh - .87rem );
+				text-align: center;
+				color: #ccc;
+				.msg-tip-box{
+					position: relative;
+					top: 25%;
+					.iconfont{
+						font-size: 1.2rem;
+					}
+					.msg-tip-desc{
+						padding: .4rem 0;
+						letter-spacing: .04rem;
+					}
+				}
 
-		&:last-child{
-			border: none;
+
+			}
+
 		}
-	}
+	}	
 </style>
