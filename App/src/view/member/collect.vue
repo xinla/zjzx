@@ -31,18 +31,14 @@ export default {
 		init(){
 			this.lock = true;
 			this.ifLoad = true;
-			var resAllList = articleService.getCollectArticlePage(this.page,10);
-			if (resAllList&&resAllList.status == "success") {
-				if (!resAllList.recordPage.list.length) {
-					this.ifLoad = false;
-					return;
-				}
-				this.page++;						
-				this.arcList = this.arcList.concat(resAllList.recordPage.list);
-				if (this.arcList.length == 0) {
-					this.proIf = true;					
+			var res = articleService.getCollectArticlePage(this.page,10);
+			if (res&&res.status == "success") {
+				if (res.recordPage.list.length) {
+					this.page++;						
+					this.arcList = this.arcList.concat(res.recordPage.list);					
+				}else if (this.arcList.length == 0) {
+					this.proIf = true;
 					this.proMes = "您想要的真相消失啦~~~";
-					return;
 				}
 			} else {
 				this.proIf = true;

@@ -1,60 +1,88 @@
 <template>
-	<div class="msg-wrap">
+	<div class="msg-wrap" @scroll="loadMore">
 		<ul class="msg-list">
-			<li class="msg-tip" v-if="tipShow">
+			<!-- <li class="msg-tip" v-if="!list.length">
 				<div class="msg-tip-box">
 					<i class="iconfont icon-nomsg"></i>
 					<p class="msg-tip-desc">暂无消息通知</p>
-				</div>
-				
-			</li>
-			<li class="msg-item" v-for="(item,index) in list" v-if="msgShow">
-				{{item.itemid}}<badge></badge>
+				</div>				
+			</li> -->
+			<li class="msg-item" v-for="(item,index) in list">
+				<span class="msg-title oe bfc-d">sdgsg aasfafeaea ewaerawe dgsfgesfsafsfea <!-- {{item.title}} --></span>
+				<badge></badge>
 			</li>
 		</ul>
+		<prompt-blank v-if="proIf" :mes="proMes"></prompt-blank>
+		<load-more :show-loading="ifLoad"></load-more>
 	</div>
 	
 </template>
 
 <script>
 import messageService from '@/service/messageService'
+import articleService from '@/service/articleService'
+
 export default {
 	data(){
 		return {
-			page:1,
-			size:20,
 			list:[
 				{ 
 					userid :"接收人id", itemid :"项目id", type :"项目类型", createtime :"最新消息时间", isnew:"是否最新消息", newcount:"最新消息数量" 
 				}
 			],
-			tipShow:false,
-			msgShow:false
+			proMes:'',
+			proIf:false,
+			ifDeleteAll:false,
+			page:1,
+			lock:false,
+			ifLoad:true,
 		}
 	},
 	mounted(){
 		this.$nextTick(()=>{
+			this.page = 1;
+			this.list = [];
 			this.init();
-			if(!this.list.itemid){
-				this.tipShow = true;
-				this.msgShow = false;
-			}else{
-				this.tipShow = false;
-				this.msgShow = true;
-			}
-		})
-		
+		})		
 	},
 	methods:{
 		init(){
-			let res = messageService.getMessagePage(this.page,this.size);
+			this.lock = true;
+			this.ifLoad = true;
+			let res = messageService.getMessagePage(this.page,20);
 			if (res && res.status == "success") {
-				this.list = res.recordPage.list;
-				this.list.push({ 
-					userid :"接收人id", itemid :"项目id", type :"项目类型", createtime :"最新消息时间", isnew:"是否最新消息", newcount:"最新消息数量" 
-				})
+				if (res.recordPage.list.length) {
+					this.page++;						
+					this.list = this.list.concat(res.recordPage.list);					
+				}else if (this.list.length == 0) {
+					this.proIf = true;
+					this.proMes = "您想要的真相消失啦~~~";
+				}
+			} else {
+				this.proIf = true;
+				this.proMes = "请求失败，请稍后再试！"
 			}
-		}
+			for (var i = 0,len = this.list.length; i < len; i++) {
+				if (this.list[i].type == 1) {
+					let res = articleService.getArticleById(this.list[i].itemid)
+					if (res && res.status == "success") {
+						this.$set(this.list,"title",res.record.title)
+					}
+				} else if (this.list[i].type == 2) {
+
+				} else {
+
+				}
+			}
+			this.lock = false;
+			this.ifLoad = false;
+		},
+		loadMore(e){
+			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
+				this.init();
+				console.log(1)
+			}
+		},
 	},
 	beforeRouteEnter (to, from, next) {
 		if (!localStorage.id ) { 
@@ -101,5 +129,9 @@ export default {
 			}
 
 		}
+	}
+	.msg-title{
+		width: 60%;
+		line-height:30px;
 	}	
 </style>

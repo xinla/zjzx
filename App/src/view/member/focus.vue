@@ -25,6 +25,8 @@ export default{
 	// 	this.init();
 	// },
 	activated(){
+		this.page = 1;
+		this.list = [];
 		this.init();
 		// console.log("focu")
 	},
@@ -34,15 +36,11 @@ export default{
 			this.ifLoad = true;
 			let res = followService.getUserFollow(this.page,10);
 			if (res && res.status == "success") {
-				if (!res.recordPage.list.length) {
-					this.ifLoad = false;
-					return;
-				}
-				this.page++;						
-				this.list = this.list.concat(res.recordPage.list);
-				if (this.list.length == 0) {
+				if (res.recordPage.list.length) {
+					this.page++;						
+					this.list = this.list.concat(res.recordPage.list);
+				}else if (this.list.length == 0) {
 					this.proMes = "您想要的真相消失啦~~~";
-					return;
 				}
 			} else {
 				this.proMes = "请求失败，请稍后再试！"

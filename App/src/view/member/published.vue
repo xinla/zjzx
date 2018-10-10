@@ -19,9 +19,6 @@
 import articleService from '@/service/articleService'
 
 export default {
-	activated(){
-		this.init();
-	},
 	data(){
 		return {
 			arcList:[],
@@ -32,23 +29,24 @@ export default {
 			ifLoad:true,
 		}
 	},
+	activated(){
+		this.page = 1;
+		this.arcList = [];
+		this.init();
+	},
 	methods:{
 		init(){
 			this.lock = true;
 			this.ifLoad = true;
 			var res = articleService.getArticleByUser(this.page,10);
 			if (res&&res.status == "success") {
-				if (!res.result.recordPage.list.length) {
-					this.ifLoad = false;
-					return;
-				}
-				this.page++;
-				console.log(this.page)					
-				this.arcList = this.arcList.concat(res.result.recordPage.list);	
-				if (this.arcList.length == 0) {
+				if (res.result.recordPage.list.length) {
+					this.page++;
+					// console.log(this.page)					
+					this.arcList = this.arcList.concat(res.result.recordPage.list);	
+				}else if (this.arcList.length == 0) {
 					this.proIf = true;
 					this.proMes = "您想要的真相消失啦~~~";
-					return;
 				}
 			} else {
 				this.proIf = true;

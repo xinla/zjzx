@@ -33,7 +33,7 @@ service.sendMessage = function(targetuserid,content,itemid,type,call){
 		targetuserid,//:"接受者id"， 
 		content,//："消息内容",
 		itemid,//:"项目id"，
-		type,//："消息类型"	//1：文章（点赞，评论，收藏，转发，举报） 2：评论(回复、点赞、举报），3：反馈
+		type,//："消息类型"	//1：文章（点赞，评论，收藏，转发，举报） 2：评论(回复、点赞、举报），3：反馈(官方回复)
 	};
 		commonUtil.ajax(controller+'/sendMessage',params,call);
 

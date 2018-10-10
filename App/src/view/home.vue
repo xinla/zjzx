@@ -47,7 +47,7 @@
 				<span class="footer-text">首页</span>
 			</div>
 			<div :class="['footer-item',{'current':2 == showIndex}]" @click="show(2)">
-				<i class="iconfont icon-xiaoxi footer-icon"></i>
+				<i class="iconfont icon-xiaoxi footer-icon"><badge class=bfc-p></badge></i>
 				<span class="footer-text">消息</span>
 			</div>
 			<div :class="['footer-item',{'current':3 == showIndex}]" @click="show(3)">
@@ -55,7 +55,7 @@
 				<span class="footer-text">视频</span>
 			</div>
 			<div :class="['footer-item',{'current':4 == showIndex}]" @click="show(4)">
-				<i class="iconfont icon-wode footer-icon"></i>
+				<i class="iconfont icon-wode footer-icon"><badge class=bfc-p></badge></i>
 				<span class="footer-text">我的</span>
 			</div>
 		</div>

@@ -23,7 +23,7 @@
 	            <div class="member-user-desc">
 	              <h4 class="member-username">{{userName}}</h4>
 	              <p class="member-user-item member-user-focus">关注<span>{{focusNum}}</span></p>
-	              <p class="member-user-item member-user-fans">粉丝<span>{{fansNum}}<badge></badge></span></p>
+	              <p class="member-user-item member-user-fans">粉丝<span>{{fansNum}}</span></p>
 	            </div>
 	            <div class="member-user-arrow" @click="handleMember">
 	              <i class="iconfont icon-arrow-right"></i>
@@ -44,11 +44,14 @@
         <ul class="member-body-list">
           <router-link class="member-body-item" v-for="item in menuArr" :key="item.id" tag="li" :to="{path:item.path,query:{title:item.desc}}">
             <i class="iconfont icon-item" :class="item.class"></i>
-            <p class="member-body-desc">
+            <div class="member-body-desc">
               <span>{{item.desc}}</span>
-              <badge></badge>
               <i class="iconfont icon-arrow-right arrow-item"></i>
-            </p>
+              <div class="fr">
+              <badge></badge>
+                
+              </div>
+            </div>
           </router-link>
         </ul>
       </div>
@@ -383,5 +386,7 @@ export default {
     border-bottom: none;
   }
 }
-
+.vux-badge-dot{
+  padding: 4px;
+}
 </style>

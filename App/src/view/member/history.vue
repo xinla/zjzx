@@ -33,7 +33,8 @@ export default {
 		}
 	},
 	activated(){
-		// this.page = 1;
+		this.page = 1;
+		this.arcList = [];
 		this.init();
 	},
 	methods:{
@@ -42,16 +43,12 @@ export default {
 			this.ifLoad = true;
 			let res = readHistoryService.getReadHistory(this.page,10);
 			if (res && res.status == "success") {
-				if (!res.recordPage.list.length) {
-					this.ifLoad = false;
-					return;				
-				}
-				this.page++;						
-				this.arcList = this.arcList.concat(res.recordPage.list);
-				if (this.arcList.length == 0) {
+				if (res.recordPage.list.length) {
+					this.page++;						
+					this.arcList = this.arcList.concat(res.recordPage.list);					
+				}else if (this.arcList.length == 0) {
 					this.proIf = true;
 					this.proMes = "您想要的真相消失啦~~~";
-					return;
 				}
 			} else {
 				this.proIf = true;
