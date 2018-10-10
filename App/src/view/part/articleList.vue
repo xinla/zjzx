@@ -34,7 +34,7 @@ export default {
 	data(){
 		return {
 			arcList:[],
-			pageSize:1,
+			page:1,
 			lock:false,
 			ifLoad:true,
 			scrollTop:0,			
@@ -46,17 +46,17 @@ export default {
 			this.ifLoad = true;
 			let resArticlePage;
 			if(this.classify == 0){
-				resArticlePage = articleService.articlePage(this.pageSize,15);
+				resArticlePage = articleService.articlePage(this.page,15);
 			}else{
-				resArticlePage = articleService.articlePage(this.pageSize,15,this.classify);
+				resArticlePage = articleService.articlePage(this.page,15,this.classify);
 			}
 			if (resArticlePage && resArticlePage.status == "success") {
 				this.arcList = this.arcList.concat(resArticlePage.recordPage.list);	
-				this.pageSize++;
-				this.lock = false;
-				this.ifLoad = false;
+				this.page++;
 				// console.log(this.arcList);articlePage
 			}
+			this.lock = false;
+			this.ifLoad = false;
 		},
 		loadMore(e){
 			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {

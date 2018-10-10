@@ -4,6 +4,10 @@
 			<li class="member-list" v-for="item in userList">
 				<img class="uname" :src="item.imageurl?(fileRoot+item.imageurl):imgurl">
 				{{ item.username }}
+				<div class="fr ac" v-if="ifFocus" @click="doFocus(item.id);">
+					<span v-if="focus" class="focused">已关注</span>
+					<span v-else class="focus">关注</span>					
+				</div>
 			</li>
 		</ul>
 		<prompt-blank v-if="!list.length" :mes="mes"></prompt-blank>
@@ -13,55 +17,95 @@
 <script>
 import config from '@/lib/config/config'
 import userService from '@/service/userService'
+import followService from '@/service/followService'
 export default{
 	data(){
 		return{	
 			imgurl:require('@/assets/images/userPhoto.jpg'),
 			fileRoot:config.fileRoot+'/',
 			userList:[
-				{
-					username:'',
-					imageurl:'',
-				}
-			],		
+				// {
+				// 	username:'',
+				// 	imageurl:'',
+				// 	id:'',
+				// }
+			],	
+			focus:1,	
 		}
 	},
 	props:{
 		list:{
 			type:Array,
 			default:[],
-			// { id :"记录id", userid :"点赞用户id", type:"点赞类型"，praisetime:"点赞时间", itemid:"项目id"}
 		},
 		mes:{
 			type:String,
 			default:"",
 		},
+		ifFocus:{
+			type:Boolean,
+			default:false,
+		},
 	},
+	// mounted(){
+	// 	this.init();
+	// },
 	methods:{
 		init(){
 			//获取列表人信息
+			// debugger
 			let temp = [];
+			this.userList = [];
+			// console.log(this.list);
 			for (var i = 0,len = this.list.length; i < len; i++) {
-				userService.getUserById(this.list[i].id,data=>{
+				let data = userService.getUserById(this.list[i].userid);
 					if (data && data.status == "success") {
 						temp.push(data.result.user);
 					}					
-				});
 			}
+			// this.$set(this,this.list,temp);.
+			// debugger
 			this.userList = temp;
+			// console.log(temp)
+			// console.log(this.userList)
+		},
+		doFocus(targetid){
+			if (!targetid) {console.log(1);return false;}
+			followService.doFollow(targetid,data=>{
+				if (data && data.status == "success") {
+					this.focus = Number(data.result);
+					// console(this.focus)
+					return;
+				}
+				if (data && data.status == "error") {
+					if (data.result == 1) {
+						this.$vux.alert.show({
+						  content:'登录失效,请重新登录！',
+						})
+					}else{
+						this.$vux.alert.show({
+						  content:'非法访问！',
+						})
+					}
+				}
+			})
 		}
 	},
 	watch:{
 		list(){
 			this.init();
+			// console.log(this.list)
 		}
 	}
 }	
 </script>
 
 <style scoped>
+	.member{
+		background: #fff;
+	}
 	.member-list{
-		padding: 15px 0;
+		padding: 15px 0.3rem;
 		border-bottom: 1px solid #eee;
 	}
 	.member-list:last-child{
@@ -72,5 +116,20 @@ export default{
 		max-width: 75px;
 		border-radius: 50%;
 		margin-right: 2%;
+	}
+	.focused,.focus{
+		display: inline-block;
+		width: 52px;
+	    border-radius: 6px;
+	    line-height: 24px; 
+	}
+	.focused{
+		color:#ddd;
+	    /*background: #ddd;*/
+	    border:1px solid #eee;
+	}
+	.focus{
+	    color: #fff;
+	    background: #f25d5d;	    
 	}
 </style>

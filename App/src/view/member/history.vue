@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div @scroll="loadMore">
 		<div class="editor bfc-o">
 			<i class="iconfont icon-delete fr" v-if="!ifDeleteAll" @click="ifDeleteAll = true;"></i>
 			<div v-else>
@@ -7,16 +7,18 @@
 				<span class="fr" @click="ifDeleteAll = false;">完成</span>					
 			</div>
 		</div>
-		<multIT :article="item" :ifPublisher="true" v-for="(item,index) in arcList" :ifDel="true" @delete="deleteArticle" :key="index"></multIT>
+		<articleSub v-for="(item,index) in arcList" :article="item" :whi="index" :ifPublisher="true"  @delete="deleteArticle" :key="index"></articleSub>
 		<prompt-blank v-if="proIf" :mes="proMes"></prompt-blank>
+		<load-more :show-loading="ifLoad"></load-more>
 	</div>
 </template>
 
 <script>
+import articleSub from '@/components/common/articleSub'
 import readHistoryService from '@/service/readHistoryService'
 export default {
-	activated(){
-		this.init();
+	components:{
+		articleSub,
 	},
 	data(){
 		return {
@@ -24,25 +26,42 @@ export default {
 			proMes:'',
 			proIf:false,
 			ifDeleteAll:false,
+			page:1,
+			lock:false,
+			ifLoad:true,
+			scrollTop:0,
 		}
+	},
+	activated(){
+		// this.page = 1;
+		this.init();
 	},
 	methods:{
 		init(){
-			readHistoryService.getReadHistory(1,10,data=>{
-				if (data && data.status == "success") {
-					this.arcList = data.recordPage.list;			
-					if (this.arcList.length == 0) {
-						this.proIf = true;
-						this.proMes = "您想要的真相消失啦~~~";
-					}
-				} else {
-					this.proIf = true;
-					this.proMes = "请求失败，请稍后再试！"
+			this.lock = true;
+			this.ifLoad = true;
+			let res = readHistoryService.getReadHistory(this.page,10);
+			if (res && res.status == "success") {
+				if (!res.recordPage.list.length) {
+					this.ifLoad = false;
+					return;				
 				}
-				
-			});
+				this.page++;						
+				this.arcList = this.arcList.concat(res.recordPage.list);
+				if (this.arcList.length == 0) {
+					this.proIf = true;
+					this.proMes = "您想要的真相消失啦~~~";
+					return;
+				}
+			} else {
+				this.proIf = true;
+				this.proMes = "请求失败，请稍后再试！"
+			}
+			this.lock = false;
+			this.ifLoad = false;
 		},
 		deleteArticle([id,whi,event]){
+			// debugger;
 			let _this = this;
 			this.$vux.confirm.show({
 				content:"确定要删除么",
@@ -51,10 +70,10 @@ export default {
 				}
 			})
 			event.stopPropagation();
-			function deleteArt (index) {
+			function deleteArt (whi) {
 				let resDelete = readHistoryService.clearHistory([id]);
 				if (resDelete && resDelete.status == "success") {
-					this.arcList.splice(index,1);
+					this.arcList.splice(whi,1);
 					this.$vux.alert.show({
 					  content:'删除成功',
 					})
@@ -99,7 +118,13 @@ export default {
 				}
 				// console.log(this.arcList)
 			}
-		}
+		},
+		loadMore(e){
+			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
+				this.init();
+				console.log(1)
+			}
+		},
 	},
 	// beforeRouteEnter (to, from, next) {
 	// 	next(vm=>{

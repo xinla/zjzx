@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div @scroll="loadMore">
 		<!-- <div class="editor bfc-o">
 			<i class="iconfont icon-delete fr" v-if="!ifDeleteAll" @click="ifDeleteAll = true;"></i>
 			<div v-else>
@@ -10,6 +10,7 @@
 		<multIT v-for="(item,index) in arcList" :article="item" :whi="index" detailType=1 :ifPublisher="false" :ifDel="true" @delete="deleteArticle" :key="index"></multIT>
 			<!-- <bigIVT :article="item" v-else="item.type==2"></bigIVT>	 -->
 		<prompt-blank v-if="proIf" :mes="proMes"></prompt-blank>
+		<load-more :show-loading="ifLoad"></load-more>
 	</div>
 </template>
 
@@ -26,22 +27,35 @@ export default {
 			arcList:[],
 			proMes:'',
 			proIf:false,
-			// ifDeleteAll:false,
+			page:1,
+			lock:false,
+			ifLoad:true,
 		}
 	},
 	methods:{
 		init(){
-			var resAllList = articleService.getArticleByUser(1,10);
-			if (resAllList&&resAllList.status == "success") {
-				this.arcList = resAllList.result.recordPage.list;			
+			this.lock = true;
+			this.ifLoad = true;
+			var res = articleService.getArticleByUser(this.page,10);
+			if (res&&res.status == "success") {
+				if (!res.result.recordPage.list.length) {
+					this.ifLoad = false;
+					return;
+				}
+				this.page++;
+				console.log(this.page)					
+				this.arcList = this.arcList.concat(res.result.recordPage.list);	
 				if (this.arcList.length == 0) {
 					this.proIf = true;
 					this.proMes = "您想要的真相消失啦~~~";
+					return;
 				}
 			} else {
 				this.proIf = true;
 				this.proMes = "请求失败，请稍后再试！"
 			}
+			this.lock = false;
+			this.ifLoad = false;
 		},
 		deleteArticle([id,whi,event]){
 			let _this = this;
@@ -71,6 +85,13 @@ export default {
 			}
 
 		},
+		loadMore(e){
+			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
+				this.init();
+				console.log(1)
+			}
+		},
+
 	},
 	// watch:{
 	// 	arcList(){

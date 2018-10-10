@@ -77,9 +77,6 @@ import articleList from '@/view/part/articleList'
 import zjzxVideo from '@/view/video'
 import member from '@/view/member/index'
 
-// import fangPian from '@/view/part/fangPian'
-
-
 import homeService from '@/service/homeService'
 import articleService from '@/service/articleService'
 import articleClassifyService from '@/service/article_classifyService'

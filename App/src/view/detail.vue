@@ -18,7 +18,7 @@
 							<!-- <span>{{ article.classify }}</span> -->
 						</div>
 					</div>
-					<button type="button" class="focus bfc-p" @click="doFocus(article.author,1)">{{focusState?'已关注':'关注'}}</button>
+					<button type="button" class="focus bfc-p" v-if="userId != article.author" @click="doFocus(article.author,1)">{{focusState?'已关注':'关注'}}</button>
 				</div>
 				<div class="content">
 					<div v-html="article.content"></div>
@@ -406,6 +406,7 @@ export default {
 				this.$vux.alert.show({
 					  content: '获取出错，请返回！',
 					})
+				this.$Tool.goBack();
 				return;
 			}
 			//添加阅读记录
@@ -586,32 +587,33 @@ export default {
 			// 关注/取消关注
 			//type:1文章发布者，2评论者
 			if (!localStorage.id ) { this.$Tool.loginPrompt(); return; }
-			this.$loading.open();
-			let resFocusState = followService.doFollow(userId);
-			if (resFocusState && resFocusState.status == "success") {
-				if (type==1) {
-					if (resFocusState.result == 1) {
-						this.focusState = true;
-						//给发布人发送消息
-						messageService.sendMessage(userId,"focus",this.id,1);
+			// this.$loading.open();
+			followService.doFollow(userId,data=>{
+				if (data && data.status == "success") {
+					if (type==1) {
+						if (data.result == 1) {
+							this.focusState = true;
+							//给发布人发送消息
+							messageService.sendMessage(userId,"focus",this.id,1);
+						} else {
+							this.focusState = false;
+						}
 					} else {
-						this.focusState = false;
+						if (data.result == 1) {
+							this.replyUserFocusState = true;
+							//给评论人发送消息
+							messageService.sendMessage(userId,"focus",this.replyCommentId,2);
+						} else {
+							this.replyUserFocusState = false;
+						}
 					}
-				} else {
-					if (resFocusState.result == 1) {
-						this.replyUserFocusState = true;
-						//给评论人发送消息
-						messageService.sendMessage(userId,"focus",this.replyCommentId,2);
-					} else {
-						this.replyUserFocusState = false;
-					}
+				}else{
+					this.$vux.alert.show({
+					  content:'关注失败，请重试',
+					})
 				}
-			}else{
-				this.$vux.alert.show({
-				  content:'关注失败，请重试',
-				})
-			}	
-			this.$loading.close();	
+				// this.$loading.close();										
+			});
 		// console.log(this.focusState)
 
 		},
@@ -631,7 +633,7 @@ export default {
 						this.commentCon = "";
 						this.commentNum ++;
 						//给发布人发送消息
-						messageService.sendMessage(userId,"reply",this.id,1);
+						messageService.sendMessage(this.article.author,"reply",this.id,1);
 						let dis = $(".detail").scrollTop() + $(".btn-a-wrap").offset().top -100;
 						$(".detail").animate({scrollTop:dis},100);
 					} else {
@@ -652,7 +654,7 @@ export default {
 						this.commentList[this.commentIndex].replyCount ++;
 						// this.ifReply = true;
 						//给评论人发送消息
-						messageService.sendMessage(userId,"reply",this.replyCommentId,2);
+						messageService.sendMessage(this.replyUserId,"reply",this.replyCommentId,2);
 						this.loadReply();
 						$(".reply-wrap").animate({scrollTop:0},100);
 						
@@ -712,7 +714,7 @@ export default {
 						this.likeStatus = true;
 						this.likeNum ++;
 						//给发布人发送消息
-						messageService.sendMessage(userId,"like",this.id,1);
+						messageService.sendMessage(this.article.author,"like",this.id,1);
 					} else {
 						this.likeStatus = false;
 						this.likeNum --;
@@ -728,7 +730,7 @@ export default {
 						this.commentList[index].likeNum ++;
 						this.commentList[index].ifLike = true;
 						//给评论人发送消息
-						messageService.sendMessage(userId,"like",this.replyCommentId,2);
+						messageService.sendMessage(this.replyUserId,"like",this.replyCommentId,2);
 					} else {
 						// console.log(1)
 						this.curLike = index;
@@ -761,7 +763,7 @@ export default {
 					  content:'收藏成功！',
 					})
 					//给发布人发送消息
-						messageService.sendMessage(userId,"collect",this.id,1);
+						messageService.sendMessage(this.article.author,"collect",this.id,1);
 					setTimeout(()=>{
 						this.$vux.alert.hide();
 					},1000)			

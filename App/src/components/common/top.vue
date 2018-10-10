@@ -1,5 +1,4 @@
 <template>
-
 	<div class="top-back">
 		<div class="top-back-icon"  @click="$emit('hrefTo')">
 			<i class="iconfont icon-arrow-left">

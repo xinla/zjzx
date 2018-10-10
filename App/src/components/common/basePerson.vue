@@ -36,7 +36,7 @@
 		</div>
 		<div class="member-tab">
 			<ul class="member-switch">
-				<router-link class="member-switch-item active" v-for="(item, index) in switchList" tag="li" :to="{path:item.path,query:{current:item.query}}" :key="index" exact>{{item.desc}}
+				<router-link class="member-switch-item active" v-for="(item, index) in switchList" tag="li" :to="{path:item.path,}" :key="index" >{{item.desc}}
 				</router-link>
 			</ul>
 		</div>
@@ -74,18 +74,9 @@ export default {
 			},
 			title:'',
 			userPhoto:require('@/assets/images/userPhoto.jpg'),
-			focusNum:{
-				type:Number,
-				default:0,	
-			},
-			fansNum:{
-				type:Number,
-				default:0,	
-			},
-			publidsedNum:{
-				type:Number,
-				default:0,	
-			},
+			focusNum:0,
+			fansNum:0,
+			publidsedNum:0,
 			switchList:[
 				{desc:'发布', path:'/personBase/published', query:1},
 				{desc:'关注', path:'/personBase/focus', query:2},
@@ -110,7 +101,7 @@ export default {
 			if( userImg ){
 				this.list[0].src = config.fileRoot + '/' + userImg;
 			}
-			console.log(userImg); 
+			// console.log(userImg); 
 			//获取文章数量
 			articleService.getUserArticleCount(data=>{
 				if (data && data.status == "success" ) {
@@ -233,6 +224,7 @@ export default {
 		}
 	}
 	.router-view{
-		background: #fff;
+	    height: calc(100% - 190px);
+	    overflow-y: auto;
 	}
 </style>

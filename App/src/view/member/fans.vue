@@ -1,5 +1,8 @@
 <template>
-	<memberList :list="list" :mes="proMes"></memberList>
+	<div @scroll="loadMore">
+		<memberList :list="list" :mes="proMes" :ifFocus="true"></memberList>
+		<load-more :show-loading="ifLoad"></load-more>
+	</div>
 </template>
 
 <script>
@@ -14,26 +17,46 @@ export default{
 			list:[],
 			proMes:'',
 			proIf:false,
+			page:1,
+			lock:false,
+			ifLoad:true,
 		}
 	},
-	mounted(){
-	},
+	// mounted(){
+	// 	this.init()
+	// },
 	activated(){
 		this.init();
-		// console.log(1)
+		// console.log("fans")
 	},
 	methods:{
 		init(){
-			let res = followService.getVermicelliList(1,10);
+			this.lock = true;
+			this.ifLoad = true;
+			let res = followService.getVermicelliList(this.page,10);
 			if (res&&res.status == "success") {
-				this.list = res.recordPage.list;
+				if (!res.recordPage.list.length) {
+					this.ifLoad = false;
+					return;
+				}
+				this.page++;						
+				this.list = this.list.concat(res.recordPage.list);
 				if (this.list.length == 0) {
 					this.proMes = "您想要的真相消失啦~~~";
+					return;
 				}
 			} else {
 				this.proMes = "请求失败，请稍后再试！"
 			}
-		}
+			this.lock = false;
+			this.ifLoad = false;
+		},
+		loadMore(e){
+			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
+				this.init();
+				console.log(1)
+			}
+		},
 	}
 }	
 </script>

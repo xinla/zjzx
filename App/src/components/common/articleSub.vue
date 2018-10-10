@@ -1,17 +1,17 @@
 <template>
-	<div class="text-wrap bfc-o"  @click="$Tool.goPage({ name:'detail',query:{id:article.id,detailType,}})">
+	<div class="text-wrap bfc-o"  @click="goDetail()">
 		<div>
 			<!-- 单图文 -->
 			<div class="img-wrap fr" v-if="imgList.length < 3">
 				<img v-for="(item,index) in imgList" v-if="index == 0" :src="item?item:imgurl">	
 			</div>
-			<h1 class="articel-title">{{article.title}}</h1>
+			<h1 class="articel-title">{{articleSub.title}}</h1>
 			<!-- 三图文 -->
 			<div class="img-wrap bfc-o" v-if="imgList.length >=3">
 				<img v-for="(item,index) in imgList" v-if="index < 3" :src="item?item:imgurl">	
 			</div>
 			<!-- picture -->
-			<div class="img-wrap img-three bfc-o" v-if="1 == article.type && ArticleFile.length">
+			<div class="img-wrap img-three bfc-o" v-if="1 == articleSub.type && ArticleFile.length">
 				<ul class="img-list clearfix">
 					<li class="img-item" v-for="(item, index) in ArticleFile" v-if="index < 3">
 						<img :src="item.url?(fileRoot+item.url):imgurl" alt="">
@@ -19,7 +19,7 @@
 				</ul>
 			</div>
 			<!-- video -->
-			<div class="big bfc-o" v-else-if="2 == article.type && ArticleFile.length">
+			<div class="big bfc-o" v-else-if="2 == articleSub.type && ArticleFile.length">
 				<i class="iconfont icon-play-circle cc"></i>
 				<img class="big" :src="ArticleFile[0].thumbnail?(fileRoot + ArticleFile[0].thumbnail):imgurl" alt="">
 			</div>
@@ -54,12 +54,13 @@ export default {
 			fileRoot:config.fileRoot+'/',
 			publisher:"",
 			imgList:[],
+			articleSub:{},
 		}
 	},
 	props:{
 		article:{
 			type:Object,
-			default:{}
+			default:{},
 		},
 		whi:{
 			type:Number,
@@ -76,7 +77,7 @@ export default {
 		},
 		ifDel:{
 			type:Boolean,
-			default:false,
+			default:true,
 		},
 	},
 	mounted(){
@@ -92,14 +93,28 @@ export default {
 	},
 	methods:{
 		getArticleInfo(){
-			articleFileService.getFileByArticle(this.article.id,data=>{
-				if (data && data.status == "success") {
+			let resArticleDetail = articleService.getArticleById(this.article.articleid);
+			if (resArticleDetail && resArticleDetail.status == "success") {
+				// console.log(resArticleDetail)
+				if (!resArticleDetail.record) {
+
+					this.$set(this.articleSub,'id',false);
+					this.$set(this.articleSub,'title',"作者已删除");	
+					return;			
+				}
+				this.articleSub = resArticleDetail.record;				
+			}else{
+				this.$set(this.articleSub,'id',false);
+				this.$set(this.articleSub,'title',"请求超时");
+			}
+			articleFileService.getFileByArticle(this.articleSub.id,data=>{
+				if (data&&data.status == "success") {
 					this.ArticleFile = data.result.filelist;				
 				}				
 			});
 			if (this.ifPublisher) {
-				if (this.article.author) {
-					userService.getUserById(this.article.author,data=>{
+				if (this.articleSub.author) {
+					userService.getUserById(this.articleSub.author,data=>{
 						if (data && data.status == "success") {
 							this.publisher = data.result.user.username;
 						}
@@ -107,7 +122,7 @@ export default {
 				}				
 			}
 			// 获取文章评论数量
-			articleCommentService.getArticleCommentCount(this.article.id,data=>{
+			articleCommentService.getArticleCommentCount(this.articleSub.id,data=>{
 				if (data.status == "success") {
 					this.CommentNum = data.result.count;		
 				}else{
@@ -115,8 +130,12 @@ export default {
 				}					
 			});
 
-			this.publishtime = this.$Tool.publishTimeFormat(this.article.publishtime);	
-			this.imgList = this.$Tool.extractImg(this.article.content,3);
+			this.publishtime = this.$Tool.publishTimeFormat(this.articleSub.publishtime);	
+			this.imgList = this.$Tool.extractImg(this.articleSub.content,3);
+		},
+		goDetail(){
+			if(!this.articleSub.id) { return; } 
+			this.$Tool.goPage({ name:'detail',query:{id:this.articleSub.id,detailType:this.detailType,}})
 		}
 	}
 }

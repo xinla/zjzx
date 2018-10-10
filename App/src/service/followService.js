@@ -38,13 +38,17 @@ service.getUserFollowCount = function(call){
 }
 
 // 关注/取消关注
-service.doFollow = function(followuserid){
+service.doFollow = function(followuserid,call){
 	var params = {
 		token,
 		userid,
 		followuserid,
 	};
 
+	if (call) {
+		commonUtil.ajax(controller+'/doFollow',params,call);
+		return;
+	}
 	var resFocusState = commonUtil.ajaxAsync(controller+'/doFollow',params);
 
 	return resFocusState;
@@ -57,5 +61,31 @@ service.testFollow = function(targetuserid,call){
 	};
 
 	commonUtil.ajax(controller+'/testFollow',params,call);
+}
+
+//获取用户关注
+service.getUserFollow = function(page,size){
+
+	let params = {
+		page,//："当前页数",
+		size,//:"每一页大小",
+		userid//:"用户id" 
+	}
+	let resFocus = commonUtil.ajaxAsync(controller+'/getUserFollow',params);
+
+	return resFocus;
+}
+
+//获取用户粉丝
+service.getVermicelliList = function(page,size){
+
+	let params = {
+		page,//："当前页数",
+		size,//:"每一页大小",
+		userid//:"用户id" 
+	}
+	let resFans = commonUtil.ajaxAsync(controller+'/getVermicelliList',params);
+
+	return resFans;
 }
 export default service
