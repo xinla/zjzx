@@ -222,7 +222,14 @@ export default{
 				});
 			};
 			e.target.value = "";
-		}
+		},
+		beforeRouteEnter (to, from, next) {
+		if (!localStorage.id ) { 
+            GoTruth.$Tool.loginPrompt(); 
+        }else{
+          next();
+        } 
+	}
 	}
 }
 
