@@ -87,7 +87,7 @@ export default {
       menuArr: [
         { id: 1, desc: '消息通知', class: 'icon-my-msg', path: '/topBase/messages' },
         { id: 2, desc: '我的关注', class: 'icon-zuji', path: '/personBase/focus' },
-        { id: 3, desc: '用户反馈', class: 'icon-dfabu', path: '/topBase/feedback' },
+        { id: 3, desc: '意见反馈', class: 'icon-dfabu', path: '/topBase/feedback' },
         { id: 4, desc: '系统设置', class: 'icon-setup', path: '/topBase/set' }
       ],
       loginLink: '/topBase/login',
