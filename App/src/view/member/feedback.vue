@@ -26,10 +26,13 @@
 					<i class="iconfont icon-camera"></i>
 					<span class="upload-desc">上传图片</span>
 				</div>
-				<div class="feedback-img fl" v-show="imgShow">
-					<i class="iconfont icon-remove" @click="handleRemove"></i>
-					<img :src="uploadImg" alt="">
+				<div class="feedback-img fl" v-show="imgShow"  v-for="(item, index) in list" @click="show(index)">
+					<i class="iconfont icon-remove" @click.stop="handleRemove"></i>
+					<img :src="item.src" class="previewer-demo-img">
 				</div>
+				<div v-transfer-dom>
+			      <previewer :list="list" ref="previewer" :options="options"></previewer>
+			    </div>
 				<input type="file" class="upload-input" id="uploadImg" accept="image/*" @change="handleUploadFile">
 			</div>
 			<button type="button" class="feedback-btn" @click="handleSubmit">提交反馈</button>
@@ -78,15 +81,20 @@
 
 <script>
 import feedbackService from '@/service/feedbackService'
+import { Previewer, TransferDom } from 'vux'
 
 export default{
 	directives: {
+		TransferDom,
 		focus: {
 		// 指令的定义
 			inserted: function (el) {
 				el.focus()
 			}
 		}
+	},
+	components: {
+		Previewer
 	},
 	data(){
 		return {
@@ -98,13 +106,25 @@ export default{
 			countClass:false,
 			uploadImg:'',
 			uploadShow:true,
-			imgShow:false
+			imgShow:false,
+			list:[{src:''}],
+			options: {
+				getThumbBoundsFn (index) {
+					let thumbnail = document.querySelectorAll('.previewer-demo-img')[index]
+					let pageYScroll = window.pageYOffset || document.documentElement.scrollTop
+					let rect = thumbnail.getBoundingClientRect()
+					return {x: rect.left, y: rect.top + pageYScroll, w: rect.width}
+				}
+			},
 		}
 	},
 	watch:{
 
 	},
 	methods:{
+		show(index){
+			 this.$refs.previewer.show(index);
+		},
 		// 选项卡切换
 		handleTab(index){
 			this.nowIndex=index;
@@ -161,10 +181,10 @@ export default{
 				});
 				return;
 			}
-			let feedbackData = feedbackService.submitFeedback(this.textDesc,this.uploadImg);
+			let feedbackData = feedbackService.submitFeedback(this.textDesc,this.list[0].src);
 			if(feedbackData && feedbackData.status == "success") {
 				this.textDesc = "";
-				this.uploadImg = "";
+				this.list[0].src = "";
 				this.$vux.alert.show({
 					content: "反馈成功",
 					onHide () {
@@ -208,7 +228,7 @@ export default{
 					text: '正在上传...'
 				});
 				setTimeout(()=>{
-					this.uploadImg = e.target.result;
+					this.list[0].src = e.target.result;
 					this.uploadShow = false;
 					this.imgShow = true;
 						if(e.target.result) {
