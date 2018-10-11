@@ -13,7 +13,7 @@
 			    </div>
 				<div class="member-msg-modal">
 					<ul class="member-msg-list">
-						<li class="member-msg-item" @click="$Tool.goPage({ name:'release',query:{title:'发布图文',sort:1}})">
+						<li class="member-msg-item" @click="$Tool.goPage({ name:'release',query:{'title':'发布图文',sort:1}})">
 							<span>{{publidsedNum}}</span>
 							发布
 						</li>
@@ -26,9 +26,12 @@
 							粉丝
 						</li>
 					</ul>
-					<div class="member-msg-btn">
-						<button class="btn btn-edit"  @click="$Tool.goPage({ name:'editInfo',query:{title:'编辑资料'}})">编辑资料</button>
-						<button class="btn btn-apply" @click="$Tool.goPage({ name:'identityIndex',query:{title:'申请认证'}})">申请认证</button>
+					<div class="member-msg-btn" v-if="loginUserId == userId">
+						<button class="btn btn-edit"  @click="$Tool.goPage({ name:'editInfo',query:{'title':'编辑资料'}})">编辑资料</button>
+						<button class="btn btn-apply" @click="$Tool.goPage({ name:'identityIndex',query:{'title':'申请认证'}})">申请认证</button>
+					</div>
+					<div v-else>
+						访客所见
 					</div>
 				</div>
 				
@@ -36,9 +39,21 @@
 		</div>
 		<div class="member-tab">
 			<ul class="member-switch">
-				<router-link class="member-switch-item active" v-for="(item, index) in switchList" tag="li" :to="{path:item.path,}" :key="index" >{{item.desc}}
+				<!-- <router-link class="member-switch-item active" v-for="(item, index) in switchListPublic" tag="li" :to="{path:item.path,}" :key="index + 'a'" >{{item.desc}}
 				</router-link>
+				<router-link class="member-switch-item active" v-for="(item, index) in switchListPrivate" tag="li" :to="{path:item.path,}" :key="index" >{{item.desc}}
+				</router-link> -->
 			</ul>
+			<tab bar-active-color="#d60139" active-color="#d60139" :line-width="2">
+		      <tab-item :selected="index == 0" v-for="(item, index) in switchListPublic">
+		      	<router-link :to="{path:item.path,query:{userId:item.userId}}" :key="index" >{{item.desc}}
+				</router-link>
+		      </tab-item>
+		      <tab-item v-if="loginUserId == userId" v-for="(item, index) in switchListPrivate">
+		      	<router-link :to="{path:item.path,query:{userId:item.userId}}" :key="index" >{{item.desc}}
+				</router-link>
+		      </tab-item>
+		    </tab>
 		</div>
 		<keep-alive>
 			<router-view class="router-view"></router-view>
@@ -51,6 +66,7 @@
 import config from '@/lib/config/config'
 import articleService from '@/service/articleService'
 import followService from '@/service/followService'
+import userService from '@/service/userService'
 import { Previewer, TransferDom } from 'vux'
 export default {
 	directives: {
@@ -61,6 +77,8 @@ export default {
 	},
 	data(){
 		return {
+			loginUserId:localStorage.id || 0,
+			userId:0,
 			list:[{
 				src:'@/assets/images/defaultImg.png'
 			}],
@@ -77,12 +95,17 @@ export default {
 			focusNum:0,
 			fansNum:0,
 			publidsedNum:0,
-			switchList:[
-				{desc:'发布', path:'/personBase/published', query:1},
-				{desc:'关注', path:'/personBase/focus', query:2},
-				{desc:'粉丝', path:'/personBase/fans', query:3},
-				{desc:'收藏', path:'/personBase/collect', query:4},
-				{desc:'历史', path:'/personBase/history', query:5},
+			switchListPublic:[
+				{desc:'全部', path:'/personBase/published','userId':this.userId},
+				{desc:'文章', path:'/personBase/publishedArticle','userId':this.userId},
+				{desc:'视频', path:'/personBase/publishedVideo','userId':this.userId},
+				{desc:'问答', path:'/personBase/publishedQA','userId':this.userId},
+			],
+			switchListPrivate:[
+				{desc:'粉丝', path:'/personBase/fans','userId':this.userId},
+				{desc:'关注', path:'/personBase/focus','userId':this.userId},
+				{desc:'收藏', path:'/personBase/collect','userId':this.userId},
+				{desc:'历史', path:'/personBase/history','userId':this.userId},
 			]
 		}
 	},
@@ -95,28 +118,37 @@ export default {
 	// },
 	methods:{
 		init(){
-    		let userImg = localStorage.userImg;	
-
-			this.title = localStorage.userName;
-			if( userImg ){
-				this.list[0].src = config.fileRoot + '/' + userImg;
+			if (localStorage.id && localStorage.id == this.userId) {
+	    		let userImg = localStorage.userImg;	
+				this.title = localStorage.userName;
+				if( userImg ){
+					this.list[0].src = config.fileRoot + '/' + userImg;
+				}				
+			}else{
+				let res = userService.getUserById(this.userId);
+				if (res && res.status == "success") {
+					if (res.user.imageurl) {
+						this.list[0].src = config.fileRoot + '/' + res.imageurl;
+					}
+					this.title = res.user.username;
+				}
 			}
 			// console.log(userImg); 
 			//获取文章数量
-			articleService.getUserArticleCount(data=>{
+			articleService.getUserArticleCount(this.userId,data=>{
 				if (data && data.status == "success" ) {
 					this.publidsedNum = data.result.count;			
 				}			
 			});
 			// console.log(resArticleCount)
 			//获取粉丝数量
-			followService.getUserVermicelliCount(data=>{
+			followService.getUserVermicelliCount(this.userId,data=>{
 				if (data && data.status == "success" ) {
 					this.fansNum = data.result.count;
 				}
 			});		
 			//获取关注数量
-			followService.getUserFollowCount(data=>{
+			followService.getUserFollowCount(this.userId,data=>{
 				if (data && data.status == "success" ) {
 					this.focusNum = data.result.count;
 				}
@@ -127,13 +159,16 @@ export default {
 		},
 	},
 	beforeRouteEnter (to, from, next) {
-		if (!localStorage.id ) { 
-            GoTruth.$Tool.loginPrompt(); 
-        }else{
-          next((vm)=>{
-          	vm.init();
-          });
-        } 
+	    next((vm)=>{
+	    	if (!vm.$route.query.userId) { 
+	            GoTruth.$vux.alert.show({
+				  content:'没有相关记录或账号已注销',
+				})
+				return false;
+	        }
+	      	vm.userId = vm.$route.query.userId;
+	      	vm.init();
+		});
 	},
 }
 </script>
@@ -208,12 +243,15 @@ export default {
 		background-color: #fff;
 		.member-switch {
 			display: flex;
+			text-align: center;
+			white-space: nowrap;
+			overflow-x: auto;
 			.member-switch-item{
-				flex:1;
-				text-align: center;
+				flex: none;
 				height: .7rem;
 				line-height: .7rem;
 				font-size: .28rem;
+				width: 20%;
 				border-bottom: .02rem solid @borderColor;
 			}
 			.router-link-active.active {

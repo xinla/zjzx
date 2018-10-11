@@ -7,6 +7,7 @@ const service ={}
 const token = localStorage.getItem('token');
 const userid =  localStorage.getItem('id');
 
+//收藏文章
 service.articleCollect = function(articleid){
 	var params = {
 		token,//:"令牌"
@@ -20,7 +21,30 @@ service.articleCollect = function(articleid){
 
 	return resArticleCollect;
 }
+//获取收藏列表
+service.getCollectPage = function(page,size,targetuserid){
+	var params = {
+		page,//:"当前页",
+		size,//:"分页大小"
+		userid:targetuserid || userid,//"当前用户id",
+	};
 
+	var resArticleCollect = commonUtil.ajaxAsync(controller+'/getCollectPage',params);
+
+	return resArticleCollect;
+}
+//收藏列表清除
+service.deleteCollect = function(ids){
+	var params = {
+		token,//:"令牌"
+		userid,//:"用户id",
+		"ids[]":ids,//[]"文章id数组"
+	};
+
+	var resArticleCollect = commonUtil.ajaxAsync(controller+'/deleteCollect',params);
+
+	return resArticleCollect;
+}
 service.testCollect = function(articleid,call){
 	var params = {
 		userid,//:"用户id",

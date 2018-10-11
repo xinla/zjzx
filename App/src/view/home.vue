@@ -65,7 +65,7 @@
 
 <script>	
 // import config from '@/lib/config/config'
-import {TransferDom, Tab, TabItem, Swiper, SwiperItem, Popup  } from 'vux'
+import {TransferDom,Swiper,SwiperItem, Popup  } from 'vux'
 import homeHeader from '@/components/headerBar'
 import homeMore from'@/components/more'
 // import homeNav from '@/components/swiperNav'
@@ -87,11 +87,7 @@ import articleClassifyService from '@/service/article_classifyService'
   		},
 		components:{
 			homeHeader,
-			// homeNav,
 			homeMore,
-			// multIT,
-			Tab,
-			TabItem,
 			Swiper, 
 			SwiperItem,
 			articleList,

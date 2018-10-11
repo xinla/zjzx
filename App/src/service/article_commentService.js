@@ -81,7 +81,7 @@ service.articleComment = function(articleid,content,douserid,targetuserid,type,c
 	return resArticleComment;
 }
 
-// 文章评论/回复删除
+// 删除文章评论/回复
 service.deleteArticleConmon = function(itemid){
 	var params = {
 		userid,//:"当前用户id",
@@ -92,5 +92,15 @@ service.deleteArticleConmon = function(itemid){
 	var resDeleteArticleCommon = commonUtil.ajaxAsync(controller+'/deleteArticleConmon',params);
 
 	return resDeleteArticleCommon;
+}
+//获取评论/回复详情
+service.getCommentById = function(itemid){
+	var params = {
+		itemid,//:"评论/回复id"
+	};
+
+	var res = commonUtil.ajaxAsync(controller+'/getCommentById',params);
+
+	return res;
 }
 export default service

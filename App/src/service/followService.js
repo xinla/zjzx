@@ -8,7 +8,7 @@ let token = localStorage.getItem('token');
 let userid = localStorage.getItem('id'); 
 
 // 获取用户粉丝数量
-service.getUserVermicelliCount = function(call){
+service.getUserVermicelliCount = function(userid,call){
 	var params = {
 		userid,
 	};
@@ -23,7 +23,7 @@ service.getUserVermicelliCount = function(call){
 }
 
 // 获取用户关注数量
-service.getUserFollowCount = function(call){
+service.getUserFollowCount = function(userid,call){
 	var params = {
 		userid,
 	};
@@ -67,9 +67,9 @@ service.testFollow = function(targetuserid,call){
 service.getUserFollow = function(page,size){
 
 	let params = {
+		userid,//:"用户id" 
 		page,//："当前页数",
 		size,//:"每一页大小",
-		userid//:"用户id" 
 	}
 	let resFocus = commonUtil.ajaxAsync(controller+'/getUserFollow',params);
 
@@ -77,12 +77,12 @@ service.getUserFollow = function(page,size){
 }
 
 //获取用户粉丝
-service.getVermicelliList = function(page,size){
+service.getVermicelliList = function(userid,page,size){
 
 	let params = {
+		userid,//:"用户id" 
 		page,//："当前页数",
 		size,//:"每一页大小",
-		userid//:"用户id" 
 	}
 	let resFans = commonUtil.ajaxAsync(controller+'/getVermicelliList',params);
 

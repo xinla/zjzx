@@ -14,7 +14,7 @@
 	    </router-link>
       </div>
       <!-- 已登录 -->
-      <router-link :to="{ path:'/personBase/published',query:{current:1} }">
+      <router-link :to="{ path:'/personBase/published',query:{userId,current:1} }">
 	      <div class="member-login-in"  v-if="ifLogin">
 	        <div class="member-user">
 	          <div class="member-user-image">
@@ -94,6 +94,7 @@ export default {
         { id: 4, desc: '系统设置', class: 'icon-setup', path: '/topBase/set' }
       ],
       loginLink: '/topBase/login',
+      userId:localStorage.id,
  		  userName: '用户名',
       ifLogin: false,
       userPhoto: require('@/assets/images/userPhoto.jpg'),
@@ -105,32 +106,32 @@ export default {
   },
   methods: {
     loadUser(){      
-      if (localStorage.getItem('token')) {
-        let userImg = localStorage.userImg;
-        this.userName = localStorage.userName;
-        this.ifLogin = true;
-        if (userImg) {
-          try {
-            this.userPhoto = config.fileRoot + '/' + userImg;
-          } catch (err) {
-            console.log(41)
-          }
-        }
-        //获取粉丝数量
-        followService.getUserVermicelliCount(data=>{
-          if (data && data.status == "success" ) {
-            this.fansNum = data.result.count;
-          }
-        });   
-        //获取关注数量
-        followService.getUserFollowCount(data=>{
-          if (data && data.status == "success" ) {
-            this.focusNum = data.result.count;
-          }
-        });
-      }else{
+      if (!localStorage.getItem('token')) {
         this.ifLogin = false;
+        return;
       }
+      let userImg = localStorage.userImg;
+      this.userName = localStorage.userName;
+      this.ifLogin = true;
+      if (userImg) {
+        try {
+          this.userPhoto = config.fileRoot + '/' + userImg;
+        } catch (err) {
+          console.log(41)
+        }
+      }
+      //获取粉丝数量
+      followService.getUserVermicelliCount(data=>{
+        if (data && data.status == "success" ) {
+          this.fansNum = data.result.count;
+        }
+      });   
+      //获取关注数量
+      followService.getUserFollowCount(data=>{
+        if (data && data.status == "success" ) {
+          this.focusNum = data.result.count;
+        }
+      });
     },
     loadDayNight(){
       if (localStorage.dayNight) {

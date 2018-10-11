@@ -1,38 +1,32 @@
 <template>
 	<div @scroll="loadMore">
-		<div class="editor bfc-p">
+		<!-- <div class="editor bfc-o">
 			<i class="iconfont icon-delete fr" v-if="!ifDeleteAll" @click="ifDeleteAll = true;"></i>
 			<div v-else>
 				<span @click="deleteAll()" class="deleteAll">删除全部</span>
 				<span class="fr" @click="ifDeleteAll = false;">完成</span>					
 			</div>
-		</div>
-		<div class="list-wrap">
-			<articleSub v-for="(item,index) in arcList" :article="item" :whi="index" :ifPublisher="true"  @delete="deleteArticle" :key="index"></articleSub>			
-		</div>
+		</div> -->
+		<multIT v-for="(item,index) in arcList" :article="item" :whi="index" detailType=1 :ifPublisher="false" :ifDel="true" @delete="deleteArticle" :key="index"></multIT>
+			<!-- <bigIVT :article="item" v-else="item.type==2"></bigIVT>	 -->
 		<prompt-blank v-if="proIf" :mes="proMes"></prompt-blank>
 		<load-more :show-loading="ifLoad"></load-more>
 	</div>
 </template>
 
 <script>
-import articleSub from '@/components/common/articleSub'
-import readHistoryService from '@/service/readHistoryService'
+
 import articleService from '@/service/articleService'
+
 export default {
-	components:{
-		articleSub,
-	},
 	data(){
 		return {
 			arcList:[],
 			proMes:'',
 			proIf:false,
-			ifDeleteAll:false,
 			page:1,
 			lock:false,
 			ifLoad:true,
-			scrollTop:0,
 		}
 	},
 	activated(){
@@ -44,12 +38,12 @@ export default {
 		init(){
 			this.lock = true;
 			this.ifLoad = true;
-			let res = readHistoryService.getReadHistory(this.page,10);
-			if (res && res.status == "success") {
-				if (res.recordPage.list.length) {
-					this.proIf = false;
-					this.page++;						
-					this.arcList = this.arcList.concat(res.recordPage.list);					
+			var res = articleService.getArticleByUser(this.page,10);
+			if (res&&res.status == "success") {
+				if (res.result.recordPage.list.length) {
+					this.page++;
+					// console.log(this.page)					
+					this.arcList = this.arcList.concat(res.result.recordPage.list);	
 				}else if (this.arcList.length == 0) {
 					this.proIf = true;
 					this.proMes = "您想要的真相消失啦~~~";
@@ -62,7 +56,6 @@ export default {
 			this.ifLoad = false;
 		},
 		deleteArticle([id,whi,event]){
-			// debugger;
 			let _this = this;
 			this.$vux.confirm.show({
 				content:"确定要删除么",
@@ -71,10 +64,10 @@ export default {
 				}
 			})
 			event.stopPropagation();
-			function deleteArt (whi) {
-				let resDelete = readHistoryService.clearHistory([id]);
+			function deleteArt (index) {
+				let resDelete = articleService.deleteArticleById(id);
 				if (resDelete && resDelete.status == "success") {
-					this.arcList.splice(whi,1);
+					this.arcList.splice(index,1);
 					this.$vux.alert.show({
 					  content:'删除成功',
 					})
@@ -86,39 +79,9 @@ export default {
 					  content:'删除失败，请重试！',
 					})
 				}
-				// console.log(this.arcList)
+				console.log(this.arcList)
 			}
-		},
-		deleteAll(){
-			let _this = this;
-			this.$vux.confirm.show({
-				content:"确定要删除么",
-				onConfirm () {
-					deleteA.call(_this);
-				}
-			})
-			function deleteA(){
-				let temp = [];
-				for (var i = 0,len = this.arcList.length; i < len; i++) {
-					temp.push(this.arcList[i].id)
-				}
-				console.log(temp)
-				let resDelete = readHistoryService.clearHistory(temp);
-				if (resDelete && resDelete.status == "success") {
-					this.arcList = [];
-					this.$vux.alert.show({
-					  content:'删除成功',
-					})
-					setTimeout(()=>{
-						this.$vux.alert.hide();
-					},1000)
-				} else {
-					this.$vux.alert.show({
-					  content:'删除失败，请重试！',
-					})
-				}
-				// console.log(this.arcList)
-			}
+
 		},
 		loadMore(e){
 			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
@@ -126,7 +89,13 @@ export default {
 				console.log(1)
 			}
 		},
+
 	},
+	// watch:{
+	// 	arcList(){
+	// 		this.getArticleInfo();	
+	// 	}
+	// },
 	// beforeRouteEnter (to, from, next) {
 	// 	next(vm=>{
 	// 		vm.init();
@@ -137,13 +106,10 @@ export default {
 
 <style rel="stylesheet" scoped>
 	.editor{
-		width: 100%;
 		color: #aaa;
 		line-height: 40px;
 	    padding:0 0.3rem;
 		border-bottom: 0.02rem solid #e8e8e8;
-		z-index: 9;
-		background: #eee;
 	}
 	.deleteAll{
 		border: 0.02rem solid #e8e8e8;
@@ -152,8 +118,5 @@ export default {
 	}
 	.icon-delete{
 		font-size: 18px;
-	}
-	.list-wrap{
-		margin-top: 40px;
 	}
 </style>

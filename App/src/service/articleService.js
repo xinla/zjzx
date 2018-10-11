@@ -22,12 +22,12 @@ service.publishArticle = function(record,record_file) {
 }
 
 // 获取用户的文章
-service.getArticleByUser = function(page,size){
+service.getArticleByUser = function(userid,page,size){
 
 	let params = {
+		userid,
 		page,
 		size,
-		userid,
 	}
 
 	let resArticleAllList = commonUtil.ajaxAsync(controller+'/getArticleByUser',params);
@@ -36,33 +36,28 @@ service.getArticleByUser = function(page,size){
 }
 
 // 获取用户的发布文章数量
-service.getUserArticleCount = function(call){
+service.getUserArticleCount = function(userid,call){
 
 	let params = {
 		userid,
 	}
-	if (call) {
-		commonUtil.ajax(controller+'/getUserArticleCount',params,call);
-		return;
-	}
-	let resArticleCount = commonUtil.ajaxAsync(controller+'/getUserArticleCount',params);
-
-	return resArticleCount;
+	commonUtil.ajax(controller+'/getUserArticleCount',params,call);
 }
 
-// 获取用户的收藏文章
-service.getCollectArticlePage = function(page,size){
+// // 获取用户的收藏文章
+// service.getCollectArticlePage = function(page,size,targetuserid){
 
-	let params = {
-		page,
-		size,
-		userid,
-	}
+// 	let params = {
+// 		page,
+// 		size,
+// 		userid:targetuserid || userid,
+// 	}
 
-	let resCollectArticleList = commonUtil.ajaxAsync(controller+'/getCollectArticlePage',params);
+// 	let resCollectArticleList = commonUtil.ajaxAsync(controller+'/getCollectArticlePage',params);
 
-	return resCollectArticleList;
-}
+// 	return resCollectArticleList;
+// }
+
 // 获取文章列表
 service.articlePage = function(page,size,classify,type){
 	let params = {

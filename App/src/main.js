@@ -69,7 +69,7 @@ import 'swiper/dist/css/swiper.css';
 Vue.use(VueAwesomeSwiper);
 
 //vux
-import{ Cell,Group,Msg,Datetime,Confirm,Alert,Radio,LoadMore,Badge  } from 'vux';
+import{ Cell,Group,Msg,Datetime,Confirm,Alert,Radio,Tab,TabItem,LoadMore,Badge  } from 'vux';
 Vue.component('group', Group);
 Vue.component('cell', Cell);
 Vue.component('msg', Msg);
@@ -77,6 +77,8 @@ Vue.component('datetime',Datetime);
 Vue.component('confirm',Confirm);
 Vue.component('alert',Alert);
 Vue.component('radio', Radio)
+Vue.component('tab', Tab)
+Vue.component('tab-item', TabItem)
 Vue.component('load-more', LoadMore)
 Vue.component('badge', Badge)
 import { DatetimePlugin,AlertPlugin,ConfirmPlugin,LoadingPlugin,ToastPlugin  } from 'vux'
