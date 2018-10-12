@@ -21,6 +21,7 @@ import articleService from '@/service/articleService'
 export default {
 	data(){
 		return {
+			userId:0,
 			arcList:[],
 			proMes:'',
 			proIf:false,
@@ -30,6 +31,7 @@ export default {
 		}
 	},
 	activated(){
+		this.userId = this.$route.query.userId;
 		this.page = 1;
 		this.arcList = [];
 		this.init();
@@ -38,7 +40,7 @@ export default {
 		init(){
 			this.lock = true;
 			this.ifLoad = true;
-			var res = articleService.getArticleByUser(this.page,10);
+			var res = articleService.getArticleByUser(this.userId,this.page,10,2);
 			if (res&&res.status == "success") {
 				if (res.result.recordPage.list.length) {
 					this.page++;

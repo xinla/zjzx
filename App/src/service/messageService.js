@@ -80,4 +80,12 @@ service.sendReplyMessage = function(targetuserid,content,itemid,type,call){
 	return res;
 
 }
+//消息阅读
+service.readMessage = function(messageid,call){
+	var params = {
+		messageid,//:"消息id"
+	}
+	commonUtil.ajax(controller + "/readMessage",params,call)
+}
+
 export default service

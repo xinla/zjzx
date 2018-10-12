@@ -21,7 +21,7 @@ import articleService from '@/service/articleService'
 export default {
 	data(){
 		return {
-			userId:0,
+			userId:localStorage.id || 0,
 			arcList:[],
 			proMes:'',
 			proIf:false,

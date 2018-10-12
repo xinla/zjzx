@@ -82,17 +82,17 @@ export default {
 	},
 	mounted(){
 		this.$nextTick(()=>{
-			this.getArticleInfo();
+			this.init();
 		})
 	},	
 	watch:{
 		//使用了缓存，父组件传值发生改变，子组件需要监测对应改变的对象值，不然子组件重新渲染还是使用缓存中的值
 		article(){
-			this.getArticleInfo();
+			this.init();
 		},
 	},
 	methods:{
-		getArticleInfo(){
+		init(){
 			let resArticleDetail = articleService.getArticleById(this.article.articleid);
 			if (resArticleDetail && resArticleDetail.status == "success") {
 				// console.log(resArticleDetail)

@@ -98,7 +98,7 @@
 					</li>
 				</ul>				
 				<prompt-blank v-if="proFail2" :mes="failMes2"></prompt-blank>
-				<load-more :show-loading="false" :tip="loadText" v-show="ifLoad"></load-more>			
+				<load-more :show-loading="false" :tip="loadText" v-show="ifLoadMore"></load-more>			
 			</div>
 			<memberList v-else :list="listMember" :mes="proMes"></memberList>
 		</div>
@@ -266,6 +266,7 @@ export default {
 	data(){
 		return {
 			ifLoad:true,
+			ifLoadMore:false,
 			userId:localStorage.id,
 			id:Number,//文章id =>article.id
 			detailType:0,
@@ -409,6 +410,7 @@ export default {
 				this.$Tool.goBack();
 				return;
 			}
+			this.ifLoad = true;
 			//添加阅读记录
 			readHistoryService.addReadHistory(this.id,(data)=>{});
 			// if (resAddReadHistory && resAddReadHistory.status == "success") {
@@ -494,7 +496,7 @@ export default {
 		},
 		loadComment(){
 			// 获取文章一级评论列表
-			this.ifLoad = true;
+			this.ifLoadMore = true;
 			let resArticleCommentList = articleCommentService.getArticleCommentPage(this.id,this.pageNum1,10);
 			if (resArticleCommentList && resArticleCommentList.status == "success") {
 				//  this.commentList = resArticleCommentList.list.list;
@@ -540,10 +542,11 @@ export default {
 					this.lock = true;		
 					this.proFail2 = true;
 					this.failMes2 = "暂无评论，来抢第一个沙发吧";
-					this.ifLoad = false;
+					this.ifLoadMore = false;
 				} else if (this.commentList.length < 10 || this.commentNum == this.commentList.length ) {
 					this.lock = true;		
-					this.ifLoad = true;
+					this.ifLoadMore = true;
+					this.proFail2 = false;
 					this.loadText = "已加载全部";
 					// console.log(this.commentNum + "dd")
 				} else {
@@ -580,7 +583,7 @@ export default {
 		scrollBotLoad(){
 			if (!this.lock && ($(".detail").scrollTop() + $(".detail").height()) > $(".detail")[0].scrollHeight-350) {
 				// console.log(1)
-				this.$options.methods.loadComment.call(this);
+				this.loadComment();
 			} else {}
 		},
 		doFocus(userId,type){
@@ -628,7 +631,7 @@ export default {
 						// 获取文章评论列表(更新)
 						this.lock = false;//开锁
 						this.pageNum1 = 1;
-						this.loadComment.call(this);							
+						this.loadComment();							
 						this.ifCommentSwitch =false;
 						this.commentCon = "";
 						this.commentNum ++;
@@ -899,7 +902,7 @@ export default {
 <style scoped>
 	.detail{
 	    color: #555;
-        margin: 50px 0;
+        margin-bottom: 50px;
         height: calc(100% - 90px);
         overflow-y: auto;
         line-height: 22px;

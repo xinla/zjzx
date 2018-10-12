@@ -14,7 +14,7 @@
 	    </router-link>
       </div>
       <!-- 已登录 -->
-      <router-link :to="{ path:'/personBase/published',query:{userId,current:1} }">
+      <router-link :to="{ path:'/personBase/published',query:{userId,current:0} }">
 	      <div class="member-login-in"  v-if="ifLogin">
 	        <div class="member-user">
 	          <div class="member-user-image">
@@ -42,7 +42,7 @@
       </div>
       <div class="member-body">
         <ul class="member-body-list">
-          <router-link class="member-body-item" v-for="item in menuArr" :key="item.id" tag="li" :to="{path:item.path,query:{title:item.desc}}">
+          <router-link class="member-body-item" v-for="item in menuArr" :key="item.id" tag="li" :to="{path:item.path,query:{title:item.desc,current:item.current}}">
             <i class="iconfont icon-item" :class="item.class"></i>
             <div class="member-body-desc">
               <span>{{item.desc}}</span>
@@ -89,13 +89,13 @@ export default {
       ],
       menuArr: [
         { id: 1, desc: '消息通知', class: 'icon-my-msg', path: '/topBase/messages' },
-        { id: 2, desc: '我的关注', class: 'icon-zuji', path: '/personBase/focus' },
+        { id: 2, desc: '我的关注', class: 'icon-zuji', path: '/personBase/focus' ,current:5},
         { id: 3, desc: '意见反馈', class: 'icon-dfabu', path: '/topBase/feedback' },
         { id: 4, desc: '系统设置', class: 'icon-setup', path: '/topBase/set' }
       ],
       loginLink: '/topBase/login',
       userId:localStorage.id,
- 		  userName: '用户名',
+	  userName: '用户名',
       ifLogin: false,
       userPhoto: require('@/assets/images/userPhoto.jpg'),
       focusNum: 0,
@@ -121,13 +121,13 @@ export default {
         }
       }
       //获取粉丝数量
-      followService.getUserVermicelliCount(data=>{
+      followService.getUserVermicelliCount(this.userId,data=>{
         if (data && data.status == "success" ) {
           this.fansNum = data.result.count;
         }
       });   
       //获取关注数量
-      followService.getUserFollowCount(data=>{
+      followService.getUserFollowCount(this.userId,data=>{
         if (data && data.status == "success" ) {
           this.focusNum = data.result.count;
         }

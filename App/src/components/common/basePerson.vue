@@ -44,13 +44,13 @@
 				<router-link class="member-switch-item active" v-for="(item, index) in switchListPrivate" tag="li" :to="{path:item.path,}" :key="index" >{{item.desc}}
 				</router-link> -->
 			</ul>
-			<tab bar-active-color="#d60139" active-color="#d60139" :line-width="2">
-		      <tab-item :selected="index == 0" v-for="(item, index) in switchListPublic">
-		      	<router-link :to="{path:item.path,query:{userId,}}" :key="item.id" >{{item.desc}}
+			<tab bar-active-color="#d60139" active-color="#d60139" :line-width="2" v-model="current">
+		      <tab-item v-for="(item, index) in switchListPublic" :key="item.id">
+		      	<router-link :to="{path:item.path,query:{userId,}}">{{item.desc}}
 				</router-link>
 		      </tab-item>
-		      <tab-item v-if="loginUserId == userId" v-for="(item, index) in switchListPrivate">
-		      	<router-link :to="{path:item.path,query:{userId,}}" :key="item.id" >{{item.desc}}
+		      <tab-item v-if="loginUserId == userId" v-for="(item, index) in switchListPrivate" :key="item.id">
+		      	<router-link :to="{path:item.path,query:{userId:item.userId}}">{{item.desc}}
 				</router-link>
 		      </tab-item>
 		    </tab>
@@ -80,7 +80,9 @@ export default {
 	data(){
 		return {
 			loginUserId:localStorage.id || 0,
-			userId:0,
+			userId:localStorage.id || 0,
+			current:0,
+			currentName:"全部",
 			list:[{
 				src:'@/assets/images/defaultImg.png'
 			}],
@@ -98,16 +100,16 @@ export default {
 			fansNum:0,
 			publidsedNum:0,
 			switchListPublic:[
-				{id:1, desc:'全部', path:'/personBase/published','userId':this.userId},
-				{id:2, desc:'文章', path:'/personBase/publishedArticle','userId':this.userId},
-				{id:3, desc:'视频', path:'/personBase/publishedVideo','userId':this.userId},
-				{id:4, desc:'问答', path:'/personBase/publishedQA','userId':this.userId},
+				{id:0, desc:'全部', path:'/personBase/published',},
+				{id:1, desc:'文章', path:'/personBase/publishedArticle',},
+				{id:2, desc:'视频', path:'/personBase/publishedVideo',},
+				{id:3, desc:'问答', path:'/personBase/publishedQA',},
 			],
 			switchListPrivate:[
-				{id:1, desc:'粉丝', path:'/personBase/fans','userId':this.userId},
-				{id:2, desc:'关注', path:'/personBase/focus','userId':this.userId},
-				{id:3, desc:'收藏', path:'/personBase/collect','userId':this.userId},
-				{id:4, desc:'历史', path:'/personBase/history','userId':this.userId},
+				{id:4, desc:'粉丝', path:'/personBase/fans',},
+				{id:5, desc:'关注', path:'/personBase/focus',},
+				{id:6, desc:'收藏', path:'/personBase/collect',},
+				{id:7, desc:'历史', path:'/personBase/history',},
 			]
 		}
 	},
@@ -160,15 +162,26 @@ export default {
 			 this.$refs.previewer.show(index);
 		},
 	},
+	watch:{
+		current(){
+			this.init();
+		}
+	},
 	beforeRouteEnter (to, from, next) {
+    	if (!GoTruth.$route.query.userId && !localStorage.id) { 
+            GoTruth.$vux.alert.show({
+			  content:'您还未登录',
+			})
+			return false;
+        }
 	    next((vm)=>{
-	    	if (!vm.$route.query.userId) { 
-	            GoTruth.$vux.alert.show({
-				  content:'没有相关记录或账号已注销',
-				})
-				return false;
-	        }
 	      	vm.userId = vm.$route.query.userId;
+	    	if (!vm.userId){
+	    		vm.userId = localStorage.id;
+	    	}
+	    	if (!vm.current){
+	    		vm.current = vm.$route.query.current;
+	    	}
 	      	vm.init();
 		});
 	},

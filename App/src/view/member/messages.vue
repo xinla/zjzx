@@ -7,9 +7,10 @@
 					<p class="msg-tip-desc">暂无消息通知</p>
 				</div>				
 			</li> -->
-			<li class="msg-item" v-for="(item,index) in list">
-				<span class="msg-title oe bfc-d">sdgsg aasfafeaea ewaerawe dgsfgesfsafsfea <!-- {{item.title}} --></span>
-				<badge></badge>
+			<li class="msg-item" v-for="(item,index) in list" @click="toDetail(item.itemid,item.id,item.type)">
+				<span class="msg-title oe bfc-d">{{item.title}}</span>
+				<badge :text="item.newcount" v-if="item.isnew"></badge>
+				<time class="fr">{{ $Tool.publishTimeFormat(item.createtime) }}</time>
 			</li>
 		</ul>
 		<prompt-blank v-if="proIf" :mes="proMes"></prompt-blank>
@@ -21,6 +22,7 @@
 <script>
 import messageService from '@/service/messageService'
 import articleService from '@/service/articleService'
+import articleCommentService from '@/service/article_commentService'
 
 export default {
 	data(){
@@ -66,10 +68,13 @@ export default {
 				if (this.list[i].type == 1) {
 					let res = articleService.getArticleById(this.list[i].itemid)
 					if (res && res.status == "success") {
-						this.$set(this.list,"title",res.record.title)
+						this.$set(this.list[i],"title",res.record.title)
 					}
 				} else if (this.list[i].type == 2) {
-
+					let res = articleCommentService.getCommentById(this.list[i].itemid);
+					if (res && res.status == "success") {
+						this.$set(this.list[i],"title",res.record.content)
+					}
 				} else {
 
 				}
@@ -83,6 +88,28 @@ export default {
 				console.log(1)
 			}
 		},
+		toDetail(id,mesId,type){
+			if (type == 1) {
+				this.$Tool.goPage({name:"detail",query:{id,}})
+				messageService.readMessage(mesId);
+				return;
+			}
+			if(type == 2){
+				this.$Tool.goPage({name:"replyList",query:{id,}})
+				messageService.readMessage(mesId);
+				return;
+			}
+			if (type == 3) {
+				this.$Tool.goPage({name:"QADetail",query:{id,}})
+				messageService.readMessage(mesId);
+				return;
+			}
+			if(type == 4) {
+				this.$Tool.goPage({name:"other",query:{id,}})
+				messageService.readMessage(mesId);
+				return;
+			}
+		}
 	},
 	beforeRouteEnter (to, from, next) {
 		if (!localStorage.id ) { 
@@ -96,7 +123,6 @@ export default {
 
 <style lang="less" scoped>
 	.msg-wrap{
-		margin-top: @topHeigth;
 		width: 100%;
 		height: calc( 100vh - .87rem );
 		overflow-y: auto;
@@ -105,6 +131,7 @@ export default {
 		.msg-list {
 			width: 100%;
 			.msg-item {
+				line-height:30px;
 				padding: .3rem 0;
 				border-bottom: .02rem solid @borderColor;
 			}
@@ -131,7 +158,9 @@ export default {
 		}
 	}
 	.msg-title{
-		width: 60%;
-		line-height:30px;
-	}	
+		max-width: 60%;
+	}
+	.vux-badge{
+		vertical-align: top;
+	}
 </style>

@@ -22,11 +22,11 @@ service.articleCollect = function(articleid){
 	return resArticleCollect;
 }
 //获取收藏列表
-service.getCollectPage = function(page,size,targetuserid){
+service.getCollectPage = function(page,size){
 	var params = {
 		page,//:"当前页",
 		size,//:"分页大小"
-		userid:targetuserid || userid,//"当前用户id",
+		userid,//"当前用户id",
 	};
 
 	var resArticleCollect = commonUtil.ajaxAsync(controller+'/getCollectPage',params);

@@ -77,7 +77,7 @@ service.getUserFollow = function(page,size){
 }
 
 //获取用户粉丝
-service.getVermicelliList = function(userid,page,size){
+service.getVermicelliList = function(page,size){
 
 	let params = {
 		userid,//:"用户id" 

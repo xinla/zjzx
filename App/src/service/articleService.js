@@ -22,12 +22,13 @@ service.publishArticle = function(record,record_file) {
 }
 
 // 获取用户的文章
-service.getArticleByUser = function(userid,page,size){
+service.getArticleByUser = function(userid,page,size,type){
 
 	let params = {
 		userid,
 		page,
 		size,
+		type,
 	}
 
 	let resArticleAllList = commonUtil.ajaxAsync(controller+'/getArticleByUser',params);
