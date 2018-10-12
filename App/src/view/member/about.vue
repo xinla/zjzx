@@ -1,5 +1,5 @@
 <template>
-	<div>
+<!-- 	<div>
 		<ul class="ul" v-if="">				
 			<router-link :to="{path:'agreement',query:{title:'用户协议'}}" tag="li" class="li">
 					<span class="">用户协议</span><span class="fr iconfont">&#xe7f2;</span>
@@ -11,7 +11,7 @@
 				<span class="">版权所有</span><span class="fr iconfont">&#xe7f2;</span>
 			</router-link>
 		</ul>
-	</div>
+	</div> -->
 </template>
 
 <script>
@@ -19,7 +19,7 @@
 </script>
 
 <style rel="stylesheet" scoped>
-	.ul{
+/*	.ul{
 	    background: #fff;
 	    margin-top: 10px;
 	    line-height: 50px;
@@ -32,5 +32,5 @@
 	}
 	.ul .li:last-child{
 		border:0;
-	}
+	}*/
 </style>

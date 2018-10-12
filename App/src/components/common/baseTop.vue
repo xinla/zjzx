@@ -3,7 +3,9 @@
 		<top @hrefTo="this.$Tool.goBack">
 			<template slot="title">{{title}}</template>
 		</top>
-		<router-view class="router-view"></router-view>
+		 <transition :name="transitionName">
+			<router-view class="router-view"></router-view>
+		</transition>
 		<!-- <div>			
 		</div> -->
 	</div>
@@ -14,6 +16,7 @@ export default{
 	data(){
 		return{
 			title:'title',
+			transitionName:''
 		}
 	},
 	mounted(){
@@ -25,7 +28,12 @@ export default{
 	watch:{
 		$route(to,from){
 			let par = this.$route.query.title;
-			this.title = par;			
+			this.title = par;		
+			if (this.$router['isBack'] == undefined) {
+				this.$router['isBack'] = false;return;
+			}
+			this.transitionName = this.$router['isBack'] ? 'slide-right' : 'slide-left';
+			this.$router['isBack'] = false;	
 		}
 	},
 	
@@ -36,8 +44,21 @@ export default{
 	.hreficon{
 		width: 30px;
 	}
-	.router-view{
+	/*.router-view{*/
 	    /*margin-top: 1.05rem;*/
 	    /*padding: 0 0.18rem 0.18rem;*/
+	/*}*/
+	.router-view {
+		width: 100%;
+		position: absolute;
+		transition: all .3s cubic-bezier(.55,0,.1,1);
+	}
+	.slide-left-enter, .slide-right-leave-active {
+		opacity: 0;
+		transform: translate(200px, 0);
+	}
+	.slide-left-leave-active, .slide-right-enter {
+		opacity: 0;
+		transform: translate(-200px, 0);
 	}
 </style>

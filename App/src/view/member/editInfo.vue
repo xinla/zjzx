@@ -76,11 +76,7 @@
 		    	<x-switch title="新浪微博" v-model="value"></x-switch>
 		    	<x-switch title="腾讯QQ" v-model="value"></x-switch>
 		  	</group>
-		  	<span class="editInfo-setup-tip">高级设置</span>
-		  	<x-button  type="warn" style="border-radius:99px;">敬请期待</x-button>
-			
 		</div>
-
 		<!-- 用户名弹框 -->
 		<div v-transfer-dom class="transdom">
 			<popup v-model="popList.show">
@@ -572,9 +568,14 @@
 
 <style lang="less" scoped>
 	.editInfo-wrap{
-		margin-top: @topHeigth + .18rem;
+		// margin-top: @topHeigth + .18rem;
+		height: calc( 100vh - .87rem);
+
+		overflow: hidden;
+		overflow-y: auto;
 		padding-bottom: .18rem;
 		.editInfo-list {
+			margin-top: .2rem;
 			padding: 0 .26rem;
 			border-top: .02rem solid @borderColor;
 			border-bottom: .02rem solid @borderColor;

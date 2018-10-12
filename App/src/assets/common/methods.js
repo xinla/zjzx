@@ -241,7 +241,7 @@ const tool = {
     GoTruth.$vux.confirm.show({
       content:"您还没登录哦！",
       onConfirm () {
-        GoTruth.$Tool.goPage({name:'login'});
+        GoTruth.$Tool.goPage({name:'login',query:{title:'用户登录'}});
       },
       onCancel () {
         if (back) {

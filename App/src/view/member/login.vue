@@ -12,7 +12,7 @@
 				<div class="login-item" :class="{loginActive1:tip.active1}">
 					<i class="iconfont icon-wode"></i>
 					<input
-						type="text" 
+						type="tel" 
 						class="mobileInput" 
 						@input="handeleMobile" 
 						@keydown="show($event)"
@@ -257,9 +257,11 @@ export default{
 
 <style lang="less" scoped>
 	.login-wrap{
-		margin-top: @topHeigth;
+		// margin-top: @topHeigth;
 		height: calc(100vh - @topHeigth);
 		padding: .3rem .6rem .8rem .6rem;
+		overflow: hidden;
+		overflow-y: auto;
 		background-color: #fff;
 		.login-header{
 			text-align: center;

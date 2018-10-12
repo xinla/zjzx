@@ -46,11 +46,11 @@
 			</ul>
 			<tab bar-active-color="#d60139" active-color="#d60139" :line-width="2">
 		      <tab-item :selected="index == 0" v-for="(item, index) in switchListPublic">
-		      	<router-link :to="{path:item.path,query:{userId:item.userId}}" :key="index" >{{item.desc}}
+		      	<router-link :to="{path:item.path,query:{userId:item.userId}}" :key="item.id" >{{item.desc}}
 				</router-link>
 		      </tab-item>
 		      <tab-item v-if="loginUserId == userId" v-for="(item, index) in switchListPrivate">
-		      	<router-link :to="{path:item.path,query:{userId:item.userId}}" :key="index" >{{item.desc}}
+		      	<router-link :to="{path:item.path,query:{userId:item.userId}}" :key="item.id" >{{item.desc}}
 				</router-link>
 		      </tab-item>
 		    </tab>
@@ -67,13 +67,15 @@ import config from '@/lib/config/config'
 import articleService from '@/service/articleService'
 import followService from '@/service/followService'
 import userService from '@/service/userService'
-import { Previewer, TransferDom } from 'vux'
+import { Previewer, TransferDom, Tab,TabItem } from 'vux'
 export default {
 	directives: {
 		TransferDom
 	},
 	components: {
-		Previewer
+		Previewer,
+		Tab,
+		TabItem
 	},
 	data(){
 		return {
@@ -96,16 +98,16 @@ export default {
 			fansNum:0,
 			publidsedNum:0,
 			switchListPublic:[
-				{desc:'全部', path:'/personBase/published','userId':this.userId},
-				{desc:'文章', path:'/personBase/publishedArticle','userId':this.userId},
-				{desc:'视频', path:'/personBase/publishedVideo','userId':this.userId},
-				{desc:'问答', path:'/personBase/publishedQA','userId':this.userId},
+				{id:1, desc:'全部', path:'/personBase/published','userId':this.userId},
+				{id:2, desc:'文章', path:'/personBase/publishedArticle','userId':this.userId},
+				{id:3, desc:'视频', path:'/personBase/publishedVideo','userId':this.userId},
+				{id:4, desc:'问答', path:'/personBase/publishedQA','userId':this.userId},
 			],
 			switchListPrivate:[
-				{desc:'粉丝', path:'/personBase/fans','userId':this.userId},
-				{desc:'关注', path:'/personBase/focus','userId':this.userId},
-				{desc:'收藏', path:'/personBase/collect','userId':this.userId},
-				{desc:'历史', path:'/personBase/history','userId':this.userId},
+				{id:1, desc:'粉丝', path:'/personBase/fans','userId':this.userId},
+				{id:2, desc:'关注', path:'/personBase/focus','userId':this.userId},
+				{id:3, desc:'收藏', path:'/personBase/collect','userId':this.userId},
+				{id:4, desc:'历史', path:'/personBase/history','userId':this.userId},
 			]
 		}
 	},
@@ -175,7 +177,7 @@ export default {
 
 <style lang="less" scoped>
 	.member-msg{
-		margin-top: calc(@topHeigth + .18rem);
+		// margin-top: calc(@topHeigth + .18rem);
 		padding: .3rem .4rem;
 		background-position: 0 0;
 		background-size: 100% 100%;

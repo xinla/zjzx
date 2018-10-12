@@ -1,55 +1,142 @@
 <template>
-	<div>
-		<ul class="ul" v-if="login">
-			<router-link :to="{path:'editInfo',query:{title:'账号设置'}}" tag="li" class="li">
-				<span class="">账号设置</span><span class="fr iconfont">&#xe7f2;</span>
-			</router-link>
-		</ul>
-		<ul class="ul">
-			<li class="li" @click="clearCache()"><span class="">清楚缓存</span><span class="fr">100MB</span></li>
-			<li class="li"><span class="">字体大小</span><span class="fr">中</span></li>
-			<li class="li"><span class="">非WIFI网络流量</span><span class="fr">100MB</span></li>
-			<li class="li"><span class="">清楚缓存</span><span class="fr">100MB</span></li>
-		</ul>
-		<ul class="ul">
-			<li class="li"><span class="">检查版本</span><span class="fr">1.0.0</span></li>
-			<router-link :to="{path:'about',query:{title:'关于我们'}}" tag="li" class="li">
-				<span class="">关于我们</span><span class="fr iconfont">&#xe7f2;</span>
-			</router-link>
-		</ul>
-		<ul class="ul exit">
-			<li class="" @click="exit()">退出登录</li>
-		</ul>
+	<div class="system-setup">
+		<div class="system-box">
+			<ul class="system-list">
+				<router-link class="system-item clearfix" v-if="notlogin" :to="{path:'/topBase/login',query:{title:'用户登录'}}" tag="li">
+					<!-- <li class="system-item clearfix" v-if="notlogin"> -->
+						<label class="system-tit fl">访客</label>
+						<div class="system-wrap fr clearfix">
+							<i class="iconfont icon-arrow-right fr"></i>
+							<span class="system-desc fr">点击登录</span>
+						</div>
+					<!-- </li> -->
+				</router-link>
+				<li class="system-item clearfix" v-if="logined" @click="handleExit">
+					<label class="system-tit fl">{{username}}</label>
+					<div class="system-wrap fr clearfix">
+						<i class="iconfont icon-arrow-right fr"></i>
+						<span class="system-desc fr" :class="{loginClass:loginClass}">退出登录</span>
+					</div>
+				</li>
+				<router-link class="system-item clearfix" v-if="setupShow" :to="{path:'editInfo',query:{title:'账号设置'}}" tag="li">
+					<label class="system-tit fl">账户设置</label>
+					<div class="system-wrap fr clearfix">
+						<i class="iconfont icon-arrow-right fr"></i>
+					</div>
+				</router-link>
+			</ul>
+			<ul class="system-list">
+				<li class="system-item clearfix">
+					<label class="system-tit fl">字体大小</label>
+					<div class="system-wrap fr clearfix">
+						<i class="iconfont icon-arrow-right fr"></i>
+						<span class="system-desc fr">大号字体</span>
+					</div>
+				</li>
+				<li class="system-item clearfix">
+					<label class="system-tit fl">图片选项</label>
+					<div class="system-wrap fr clearfix">
+						<i class="iconfont icon-arrow-right fr"></i>
+						<span class="system-desc fr">始终显示大图(效果更佳)</span>
+					</div>
+				</li>
+				<li class="system-item clearfix">
+					<label class="system-tit fl">推荐给好友</label>
+					<div class="system-wrap fr clearfix">
+						<i class="iconfont icon-arrow-right fr"></i>
+						<span class="system-desc fr">一键分享给好友</span>
+					</div>
+				</li>
+				<li class="system-item clearfix">
+					<label class="system-tit fl">我的二维码</label>
+					<div class="system-wrap fr clearfix">
+						<i class="iconfont icon-arrow-right fr"></i>
+					</div>
+				</li>
+			</ul>
+			<div class="setup">
+				<group>
+		    		<x-switch title="通知推送" v-model="value"></x-switch>
+		    		<x-switch title="WiFi视频自动播放" v-model="value"></x-switch>
+		    		<x-switch title="夜间模式" v-model="value"></x-switch>
+		  		</group>
+			</div>
+			<ul class="system-list">
+				<li class="system-item clearfix">
+					<label class="system-tit fl">清除缓存</label>
+					<div class="system-wrap fr clearfix">
+						<i class="iconfont icon-arrow-right fr"></i>
+						<span class="system-desc fr">10.00MB</span>
+					</div>
+				</li>
+				<li class="system-item clearfix">
+					<label class="system-tit fl">评分</label>
+					<div class="system-wrap fr clearfix">
+						<i class="iconfont icon-arrow-right fr"></i>
+					</div>
+				</li>
+				<li class="system-item clearfix">
+					<label class="system-tit fl">检查版本</label>
+					<div class="system-wrap fr clearfix">
+						<i class="iconfont icon-arrow-right fr"></i>
+						<span class="system-desc fr" style="color: #66b3ff; font-weight: bold;">v.1.0</span>
+					</div>
+				</li>
+				<router-link class="system-item clearfix" :to="{path:'about',query:{title:'关于我们'}}" tag="li">
+					<label class="system-tit fl">关于我们</label>
+					<div class="system-wrap fr clearfix">
+						<i class="iconfont icon-arrow-right fr"></i>
+					</div>
+				</router-link>
+			</ul>
+
+		</div>
 	</div>
 </template>
 
 <script>
 import userService from '@/service/userService'
+import { XSwitch, Group} from 'vux'
 export default{
+	components:{
+		XSwitch,
+		Group
+	},
 	data(){
 		return {
-			login:false,
+			username:'',
+			value:false,
+			setupShow:true,
+			loginClass:true,
+			notlogin:true,
+			logined:true
 		}
 	},
 	mounted(){
-		this.login=true;
-	},
-	methods:{
-		clearCache(){
-
-		},
-		exit(){
-			if (!localStorage.id) {
-				this.$vux.alert.show({
-				  	content:'您还没登录哦！',
-				})
+		this.$nextTick(()=>{
+			if(!localStorage.id) {
+				this.notlogin = true;
+				this.logined = false;
+				this.setupShow= false;
 				return;
 			}
-			let _this = this;
+			let data = userService.getCurentUser();
+			if(data && data.status == "success") {
+				this.username = data.result.user.username;
+				this.notlogin = false;
+				this.logined = true;
+			}
+			console.log(data);
+
+		});
+	},
+	methods:{
+		handleExit(){
+			let thiz = this;
 			this.$vux.confirm.show({
-				content:"确定要退出吗",
-				onConfirm () {
-					temp.call(_this);
+				content:'确定要退出吗？',
+				onConfirm(){
+					temp.call(thiz);
 				}
 			})
 			function temp (){
@@ -58,41 +145,111 @@ export default{
 					this.$store.dispatch("userLogout")
 					this.$Tool.goPage({name:"/"});
 					this.$vux.alert.show({
-					  	content:'退出成功',
-					})
+						content:'退出成功',
+					});
+					this.notlogin = true;
+					this.logined = false;
+					this.setupShow= false;
 					setTimeout(()=>{
 						this.$vux.alert.hide();
 					},1000)			
 				} else {
 					this.$vux.alert.show({
-					  	content:'退出失败',
+						content:'退出失败',
 					})	
 				}				
 			}
 		},
-	},
+		
+	}
 	
 }
 </script>
+<style lang="less" scoped>
+	.system-setup{
+		width: 100%;
+		height: calc( 100vh - .87rem );
+		overflow: hidden;
+		overflow-y: auto;
+		.system-box{
+			margin-top: .35rem;
+			padding-bottom: .35rem;
+			.system-list {
+				margin-bottom: .2rem;
+				border-top: .02rem solid @borderColor;
+				border-bottom: .02rem solid @borderColor;
+				background-color: #fff;
+				padding: 0 .2rem;
+				.system-item {
+					width: 100%;
+					height: .8rem;
+					line-height: .8rem;
+					border-bottom : .02rem solid @borderColor;
+					&:last-child{
+						border-bottom: none;
+					}
+					.system-tit {
+						width: 2rem;
+						max-width: 2rem;
+						font-size: .3rem;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+					.system-wrap{
+						width: calc(100% - 2rem);
+						height: 100% ;
+						text-align: right;
+						color: #999;
+						.system-desc {
+							height: 100%;
+							line-height: .8rem;
+							vertical-align: middle;
+							font-size: .24rem;
+							margin-right: .2rem;
+							letter-spacing: .02rem;
+						}
+						.loginClass{
+							color: @mainColor;
+						}
+						.iconfont{
+							font-size: .4rem;
+						}
+					}
+				}
+			}
+		}
+		.setup{
+			margin-bottom: .2rem;
+		}
+	}
 
-<style rel="stylesheet" scoped>
-	.ul{
-	    background: #fff;
-	    margin-top: 10px;
-	    line-height: 50px;
-	    border-top: 1px solid #eee;
-	    border-bottom: 1px solid #eee;
+</style>
+<style>
+	.vux-no-group-title{
+		margin-top: 0 !important;
 	}
-	.ul .li{
-	    margin: 0 10px;
-	    border-bottom: 1px solid #eee;
+	.weui-cells{
+		margin-top: 0 !important;
 	}
-	.ul .li:last-child{
-		border:0;
+	.weui-cell {
+		padding: 0 .2rem !important;
+		height: .8rem;
+		line-height: .8rem;
 	}
-	.exit{
-		text-align: center;
-		margin-top: 40px;
-		color: #f40;
+	.weui-label {
+		font-size: .3rem;
+	}
+	.weui-switch:before, .weui-switch-cp__box:before{
+		width: .9rem !important;
+		height: .5rem !important;
+	}
+	.weui-switch, .weui-switch-cp__box{
+		width: .94rem !important;
+		height: .54rem !important;
+	}
+	.weui-switch:after, .weui-switch-cp__box:after{
+		width: .5rem !important;
+		height: .5rem !important;
 	}
 </style>

@@ -1,4 +1,5 @@
 <template>
+
 	<div class="top-back">
 		<div class="top-back-icon"  @click="$emit('hrefTo')">
 			<i class="iconfont icon-arrow-left">
@@ -38,7 +39,7 @@ export default {
 	line-height: @topHeigth;
 	background-color: #fff;
 	border-bottom: .02rem solid @borderColor;
-	position: fixed;
+	position: relative;
 	left: 0;
 	top: 0;
 	z-index: 99999;
