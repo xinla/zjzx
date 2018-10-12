@@ -46,11 +46,11 @@
 			</ul>
 			<tab bar-active-color="#d60139" active-color="#d60139" :line-width="2">
 		      <tab-item :selected="index == 0" v-for="(item, index) in switchListPublic">
-		      	<router-link :to="{path:item.path,query:{userId:item.userId}}" :key="item.id" >{{item.desc}}
+		      	<router-link :to="{path:item.path,query:{userId,}}" :key="item.id" >{{item.desc}}
 				</router-link>
 		      </tab-item>
 		      <tab-item v-if="loginUserId == userId" v-for="(item, index) in switchListPrivate">
-		      	<router-link :to="{path:item.path,query:{userId:item.userId}}" :key="item.id" >{{item.desc}}
+		      	<router-link :to="{path:item.path,query:{userId,}}" :key="item.id" >{{item.desc}}
 				</router-link>
 		      </tab-item>
 		    </tab>
