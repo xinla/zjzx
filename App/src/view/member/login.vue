@@ -233,6 +233,7 @@ export default{
 						let userImg = data.result.user.imageurl;
 						let userName = data.result.user.username;
 						let userMobile = data.result.user.mobile;
+						localStorage.inviteCode = data.result.user.invitecode;
 						this.$store.dispatch('userLogin',token);
 						this.$store.dispatch('userId',id);
 						this.$store.dispatch('userLogid',logid);

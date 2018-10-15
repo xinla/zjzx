@@ -22,9 +22,44 @@ export default new Router({
     {
       path: '/',
       name: '/',
+      redirect:"/home",
       component: (resolve)=>{
-        require(['@/view/home.vue'],resolve)
+        require(['@/components/common/bottomNav.vue'],resolve)
       },
+      children:[
+        //文章列表首页
+        {
+          path: 'home',
+          name: 'home',
+          component: (resolve)=>{
+            require(['@/view/home.vue'],resolve)
+          }
+        },
+        //问答
+        {
+          path: 'questAnswer',
+          name: 'questAnswer',
+          component: (resolve)=>{
+            require(['@/view/questAnswer.vue'],resolve)
+          }
+        },
+        //视频
+        {
+          path: 'video',
+          name: 'video',
+          component: (resolve)=>{
+            require(['@/view/video.vue'],resolve)
+          }
+        },
+        //会员中心首页
+        {
+          path: 'member',
+          name: 'member',
+          component: (resolve)=>{
+            require(['@/view/member/index.vue'],resolve)
+          }
+        },
+      ]
     },
     //新闻详情页面(浏览者视图)
     {
@@ -188,6 +223,13 @@ export default new Router({
           name:'city',
           component: (resolve)=>{
             require(['@/view/member/city.vue'],resolve)
+          }      
+        },
+        {
+          path:'invite',
+          name:'invite',
+          component: (resolve)=>{
+            require(['@/view/member/invite.vue'],resolve)
           }      
         },
       ]

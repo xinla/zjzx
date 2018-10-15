@@ -50,7 +50,7 @@ export default {
 				}
 			],
 			CommentNum:0,
-			publishtime:this.article.publishtime,
+			publishtime:"",
 			fileRoot:config.fileRoot+'/',
 			publisher:"",
 			imgList:[],
@@ -81,17 +81,17 @@ export default {
 	},
 	mounted(){
 		this.$nextTick(()=>{
-			this.getArticleInfo();
+			this.init();
 		})
 	},	
 	watch:{
 		//使用了缓存，父组件传值发生改变，子组件需要监测对应改变的对象值，不然子组件重新渲染还是使用缓存中的值
 		article(){
-			this.getArticleInfo();
+			this.init();
 		},
 	},
 	methods:{
-		getArticleInfo(){
+		init(){
 			articleFileService.getFileByArticle(this.article.id,data=>{
 				if (data && data.status == "success") {
 					this.ArticleFile = data.result.filelist;				

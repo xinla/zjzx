@@ -24,10 +24,13 @@
 	              <h4 class="member-username">{{userName}}</h4>
 	              <p class="member-user-item member-user-focus">关注<span>{{focusNum}}</span></p>
 	              <p class="member-user-item member-user-fans">粉丝<span>{{fansNum}}</span></p>
-	            </div>
-	            <div class="member-user-arrow" @click="handleMember">
-	              <i class="iconfont icon-arrow-right"></i>
-	            </div>
+                <p class="invite-code">
+                  我的邀请码：{{inviteCode}}
+                </p>
+              </div>
+              <div class="member-user-arrow" @click="handleMember">
+                <i class="iconfont icon-arrow-right"></i>
+              </div>
 	          </div>
 	        </div>
 	     </router-link>
@@ -89,13 +92,15 @@ export default {
       ],
       menuArr: [
         { id: 1, desc: '消息通知', class: 'icon-my-msg', path: '/topBase/messages' },
-        { id: 2, desc: '我的关注', class: 'icon-zuji', path: '/personBase/focus' ,current:5},
-        { id: 3, desc: '意见反馈', class: 'icon-dfabu', path: '/topBase/feedback' },
-        { id: 4, desc: '系统设置', class: 'icon-setup', path: '/topBase/set' }
+        { id: 2, desc: '爱心邀请', class: 'icon-my-msg', path: '/topBase/invite' },
+        { id: 3, desc: '我的关注', class: 'icon-zuji', path: '/personBase/focus' ,current:5},
+        { id: 4, desc: '意见反馈', class: 'icon-dfabu', path: '/topBase/feedback' },
+        { id: 5, desc: '系统设置', class: 'icon-setup', path: '/topBase/set' }
       ],
       loginLink: '/topBase/login',
       userId:localStorage.id,
-	  userName: '用户名',
+      inviteCode:localStorage.inviteCode,
+      userName: '用户名',
       ifLogin: false,
       userPhoto: require('@/assets/images/userPhoto.jpg'),
       focusNum: 0,
@@ -386,6 +391,10 @@ export default {
   .member-body-item:nth-child(2n) .member-body-desc {
     border-bottom: none;
   }
+}
+.invite-code{
+  line-height:30px;
+  font-size: 0.24rem;
 }
 .vux-badge-dot{
   padding: 4px;

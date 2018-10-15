@@ -2,9 +2,9 @@
 <template>
 	<div>
 		<template v-show="!ifDetail">
-			<div class="index" v-show="1 == showIndex || 3 == showIndex">
+			<div class="index">
 				<home-header></home-header>
-				<div class="main-wrap" v-show="1 == showIndex">
+				<div class="main-wrap">
 					<div class="bfc-o">
 						<tab :line-width=2 active-color='#fc378c' v-model="classifyIndex">
 							<tab-item :selected="currentClassiftyName == '推荐'" @click="currentClassiftyName = '推荐'">推荐
@@ -36,46 +36,19 @@
 				      </swiper>
 					</div>
 				</div>
-		
-				<zjzx-video class="main-wrap" v-show="3 == showIndex"></zjzx-video>
 			</div>
 		</template>
-		<member v-show="4 == showIndex"></member>
-		<div class="footer-nav">
-			<div :class="['footer-item',{'current':1 == showIndex}]" @click="show(1)">
-				<i class="iconfont icon-index footer-icon"></i>
-				<span class="footer-text">首页</span>
-			</div>
-			<div :class="['footer-item',{'current':2 == showIndex}]" @click="show(2)">
-				<i class="iconfont icon-xiaoxi footer-icon"><badge class=bfc-p></badge></i>
-				<span class="footer-text">消息</span>
-			</div>
-			<div :class="['footer-item',{'current':3 == showIndex}]" @click="show(3)">
-				<i class="iconfont icon-shipin footer-icon"></i>
-				<span class="footer-text">视频</span>
-			</div>
-			<div :class="['footer-item',{'current':4 == showIndex}]" @click="show(4)">
-				<i class="iconfont icon-wode footer-icon"><badge class=bfc-p></badge></i>
-				<span class="footer-text">我的</span>
-			</div>
-		</div>
 		<!-- <home-more></home-more> -->
 	</div>
 </template>
 
 <script>	
 // import config from '@/lib/config/config'
-import {TransferDom,Swiper,SwiperItem, Popup  } from 'vux'
+import { TransferDom,Swiper,SwiperItem, Popup } from 'vux'
 import homeHeader from '@/components/headerBar'
 import homeMore from'@/components/more'
 // import homeNav from '@/components/swiperNav'
-// import bottomNav from '@/components/bottomNav'
-// import multIT from '@/components/news/multIT'
-
 import articleList from '@/view/part/articleList'
-
-import zjzxVideo from '@/view/video'
-import member from '@/view/member/index'
 
 import homeService from '@/service/homeService'
 import articleService from '@/service/articleService'
@@ -91,16 +64,7 @@ import articleClassifyService from '@/service/article_classifyService'
 			Swiper, 
 			SwiperItem,
 			articleList,
-			member,
-			zjzxVideo,
 			Popup
-		},
-		created () {
-			// debugger;
-			// console.log(homeService);
-			// homeService.use(this.$http).test(function(data){
-			// 	console.log(data);
-			// })			
 		},
 		data(){
 			return {
@@ -127,7 +91,6 @@ import articleClassifyService from '@/service/article_classifyService'
 	    	// document.addEventListener('DOMContentLoaded', this.recalc, false);
 	    	// this.recalc();
 	    	// 
-
 	    	this.$nextTick(()=>{
 	    		articleClassifyService.getArticleClassifyList(data=>{
 					if (data && data.status == "success") {
@@ -137,9 +100,7 @@ import articleClassifyService from '@/service/article_classifyService'
 				});
 	    		this.ifLoad = false;
 	    	})
-
-			// this.$options.methods.getArtList.call(this);
-			
+			// this.$options.methods.getArtList.call(this);			
 	    },
 		methods:{
 			//导航栏添加弹出popup
@@ -211,9 +172,6 @@ import articleClassifyService from '@/service/article_classifyService'
 	  //       	clientWidth = Math.min( window.innerWidth , docEl.clientWidth );
 	  //       	docEl.style.fontSize= ( clientWidth / 750 * 100)+"px";
 	  //       },
-	        show(whi){
-	        	this.showIndex = whi;
-	        },
 	        getArtList(){
 				this.lock = true;
 				if(this.turn){
@@ -331,42 +289,11 @@ import articleClassifyService from '@/service/article_classifyService'
 			font-size: .45rem;
 			font-weight: 700;
 		}
-	}
-	.footer-nav{
-		width: 100%;
-		position: fixed;
-		left: 0;
-		bottom: 0;
-		text-align: center;
-		overflow: hidden;
-		background-color: #fff;
-		border-top: .02rem solid @borderColor;
-		.footer-item {
-			float: left;
-			width: 25%;
-			height: .88rem;
-			padding: .12rem 0;
-			color: #999;
-			.footer-icon {
-				display: block;
-				font-size: .4rem;
-			}
-			.footer-text{
-				font-size: .2rem;
-			}
-		}
-		.footer-item a.router-link-active,.current{
-			color: @mainColor;
-		}
-	}
-	
+	}	
 	.main-content{
 		height: 100%;
 		overflow-y: auto;
 	}
-	// .router-link-active{
-	// 	color:@currentColor;
-	// }
 	/*vux 样式修改*/
 	.vux-tab-wrap{
       	padding-top: 38px;

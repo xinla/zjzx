@@ -11,7 +11,7 @@
 					<img :src="artUser.imageurl?(fileRoot+artUser.imageurl):imgurl" alt="" class="uphoto uphoto-big">
 					<div>
 						<div class="uname">
-							{{ artUser.username || "真相官方" }}
+							{{ artUser.username}}
 						</div>
 						<div class="ts">
 							<time v-text="$Tool.publishTimeFormat(article.publishtime)"></time>

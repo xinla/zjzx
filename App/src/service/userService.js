@@ -61,9 +61,6 @@ service.updateUser = function(user) {
 	return userMap;
 }
 
-
-
-
 service.getCurentUser = function(call){
 
 	var resMap = service.getUserById(userid,call);
