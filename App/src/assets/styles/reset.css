@@ -8,7 +8,7 @@ header, section, footer, aside, nav, article, figure{ display: block; }
 input,button,select,textarea { outline: none;vertical-align: middle;/*解决父级底部多余空白*/-webkit-appearance: none; /*去掉webkit默认的表单样式*/font-size: 100%;/* 使得表单元素在 ie 下能继承字体大小 */border:none;background:none;}
 address, cite, dfn, em, var { font-style: normal; } /* 将斜体扶正 ， 注：optgroup 无法扶正 */
 h1, h2, h3, h4, h5, h6 { font-size: 100%; background:none;} 
-code, kbd, pre, samp { font-family: courier new, courier, monospace; } /* 统一等宽字体 */
+code, kbd, pre, samp { font-family:inherit; } /* 统一等宽字体 */
 object, embed, video {  max-width: 100%; }
 a:link,a:active,a:visited,a:hover{ text-decoration: none; }
 table{ border-collapse: collapse;border-spacing: 0; }

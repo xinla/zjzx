@@ -22,6 +22,9 @@ import './assets/styles/reset.css'
 import Request from './assets/request/axiosServer'
 // Vue.use(Request);
 
+//二维码生成插件
+import QRCode from 'qrcode'
+
 //引用工具函数
 import localforage from './assets/common/localforage'
 Vue.use(localforage);

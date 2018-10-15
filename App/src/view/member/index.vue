@@ -14,26 +14,26 @@
 	    </router-link>
       </div>
       <!-- 已登录 -->
-      <router-link :to="{ path:'/personBase/published',query:{userId,current:0} }">
-	      <div class="member-login-in"  v-if="ifLogin">
-	        <div class="member-user">
-	          <div class="member-user-image">
-	            <img :src="userPhoto" alt="用户头像">
-	      		</div>
-	            <div class="member-user-desc">
-	              <h4 class="member-username">{{userName}}</h4>
-	              <p class="member-user-item member-user-focus">关注<span>{{focusNum}}</span></p>
-	              <p class="member-user-item member-user-fans">粉丝<span>{{fansNum}}</span></p>
-                <p class="invite-code">
-                  我的邀请码：{{inviteCode}}
-                </p>
-              </div>
-              <div class="member-user-arrow" @click="handleMember">
-                <i class="iconfont icon-arrow-right"></i>
-              </div>
-	          </div>
-	        </div>
-	     </router-link>
+      <div class="member-login-in"  v-if="ifLogin" @click="$Tool.goPage({ name:'published',query:{userId,current:0} })">
+        <div class="member-user">
+          <div class="member-user-image">
+            <img :src="userPhoto" alt="用户头像">
+      		</div>
+            <div class="member-user-desc">
+              <h4 class="member-username">{{userName}}</h4>
+              <p class="member-user-item member-user-focus">关注<span>{{focusNum}}</span></p>
+              <p class="member-user-item member-user-fans">粉丝<span>{{fansNum}}</span></p>
+              <p class="invite-code" @click="copyCode($event)" >
+                我的邀请码：<code>{{inviteCode}}</code>点击复制
+                <!-- 必须为input元素，否则复制无效 -->
+                <input :value="inviteCode" ref="inviteCode" >
+              </p>
+            </div>
+            <div class="member-user-arrow">
+              <i class="iconfont icon-arrow-right"></i>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="member-desc">
         <ul class="member-desc-list">
@@ -51,8 +51,7 @@
               <span>{{item.desc}}</span>
               <i class="iconfont icon-arrow-right arrow-item"></i>
               <div class="fr">
-              <badge></badge>
-                
+              <badge></badge>              
               </div>
             </div>
           </router-link>
@@ -92,14 +91,14 @@ export default {
       ],
       menuArr: [
         { id: 1, desc: '消息通知', class: 'icon-my-msg', path: '/topBase/messages' },
-        { id: 2, desc: '爱心邀请', class: 'icon-my-msg', path: '/topBase/invite' },
+        { id: 2, desc: '爱心邀请', class: 'icon-love-k', path: '/topBase/invite' },
         { id: 3, desc: '我的关注', class: 'icon-zuji', path: '/personBase/focus' ,current:5},
         { id: 4, desc: '意见反馈', class: 'icon-dfabu', path: '/topBase/feedback' },
         { id: 5, desc: '系统设置', class: 'icon-setup', path: '/topBase/set' }
       ],
       loginLink: '/topBase/login',
       userId:localStorage.id,
-      inviteCode:localStorage.inviteCode,
+      inviteCode:localStorage.inviteCode || 66,
       userName: '用户名',
       ifLogin: false,
       userPhoto: require('@/assets/images/userPhoto.jpg'),
@@ -147,9 +146,6 @@ export default {
         }
       }
     },
-    handleMember(){
-      console.log(11111);
-    },
     transArgs(link, title) {
       this.router.push({
         path: link,
@@ -168,6 +164,19 @@ export default {
       }
       // location.reload();
       history.go(0)
+    },
+    copyCode(e){
+      this.$refs.inviteCode.select();
+      e.stopPropagation();
+      document.execCommand("Copy");
+      this.$vux.alert.show({
+        content:'复制成功！',
+      })
+      setTimeout(()=>{
+        this.$vux.alert.hide({
+          content:'登录失效,请重新登录！',
+        })
+      },800)
     }
   },
   // watch:{
@@ -388,13 +397,21 @@ export default {
     margin-bottom: .4rem;
   }
 
-  .member-body-item:nth-child(2n) .member-body-desc {
+  .member-body-item:nth-child(2n) .member-body-desc,
+  .member-body-item:last-child .member-body-desc {
     border-bottom: none;
   }
 }
 .invite-code{
   line-height:30px;
   font-size: 0.24rem;
+}
+.invite-code input{
+  display: block;
+  height: 0;
+}
+code{
+  padding-right:10px;
 }
 .vux-badge-dot{
   padding: 4px;

@@ -75,6 +75,7 @@ export default {
 					if (res && res.status == "success") {
 						this.$set(this.list[i],"title",res.record.content)
 					}
+				console.log(res)
 				} else {
 
 				}
