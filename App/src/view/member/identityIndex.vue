@@ -2,12 +2,12 @@
 	<div>
 		<div class="main-a">
 				<div class="identity"  @click="$Tool.goPage({name:'identityPerson',query:{title:'个人认证'}})">
-					<i class="iconfont to fr">&#xe7f2;</i>
+					<i class="iconfont icon-arrow-right to fr"></i>
 					<p>个人认证</p>
 					<span class="idespan">个人真实身份认证</span>
 				</div>	
 				<div class="identity"  @click="$Tool.goPage({name:'identityEenterprise',query:{title:'企业认证'}})">
-					<i class="iconfont to fr">&#xe7f2;</i>
+					<i class="iconfont icon-arrow-right to fr"></i>
 					<p>企业认证</p>
 					<span class="idespan">企业认证企业认证</span>
 				</div>

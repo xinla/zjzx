@@ -1,5 +1,5 @@
 <template>
-	<downRefresh class="main-content" @refresh="getArtList()"  @scrolling="loadMore">
+	<downRefresh class="main-content" @refresh="init()"  @scrolling="loadMore">
 		<div>				
 			<loading-main v-show="!arcList.length"></loading-main>
 			<multIT v-for="(item,index) in arcList" :article="item" :key="index"></multIT>
@@ -29,7 +29,9 @@ export default {
 		}
 	},
 	mounted () {
-		this.getArtList();			
+		this.$nextTick(()=>{
+			this.init();			
+		})
 	},
 	data(){
 		return {
@@ -41,7 +43,7 @@ export default {
 		}
 	},
 	methods:{
-		getArtList(){
+		init(){
 			this.lock = true;
 			this.ifLoad = true;
 			let resArticlePage;
@@ -60,10 +62,9 @@ export default {
 		},
 		loadMore(e){
 			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
-				this.$options.methods.getArtList.call(this);
+				this.init();
 			}
 			this.scrollTop = $(e.target).scrollTop();
-			// console.log(this.scrollTop);
 		},
 
 	},

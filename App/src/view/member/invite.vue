@@ -40,8 +40,11 @@ export default {
 	    height: auto!important;
   	}
   	.invite-title{
-  		margin: 100px 0;
+  		margin: 1rem 0;
   		line-height: 24px;
+  	}
+  	.invite {
+  		min-height: 500px;
   	}
   	.cc{
   		position: fixed;

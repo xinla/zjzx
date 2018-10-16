@@ -1,5 +1,5 @@
 <template>
-	<down-refresh @refresh="getArtList()">
+	<down-refresh @refresh="init()">
 		<div class="main-content" @scroll="loadMore">
 			<loading-main v-show="ifLoad"></loading-main>
 			<z-video v-for="(item,index) in arcList" :article="item" :key="index"></z-video>
@@ -23,15 +23,17 @@ export default {
 			pageSize:1,
 			lock:false,
 			ifLoad:true,
-
+			scrollTop:0,
 		}
 	},
 	mounted(){
-		this.$options.methods.getArtList.call(this);
-		this.ifLoad = false;
+		this.$nextTick(()=>{
+			this.init();
+			this.ifLoad = false;			
+		})
 	},
 	methods:{
-		getArtList(){
+		init(){
 			this.lock = true;
 			let resArticlePage;
 				resArticlePage = articleService.articlePage(this.pageSize,15,'',2);
@@ -49,10 +51,15 @@ export default {
 		},
 		loadMore(e){
 			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
-				this.$options.methods.getArtList.call(this);
-				// console.log(1)
+				this.init();
 			}
+			this.scrollTop = $(e.target).scrollTop();
 		},
+	},
+	watch:{
+		$route(){
+			$(".main-content").scrollTop(this.scrollTop);
+		}
 	}
 }
 </script>

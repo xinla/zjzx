@@ -2,7 +2,7 @@
     <div>
         <div class="search">
             <input type="text" v-model="keywords" @keyup="search(keywords)" placeholder="请输入位置关键词~">
-            <i class="iconfont ac">&#xeafe;</i>
+            <i class="iconfont icon-search ac"></i>
         </div>
         <ul class="site-wrap" >
             <li class="site-li" v-for="(item,index) in siteList" @click="positionBack(item.name,item.address)">
@@ -32,9 +32,8 @@ export default{
                 let latitude = data.latitude;
 
                 mapService.getPoiList(page_num,latitude,longitude,"",(data2)=>{
-                       this.siteList=data2.results;
-                        page_num++;
-
+                    this.siteList=data2.results;
+                    page_num++;
                 })
             })
             
@@ -56,9 +55,8 @@ export default{
                 let longitude = data.longitude;
                 let latitude = data.latitude;
 
-                mapService.getPoiList(page_num,latitude,longitude,keywords,(data2)=>{
-                    
-                       this.siteList=data2.results;
+                mapService.getPoiList(page_num,latitude,longitude,keywords,(data2)=>{                    
+                        this.siteList=data2.results;
                         page_num++;
 
                 })
@@ -70,10 +68,6 @@ export default{
             localStorage.selectedpublishaddress = pa;
         }
     },
-    watch:{
-    },
-    computed:{
-    }
 }
 </script>
 

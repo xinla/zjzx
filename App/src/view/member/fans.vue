@@ -27,7 +27,6 @@ export default{
 	// },
 	activated(){
 		this.init();
-		// console.log("fans")
 	},
 	methods:{
 		init(){
@@ -50,7 +49,7 @@ export default{
 		loadMore(e){
 			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
 				this.init();
-				console.log(1)
+				// console.log(1)
 			}
 		},
 	}

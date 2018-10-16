@@ -24,7 +24,7 @@
               <p class="member-user-item member-user-focus">关注<span>{{focusNum}}</span></p>
               <p class="member-user-item member-user-fans">粉丝<span>{{fansNum}}</span></p>
               <p class="invite-code" @click="copyCode($event)" >
-                我的邀请码：<code>{{inviteCode}}</code>点击复制
+                我的邀请码：<code>{{inviteCode}}</code>点我复制
                 <!-- 必须为input元素，否则复制无效 -->
                 <input :value="inviteCode" ref="inviteCode" >
               </p>
@@ -64,12 +64,6 @@ import config from '@/lib/config/config'
 import followService from '@/service/followService'
 
 export default {
-  // created() {
-  //   this.$nextTick(()=>{
-  //     this.loadUser();
-  //     this.loadDayNight();     
-  //   })  
-  // },
   activated() {
   	this.$nextTick(()=>{
       this.loadUser();
@@ -406,6 +400,7 @@ export default {
 .invite-code{
   line-height:30px;
   font-size: 0.24rem;
+  color:#ddd;
 }
 .invite-code input{
   display: block;
@@ -413,6 +408,7 @@ export default {
 }
 code{
   padding-right:10px;
+  font-family: inherit;
 }
 .vux-badge-dot{
   padding: 4px;

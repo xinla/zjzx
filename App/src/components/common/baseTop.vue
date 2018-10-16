@@ -6,8 +6,6 @@
 		 <transition :name="transitionName">
 			<router-view class="router-view"></router-view>
 		</transition>
-		<!-- <div>			
-		</div> -->
 	</div>
 </template>
 
@@ -20,10 +18,7 @@ export default{
 		}
 	},
 	mounted(){
-		let par = this.$route.query.title;
-		this.title = par;	
-	},
-	methods:{
+		this.title = this.$route.query.title;
 	},
 	watch:{
 		$route(to,from){
@@ -35,8 +30,7 @@ export default{
 			this.transitionName = this.$router['isBack'] ? 'slide-right' : 'slide-left';
 			this.$router['isBack'] = false;	
 		}
-	},
-	
+	},	
 }
 </script>
 
@@ -44,10 +38,9 @@ export default{
 	.hreficon{
 		width: 30px;
 	}
-	/*.router-view{*/
-	    /*margin-top: 1.05rem;*/
-	    /*padding: 0 0.18rem 0.18rem;*/
-	/*}*/
+	.router-view{
+	    height: calc(100vh - 0.87rem);
+	}
 	.router-view {
 		width: 100%;
 		position: absolute;

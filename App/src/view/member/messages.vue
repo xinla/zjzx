@@ -1,12 +1,6 @@
 <template>
 	<div class="msg-wrap" @scroll="loadMore">
 		<ul class="msg-list">
-			<!-- <li class="msg-tip" v-if="!list.length">
-				<div class="msg-tip-box">
-					<i class="iconfont icon-nomsg"></i>
-					<p class="msg-tip-desc">暂无消息通知</p>
-				</div>				
-			</li> -->
 			<li class="msg-item" v-for="(item,index) in list" @click="toDetail(item.itemid,item.id,item.type)">
 				<span class="msg-title oe bfc-d">{{item.title}}</span>
 				<badge :text="item.newcount" v-if="item.isnew"></badge>
@@ -23,6 +17,8 @@
 import messageService from '@/service/messageService'
 import articleService from '@/service/articleService'
 import articleCommentService from '@/service/article_commentService'
+
+import replyCommentList from '@/view/member/replyCommentList'
 
 export default {
 	data(){
@@ -75,7 +71,6 @@ export default {
 					if (res && res.status == "success") {
 						this.$set(this.list[i],"title",res.record.content)
 					}
-				console.log(res)
 				} else {
 
 				}
@@ -96,7 +91,7 @@ export default {
 				return;
 			}
 			if(type == 2){
-				this.$Tool.goPage({name:"replyList",query:{id,}})
+				this.$Tool.goPage({name:"replyCommentList",query:{id,title:'评论详情'}})
 				messageService.readMessage(mesId);
 				return;
 			}

@@ -11,7 +11,7 @@ export default{
 	props:{
 		mes:{
 			type:String,
-			default:"您想要的真相消失啦~~~"
+			default:"还没有您想要的真相啊~~~"
 		}
 	}
 }

@@ -24,7 +24,7 @@ export default new Router({
       name: '/',
       redirect:"/home",
       component: (resolve)=>{
-        require(['@/components/common/bottomNav.vue'],resolve)
+        require(['@/components/common/baseBottomNav.vue'],resolve)
       },
       children:[
         //文章列表首页
@@ -237,6 +237,13 @@ export default new Router({
           name:'level',
           component: (resolve)=>{
             require(['@/view/member/level.vue'],resolve)
+          }      
+        },
+        {
+          path:'replyCommentList',
+          name:'replyCommentList',
+          component: (resolve)=>{
+            require(['@/view/member/replyCommentList.vue'],resolve)
           }      
         },
       ]

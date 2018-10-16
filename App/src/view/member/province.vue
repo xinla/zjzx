@@ -32,10 +32,10 @@ export default {
 		})
 	},
 	methods:{
-		provinFn(item){
-			Bus.$emit('add',item)
-			console.log(item.provinceid);
-		}
+		// provinFn(item){
+		// 	Bus.$emit('add',item)
+		// 	// console.log(item.provinceid);
+		// }
 	}
 
 }

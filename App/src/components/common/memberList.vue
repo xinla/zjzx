@@ -53,21 +53,15 @@ export default{
 	methods:{
 		init(){
 			//获取列表人信息
-			// debugger
 			let temp = [];
 			this.userList = [];
-			// console.log(this.list);
 			for (var i = 0,len = this.list.length; i < len; i++) {
 				let data = userService.getUserById(this.list[i].userid);
 					if (data && data.status == "success") {
 						temp.push(data.result.user);
 					}					
 			}
-			// this.$set(this,this.list,temp);.
-			// debugger
 			this.userList = temp;
-			// console.log(temp)
-			// console.log(this.userList)
 		},
 		doFocus(targetid){
 			if (!targetid) {console.log(1);return false;}

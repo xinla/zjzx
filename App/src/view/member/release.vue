@@ -5,7 +5,7 @@
 			<select id="sort1" v-model="record.classify">
 				<option :value="item.classifycode" v-for="item in classfyList">{{ item.classifyname }}</option>
 			</select>
-			<label for="sort1" class="iconfont sort-lab">&#xe7f6;</label>
+			<label for="sort1" class="iconfont icon-down sort-lab"></label>
 		</dd>	
 		<!-- <dt>标题</dt> -->
 		<dd><input type="text" v-model="record.title" placeholder="标题" maxlength="25"></dd>
@@ -31,8 +31,8 @@
 			</dd>
 		</fieldset>
 		<dd>
-			<i class="iconfont position">&#xe868;</i>
-			<router-link :to="{ path:'/memberBase/position',query:{title:'选择位置'} }" class="tag">{{ record.selectedpublishname }}</router-link>
+			<i class="iconfont icon-weizhi position"></i>
+			<router-link :to="{ name:'position',query:{title:'选择位置'} }" class="tag">{{ record.selectedpublishname }}</router-link>
 		</dd>
 
 		<dd colspan="2"><button type="button" @click="publish">发布</button></dd>
@@ -192,7 +192,6 @@ export default{
 	watch:{
 		"$route"(){
 			this.record.type = this.$route.query.sort;	
-
 		}
 	}
 }

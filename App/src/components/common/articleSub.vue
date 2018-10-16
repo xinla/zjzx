@@ -39,7 +39,6 @@ import articleCommentService from '@/service/article_commentService'
 import userService from '@/service/userService'
 import articleService from '@/service/articleService'
 
-// import store from '@/store/store'
 export default {
 	data(){
 		return {

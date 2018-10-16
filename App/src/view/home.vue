@@ -13,12 +13,12 @@
 							</tab-item>
 						</tab>
 							<div class="nav-add" @click="handleMore" v-model="showMore">
-								<i class="iconfont">&#xe610;</i>
+								<i class="iconfont icon-menu1"></i>
 							</div>
 						<div v-transfer-dom>
 							<popup v-model="showMore" position="bottom" height="100%">
 								<div class="more-title" @click="handleClose">
-									<i class="iconfont">&#xe68c;</i>
+									<i class="iconfont icon-close"></i>
 								</div>
 								<home-more></home-more>
 							</popup>	
@@ -26,7 +26,7 @@
 					</div>
 					<div class="main">
 						<loading-main v-show="ifLoad"></loading-main>
-						<swiper v-model="classifyIndex" height="500px" :show-dots="false">
+						<swiper v-model="classifyIndex" :height="swiperHeight + 'px'" :show-dots="false">
 					        <swiper-item>
 					          	<articleList :show="0 == classifyIndex"></articleList>
 					        </swiper-item>
@@ -38,16 +38,13 @@
 				</div>
 			</div>
 		</template>
-		<!-- <home-more></home-more> -->
 	</div>
 </template>
 
 <script>	
-// import config from '@/lib/config/config'
 import { TransferDom,Swiper,SwiperItem, Popup } from 'vux'
 import homeHeader from '@/components/headerBar'
 import homeMore from'@/components/more'
-// import homeNav from '@/components/swiperNav'
 import articleList from '@/view/part/articleList'
 
 import homeService from '@/service/homeService'
@@ -64,24 +61,17 @@ import articleClassifyService from '@/service/article_classifyService'
 			Swiper, 
 			SwiperItem,
 			articleList,
-			Popup
+			Popup,
 		},
 		data(){
 			return {
 				showMore:false,
 				ifLoad:false,
-				showIndex:1,
 				classifyList:[],
-				arcListA:[],
-				arcListB:[],
 				classifyIndex:0,
 				currentClassiftyName:"推荐",
-				pageSize:1,
-				pageSizeB:1,
-				lock:false,
-				turn:false,
-				articleId:0,
 				ifDetail:false,
+				swiperHeight:0,
 			}
 		},
 		mounted () {
@@ -91,16 +81,15 @@ import articleClassifyService from '@/service/article_classifyService'
 	    	// document.addEventListener('DOMContentLoaded', this.recalc, false);
 	    	// this.recalc();
 	    	// 
+	    	this.swiperHeight = document.body.clientHeight;
 	    	this.$nextTick(()=>{
 	    		articleClassifyService.getArticleClassifyList(data=>{
 					if (data && data.status == "success") {
-						this.classifyList = data.result.classfyList;					
-						// console.log(this.classifyList)
+						this.classifyList = data.result.classfyList;	
 					}
 				});
 	    		this.ifLoad = false;
 	    	})
-			// this.$options.methods.getArtList.call(this);			
 	    },
 		methods:{
 			//导航栏添加弹出popup
@@ -172,38 +161,6 @@ import articleClassifyService from '@/service/article_classifyService'
 	  //       	clientWidth = Math.min( window.innerWidth , docEl.clientWidth );
 	  //       	docEl.style.fontSize= ( clientWidth / 750 * 100)+"px";
 	  //       },
-	        getArtList(){
-				this.lock = true;
-				if(this.turn){
-					let resArticlePage = articleService.articlePage(this.pageSize,15,this.classifyIndex);
-					if (resArticlePage && resArticlePage.status == "success") {
-							this.arcListA = this.arcListA.concat(resArticlePage.recordPage.list);
-							this.turn = false;		
-							this.pageSize++;
-							this.lock = false;
-						}
-					// this.arcListB = this.arcListB.concat(resArticlePage.recordPage.list);	
-					// console.log(this.arcList);articlePage
-				}else{
-					let resArticlePage = articleService.articlePage(this.pageSizeB,15,this.classifyIndex);
-					if (resArticlePage && resArticlePage.status == "success") {
-							this.arcListB = this.arcListB.concat(resArticlePage.recordPage.list);
-							this.turn = true;		
-							this.pageSizeB++;
-							this.lock = false;
-						}
-				}
-			},
-			loadMore(e){
-				// if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
-				// 	this.$options.methods.getArtList.call(this);
-				// 	// console.log(1)
-				// }
-				// console.log(e.target)
-			},
-			swiperChange(){
-				// this.$options.methods.getArtList.call(this);
-			}
 
 	    },
 	    

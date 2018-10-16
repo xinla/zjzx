@@ -44,7 +44,8 @@ export default {
 			let touch = e.changedTouches[0]; 
 	        // 获取下拉的距离
 			let move = touch.clientY - this.startY;
-	         //这里主要是让内容区随着下拉操作而往下滚动         //_move>0是指往下滑动(下拉),_move<100是给一个上限,不然一直下拉的话整个内容区就会随着下拉距离一直增大,用户体验不是很好         //这里下拉操作主要是显示出顶上的一层tipText         
+	         //这里主要是让内容区随着下拉操作而往下滚动 
+	         //_move>0是指往下滑动(下拉),_move<100是给一个上限,不然一直下拉的话整个内容区就会随着下拉距离一直增大,用户体验不是很好         //这里下拉操作主要是显示出顶上的一层tipText         
 			if (move > 0 && move < 100) {           
 				this.lineHeight = move;           //记录下下拉的距离
 				this.moveDistance = move;           
@@ -62,7 +63,6 @@ export default {
 			this.endY = touch.clientY;        
 			if (this.moveDistance > 50) {          
 				this.tipText = '数据加载中...';
-				// this.$options.methods.getArtList.call(this);
 				this.$emit("refresh");
 				this.tipText = "加载完毕";
 			}

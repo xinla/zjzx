@@ -1,40 +1,31 @@
 <template>
-	<transition name="slide-ud">	
-		<div class="mask" v-show="ifCommentSwitch">	
-			<div class="mask-sub" @click="commentSwitch">
-				<!-- 取消层 -->
-			</div>
-			<!-- 真评论框 -->
-			<div class="comment-form bf">
-				<div class="input-commnet-wrap">
-					<input type="text" class="input-commnet-content" v-model="commentCon" maxlength="100" autofocus placeholder="留下你的高见">	
-				</div>
-				<input type="button"class="submit-comment" value="发布" @click="comment()">
-			</div>
+		<div class="comment-main">	
 			<!-- 回复列表 -->
 			<transition name="slide-ud">
 				<!-- v-scrollLoad="scrollBotLoad" -->
 				<div class="reply-wrap" @scroll="scrollBotLoad" >
 					<div class="reply-li bfc-o">
 						<div class="uphoto-wrap fl">
-							<img class="uphoto" :src="commentList[commentIndex].imageurl?(fileRoot+commentList[commentIndex].imageurl):imgurl" alt="">
+							<img class="uphoto" :src="commentUser.imageurl?(fileRoot+commentUser.imageurl):imgurl" alt="">
 						</div>
 						<div class="comment-detail">				
 							<p>
-								<span class="uname oe bfc-d">{{commentList[commentIndex].username}}</span>
-								<button type="button" class="focus-b bfc-p" @click="doFocus">{{replyUserFocusState?'已关注':'关注'}}</button>
+								<span class="uname oe bfc-d">{{commentUser.username}}</span>
+								<button type="button" class="focus-b bfc-p" v-if="userId != commentMian.douserid" @click="doFocus">
+								{{replyUserFocusState?'已关注':'关注'}}
+							</button>
 							</p>	
-							<p class="ucomment">{{commentList[commentIndex].content}}</p>
+							<p class="ucomment">{{commentMian.content}}</p>
 							<div>
 								<div>
 									<!-- <button type="button" class="reply reply-btn" @click="">回复</button>&nbsp;-&nbsp; -->
 									<div class="reply reply-sh">
 										<div>
-											<time v-text="$Tool.publishTimeFormat(commentList[commentIndex].commenttime)"></time>	
-											<i class="iconfont report-comment-btn" @click="report()">&#xe77e;</i>		
+											<time v-text="$Tool.publishTimeFormat(commentMian.commenttime)"></time>	
+											<i class="iconfont icon-warning-circle report-comment-btn" @click="report()"></i>		
 											<!-- <span>-</span> -->
 											<span class="rep-show">
-												<var>{{commentList[commentIndex].likeNum || 0}}</var>人赞过
+												<var>{{commentUser.likeNum || 0}}</var>人赞过
 											</span>
 										</div>
 									</div>
@@ -70,7 +61,14 @@
 						</li>
 					</ul>
 				</div>
-			</transition>								
+			</transition>
+			<!-- 真评论框 -->
+			<div class="comment-form bf">
+				<div class="input-commnet-wrap">
+					<input type="text" class="input-commnet-content" v-model="commentCon" maxlength="100" autofocus placeholder="留下你的高见">	
+				</div>
+				<input type="button"class="submit-comment" value="发布" @click="comment()">
+			</div>								
 			<!-- 举报 -->
 			<transition name="slide-ud">
 				<div class="report-wrap bf" v-if="ifReport">
@@ -84,7 +82,6 @@
 				</div>
 			</transition>
 		</div>
-	</transition>
 </template>
 
 <script>
@@ -105,7 +102,16 @@ import messageService from '@/service/messageService'
 export default {
 	data(){
 		return{
+			replyCommentId:0,
 			userId:localStorage.id,
+			commentMian:{
+				content:"评论/回复内容",
+				douserid:"评论人id",
+				commenttime:"评论/回复时间",
+			},
+			commentUser:{
+
+			},
 			ifCommentSwitch:false,
 			commentCon:"",
 			//三级回复@的用户名
@@ -140,17 +146,51 @@ export default {
 			},
 		}
 	},
-	props:{
-		replyCommentId:{
-			type:Number,
-			default:0,
-		},
-		replyUserId:{
-			type:Number,
-			default:0,
-		}
+	// props:{
+	// 	replyCommentId:{
+	// 		type:Number,
+	// 		default:0,
+	// 	},
+	// 	replyUserId:{
+	// 		type:Number,
+	// 		default:0,
+	// 	}
+	// },
+	activated(){
+
+	},
+	mounted(){
+		this.replyCommentId = this.$route.query.id;
+		this.init();
 	},
 	methods:{
+		init(){
+			if (!this.replyCommentId) {
+				this.$vux.alert.show({
+					  content: '获取出错，请返回！',
+					})
+				this.$Tool.goBack();
+				return;
+			}
+			let res = articleCommentService.getCommentById(this.replyCommentId);
+			if (res && res.status == "success") {
+				this.commentMian = res.record;
+				console.log(this.commentMian)
+			}
+			//获取发布人信息
+			let resUserInfo = userService.getUserById(this.commentMian.douserid);
+			if (resUserInfo && resUserInfo.status == "success") {
+				this.commentUser = resUserInfo.result.user;
+			}
+			//获取评论点赞量
+			let resGetPraiseCount = praiseService.getPraiseCount(this.replyCommentId,2);
+			if (resGetPraiseCount && resGetPraiseCount.status == "success") {
+				// item.likeNum = resGetPraiseCount.result.count;
+				this.$set(this.commentMian,"likeNum",resGetPraiseCount.result.count);
+			}
+			this.loadReply();
+			this.ifFocus();
+		},
 		loadReply(){
 			//获取文章评论回复列表
 			let resReplyList = articleCommentService.getReplyList(this.replyCommentId,1,10)
@@ -175,7 +215,7 @@ export default {
 		// 是否关注发布人
 		ifFocus(){
 			if (!localStorage.id ) { return;}
-			let resTestFollow = followService.testFollow(this.replyUserId);
+			let resTestFollow = followService.testFollow(this.commentMian.douserid);
 			if (resTestFollow && resTestFollow.status == "success") {
 				if (resTestFollow.result == 1) {
 					this.replyUserFocusState = true;
@@ -188,7 +228,7 @@ export default {
 			// 关注/取消关注
 			if (!localStorage.id ) { this.$Tool.loginPrompt(); return; }
 			this.$loading.open();
-			let resFocusState = followService.doFollow(this.replyUserId);
+			let resFocusState = followService.doFollow(this.commentMian.douserid);
 			if (resFocusState && resFocusState.status == "success") {
 				if (resFocusState.result == 1) {
 					this.replyUserFocusState = true;
@@ -204,19 +244,13 @@ export default {
 		// console.log(this.focusState)
 
 		},
-		commentSwitch(e){
-			this.ifCommentSwitch = !this.ifCommentSwitch;
-			// this.ifReply = false;
-			// this.commentType = 1;
-			// e.stopPropagation();
-		},
 		comment(){
 			if (!localStorage.id ) { this.$Tool.loginPrompt(); return; }
 			let userId = localStorage.id;
 			if (this.commentCon && this.$Tool.checkInput(this.commentCon)){
 				let comment = this.commentConAdd?(this.commentCon + this.commentConAdd):this.commentCon;
 				//执行发送评论回复
-				let resACommentReply = articleCommentService.articleComment(this.id,comment,userId,this.replyUserId,2,this.replyCommentId);	
+				let resACommentReply = articleCommentService.articleComment(this.commentMian.articleid,comment,userId,this.commentMian.douserid,2,this.replyCommentId);	
 				if (resACommentReply && resACommentReply.status == "success") {
 					this.commentCon = "";
 					this.commentConAdd = "";
@@ -231,7 +265,13 @@ export default {
 					})
 				}
 			}
-		}
+		},
+		scrollBotLoad(){
+			if (!this.lock && ($(".detail").scrollTop() + $(".detail").height()) > $(".detail")[0].scrollHeight-350) {
+				// console.log(1)
+				this.loadComment();
+			} else {}
+		},
 	},
 	watch:{
 		replyCommentId(){
@@ -243,6 +283,11 @@ export default {
 </script>
 
 <style rel="stylesheet" scoped>
+	.comment-main{
+	    background: #fdfdfd;
+	    padding: 0 5px 50px;
+	    overflow: auto;
+	}
 	.input-commnet-wrap-a {
 	    position: relative;
 	    width: 50%;

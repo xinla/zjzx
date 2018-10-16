@@ -146,7 +146,7 @@
 										<div class="reply reply-sh">
 											<div>
 												<time v-text="$Tool.publishTimeFormat(commentList[commentIndex].commenttime)"></time>	
-												<i class="iconfont report-comment-btn" @click="report()">&#xe77e;</i>		
+												<i class="iconfont icon-warning-circle report-comment-btn" @click="report()"></i>		
 												<!-- <span>-</span> -->
 												<span class="rep-show">
 													<var>{{commentList[commentIndex].likeNum || 0}}</var>人赞过

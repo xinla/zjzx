@@ -19,14 +19,13 @@ export default {
 	},
 	watch:{
 		$route(to,from){
-			let par = this.$route.query.title;
-			this.title = par;
+			this.title = this.$route.query.title;
 		}		
 	},
-	mounted(){
-		let par = this.$route.query.title;
-		this.title = par;	
-	}
+	// mounted(){
+	// 	let par = this.$route.query.title;
+	// 	this.title = par;	
+	// }
 }
 </script>
 

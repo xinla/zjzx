@@ -5,7 +5,7 @@
 			<div class="search-box">
 				<!-- <i class="iconfont icon-sousuo1"></i> -->
 				<input class="search-input" type="text" v-model="keywords" placeholder="请输入关键字" ref="searchInput" @keyup="getMatchkeywords">
-				<i class="iconfont icon-close-circle-fill" @click="reset()"></i>
+				<i class="iconfont icon-close-circle" @click="reset()"></i>
 			</div>
 			<div class="dosearch" @click="search">搜索</div>
 		</div>
@@ -45,7 +45,7 @@
 			<div class="search-history">
 				<div class="search-head clearfix">
 					<span class="fl">猜你想搜的</span>
-					<i class="iconfont fr">&#xea2a;</i>
+					<i class="iconfont icon-nosee fr"></i>
 				</div>
 				<div class="search-body">
 					<ul class="search-list clearfix">
@@ -134,7 +134,6 @@ export default {
 		loadMore(e){
 			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
 				this.$options.methods.searchMore.call(this);
-				// console.log(1)
 			}
 		},
 		// 根据输入关键字获取匹配关键字列表
@@ -344,7 +343,7 @@ export default {
 	    z-index: 9;
 	    overflow-y: auto;
 	}
-	i.iconfont.icon-close-circle-fill {
+	i.iconfont.icon-close-circle {
 	    position: absolute;
 	    top: 50%;
 	    right: 6px;

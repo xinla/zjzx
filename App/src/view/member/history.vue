@@ -4,7 +4,7 @@
 			<i class="iconfont icon-delete fr" v-if="!ifDeleteAll" @click="ifDeleteAll = true;"></i>
 			<div v-else>
 				<span @click="deleteAll()" class="deleteAll">删除全部</span>
-				<span class="fr" @click="ifDeleteAll = false;">完成</span>					
+				<span class="fr" @click="ifDeleteAll = false;">完成</span>		
 			</div>
 		</div>
 		<div class="list-wrap">
@@ -123,7 +123,7 @@ export default {
 		loadMore(e){
 			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
 				this.init();
-				console.log(1)
+				// console.log(1)
 			}
 		},
 	},

@@ -81,14 +81,12 @@ export default {
 					  content:'删除失败，请重试！',
 					})
 				}
-				console.log(this.arcList)
 			}
 
 		},
 		loadMore(e){
 			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
 				this.init();
-				console.log(1)
 			}
 		},
 
