@@ -232,6 +232,13 @@ export default new Router({
             require(['@/view/member/invite.vue'],resolve)
           }      
         },
+        {
+          path:'level',
+          name:'level',
+          component: (resolve)=>{
+            require(['@/view/member/level.vue'],resolve)
+          }      
+        },
       ]
     },
     //个人中心

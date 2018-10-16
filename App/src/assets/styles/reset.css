@@ -1,5 +1,5 @@
 @charset "utf-8";
-@import url('//at.alicdn.com/t/font_773620_ic3q7wun0jb.css');
+@import url('//at.alicdn.com/t/font_773620_yakej4nvv5.css');
 * { -webkit-box-sizing: border-box;box-sizing: border-box;}
 /**,*:before,*:after{-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-tap-highlight-color: transparent;max-height: 100000px;}*/
 body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin:0;padding:0; }
@@ -8,7 +8,7 @@ header, section, footer, aside, nav, article, figure{ display: block; }
 input,button,select,textarea { outline: none;vertical-align: middle;/*解决父级底部多余空白*/-webkit-appearance: none; /*去掉webkit默认的表单样式*/font-size: 100%;/* 使得表单元素在 ie 下能继承字体大小 */border:none;background:none;}
 address, cite, dfn, em, var { font-style: normal; } /* 将斜体扶正 ， 注：optgroup 无法扶正 */
 h1, h2, h3, h4, h5, h6 { font-size: 100%; background:none;} 
-code, kbd, pre, samp { font-family:inherit; } /* 统一等宽字体 */
+code, kbd, pre, samp { font-family: courier new, courier, monospace; } /* 统一等宽字体 */
 object, embed, video {  max-width: 100%; }
 a:link,a:active,a:visited,a:hover{ text-decoration: none; }
 table{ border-collapse: collapse;border-spacing: 0; }
@@ -58,11 +58,11 @@ img,a{-webkit-touch-callout:none;}
 
 @font-face {
   font-family: 'iconfont';  /* project id 773620 */
-  src: url('//at.alicdn.com/t/font_773620_ic3q7wun0jb.eot');
-  src: url('//at.alicdn.com/t/font_773620_ic3q7wun0jb.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_773620_ic3q7wun0jb.woff') format('woff'),
-  url('//at.alicdn.com/t/font_773620_ic3q7wun0jb.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_773620_ic3q7wun0jb.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_773620_yakej4nvv5.eot');
+  src: url('//at.alicdn.com/t/font_773620_yakej4nvv5.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_773620_yakej4nvv5.woff') format('woff'),
+  url('//at.alicdn.com/t/font_773620_yakej4nvv5.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_773620_yakej4nvv5.svg#iconfont') format('svg');
 }
 
 .iconfont {

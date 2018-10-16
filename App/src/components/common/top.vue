@@ -11,7 +11,9 @@
 		</div>
 		
 		<div class="top-back-nav">
-			<slot name="nav"></slot>
+			<i class="iconfont icon-more">
+				<slot name="nav"></slot>
+			</i>
 		</div>
 	</div>
 </template>
@@ -59,9 +61,14 @@ export default {
 	}
 	.top-back-nav{
 		width: .6rem;
-		height: .3rem;
-		margin-top: .27rem;
+		height: .87rem;
+		line-height: .87rem;
+		// margin-top: .27rem;
 		font-size: .4rem;
+		.iconfont{
+			font-size: .5rem;
+			color: #666;
+		}
 	}
 }
 </style>
