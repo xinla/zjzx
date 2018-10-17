@@ -16,7 +16,7 @@ import store from './store/index'
 import animate from 'animate.css'
 //css样式
 import './assets/styles/reset.css'
-// import './assets/styles/iconfont.css'
+import './assets/styles/iconfont.css'
 
 //服务端请求
 import Request from './assets/request/axiosServer'

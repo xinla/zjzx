@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<top @hrefTo="$Tool.goBack()">
+		<top @hrefTo="$Tool.goPage({name:'member',})">
 			<template slot="title">{{title}}</template>
 		</top>
 		<div class="member-msg">
@@ -46,11 +46,13 @@
 			</ul>
 			<tab bar-active-color="#d60139" active-color="#d60139" :line-width="2" v-model="current">
 		      <tab-item v-for="(item, index) in switchListPublic" :key="item.id">
-		      	<router-link :to="{path:item.path,query:{userId,}}">{{item.desc}}
+		      	<router-link :to="{path:item.path,query:{userId,}}">
+		      		{{item.desc}}
 				</router-link>
 		      </tab-item>
 		      <tab-item v-if="loginUserId == userId" v-for="(item, index) in switchListPrivate" :key="item.id">
-		      	<router-link :to="{path:item.path,query:{userId:item.userId}}">{{item.desc}}
+		      	<router-link :to="{path:item.path,query:{userId:item.userId}}">
+		      		{{item.desc}}
 				</router-link>
 		      </tab-item>
 		    </tab>
@@ -162,11 +164,11 @@ export default {
 			 this.$refs.previewer.show(index);
 		},
 	},
-	watch:{
-		current(){
-			this.init();
-		}
-	},
+	// watch:{
+	// 	current(){
+	// 		this.init();
+	// 	}
+	// },
 	beforeRouteEnter (to, from, next) {
     	if (!GoTruth.$route.query.userId && !localStorage.id) { 
             GoTruth.$vux.alert.show({
@@ -179,9 +181,7 @@ export default {
 	    	if (!vm.userId){
 	    		vm.userId = localStorage.id;
 	    	}
-	    	if (!vm.current){
-	    		vm.current = vm.$route.query.current;
-	    	}
+    		vm.current = vm.$route.query.current;
 	      	vm.init();
 		});
 	},

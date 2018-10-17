@@ -36,6 +36,7 @@ export default {
 		}
 	},
 	activated(){
+		this.ifDeleteAll = false;
 		this.page = 1;
 		this.arcList = [];
 		this.init();
@@ -96,13 +97,14 @@ export default {
 				onConfirm () {
 					deleteA.call(_this);
 				}
-			})
+			});
+			this.ifDeleteAll = false;
 			function deleteA(){
 				let temp = [];
 				for (var i = 0,len = this.arcList.length; i < len; i++) {
 					temp.push(this.arcList[i].id)
 				}
-				console.log(temp)
+				// console.log(temp)
 				let resDelete = readHistoryService.clearHistory(temp);
 				if (resDelete && resDelete.status == "success") {
 					this.arcList = [];

@@ -36,6 +36,7 @@ export default {
 		}
 	},
 	activated(){
+		this.ifDeleteAll = false;
 		this.page = 1;
 		this.arcList = [];
 		this.init();
@@ -96,6 +97,7 @@ export default {
 					deleteA.call(_this);
 				}
 			})
+			this.ifDeleteAll = false;
 			function deleteA(){
 				let temp = [];
 				for (var i = 0,len = this.arcList.length; i < len; i++) {

@@ -79,8 +79,8 @@ export default {
         { id: 4, class: 'icon-weibo1' },
       ],
       tabArr: [
-        { id: 1, desc: '收藏', class: 'icon-not-collection', path: '/personBase/collect', query: 4 },
-        { id: 2, desc: '历史', class: 'icon-history', path: '/personBase/history', query: 5 },
+        { id: 1, desc: '收藏', class: 'icon-not-collection', path: '/personBase/collect', query: 6 },
+        { id: 2, desc: '历史', class: 'icon-history', path: '/personBase/history', query: 7 },
         { id: 3, desc: '夜间', class: 'icon-yejian' },
       ],
       menuArr: [

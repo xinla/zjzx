@@ -25,7 +25,7 @@ export default {
 		return {
 			list:[
 				{ 
-					userid :"接收人id", itemid :"项目id", type :"项目类型", createtime :"最新消息时间", isnew:"是否最新消息", newcount:"最新消息数量" 
+					userid :"接收人id", itemid :"项目id", type :"项目类型", createtime :"最新消息时间", isnew:"是否最新消息", newcount:"最新消息数量",
 				}
 			],
 			proMes:'',
@@ -60,16 +60,21 @@ export default {
 				this.proIf = true;
 				this.proMes = "请求失败，请稍后再试！"
 			}
-			for (var i = 0,len = this.list.length; i < len; i++) {
+			for (let i = 0,len = this.list.length; i < len; i++) {
 				if (this.list[i].type == 1) {
-					let res = articleService.getArticleById(this.list[i].itemid)
-					if (res && res.status == "success") {
-						this.$set(this.list[i],"title",res.record.title)
+					let resActicle = articleService.getArticleById(this.list[i].itemid)
+					if (resActicle && resActicle.status == "success") {
+						// debugger
+						if (resActicle.record) {							
+							this.$set(this.list[i],"title",resActicle.record.title)
+						}
 					}
 				} else if (this.list[i].type == 2) {
-					let res = articleCommentService.getCommentById(this.list[i].itemid);
-					if (res && res.status == "success") {
-						this.$set(this.list[i],"title",res.record.content)
+					let resActicle = articleCommentService.getCommentById(this.list[i].itemid);
+					if (resActicle && resActicle.status == "success") {
+						if (resActicle.record) {							
+							this.$set(this.list[i],"title",resActicle.record.content)
+						}
 					}
 				} else {
 
@@ -81,28 +86,28 @@ export default {
 		loadMore(e){
 			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
 				this.init();
-				console.log(1)
+				// console.log(1)
 			}
 		},
 		toDetail(id,mesId,type){
 			if (type == 1) {
-				this.$Tool.goPage({name:"detail",query:{id,}})
 				messageService.readMessage(mesId);
+				this.$Tool.goPage({name:"detail",query:{id,}})
 				return;
 			}
 			if(type == 2){
-				this.$Tool.goPage({name:"replyCommentList",query:{id,title:'评论详情'}})
 				messageService.readMessage(mesId);
+				this.$Tool.goPage({name:"replyCommentList",query:{id,title:'评论详情'}})
 				return;
 			}
 			if (type == 3) {
-				this.$Tool.goPage({name:"QADetail",query:{id,}})
 				messageService.readMessage(mesId);
+				this.$Tool.goPage({name:"QADetail",query:{id,}})
 				return;
 			}
 			if(type == 4) {
-				this.$Tool.goPage({name:"other",query:{id,}})
 				messageService.readMessage(mesId);
+				this.$Tool.goPage({name:"other",query:{id,}})
 				return;
 			}
 		}
