@@ -118,6 +118,7 @@
 			<div class="mask" v-show="ifCommentSwitch">	
 				<div class="mask-sub" @click="commentSwitch">
 					<!-- 取消层 -->
+					<i class="iconfont icon-arrow-down"></i>
 				</div>
 				<!-- 真评论框 -->
 				<div class="comment-form bf">
@@ -1116,7 +1117,6 @@ export default {
 	.mask{
 		display: block;
 		/*height: calc(100% - 100px);*/
-		background: transparent;
 		z-index: 1000;
 	}
 	.mask-sub{
@@ -1196,6 +1196,13 @@ export default {
 	}
 	.current{
 		border-bottom: 1px solid #ddd;
+	}
+	.icon-arrow-down {
+	    position: relative;
+	    top: 4%;
+	    left: 48%;
+	    font-size: 24px;
+	    color: #ccc;
 	}
 	.video-js .vjs-big-play-button{}
 </style>

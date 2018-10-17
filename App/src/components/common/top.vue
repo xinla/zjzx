@@ -42,7 +42,7 @@ export default {
 	position: relative;
 	left: 0;
 	top: 0;
-	z-index: 99999;
+	z-index: 9;
 	.top-back-icon{
 		width: .4rem;
 		.iconfont{
