@@ -224,10 +224,7 @@
 		</transition>
 		<!-- 分享组件 -->
 		<share v-model="ifShare"
-		@shareWX="share(1)"
-		@shareQQ="share(3)"
-		@shareXL="share(3)"
-		@shareOO="share(3)"
+		:content="shareContent"
 		></share>
 	</div>
 </template>
@@ -394,6 +391,12 @@ export default {
 			ifSwitchB:true,
 			//当前
 			current:1,
+			shareContent:{
+				href:"",
+				title:"",
+				content:"",
+				thumbs:"",
+			},
 		}
 	},
 	mounted(){
@@ -586,12 +589,12 @@ export default {
 				this.loadComment();
 			} else {}
 		},
-		doFocus(userId,type){
+		doFocus(userId,type){			
 			// 关注/取消关注
 			//type:1文章发布者，2评论者
 			if (!localStorage.id ) { this.$Tool.loginPrompt(); return; }
 			// this.$loading.open();
-			followService.doFollow(userId,data=>{
+			followService.doFollow(userId,(data)=>{
 				if (data && data.status == "success") {
 					if (type==1) {
 						if (data.result == 1) {
@@ -820,38 +823,51 @@ export default {
 			this.commentConAdd = "  //@" + userName;
 		},
 		share(type){
-			let msg = {
-				href:config.domain + location.href.substr(location.href.indexOf('/',10)),
+			document.addEventListener('plusready',plusReady,false);
+			function plusReady(){
+				shareService.init();
+			} 
+			this.shareContent = {
+				href:config.domain + location.href.substring(location.href.indexOf('/',10)),
 				title:this.article.title,
-				content:this.article.content.substr(0,100),
-				// thumbs:this.ArticleFile[0]['imageurl'],
-			}
+				content:this.article.content.substring(0,100),
+			};
 			if (this.ArticleFile.length) {
-				msg.thumbs = this.ArticleFile[0]['imageurl'];
+				this.shareContent.thumbs = this.ArticleFile[0]['imageurl'];
 			} else {
-				this.$set(msg,"thumbs",this.playerOptions.poster);
+				this.shareContent.thumbs = this.playerOptions.poster;
 			}
-				// console.log(msg);
+				console.log(this.shareContent);
 			if (type == 1) {
-				shareService.shareToWxHy(msg,data=>{
-					console.log(msg);
+				shareService.shareToWxHy(this.shareContent,data=>{
+					console.log(this.shareContent);
 				})				
 			} else if (type == 2) {
-				shareService.shareToWxPyq(msg,data=>{
-					console.log(msg);
+				shareService.shareToWxPyq(this.shareContent,data=>{
+					console.log(this.shareContent);
 				})
 			}else if(type == 3){
-				shareService.shareToQQ(msg,data=>{
-					console.log(msg);
+				shareService.shareToQQ(this.shareContent,data=>{
+					console.log(this.shareContent);
 				})
 			}else {
-				shareService.shareToXl(msg,data=>{
-					console.log(msg);
+				shareService.shareToXl(this.shareContent,data=>{
+					console.log(this.shareContent);
 				})
 			}
 		},
 		showShare(){
 			this.ifShare = true;
+			this.shareContent = {
+				href:config.domain + location.href.substring(location.href.indexOf('/',10)),
+				title:this.article.title,
+				content:this.article.content.substring(0,100),
+			};
+			if (this.ArticleFile.length) {
+				this.shareContent.thumbs = this.ArticleFile[0]['imageurl'];
+			} else {
+				this.shareContent.thumbs = this.playerOptions.poster;
+			}
 		},
 		switchB(type){
 			if (type == 1) {

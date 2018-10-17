@@ -4,19 +4,19 @@
 			<transition name="slide-ud">
 				<div class="bf" v-show="value">
 					<ul class="share-wrap">
-						<li class="share-li" @click="$emit('shareWX')">
+						<li class="share-li" @click="shareService.shareToWxHy(content)">
 							<div class="iconfont icon-wechat-fill"></div>
 							微信	
 						</li>	
-						<li class="share-li" @click="$emit('sharePYQ')">
+						<li class="share-li" @click="shareService.shareToWxPyq(content)">
 							<div class="iconfont icon-chrome-fill"></div>
 							朋友圈
 						</li>
-						<li class="share-li" @click="$emit('shareQQ')">
+						<li class="share-li" @click="shareService.shareToQQ(content)">
 							<div class="iconfont icon-QQ"></div>
 							QQ
 						</li>
-						<li class="share-li" @click="$emit('shareXL')">
+						<li class="share-li" @click="shareService.shareToXl(content)">
 							<div class="iconfont icon-weibo"></div>
 							微博
 						</li>
@@ -30,14 +30,25 @@
 	</transition>
 </template>
 <script>
+import shareService from "@/service/shareService"
 export default {
 	props:{
 		value:{
 			type:Boolean,
 			default:false,
 		},
+		content:{
+			type:Object,
+			default:{},
+		}
+	},
+	mounted(){
+		document.addEventListener('plusready',this.plusReady,false);
 	},
 	methods:{
+		plusReady(){
+			shareService.init();
+		},
 		cancle(){
 			this.$emit("input",false)
 		}

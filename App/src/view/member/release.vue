@@ -129,7 +129,7 @@ export default{
 		          	obj.type =2;
 		          	this.record_file.push(obj);
 		          	this.$loading.close();
-		          	console.log(obj)
+		          	// console.log(obj)
 		    	})
 		    }else{
 		    	alert("错误");
@@ -141,7 +141,6 @@ export default{
 				this.$vux.alert.show({
 				  content:'你还未登录，亲先登录再发布',
 				})
-				location.href="/member";
 				return;
 			}
 			if (!this.record.title) {

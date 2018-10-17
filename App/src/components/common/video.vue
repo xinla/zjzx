@@ -1,16 +1,16 @@
 <template>
-	<div class="text-wrap bfc-o" @click="$Tool.goPage({ name:'detail',query:{id:article.id,} })">
+	<div class="text-wrap bfc-o">
 		<div>
-			<h1>{{article.title}}</h1>
+			<h1 @click="$Tool.goPage({ name:'detail',query:{id:article.id,} })">{{article.title}}</h1>
 			<video-player class="video-player vjs-custom-skin" 
 				ref="videoPlayer"
 			 	:playsinline="true"
 			  	:options="playerOptions">							  	
 			</video-player>	
 		</div>
-		<p class="pub">
+		<p class="pub" @click="$Tool.goPage({ name:'detail',query:{id:article.id,} })">
 			<span v-if="ifPublisher">{{publisher}}</span>
-			<span>{{CommentNum}}条评论</span>
+			<span>{{CommentNum}}评</span>
 			<span>{{publishtime}}</span>
 			<small class="delete fr" @click="$emit('delete',[article.id,whi,$event])" v-if="ifDel">X</small>
 		</p>
@@ -72,16 +72,16 @@ export default {
 	},
 	mounted(){
 		this.$nextTick(()=>{
-			this.$options.methods.getArticleInfo.call(this);
+			this.init();
 		})
 	},	
 	watch:{
 		article(){
-			this.$options.methods.getArticleInfo.call(this);				
+			this.init();				
 		}
 	},
 	methods:{
-		getArticleInfo(){
+		init(){
 			articleFileService.getFileByArticle(this.article.id,data=>{
 				if (data && data.status == "success") {
 					this.playerOptions.sources[0].src = this.fileRoot + data.result.filelist[0].url;
@@ -155,8 +155,7 @@ export default {
 	    color: #666;		
 	}
 </style>
-<style>
-	
+<style>	
 	.vjs-custom-skin > .video-js .vjs-big-play-button{
 		width: 2em;
 		height: 2em;

@@ -20,7 +20,7 @@
 			</div>
 			<!-- video -->
 			<div class="big bfc-o" v-else-if="2 == article.type && ArticleFile.length">
-				<i class="iconfont icon-play-circle cc"></i>
+				<i class="iconfont icon-bofang cc"></i>
 				<img class="big" :src="ArticleFile[0].thumbnail?(fileRoot + ArticleFile[0].thumbnail):imgurl" alt="">
 			</div>
 		</div>

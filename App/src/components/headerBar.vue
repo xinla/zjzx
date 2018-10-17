@@ -4,7 +4,6 @@
 			<img src="@/assets/images/logo.png" alt="直击真相">
 		</div>
 		<div class="header-input" @click="$Tool.goPage({ name:'search' })">
-			<!-- <i class="iconfont">&#xe627;</i> -->
 			<marquee>
 		      <marquee-item v-for="(item,index) in keywords" :key="index">{{item.keyword}}</marquee-item>
 		    </marquee>
@@ -18,14 +17,13 @@
 				<div class="header-dialog" v-show="releaseShow">
 					<div class="arrow-tip"></div>
 					<ul class="header-nav">
-						<li  @click="$Tool.goPage({ name:'release',query:{title:'发布图文',sort:1}});releaseShow = false;"><i class="iconfont">&#xe686;</i>发布图文</li>
-						<li @click="$Tool.goPage({ name:'release',query:{title:'发布视频',sort:2}});releaseShow = false;"><i class="iconfont">&#xe604;</i>发布视频</li>
-						<li @click="$Tool.goPage({ name:'release',query:{title:'发起讨论',sort:3}});releaseShow = false;"><i class="iconfont">&#xe6b3;</i>发起讨论</li>
+						<li  @click="$Tool.goPage({ name:'release',query:{title:'发布图文',sort:1}});releaseShow = false;"><i class="iconfont icon-tuwen"></i>发布图文</li>
+						<li @click="$Tool.goPage({ name:'release',query:{title:'发布视频',sort:2}});releaseShow = false;"><i class="iconfont icon-shipin"></i>发布视频</li>
+						<li @click="$Tool.goPage({ name:'release',query:{title:'发起讨论',sort:3}});releaseShow = false;"><i class="iconfont icon-taolun"></i>发起讨论</li>
 					</ul>
 				</div>
 			</transition>
 			<div class="mask" v-show="maskShow" @click="handleMask"></div>
-
 		</div>
 	</div>
 </template>

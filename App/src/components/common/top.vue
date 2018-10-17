@@ -1,5 +1,4 @@
 <template>
-
 	<div class="top-back">
 		<div class="top-back-icon"  @click="$emit('hrefTo')">
 			<i class="iconfont icon-arrow-left">
@@ -8,8 +7,7 @@
 		</div>
 		<div class="top-back-title">
 			<slot name="title"></slot>
-		</div>
-		
+		</div>		
 		<div class="top-back-nav">
 			<i class="iconfont icon-more">
 				<slot name="nav"></slot>
@@ -21,7 +19,7 @@
 export default {
 	props:{
 		showNav:{
-			type:Boolean, //'boolean' 不行
+			type:Boolean,
 			default:false,
 		}
 	},

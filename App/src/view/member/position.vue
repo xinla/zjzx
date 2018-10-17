@@ -31,7 +31,7 @@ export default{
                 let longitude = data.longitude;
                 let latitude = data.latitude;
 
-                mapService.getPoiList(page_num,latitude,longitude,"",(data2)=>{
+                mapService.getPoiList(page_num,latitude,longitude,(data2)=>{
                     this.siteList=data2.results;
                     page_num++;
                 })

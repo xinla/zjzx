@@ -16,8 +16,5 @@ service.getPoiList = function(page_num,latitude,longitude,call){
 
 }
 
-
-
-
 export default service
 
