@@ -165,6 +165,10 @@ export default {
 			}
 		}
 	}
+	.icon-bofang{
+		font-size: 50px;
+		color:#fff;
+	}
 	/* .text-wrap{
 	    border-bottom: 1px solid #eee;
 	    background-color: #fff;

@@ -118,7 +118,7 @@
 			<div class="mask" v-show="ifCommentSwitch">	
 				<div class="mask-sub" @click="commentSwitch">
 					<!-- 取消层 -->
-					<i class="iconfont icon-arrow-down"></i>
+					<i class="iconfont icon-xiala1"></i>
 				</div>
 				<!-- 真评论框 -->
 				<div class="comment-form bf">
@@ -1197,7 +1197,7 @@ export default {
 	.current{
 		border-bottom: 1px solid #ddd;
 	}
-	.icon-arrow-down {
+	.icon-xiala1 {
 	    position: relative;
 	    top: 4%;
 	    left: 48%;
