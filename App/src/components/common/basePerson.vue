@@ -86,7 +86,7 @@ export default {
 			current:0,
 			currentName:"全部",
 			list:[{
-				src:'@/assets/images/defaultImg.png'
+				src:require('@/assets/images/userPhoto.jpg'),
 			}],
 			options: {
 				getThumbBoundsFn (index) {
@@ -203,6 +203,8 @@ export default {
 			.member-msg-image{
 				width: 1.4rem;
 				height: 1.4rem;
+				border-radius: 50%;
+				overflow: hidden;
 				// margin-right: .6rem;
 				img {
 					display: block;

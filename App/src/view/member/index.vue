@@ -17,21 +17,23 @@
       <div class="member-login-in"  v-if="ifLogin" @click="$Tool.goPage({ name:'published',query:{userId,current:0} })">
         <div class="member-user">
           <div class="member-user-image">
-            <img :src="userPhoto" alt="用户头像">
+            <img :src="userPhoto">
       		</div>
             <div class="member-user-desc">
               <h4 class="member-username">{{userName}}</h4>
               <p class="member-user-item member-user-focus">关注<span>{{focusNum}}</span></p>
               <p class="member-user-item member-user-fans">粉丝<span>{{fansNum}}</span></p>
-              <p class="invite-code" @click="copyCode($event)" >
-                我的邀请码：<code>{{inviteCode}}</code>点我复制
-                <!-- 必须为input元素，否则复制无效 -->
-                <input :value="inviteCode" ref="inviteCode" >
-              </p>
             </div>
             <div class="member-user-arrow">
               <i class="iconfont icon-arrow-right"></i>
             </div>
+          </div>
+          <!-- 邀请码 -->
+          <div class="member-code">
+            <span class="code">我的邀请码：</span>
+            <code>{{inviteCode}}</code>
+            <span class="member-copy"  @click="copyCode($event)" >复制</span>
+            <input :value="inviteCode" ref="inviteCode">
           </div>
         </div>
       </div>
@@ -104,7 +106,7 @@ export default {
     }
   },
   methods: {
-    loadUser(){      
+    loadUser(){    
       if (!localStorage.getItem('token')) {
         this.ifLogin = false;
         return;
@@ -116,7 +118,6 @@ export default {
         try {
           this.userPhoto = config.fileRoot + '/' + userImg;
         } catch (err) {
-          console.log(41)
         }
       }
       //获取粉丝数量
@@ -267,7 +268,8 @@ export default {
       width: 1.4rem;
       height: 1.4rem;
       margin-right: .34rem;
-
+      border-radius: 50%;
+      overflow: hidden;
       img {
       	display: block;
       	width: 100%;
@@ -283,7 +285,6 @@ export default {
       .member-username {
         width: 3rem;
         max-width: 3rem;
-        letter-spacing: .02rem;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -311,6 +312,28 @@ export default {
         display: block;
         line-height: 1.4rem;
       }
+    }
+  }
+  .member-code{
+    width: 100%;
+    height: .32rem;
+    line-height: .32rem;
+    padding-left: 1.74rem;
+    font-size: .24rem;
+    .code{
+      color: #cbcbcb;
+    }
+    code{
+      color: #f1381b;
+    }
+    .member-copy{
+      padding: .02rem .08rem;
+      border-radius: .08rem;
+      border: .02rem solid #10aeff;
+      color: #10aeff;
+    }
+    input{
+      display: none;
     }
   }
 }
@@ -397,19 +420,7 @@ export default {
     border-bottom: none;
   }
 }
-.invite-code{
-  line-height:30px;
-  font-size: 0.24rem;
-  color:#ddd;
-}
-.invite-code input{
-  display: block;
-  height: 0;
-}
-code{
-  padding-right:10px;
-  font-family: inherit;
-}
+
 .vux-badge-dot{
   padding: 4px;
 }

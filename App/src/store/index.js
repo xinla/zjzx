@@ -45,6 +45,7 @@ const mutations = {
   },
   USERIMG(state,data){
     state.userImg = data;
+    // window.localStorage.setItem('userImg',data);
     localStorage.userImg = data;
   },
   USERMOBILE(state,data){
