@@ -51,8 +51,8 @@
 					</span> -->
 				</button>
 				<button type="button" class="btn-a"><i class="iconfont icon2 icon-delete"></i>不喜欢</button>
-				<button type="button" class="btn-a" @click="share(1)"><i class="iconfont icon2 icon-wechat-fill"></i>微信</button>
-				<button type="button" class="btn-a" @click="share(3)"><i class="iconfont icon2 icon-QQ"></i>QQ</button>
+				<button type="button" class="btn-a" @click="share(1)"><i style="color: #999; font-size: 18px;" class="iconfont icon2 icon-weixin1"></i>微信</button>
+				<button type="button" class="btn-a" @click="share(3)"><i style="color: #999; font-size: 18px; vertical-align: top;" class="iconfont icon2 icon-qq"></i>QQ</button>
 			</div>
 			<ul class="switch-b ac" v-else>
 				<li :class="['switch-b-li',{current:current == 1}]" @click="switchB(1)">评论</li>
@@ -105,10 +105,10 @@
 		<!-- 伪评论框 -->
 		<div class="comment-form comment-form-a bf" v-show="!ifCommentSwitch">
 			<div class="input-commnet-wrap-a" @click="commentSwitch">				
-				<div class="input-commnet-content"><i class="iconfont icon-edit-fill"></i>留下你的高见</div>			
+				<div class="input-commnet-content"><i class="iconfont icon-comment"></i>留下你的高见</div>			
 			</div>
 			
-			<i class="iconfont icon-comment-a icon-message" @click="toComment()">
+			<i class="iconfont icon-comment-a icon-xiaoxi1" @click="toComment()">
 				<sup class="commment-num"><span class="commment-num-span">{{commentNum}}</span></sup>
 			</i>
 			<i :class="['iconfont icon-comment-a icon-star',{'collected':ifCollect}]" @click="collect(id)"></i>
@@ -992,6 +992,7 @@ export default {
 	    float: left;
         color: #666;
         width:23%;
+        font-size: 12px;
 	}
 	.icon2{
 	    font-size: 22px;
@@ -1096,7 +1097,7 @@ export default {
 		font-size: 24px;
 		color: #666;
 	}
-	.icon-message{
+	.icon-xiaoxi1{
 		position: relative;
 	}
 	.commment-num {

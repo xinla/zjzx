@@ -5,15 +5,15 @@
 				<div class="bf" v-show="value">
 					<ul class="share-wrap">
 						<li class="share-li" @click="shareService.shareToWxHy(content)">
-							<div class="iconfont icon-wechat-fill"></div>
+							<div class="iconfont icon-weixin1"></div>
 							微信	
 						</li>	
 						<li class="share-li" @click="shareService.shareToWxPyq(content)">
-							<div class="iconfont icon-chrome-fill"></div>
+							<div class="iconfont icon-friend-circle"></div>
 							朋友圈
 						</li>
 						<li class="share-li" @click="shareService.shareToQQ(content)">
-							<div class="iconfont icon-QQ"></div>
+							<div class="iconfont icon-qq"></div>
 							QQ
 						</li>
 						<li class="share-li" @click="shareService.shareToXl(content)">
