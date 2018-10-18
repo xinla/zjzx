@@ -1,6 +1,6 @@
 <template>
 	<div @scroll="loadMore">
-		<div class="editor bfc-p">
+		<div class="editor bfc-p" v-if="arcList.length">
 			<i class="iconfont icon-delete fr" v-if="!ifDeleteAll" @click="ifDeleteAll = true;"></i>
 			<div v-else>
 				<span @click="deleteAll()" class="deleteAll">删除全部</span>
@@ -8,7 +8,7 @@
 			</div>
 		</div>
 		<div class="list-wrap">
-			<articleSub v-for="(item,index) in arcList" :article="item" :whi="index" :ifPublisher="true"  @delete="deleteArticle" :key="index"></articleSub>			
+			<articleThree v-for="(item,index) in arcList" :article="item" :whi="index" :ifPublisher="true"  @delete="deleteArticle" :key="index"></articleThree>			
 		</div>
 		<prompt-blank v-if="proIf" :mes="proMes"></prompt-blank>
 		<load-more :show-loading="ifLoad"></load-more>
@@ -16,12 +16,12 @@
 </template>
 
 <script>
-import articleSub from '@/components/common/articleSub'
+import articleThree from '@/components/common/articleThree'
 import readHistoryService from '@/service/readHistoryService'
 import articleCollectService from '@/service/articleCollectService'
 export default {
 	components:{
-		articleSub,
+		articleThree,
 	},
 	data(){
 		return {
@@ -72,20 +72,23 @@ export default {
 			})
 			event.stopPropagation();
 			function deleteArt (whi) {
-				let resDelete = readHistoryService.clearHistory([id]);
+				let resDelete = articleCollectService.articleCollect(id);
+				// debugger
 				if (resDelete && resDelete.status == "success") {
-					this.arcList.splice(whi,1);
-					this.$vux.alert.show({
-					  content:'删除成功',
-					})
-					setTimeout(()=>{
-						this.$vux.alert.hide();
-					},1000)
-				} else {
-					this.$vux.alert.show({
-					  content:'删除失败，请重试！',
-					})
-				}
+					if (resDelete.result == 0) {
+						this.arcList.splice(whi,1);
+						this.$vux.alert.show({
+						  content:'删除成功',
+						})						
+						setTimeout(()=>{
+							this.$vux.alert.hide();
+						},1000)
+					} else {
+						this.$vux.alert.show({
+						  content:'删除失败，请重试！',
+						})
+					}
+				} 
 				// console.log(this.arcList)
 			}
 		},
@@ -101,15 +104,17 @@ export default {
 			function deleteA(){
 				let temp = [];
 				for (var i = 0,len = this.arcList.length; i < len; i++) {
-					temp.push(this.arcList[i].id)
+					temp.push(this.arcList[i].articleid)
 				}
 				console.log(temp)
-				let resDelete = readHistoryService.clearHistory(temp);
+				let resDelete = articleCollectService.deleteCollect(temp);
 				if (resDelete && resDelete.status == "success") {
 					this.arcList = [];
 					this.$vux.alert.show({
 					  content:'删除成功',
 					})
+					this.proIf = true;
+					this.proMes = "您想要的真相消失啦~~~";
 					setTimeout(()=>{
 						this.$vux.alert.hide();
 					},1000)

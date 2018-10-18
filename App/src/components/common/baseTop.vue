@@ -4,7 +4,10 @@
 			<template slot="title">{{title}}</template>
 		</top>
 		 <transition :name="transitionName">
-			<router-view class="router-view"></router-view>
+		 	<keep-alive v-if="!$route.meta.keepAlive">
+		        <router-view  class="router-view"></router-view> 
+	     	</keep-alive>      
+		      	<router-view v-else class="router-view"></router-view>
 		</transition>
 	</div>
 </template>

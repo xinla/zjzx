@@ -73,10 +73,9 @@ export default{
 			record_file:[],
 		}
 	},
-	mounted(){
-		
+	activated(){
 		this.record.type = this.$route.query.sort;	
-		this.record.selectedpublishname = localStorage.position?localStorage.position:0;
+		this.record.selectedpublishname = localStorage.position?localStorage.position:"不显示";
 		this.record.selectedpublishaddress = localStorage.selectedpublishaddress?localStorage.selectedpublishaddress:0;
 
 		let resArcClass = articleClassifyService.getArticleClassifyList();
@@ -171,12 +170,14 @@ export default{
 			}
 			// debugger;
 			if(res.status=="success") {
-				this.record_file=[];
-				this.record.title = "";
-				this.record.content = "";
 				this.$vux.alert.show({
 				  content:'发布成功',
 				})
+				localStorage.selectedpublishaddress = null;
+				localStorage.position = null;
+				this.record_file=[];
+				this.record.title = "";
+				this.record.content = "";
 				setTimeout(()=>{
 					this.$vux.alert.hide();
 				},1000)

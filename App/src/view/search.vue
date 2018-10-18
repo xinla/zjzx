@@ -24,7 +24,7 @@
 			<div class="search-history" v-show="historyKeywords.length">
 				<div class="search-head clearfix">
 					<span class="fl">历史记录</span>
-					<i class="iconfont fr icon-delete" v-if="!ifDeleteAll" @click="historyNum = historyKeywords.length;ifDeleteAll = true;"></i>
+					<i class="iconfont fr icon-delete" v-if="!ifDeleteAll" @click="ifDeleteAll = true;"></i>
 					<div class="fr" v-else>
 						<span @click="deleteAll()">删除全部</span>
 						<span @click="ifDeleteAll = false;">完成</span>					
@@ -32,7 +32,7 @@
 				</div>
 				<div class="search-body">
 					<ul class="search-list clearfix">
-						<li class="oe history-li" v-for="(item,index) in historyKeywords" v-if="index < historyNum" @click="quickSearch(item)">
+						<li class="oe history-li" v-for="(item,index) in historyKeywords" @click="quickSearch(item)">
 							{{item}}
 							<div class="deletehistory" v-if="ifDeleteAll" @click="e=>{historyKeywords.splice(index,1);e.stopPropagation();}">								
 								<i class="iconfont fr icon-close-circle"></i>
@@ -82,7 +82,7 @@ export default {
 			ifLoad:true,
 			ifMatch:false,
 			resultTip:"",
-			historyNum:4,
+			// historyNum:4,
 			ifDeleteAll:false,
 		}
 	},
@@ -91,6 +91,10 @@ export default {
 		let temp = localStorage.getItem("keywords");
 		this.historyKeywords = JSON.parse(temp) || [];
 		// console.log(this.historyKeywords)
+	},
+	activated(){
+		this.ifDeleteAll = false;
+		// this.historyNum = 4;
 	},
 	methods:{
 		search(){

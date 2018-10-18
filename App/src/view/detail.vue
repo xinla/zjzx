@@ -691,6 +691,7 @@ export default {
 			// e.stopPropagation();
 		},
 		showReply(replyUserId,commentid,commentIndex){
+			this.ifReport = false;
 			this.ifReply = true;
 			this.ifCommentSwitch = true;	
 			this.commentType = 2;
@@ -755,6 +756,7 @@ export default {
 			if (resDeleteArticleCommon && resDeleteArticleCommon.status == "success") {
 				if (type == 1) {
 					this.commentList.splice(index,1);
+					this.commentNum --;
 				} else {
 					this.replyList.splice(index,1);
 					this.commentList[this.commentIndex].replyCount --;
@@ -804,7 +806,8 @@ export default {
 			this.ifReport = false;
 		},
 		reportConfirm(itemid,reportuserid){
-			if (!localStorage.id ) { this.$Tool.loginPrompt(); return; }			
+			if (!localStorage.id ) { this.$Tool.loginPrompt(); return; }
+			if (!this.reportInfo.reportreasion) {return;}			
 			this.reportInfo.itemid = this.replyCommentId;
 			this.reportInfo.reportuserid = this.replyUserId;
 			this.reportInfo.type = this.article.type;

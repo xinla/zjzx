@@ -36,7 +36,7 @@ export default {
 			ifLoad:true,
 		}
 	},
-	mounted(){
+	activated(){
 		this.$nextTick(()=>{
 			this.page = 1;
 			this.list = [];

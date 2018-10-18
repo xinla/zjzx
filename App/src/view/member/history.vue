@@ -1,6 +1,6 @@
 <template>
 	<div @scroll="loadMore">
-		<div class="editor bfc-p">
+		<div class="editor bfc-p" v-if="arcList.length">
 			<i class="iconfont icon-delete fr" v-if="!ifDeleteAll" @click="ifDeleteAll = true;"></i>
 			<div v-else>
 				<span @click="deleteAll()" class="deleteAll">删除全部</span>

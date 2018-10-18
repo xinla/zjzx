@@ -62,7 +62,7 @@ export default{
                 })
             })
         },
-        positionBack(pn){
+        positionBack(pn,pa){
             window.history.back();
             localStorage.position = pn;
             localStorage.selectedpublishaddress = pa;

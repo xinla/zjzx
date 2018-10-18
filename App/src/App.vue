@@ -2,9 +2,9 @@
   <div id="app">
     <transition :name="transitionName">
       <keep-alive v-if="!$route.meta.keepAlive">
-        <router-view  class="routerView"></router-view> 
+        <router-view  class="router-view-app"></router-view> 
       </keep-alive>      
-      <router-view v-else class="routerView"></router-view> 
+      <router-view v-else class="router-view-app"></router-view> 
     </transition>
   </div>
 </template>
@@ -62,13 +62,13 @@ export default {
     line-height: 1;
     -webkit-overflow-scrolling:touch;
   }
-  #app,.routerView {
+  #app,.router-view-app {
     width: 100%;
     height: 100%;
     overflow-x: hidden;
   }
 
-.routerView {
+.router-view-app {
   position: absolute;
   transition: all .3s cubic-bezier(.55,0,.1,1);
 }

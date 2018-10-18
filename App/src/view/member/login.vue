@@ -240,7 +240,7 @@ export default{
 						this.$store.dispatch('userImg',userImg);
 						this.$store.dispatch('userName',userName);
 						this.$store.dispatch('userMobile',userMobile);
-						this.$Tool.goPage({name: '/',replace:true});
+						this.$Tool.goPage({name: 'home',replace:true});
 						location.reload();
 					}
 					else if(data && data.status == "error") {
