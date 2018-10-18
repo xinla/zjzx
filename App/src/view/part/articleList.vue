@@ -77,11 +77,14 @@ export default {
 </script>
 
 <style rel="stylesheet" scoped>
-	.main-content{
+
+		.main-content{
 		position: relative;
-		height: calc(100vh - 130px);
+		height: calc(100vh - .63rem);
+		overflow: hidden;
 		overflow-y: auto;
-		padding:0 0.5em;
+		// padding: 0 .3rem;
+		// padding-bottom: .3rem;
 	}
 	.refresh{
 		background: #fafafa;

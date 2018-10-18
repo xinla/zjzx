@@ -1,35 +1,41 @@
 <template>
-	<div class="text-wrap bfc-o"  @click="$Tool.goPage({ name:'detail',query:{id:article.id,detailType,}})">
-		<div>
-			<!-- 单图文 -->
-			<div class="img-wrap fr" v-if="imgList.length < 3">
-				<img v-for="(item,index) in imgList" v-if="index == 0" :src="item?item:imgurl">	
-			</div>
-			<h1 class="articel-title">{{article.title}}</h1>
-			<!-- 三图文 -->
-			<div class="img-wrap bfc-o" v-if="imgList.length >=3">
-				<img v-for="(item,index) in imgList" v-if="index < 3" :src="item?item:imgurl">	
-			</div>
-			<!-- picture -->
-			<div class="img-wrap img-three bfc-o" v-if="1 == article.type && ArticleFile.length">
-				<ul class="img-list clearfix">
-					<li class="img-item" v-for="(item, index) in ArticleFile" v-if="index < 3">
-						<img :src="item.url?(fileRoot+item.url):imgurl" alt="">
-					</li>
-				</ul>
-			</div>
-			<!-- video -->
-			<div class="big bfc-o" v-else-if="2 == article.type && ArticleFile.length">
-				<i class="iconfont icon-bofang cc"></i>
-				<img class="big" :src="ArticleFile[0].thumbnail?(fileRoot + ArticleFile[0].thumbnail):imgurl" alt="">
+	<div class="bfc-o"  @click="$Tool.goPage({ name:'detail',query:{id:article.id,detailType,}})">
+		<div class="article-wrap">
+			<div class="article-item clearfix">
+				
+
+				<!-- 浮动图片 -->
+				<!-- <div class="float-img" v-if="imgList.length < 3 "> -->
+					<img class="float-img" v-for="(item,index) in imgList" v-if="[index == 0, imgList.length < 3]" :src="item?item:imgurl">
+				<!-- </div> -->
+				<!-- 公共标题 -->
+				<h2 class="article-title">{{article.title}}</h2>
+
+				<!-- 上下图文大图 -->
+				<div class="normal-img clearfix" v-if="1 == article.type && ArticleFile.length">
+					<img :src="item.url?(fileRoot+item.url):imgurl" v-for="(item, index) in ArticleFile" v-if="index < 3">
+				</div>
+				
+				<!-- 视频 -->
+				<div class="article-video" v-else-if="2 == article.type && ArticleFile.length">
+					<div class="article-play">
+						<i class="iconfont icon-bofang1"></i>
+					</div>
+					<img :src="ArticleFile[0].thumbnail?(fileRoot + ArticleFile[0].thumbnail):imgurl">
+				</div>
+				<!-- 文章评论 -->
+				<div class="article-footer clearfix">
+					<div class="fl">
+						<span v-if="ifPublisher">{{publisher}}</span>
+						<span>{{CommentNum}}评论</span>
+						<span>{{publishtime}}</span>
+					</div>
+					<div class="fr article-remove" @click="$emit('delete',[article.id,whi,$event]);" v-if="ifDel">
+						<i class="iconfont icon-remove"></i>
+					</div>
+				</div>
 			</div>
 		</div>
-		<p class="pub">
-			<span v-if="ifPublisher">{{publisher}}</span>
-			<span>{{CommentNum}}评</span>
-			<span>{{publishtime}}</span>
-			<small class="delete fr" @click="$emit('delete',[article.id,whi,$event]);" v-if="ifDel">X</small>
-		</p>
 	</div>
 </template>
 <script>
@@ -121,102 +127,100 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-	.text-wrap {
-		padding: .3rem;
-		border-bottom: .02rem solid @borderColor;
-		background-color: #fff;
-		.articel-title {
-			font-size: .28rem;
-			font-weight: 500;
-			line-height: .4rem;
-			margin-bottom: .2rem; 
-		}
-		.img-three{
-			margin-bottom: .35rem;
-			.img-item {
-				float: left;
-				width: 32%;
-				height: 1.3rem;
+	.article-wrap {
+		padding: 0 .3rem;
+		.article-item{
+			border-bottom: .02rem solid @borderColor;
+			padding-top: .3rem;
+			padding-bottom: .1rem;
+			.article-title{
+				// height: 1.3rem;
+				max-height: 1.3rem;
+				overflow: hidden;
+				text-overflow:ellipsis;
+				display:-webkit-box; 
+				-webkit-box-orient:vertical;
+				-webkit-line-clamp:3; 
+				font-size: .28rem;
+				line-height: .45rem;
+				font-weight: 500;
+			}
+			.float-img{
+				display: block;
+				width: 1.86rem;
+				height: 1.22rem;
+				margin-left: .3rem;
+				object-fit: cover;
+				padding: .02rem;
 				border: .02rem solid @borderColor;
-				margin-right: 2%;
+				float: right;
+			}
+			.normal-img{
+				width: 100%;
+				height: 3.26rem;
+				overflow: hidden;
 				img{
 					display: block;
 					width: 100%;
 					height: 100%;
-					object-fit: fill;
+					padding: .02rem;
+					border: .02rem solid @borderColor;
+					object-fit: cover;
 				}
 			}
-			.img-item:last-child{
-				margin-right: 0;
+			.article-video{
+				position: relative;
+				width: 100%;
+				height: 3.24rem;
+				.article-play{
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					margin-left: -.44rem;
+					margin-top: -.44rem;
+					width: .88rem;
+					height: .88rem;
+					line-height: .88rem;
+					border-radius: 50%;
+					text-align: center;
+					background-color: rgba(0,0,0,.4);
+					.iconfont{
+						padding-top: .08rem;
+						padding-left: .08rem;
+						font-size: .35rem;
+						color: #f1f1f1;
+					}
+				}
+				img{
+					display: block;
+					width: 100%;
+					height: 100%;
+					padding: .02rem;
+					border: .02rem solid @borderColor;
+					object-fit: cover;
+				}
+			}
+			.article-footer{
+				height: .6rem;
+				line-height: .6rem;
+				font-size: .24rem;
+				color: #a3a3a3;
+				span{
+					margin-right: .1rem;
+				}
+				.article-remove{
+					width: .45rem;
+					height: .35rem;
+					line-height: .35rem;
+					margin-top: .125rem;
+					text-align: center;
+					border: .02rem solid @borderColor;
+					border-radius: .08rem;
+					.iconfont{
+						font-size: .24rem;
+					}
+				}
 			}
 		}
-		.pub {
-			line-height: .4rem;
-			font-size: .24rem;
-			color: #999;
-			.delete{
-				width: .5rem;
-				height: .4rem;
-				line-height: .4rem;
-				border: .02rem solid @borderColor;
-				border-radius: .12rem;
-				text-align: center;
-				font-size: .2rem;
-			}
-		}
 	}
-	.icon-bofang{
-		font-size: 50px;
-		color:#fff;
-	}
-	/* .text-wrap{
-	    border-bottom: 1px solid #eee;
-	    background-color: #fff;
-	    padding: .3rem .2rem;
-	}
-	h1{
-		margin:.3em 0;
-		font-weight: normal;
-		font-size: 16px;
-	    line-height: 1.5em;
-	}
-	[data-dpr='2'] h1{
-		font-size: 36px;
-	}
-	[data-dpr='3'] h1{
-		font-size: 54px;
-	}
-	.pub{
-		line-height: 2.5em;
-	    color: #999;
-	}
-	.img-wrap img{
-		float: left;
-		width: 2.2rem;
-		height: 2.2rem;
-		max-width: 200px;
-		margin:0 1%;
-	}
-	small.delete {
-	        font-size: 0.85em;
-	    background: #eee;
-	    width: 1.1em;
-	    line-height: 1.1em;
-	    text-align: center;
-	    border-radius: 1.6em;
-	    vertical-align: middle;
-	    top: 0.85em;
-	}
-	img{
-		background: url('../../assets/images/imgErrorBg.png') #efefef no-repeat center;
-	    background-size: 80%;
-	}
-	.icon-play-circle{
-	    font-size: 50px;
-	    color: #666;		
-	}
-	.img-wrap.fr{
-		margin-bottom: 5px;
-		margin-left: 5px;
-	} */
 </style>
