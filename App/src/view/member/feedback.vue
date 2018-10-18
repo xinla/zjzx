@@ -257,19 +257,17 @@ export default{
 
 <style lang="less" scoped>
 	.feedback-wrap {
-		margin-top: @topHeigth;
 		width: 100%;
 		height: calc( 100vh - @topHeigth);
 		background-color: #fff;
 		.feedback-list{
 			width: 100%;
 			border-bottom: .02rem solid @borderColor;
-			position: fixed;
+			position: relative;
+			top: 0;
 			left: 0;
-			top: .87rem;
 			z-index: 999;
 			background-color: #fff;
-			
 			.feedback-item{
 				display: inline-block;
 				width: 50%;
@@ -287,7 +285,9 @@ export default{
 			}
 		}
 		.feedback-tab{
-			// margin-top: 1.68rem;
+			height: calc(100vh - .78rem);
+			overflow: hidden;
+			overflow-y: auto;
 			padding: .2rem .4rem;
 			background-color: #fff;
 			.feedback-tit{
@@ -400,11 +400,11 @@ export default{
 			}
 		}
 		.feedback-fankui{
-			min-height: calc( 100vh - 1.65rem);
-			padding-top: 1rem;
+			max-height: calc( 100vh - 1.65rem);
+			// padding-top: 1rem;
 		}
 		.feedback-question{
-			margin-top: 1.65rem;
+			// margin-top: 1.65rem;
 			padding-top: .4rem;
 			padding-bottom: .4rem;
 			background-color: #f7f7f7;
