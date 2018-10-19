@@ -1,42 +1,77 @@
 <template>
-	<dl>	
-		<!-- <dt>分类</dt> -->
-		<dd>
-			<select id="sort1" v-model="record.classify">
-				<option :value="item.classifycode" v-for="item in classfyList">{{ item.classifyname }}</option>
-			</select>
-			<label for="sort1" class="iconfont icon-down sort-lab"></label>
-		</dd>	
-		<!-- <dt>标题</dt> -->
-		<dd><input type="text" v-model="record.title" placeholder="标题" maxlength="25"></dd>
-		<!-- <dt>地点</dt> -->
-		<fieldset class="imgText" v-if="record.type==1">		
-			<!-- <dt>内容</dt> -->
-			<dd><textarea id="contents" v-model="record.content" placeholder="内容"></textarea></dd>
-			<!-- <dt>上传图片</dt> -->
-			<dd>
-				<div class="thumb-wrap">
-					<img v-for="(item,index) in record_file" :src="fileRoot+item.url" alt="">
-					<label for="upimg" class="icon-plus iconfont"></label>
-					<input type="file" id="upimg" accept="image/*" multiple @change="uploadFile">
+	<div class="release">
+		<!-- 选择类型 -->
+		<div class="release-type clearfix" v-model="record.classify">
+			
+			<div class="release-select clearfix" @click="handleType">
+				<span class="release-keys fl" :value="defaultVal">{{defaultType}}</span>
+				<i class="iconfont icon-down fr"></i>	
+			</div>
+			 <transition  enter-active-class="animated fadeIn" leave-active-class=" animated fadeOut">
+				<div class="release-mask" v-show="optionShow" @click="handleCloseMask"></div>
+			</transition>
+			 <transition  enter-active-class="animated fadeInLeft" leave-active-class=" animated fadeOutLeft">
+				<div class="release-option" v-show="optionShow">
+					<ul class="release-list">
+						<li class="release-item" :value="item.classifycode" v-for="item in classfyList" @click="handleItem(item)">
+							{{ item.classifyname }}
+						</li>
+					</ul>
 				</div>
-			</dd>
-		</fieldset>
-		<fieldset class="video" v-if="record.type==2">
-			<!-- 上传视频 -->
-			<dd class="thumb-wrap">
-				<img v-for="(item,index) in record_file" :src="fileRoot + item.thumbnail" alt="">
-				<label for="upvideo" class="icon-plus iconfont"></label>
-				<input type="file"  id="upvideo" accept="video/*" @change="uploadFile">
-			</dd>
-		</fieldset>
-		<dd>
-			<i class="iconfont icon-weizhi position"></i>
-			<router-link :to="{ name:'position',query:{title:'选择位置'} }" class="tag">{{ record.selectedpublishname }}</router-link>
-		</dd>
+			</transition>
+		</div>	
 
-		<dd colspan="2"><button type="button" @click="publish">发布</button></dd>
-	</dl>
+		<!-- 标题 -->
+		<div class="release-title">
+			<input type="text" v-model="record.title" placeholder="请输入标题" v-focus>
+		</div>
+		<!-- 内容 -->
+		<div class="release-content" v-if="record.type==1">
+			<div class="content">
+				<textarea placeholder="请输入内容" v-model="record.content"></textarea>
+			</div>
+			<!-- 上传图片 -->
+			<div class="release-upload-img clearfix">
+				<div class="release-img fl" v-for="(item,index) in record_file">
+					<i class="iconfont icon-remove" @click="handleRemoveImg(item)"></i>
+					<img :src="fileRoot+item.url">
+					<div class="release-img-mask"></div>
+				</div>
+				<div class="release-upload fl">
+					<label for="upImg"></label>
+					<i class="iconfont icon-add"></i>
+					<input type="file" id="upImg" accept="image/*" multiple @change="uploadFile" style="display: none;">
+				</div>
+				
+			</div>
+		</div>
+		
+		<!-- 上传视频 -->
+		<div class="release-upload-video clearfix" v-if="record.type==2">
+			<div class="release-video fl" v-for="(item,index) in record_file">
+				<i class="iconfont icon-remove" @click="handleRemoveImg(item)"></i>
+				<img :src="fileRoot + item.thumbnail" >
+				<div class="release-video-mask"></div>
+			</div>
+			<div class="release-upload fl" v-show="addShow">
+				<label for="upvideo"></label>
+				<i class="iconfont icon-add"></i>
+				<input type="file"  id="upvideo" accept="video/*" @change="uploadFile" style="display: none;">
+				</div>
+		</div>
+
+		<!-- 选择位置 -->
+		<div class="release-seat">
+			<i class="iconfont icon-weizhi"></i>
+			<router-link :to="{ name:'position',query:{title:'选择位置'} }" class="tag">{{ record.selectedpublishname }}</router-link>
+		</div>
+
+		<!-- 发布按钮 -->
+		<div class="release-btn clearfix">
+			<button type="button" class="btn fr" @click="publish">发布</button>
+		</div>
+
+	</div>
 </template>
 
 <script>
@@ -48,8 +83,20 @@ import articleService from '@/service/articleService'
 import articleClassifyService from '@/service/article_classifyService'
 
 export default{
+	directives: {
+	  focus: {
+	    // 指令的定义
+	    inserted: function (el) {
+	      el.focus()
+	    }
+	  }
+	},
 	data(){
 		return {
+			addShow:true,
+			optionShow:false,
+			defaultVal:null,
+			defaultType:'请选择分类',
 			fileRoot:config.fileRoot +'/',
 	        classfyList:[],
 	        push:[],
@@ -94,6 +141,55 @@ export default{
 		})
 	},
 	methods:{
+		handleType(){
+			this.optionShow = !this.optionShow;
+		},
+		handleCloseMask(){
+			this.optionShow = false;
+		},
+		handleItem(item){
+			this.defaultType = item.classifyname;
+			 this.record.classify = item.classifycode;
+			this.optionShow = false;
+		},
+		handleRemoveImg(item){
+			const thiz = this;
+			this.$vux.confirm.show({
+				content:'确认删除图片?',
+				onConfirm () {
+					thiz.$vux.loading.show();
+					setTimeout(()=>{
+
+						let aa = thiz.record_file.splice(item,1);
+						thiz.$vux.loading.hide();
+						thiz.$vux.toast.show({
+							text:'删除成功'
+						})
+					},1000);
+
+				}
+			})
+			// 
+		},
+
+		handleRemoveImg(item){
+			const thiz = this;
+			this.$vux.confirm.show({
+				content:'确认删除视频?',
+				onConfirm () {
+					thiz.$vux.loading.show();
+					setTimeout(()=>{
+
+						let aa = thiz.record_file.splice(item,1);
+						thiz.$vux.loading.hide();
+						thiz.$vux.toast.show({
+							text:'删除成功'
+						})
+						thiz.addShow = true;
+					},1000);
+				}
+			})
+		},
 		uploadFile(e){
 			let file = e.target.files[0];           
 		    if (this.record.type==1 && !this.$Tool.checkPic(file.name)) {
@@ -126,6 +222,7 @@ export default{
 		          	// obj.thumbnail = data.result.thumbnail;
 		          	// obj.filename = data.result.filename;
 		          	obj.type =2;
+		          	this.addShow = false;
 		          	this.record_file.push(obj);
 		          	this.$loading.close();
 		          	// console.log(obj)
@@ -136,6 +233,7 @@ export default{
 
 		},
 		publish(){
+
 			if(!localStorage.id){
 				this.$vux.alert.show({
 				  content:'你还未登录，亲先登录再发布',
@@ -178,6 +276,8 @@ export default{
 				this.record_file=[];
 				this.record.title = "";
 				this.record.content = "";
+				this.defaultVal = null;
+				this.defaultType = '请选择分类';
 				setTimeout(()=>{
 					this.$vux.alert.hide();
 				},1000)
@@ -197,79 +297,238 @@ export default{
 }
 </script>
 
-<style rel="stylesheet" scoped>
-	dl {
-		background: #fff;
-	    line-height: 40px;
-		padding: 0 10px 50px;
-	    margin-top: 10px;
-	}
-	dt{
-		color: #666;
-	}
-	input,select,textarea{
+<style lang="less" scoped>
+	.release{
 		width: 100%;
-	    line-height: 30px;
-   	    border: 1px solid #ddd;
-	    border-radius: 5px;
-	    text-indent: 6px;
-	}
-	textarea{
-	    height: 150px;
-	}
-	select{
-		width: 80px;
-		position: relative;
-		z-index: 9;
-		background: transparent;
-	}
-	.sort-lab{
-	    position: relative;
-	    right: 25px;
-	    vertical-align: middle;
-	    z-index: 8;
-	}
-	.icon-plus {
-	    width: 65px;
-	    height: 65px;
-	    display: inline-block;
-	    background: #eee;
-	    border: 1px solid #ddd;
-	    line-height: 65px;
-	    text-align: center;
-	    font-size: 30px;
-	    margin: 10px;
-	    color: #666;
-	    vertical-align: middle;
-	}
-	input[type="file"] {
-	    height: 0;
-	    width: 0;
-	}
-	.thumb-wrap img {
-	    width: 100px;
-	    height: 100px;
-	    margin-right: 5px;
-	}
-	button {
-	    display: block;
-	    width: 70px;
-	    line-height: 30px;
-	    margin: 30px auto;
-	    border-radius: 8px;
-        background: #ddd;
-	}
-	.tag{
-		background: #ddd;
-		line-height: 20px;
-		padding:3px 5px;
-		border-radius: 6px;
-		font-size: 12px;
-	}
-	.iconfont.position{
-		color: #888;
-	}
-	.thumb-wrap{
-		margin: 10px 0;
+		height: calc(100vh - .87rem);
+		overflow: hidden;
+		overflow-y: auto;
+		padding: .3rem;
+		background-color: #fff;
+		.release-type{
+			position: relative;
+			margin-bottom: .4rem;
+			.release-select{
+				position: absolute;
+				z-index: 10;
+				width: 55%;
+				height: .8rem;
+				line-height: .8rem;
+				padding: 0 .3rem;
+				border-radius: .2rem;
+				color: #666;
+				background-color: #fff;
+				border: .03rem solid @borderColor;
+				.release-keys{
+					margin-right: .2rem;
+				}
+			}
+			.release-mask{
+				width: 100vh;
+				height: 100vh;
+				position: absolute;
+				top: -.3rem;
+				left: -.3rem;
+				z-index: 9;
+				background-color: rgba(0,0,0,0.5);
+
+			}
+			.release-option{
+				position: absolute;
+				top: .88rem;
+				left: 0;
+				z-index: 10;
+				background-color: #fff;
+			    border: 0 solid rgba(0, 0, 0, 0.3);
+			    border-radius: .2rem;
+			    box-shadow: 0 .02rem .06rem 0 rgba(0, 0, 0, 0.2);
+				width: 60%;
+				padding:  0 .3rem;
+				.release-item{
+					height: .65rem;
+					line-height: .65rem;
+					border-bottom: .02rem solid @borderColor;
+					&:last-child{
+						border-bottom: none;
+					}
+				}
+			}
+		}
+		.release-title{
+			width: 100%;
+			height: .8rem;	
+			margin-top: 1.2rem;
+			margin-bottom: .4rem;
+			input{
+				width: 100%;
+				height: .8rem;
+				line-height: .8rem\9;
+				padding: 0 .3rem;
+				border-radius: .2rem;
+				border: .03rem solid @borderColor;
+			}
+		}
+		.release-content{
+			
+			.content{
+				width: 100%;
+				height: 3rem;
+				border-radius: .2rem;
+				border: .03rem solid @borderColor;
+				textarea{
+					display: block;
+					width: 100%;
+					height: 100%;
+					padding: .2rem;
+					resize: none;
+				}
+			}
+			.release-upload-img{
+				padding: .2rem 0;
+				.release-img{
+					position: relative;
+					float: left;
+					margin-right: .04rem;
+					margin-bottom: .04rem;
+					display: inline-block;
+					width: 1.86rem;
+					height: 1.86rem;
+					img{
+						display: block;
+						width: 100%;
+						height: 100%;
+						object-fit: cover;
+					}
+					.release-img-mask{
+						position: absolute;
+						left: 0;
+						top: 0;
+						width: 100%;
+						height: 100%;
+
+						background-color: rgba(0,0,0,.4);
+					}
+					.iconfont{
+						position: absolute;
+						z-index: 6;
+						right: .09rem;
+						top: .09rem;
+						color: #fff;
+					}
+				}
+				.release-upload{
+					position: relative;
+					width: 1.86rem;
+					height: 1.86rem;
+					text-align: center;
+					float: left;
+					background-color: #f4f5f6;
+					label{
+						position:absolute;
+						left: 0;
+						top: 0;
+						width: 100%;
+						height: 100%;
+						
+						line-height: 1.86rem;
+					}
+					.iconfont{
+						display: inline-block;
+						width: 1.04rem;
+						height: 1.04rem;
+						font-size: 1rem;
+						margin-top: .41rem;
+						// font-weight: 700;
+						color: #dcdcdc;
+					}
+				}
+			}
+			
+		}
+		.release-upload-video{
+			padding: .2rem 0;
+			.release-video{
+				position: relative;
+				width: 3.5rem;
+				height: 1.86rem;
+				margin-right: .1rem;
+				img{
+					display: block;
+					width: 100%;
+					height: 100%;
+					border-radius: .05rem;
+					border: .02rem solid #ccc;
+					object-fit: cover;
+					box-sizing: border-box;
+				}
+				.release-video-mask{
+					position: absolute;
+					left: 0;
+					top: 0;
+					width: 100%;
+					height: 100%;
+					background-color: rgba(0,0,0,.4);
+				}
+				.iconfont{
+					position: absolute;
+					z-index: 6;
+					right: .09rem;
+					top: .09rem;
+					color: #fff;
+				}
+			}
+		}
+		.release-upload{
+			position: relative;
+			width: 1.86rem;
+			height: 1.86rem;
+			text-align: center;
+			float: left;
+			background-color: #f4f5f6;
+			label{
+				position:absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				
+				line-height: 1.86rem;
+			}
+			.iconfont{
+				display: inline-block;
+				width: 1.04rem;
+				height: 1.04rem;
+				font-size: 1rem;
+				margin-top: .41rem;
+				// font-weight: 700;
+				color: #dcdcdc;
+			}
+		}
+		.release-seat{
+			display: inline-block;
+			padding: .13rem .15rem;
+			border-radius: .26rem;
+			border: .02rem solid @borderColor;
+			font-size: .24rem;
+			color: #979797;
+			.iconfont{
+				vertical-align: middle;
+			}
+		}
+		.release-btn{
+			margin-top: .2rem;
+			.btn{
+				margin-right: 1rem;
+				width: 1.4rem;
+				height: .7rem;
+				line-height: .7rem;
+				letter-spacing: .02rem;
+				border-radius: .08rem;
+				text-align: center;
+				background-color: @mainColor;
+				color: #fff;
+
+			}
+		}
 	}
 </style>
