@@ -49,7 +49,7 @@
 		<!-- 上传视频 -->
 		<div class="release-upload-video clearfix" v-if="record.type==2">
 			<div class="release-video fl" v-for="(item,index) in record_file">
-				<i class="iconfont icon-remove" @click="handleRemoveImg(item)"></i>
+				<i class="iconfont icon-remove" @click="handleRemoveVideo(item)"></i>
 				<img :src="fileRoot + item.thumbnail" >
 				<div class="release-video-mask"></div>
 			</div>
@@ -172,7 +172,7 @@ export default{
 			// 
 		},
 
-		handleRemoveImg(item){
+		handleRemoveVideo(item){
 			const thiz = this;
 			this.$vux.confirm.show({
 				content:'确认删除视频?',
