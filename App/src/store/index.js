@@ -11,6 +11,7 @@ function State(){
   this.userName = null;
   this.usetImg = "";
   this.userMobile = null;
+  this.swiperThreshold = 0;
 }
 // let state = {
 //   token:window.localStorage.getItem('token'),
@@ -51,6 +52,9 @@ const mutations = {
   USERMOBILE(state,data){
     state.userMobile = data;
     localStorage.userMobile = data;
+  },
+  setSwiperThreshold(state,data){
+    state.swiperThreshold = data;
   }
 
 }

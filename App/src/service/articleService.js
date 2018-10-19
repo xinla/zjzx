@@ -117,5 +117,14 @@ service.deleteArticleById = function(articleid){
 
 	return resDelete;
 }
+//文章推荐
+service.recommendArticle = function(articleid){
+	var params = {
+	};
+
+	var resMap = commonUtil.ajaxAsync(controller+'/recommendArticle',params);
+
+	return resMap;
+}
 export default service
 

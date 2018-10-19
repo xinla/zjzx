@@ -1,11 +1,11 @@
 <template>
 	<div>
 		<ul class="member" v-if="list.length">
-			<li class="member-list" v-for="item in userList">
+			<li class="member-list" v-for="(item,index) in userList">
 				<img class="uname" :src="item.imageurl?(fileRoot+item.imageurl):imgurl">
 				{{ item.username }}
-				<div class="fr ac" v-if="ifFocus" @click="doFocus(item.id);">
-					<span v-if="focus" class="focused">已关注</span>
+				<div class="fr ac" v-if="ifFocus" @click="doFocus(item.id,index);">
+					<span v-if="index == currentFocus?focus:1" class="focused">已关注</span>
 					<span v-else class="focus">关注</span>					
 				</div>
 			</li>
@@ -30,7 +30,8 @@ export default{
 				// 	id:'',
 				// }
 			],	
-			focus:1,	
+			focus:1,
+			currentFocus:0,	
 		}
 	},
 	props:{
@@ -63,8 +64,9 @@ export default{
 			}
 			this.userList = temp;
 		},
-		doFocus(targetid){
-			if (!targetid) {console.log(1);return false;}
+		doFocus(targetid,index){
+			if (!targetid) {return false;}
+			this.currentFocus = index;
 			followService.doFollow(targetid,data=>{
 				if (data && data.status == "success") {
 					this.focus = Number(data.result);

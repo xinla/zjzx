@@ -80,5 +80,8 @@ export default {
   opacity: 0;
   transform: translate(-200px, 0);
 }
-
+/*添加vux toast 行高*/
+.weui-toast_text .weui-toast__content{
+  line-height: 22px;
+}
 </style>

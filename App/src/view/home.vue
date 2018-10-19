@@ -24,9 +24,9 @@
 							</popup>	
 						</div>
 					</div>
-					<div class="main">
+					<div class="main" ref="main">
 						<loading-main v-show="ifLoad"></loading-main>
-						<swiper v-model="classifyIndex" :height="swiperHeight + 'px'" :show-dots="false">
+						<swiper v-model="classifyIndex" :height="swiperHeight + 'px'" :show-dots="false" :min-moving-distance="300" >
 					        <swiper-item>
 					          	<articleList :show="0 == classifyIndex"></articleList>
 					        </swiper-item>
@@ -81,7 +81,7 @@ import articleClassifyService from '@/service/article_classifyService'
 	    	// document.addEventListener('DOMContentLoaded', this.recalc, false);
 	    	// this.recalc();
 	    	// 
-	    	this.swiperHeight = document.body.clientHeight;
+	    	this.swiperHeight = document.body.clientHeight - $(this.$refs.main).offset().top;
 	    	this.$nextTick(()=>{
 	    		articleClassifyService.getArticleClassifyList(data=>{
 					if (data && data.status == "success") {

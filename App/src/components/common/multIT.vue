@@ -6,13 +6,17 @@
 
 				<!-- 浮动图片 -->
 				<!-- <div class="float-img" v-if="imgList.length < 3 "> -->
-					<img class="float-img" v-for="(item,index) in imgList" v-if="[index == 0, imgList.length < 3]" :src="item?item:imgurl">
+					<img class="float-img"v-for="(item,index) in imgList" v-if="[index == 0, imgList.length < 3]" :src="item?item:imgurl" >
+					<img class="float-img" v-if="1 == article.type && ArticleFile.length && ArticleFile.length < 3" :src="ArticleFile[0].url?(fileRoot+ArticleFile[0].url):imgurl">
 				<!-- </div> -->
 				<!-- 公共标题 -->
 				<h2 class="article-title">{{article.title}}</h2>
 
 				<!-- 上下图文大图 -->
-				<div class="normal-img clearfix" v-if="1 == article.type && ArticleFile.length">
+				<div class="normal-img clearfix" v-if="imgList.length > 3">
+					<img class="float-img" v-for="(item,index) in imgList" :src="item?item:imgurl">
+				</div>
+				<div class="normal-img clearfix" v-else-if="1 == article.type && ArticleFile.length > 3">
 					<img :src="item.url?(fileRoot+item.url):imgurl" v-for="(item, index) in ArticleFile" v-if="index < 3">
 				</div>
 				
@@ -50,9 +54,9 @@ export default {
 		return {
 			imgurl:require('@/assets/images/userPhoto.jpg'),
 			ArticleFile:[
-				{
-					thumbnail:"",
-				}
+				// {
+				// 	thumbnail:"",
+				// }
 			],
 			CommentNum:0,
 			publishtime:"",
@@ -104,11 +108,15 @@ export default {
 			});
 			if (this.ifPublisher) {
 				if (this.article.author) {
-					userService.getUserById(this.article.author,data=>{
-						if (data && data.status == "success") {
-							this.publisher = data.result.user.username;
-						}
-					});				
+					try{
+						userService.getUserById(this.article.author,data=>{
+							if (data && data.status == "success") {
+								this.publisher = data.result.user.username;
+							}
+						});										
+					}catch(err){
+						
+					}
 				}				
 			}
 			// 获取文章评论数量
@@ -121,7 +129,9 @@ export default {
 			});
 
 			this.publishtime = this.$Tool.publishTimeFormat(this.article.publishtime);	
-			this.imgList = this.$Tool.extractImg(this.article.content,3);
+			if (!this.article.type) {
+				this.imgList = this.$Tool.extractImg(this.article.content,3);				
+			}
 		}
 	}
 }

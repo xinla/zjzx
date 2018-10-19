@@ -364,7 +364,7 @@ export default {
 				sources: [
 					{
 						type: "video/mp4",
-						src: "http://www.w3cschool.cc/try/demo_source/mov_bbb.mp4" //url地址
+						src: "" //url地址
 					}
 				],
 				poster: "", //你的封面地址
@@ -396,13 +396,21 @@ export default {
 				href:"",
 				title:"",
 				content:"",
-				thumbs:"",
+				thumbs:[],
 			},
 		}
 	},
 	mounted(){
 		this.id = this.$route.query.id;
 		this.detailType = this.$route.query.detailType || 0;
+		//document.addEventListener('plusready',plusReady,false);
+		//function plusReady(){
+		try{
+			shareService.init();
+		}catch(err){
+
+		}
+		// } 
 		this.init();
 	},	
 	methods:{
@@ -732,7 +740,7 @@ export default {
 				//评论点赞
 				let resDoPraise = praiseService.doPraise(itemid,2);
 				if (resDoPraise && resDoPraise.status == "success") {
-					if (resDoPraise.result.code == 1) {
+					if (resDosPraise.result.code == 1) {
 						this.curLike = index;
 						this.ifLike = true;
 						this.commentList[index].likeNum ++;
@@ -752,16 +760,25 @@ export default {
 		//删除自己的评论
 		deleteCom(itemid,index,type){
 			// debugger;
-			let resDeleteArticleCommon = articleCommentService.deleteArticleConmon(itemid);
-			if (resDeleteArticleCommon && resDeleteArticleCommon.status == "success") {
-				if (type == 1) {
-					this.commentList.splice(index,1);
-					this.commentNum --;
-				} else {
-					this.replyList.splice(index,1);
-					this.commentList[this.commentIndex].replyCount --;
+			let _this = this;
+			this.$vux.confirm.show({
+				content:"确定要删除么",
+				onConfirm () {
+					deleteSelfCom.call(_this);
 				}
-			}			
+			});
+			function deleteSelfCom(){				
+				let resDeleteArticleCommon = articleCommentService.deleteArticleConmon(itemid);
+				if (resDeleteArticleCommon && resDeleteArticleCommon.status == "success") {
+					if (type == 1) {
+						this.commentList.splice(index,1);
+						this.commentNum --;
+					} else {
+						this.replyList.splice(index,1);
+						this.commentList[this.commentIndex].replyCount --;
+					}
+				}			
+			}
 		},
 		collect(articleid){
 			if (!localStorage.id ) { this.$Tool.loginPrompt(); return; }			
@@ -827,21 +844,18 @@ export default {
 			this.commentConAdd = "  //@" + userName;
 		},
 		share(type){
-			document.addEventListener('plusready',plusReady,false);
-			function plusReady(){
-				shareService.init();
-			} 
+			
 			this.shareContent = {
 				href:config.domain + location.href.substring(location.href.indexOf('/',10)),
 				title:this.article.title,
 				content:this.article.content.substring(0,100),
 			};
 			if (this.ArticleFile.length) {
-				this.shareContent.thumbs = this.ArticleFile[0]['imageurl'];
+				this.shareContent['thumbs'] = [this.fileRoot + this.ArticleFile[0]['url']];
 			} else {
-				this.shareContent.thumbs = this.playerOptions.poster;
+				this.shareContent['thumbs'] = [this.fileRoot + this.playerOptions.poster];
 			}
-				console.log(this.shareContent);
+				// console.log(this.shareContent);
 			if (type == 1) {
 				shareService.shareToWxHy(this.shareContent,data=>{
 					console.log(this.shareContent);
@@ -868,9 +882,9 @@ export default {
 				content:this.article.content.substring(0,100),
 			};
 			if (this.ArticleFile.length) {
-				this.shareContent.thumbs = this.ArticleFile[0]['imageurl'];
+				this.shareContent['thumbs'] = [this.fileRoot + this.ArticleFile[0]['url']];
 			} else {
-				this.shareContent.thumbs = this.playerOptions.poster;
+				this.shareContent['thumbs'] = [this.fileRoot + this.playerOptions.poster];
 			}
 		},
 		switchB(type){

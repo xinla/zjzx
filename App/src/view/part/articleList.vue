@@ -1,11 +1,11 @@
 <template>
-	<downRefresh class="main-content" @refresh="init()"  @scrolling="loadMore">
+	<downRefresh class="main-content" @refresh="doRefresh()" @scrolling="loadMore">
 		<div>				
 			<loading-main v-show="!arcList.length"></loading-main>
 			<multIT v-for="(item,index) in arcList" :article="item" :key="index"></multIT>
 			<!-- <bigIVT :article="item" v-else-if="item.type==2"></bigIVT>	 -->
 			<!-- <smaIVT :article="item" v-else="item.type==3"></smaIVT> -->
-			<load-more v-show="arcList.length && ifLoad" tip="正在加载"></load-more>				
+			<load-more v-show="arcList.length && ifLoad" tip="正在加载"></load-more>		
 		</div>
 	</downRefresh>
 </template>
@@ -39,30 +39,76 @@ export default {
 			page:1,
 			lock:false,
 			ifLoad:true,
-			scrollTop:0,			
+			scrollTop:0,	
+			total:0,
+			ifNew:false,		
 		}
 	},
 	methods:{
 		init(){
+			let resArticlePage;
+			try{
+				if(this.classify == 0){
+					resArticlePage = articleService.articlePage(this.page,15);
+				}else{
+					resArticlePage = articleService.articlePage(this.page,15,this.classify);
+				}
+				if (resArticlePage && resArticlePage.status == "success") {
+					this.arcList = resArticlePage.recordPage.list;	
+						// debugger
+					if (this.total == resArticlePage.recordPage.totalRow) {
+						this.ifNew = true;
+					}else{
+						this.total = resArticlePage.recordPage.totalRow;			
+					}
+						this.page++;						
+					// console.log(this.arcList);
+				}				
+			}finally{				
+			}
+		},
+		doRefresh(){
+			this.page = 1;
+			this.init();
+			if (this.ifNew) {
+				this.$vux.toast.show({
+					type:"text",
+					text:"已经是最新啦，</br>不妨看看我隔壁的吧~",
+					width:"50%",
+				});				
+			}
+		},
+		getMore(){
 			this.lock = true;
 			this.ifLoad = true;
 			let resArticlePage;
-			if(this.classify == 0){
-				resArticlePage = articleService.articlePage(this.page,15);
-			}else{
-				resArticlePage = articleService.articlePage(this.page,15,this.classify);
+			try{
+				if(this.classify == 0){
+					resArticlePage = articleService.articlePage(this.page,15);
+				}else{
+					resArticlePage = articleService.articlePage(this.page,15,this.classify);
+				}
+				if (resArticlePage && resArticlePage.status == "success") {
+					this.arcList = [...this.arcList,...resArticlePage.recordPage.list];	
+					if (resArticlePage.recordPage.list.length) {
+						this.page++;						
+					}else{
+						this.$vux.toast.show({
+							type:"text",
+							text: '暂无更多，不妨到我隔壁去看看吧~',
+							width:"auto",
+						});						
+					}
+					// console.log(this.arcList);
+				}				
+			}finally{
+				this.lock = false;
+				this.ifLoad = false;				
 			}
-			if (resArticlePage && resArticlePage.status == "success") {
-				this.arcList = this.arcList.concat(resArticlePage.recordPage.list);	
-				this.page++;
-				// console.log(this.arcList);articlePage
-			}
-			this.lock = false;
-			this.ifLoad = false;
 		},
 		loadMore(e){
 			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
-				this.init();
+				this.getMore();
 			}
 			this.scrollTop = $(e.target).scrollTop();
 		},
@@ -77,8 +123,7 @@ export default {
 </script>
 
 <style rel="stylesheet" scoped>
-
-		.main-content{
+	.main-content{
 		position: relative;
 		height: calc(100vh - .63rem);
 		overflow: hidden;

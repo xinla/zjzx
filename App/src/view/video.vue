@@ -66,7 +66,8 @@ export default {
 
 <style rel="stylesheet" scoped>
 	.main-content{
-		height: calc(100vh - 90px);
+		height: calc(100vh - 45px);
 		overflow-y: auto;
+		background: #fff;
 	}
 </style>
