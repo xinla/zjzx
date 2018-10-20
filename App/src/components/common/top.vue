@@ -9,9 +9,10 @@
 			<slot name="title"></slot>
 		</div>		
 		<div class="top-back-nav">
-			<i class="iconfont icon-more">
-				<slot name="nav"></slot>
-			</i>
+			<slot name="nav">
+				<i class="iconfont icon-more">
+				</i>				
+			</slot>				
 		</div>
 	</div>
 </template>
@@ -30,7 +31,7 @@ export default {
 	},
 }	
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .top-back {
 	display: flex;
 	width: 100%;
@@ -43,6 +44,7 @@ export default {
 	left: 0;
 	top: 0;
 	z-index: 9;
+	justify-content: space-between;
 	.top-back-icon{
 		width: .4rem;
 		.iconfont{
@@ -52,20 +54,20 @@ export default {
 	}
 	
 	.top-back-title{
-		width: calc(100% - .67rem);
+		// width: calc(100% - .67rem);
 		text-align: center;
 		color: #666;
 		font-size: .32rem;
 	}
 	.top-back-nav{
-		width: .6rem;
+		min-width: .6rem;
 		height: .87rem;
 		line-height: .87rem;
 		// margin-top: .27rem;
 		font-size: .4rem;
+		color: #666;
 		.iconfont{
 			font-size: .5rem;
-			color: #666;
 		}
 	}
 }

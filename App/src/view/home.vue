@@ -26,7 +26,7 @@
 					</div>
 					<div class="main" ref="main">
 						<loading-main v-show="ifLoad"></loading-main>
-						<swiper v-model="classifyIndex" :height="swiperHeight + 'px'" :show-dots="false" :threshold="100" >
+						<swiper v-model="classifyIndex" :height="swiperHeight + 'px'" :show-dots="false" :threshold="150" >
 					        <swiper-item>
 					          	<articleList :show="0 == classifyIndex"></articleList>
 					        </swiper-item>

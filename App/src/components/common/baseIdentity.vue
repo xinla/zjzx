@@ -2,11 +2,9 @@
 	<div>
 		<top @hrefTo="this.$Tool.goBack" :showNav="true">
 			<template slot="title">{{ title ||'个人认证' }}</template>
-			<span slot="nav" @click="$Tool.goPage({name:'idenComQuestion',query:{title:'常见问题'}})">常见问题</span>
+			<span class="nav" slot="nav" @click="$Tool.goPage({name:'idenComQuestion',query:{title:'常见问题'}})">常见问题</span>
 		</top>
-		<div  class="top-margin">			
-			<router-view></router-view>
-		</div>
+		<router-view class="router-view"></router-view>
 	</div>
 </template>
 
@@ -30,7 +28,10 @@ export default {
 </script>
 
 <style rel="stylesheet" scoped>
-	.top-margin{
-			padding-top: 50px;
-		}
+	.nav{
+	    font-size: 0.8em;
+	}
+	.router-view{
+		line-height: 22px;
+	}
 </style>

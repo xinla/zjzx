@@ -41,11 +41,9 @@ export default{
 	.hreficon{
 		width: 30px;
 	}
-	.router-view{
-	    height: calc(100vh - 0.87rem);
-	}
 	.router-view {
 		width: 100%;
+	    height: calc(100vh - 0.87rem);
 		position: absolute;
 		transition: all .3s cubic-bezier(.55,0,.1,1);
 	}

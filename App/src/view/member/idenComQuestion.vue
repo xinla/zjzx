@@ -5,7 +5,13 @@
 					<td class="qa-left">
 						Q：
 					</td>
-					<td class="q">{{item.q}}</td>
+					<td class="q">
+						{{item.q}} 
+						<transition name="dowm-up">
+							<i class="iconfont fr icon-down" v-if="index==which?toggle:0"></i>
+							<i class="iconfont fr icon-up" v-else></i>							
+						</transition>
+					</td>
 				</tr>
 				<transition name="qa" mode='out-in'>					
 					<tr class="qa-list" v-show="index==which?toggle:0">
@@ -27,31 +33,31 @@ export default{
 			toggle:true,
 			qaList:[
 				{
-					q:'常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题',
+					q:'常见问题常见问题常见问题常见问题常',
 					a:'回答回答回答回答回答回答回答回答回答回答回答回答回答回答',
 				},
 				{
-					q:'常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题',
+					q:'常见问题常见问题常见问题常见问题常',
 					a:'回答回答回答回答回答回答回答回答回答回答回答回答回答回答',
 				},
 				{
-					q:'常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题',
+					q:'常见问题常见问题常见问题常见问题常',
 					a:'回答回答回答回答回答回答回答回答回答回答回答回答回答回答',
 				},
 				{
-					q:'常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题',
+					q:'常见问题常见问题常见问题常见问题常',
 					a:'回答回答回答回答回答回答回答回答回答回答回答回答回答回答',
 				},
 				{
-					q:'常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题',
+					q:'常见问题常见问题常见问题常见问题常',
 					a:'回答回答回答回答回答回答回答回答回答回答回答回答回答回答',
 				},
 				{
-					q:'常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题',
+					q:'常见问题常见问题常见问题常见问题常',
 					a:'回答回答回答回答回答回答回答回答回答回答回答回答回答回答',
 				},
 				{
-					q:'常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题常见问题',
+					q:'常见问题常见问题常见问题常见问题常',
 					a:'回答回答回答回答回答回答回答回答回答回答回答回答回答回答',
 				},
 			]
@@ -73,7 +79,8 @@ export default{
 <style rel="stylesheet" scoped>
 	.qa{
 		display: block;
-		padding: 0 10px;
+		padding: 10px;
+		background: #fff;
 	}
 	.qa-list{
 		line-height: 20px;
@@ -83,6 +90,7 @@ export default{
 	}
 	.q{
 		font-weight: 600;
+		width: 100%;
 	}
 	.qa td{
 		padding-bottom: 10px;
@@ -94,4 +102,13 @@ export default{
 		transform:scaleY(0);
 		opacity: 0;
 	}
+	.iconfont{
+		color: #ccc;
+	}
+	/*.dowm-up-enter-active,.dowm-up-leave-active{
+		transition: all 1s;
+	}
+	.dowm-up-enter,.dowm-up-leave-to{
+		transform: rotate(30deg);
+	}*/
 </style>

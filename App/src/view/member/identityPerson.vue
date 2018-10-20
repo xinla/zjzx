@@ -9,7 +9,7 @@
 				<div class="identity bfc-o" @click="$Tool.goPage(path.release)">
 					<span>发布文章</span>
 					<button type="button" class="fr to achieved" v-if="achieved.ifRelease">已完成</button>
-					<button type="button" class="fr to" v-if="!achieved.ifRelease">去完成</button>
+					<button type="button" class="fr to" v-else>去完成</button>
 				</div>
 		</div>
 		<div class="main-a">
@@ -34,12 +34,13 @@
 </template>
 
 <script>
+import articleService from "@/service/articleService"
 export default{
 	data(){
 		return {
 			achieved:{
-				ifRelease:true,
-				ifBind:this.$store.userMobile || localStorage.mobile,
+				ifRelease:false,
+				ifBind:localStorage.userMobile,
 			},
 			path:{
 				info:{},
@@ -48,17 +49,27 @@ export default{
 		}
 	},
 	mounted(){
-		if (this.achieved.ifBind) {
-			this.path.info={name:'identityPerson',query:{title:'个人认证'}};
-		}else{
-			this.path.info={name:'editInfo',query:{title:'资料编辑'}};
-		}
-		if (!this.achieved.ifRelease) {
-			this.path.release={name:'release',query:{title:'发布图文'}};
-		}else{
-			this.path.release={name:'identityPerson',query:{title:'个人认证'}};
-		}
+		this.init();
 	},
+	methods:{
+		init(){
+			articleService.getUserArticleCount(localStorage.id,data=>{
+				if (data.result.count) {
+					this.achieved.ifRelease = true;
+				}
+			});
+			if (this.achieved.ifBind) {
+				this.path.info={name:'identityPerson',query:{title:'个人认证'}};
+			}else{
+				this.path.info={name:'editInfo',query:{title:'资料编辑'}};
+			}
+			if (this.achieved.ifRelease) {
+				this.path.release={name:'identityPerson',query:{title:'个人认证'}};
+			}else{
+				this.path.release={name:'release',query:{title:'发布图文'}};
+			}
+		}
+	}
 }
 </script>
 

@@ -5,7 +5,9 @@
 			<video-player class="video-player vjs-custom-skin" 
 				ref="videoPlayer"
 			 	:playsinline="true"
-			  	:options="playerOptions">							  	
+			  	:options="playerOptions"
+			  	@play="onPlayerPlay($event)"
+			  	>
 			</video-player>	
 		</div>
 		<p class="pub" @click="$Tool.goPage({ name:'detail',query:{id:article.id,} })">
@@ -62,7 +64,10 @@ export default {
 	},
 	props:{
 		article:Object,
-		whi:Number,
+		whi:{
+			type:Number,
+			default:0,
+		},
 		//判断是否显示发布人
 		ifPublisher:{
 			type:Boolean,
@@ -102,6 +107,12 @@ export default {
 				}					
 			});
 			this.publishtime = this.$Tool.publishTimeFormat(this.article.publishtime);		
+		},
+		onPlayerPlay(e){
+			this.$emit("allPause",this.whi);
+		},
+		pause(){
+			this.$refs.videoPlayer.player.pause();
 		}
 	}
 }
@@ -158,7 +169,8 @@ export default {
 <style>	
 	.vjs-custom-skin > .video-js .vjs-big-play-button{
 		width: 2em;
-		height: 2em;
+		height: 2em !important;
+	    font-size: 2.8em;
 		border-radius: 50%;
 		margin: 0 !important;
 		transform: translate(-50%,-50%);

@@ -40,13 +40,14 @@ export default {
 		},
 		_touchMove(e){
 			let touch = e.changedTouches[0]; 
+			console.log(touch.clientX)
 			let moveX = touch.clientX - this.startX;
-		    if (moveX > 0) {
+		    if (Math.abs(moveX) > 40) {
 				this.$el.style.overflow = "hidden";	
 				return;	    	
 		    }
 			if (this.$el.scrollTop > 0) { return;}
-			if (moveX == 0) {
+			if (moveX < 20) {
 		        // 获取下拉的距离
 				let move = touch.clientY - this.startY;
 		         //这里主要是让内容区随着下拉操作而往下滚动 

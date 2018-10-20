@@ -2,7 +2,15 @@
 	<down-refresh @refresh="init()">
 		<div class="main-content" @scroll="loadMore">
 			<loading-main v-show="ifLoad"></loading-main>
-			<z-video v-for="(item,index) in arcList" :article="item" :key="index"></z-video>
+			<z-video 
+			ref="zjzx-video"
+			v-for="(item,index) in arcList" 
+			:article="item" 
+			:key="index"
+			:whi="index"
+			@allPause="doAllPause"
+			>
+			</z-video>
 		</div>			
 	</down-refresh>
 </template>
@@ -55,6 +63,13 @@ export default {
 			}
 			this.scrollTop = $(e.target).scrollTop();
 		},
+		doAllPause(whi){
+			this.$refs['zjzx-video'].forEach((item,index)=>{
+				if (whi != index) {
+					item.pause();					
+				}
+			});
+		}
 	},
 	watch:{
 		$route(){

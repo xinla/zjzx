@@ -26,7 +26,7 @@
 				
 				<!-- 视频大图 -->
 				<div class="article-video" v-else-if="2 == article.type && ArticleFile.length">
-					<div class="article-play">
+					<div class="article-play cc">
 						<i class="iconfont icon-bofang1"></i>
 					</div>
 					<img :src="ArticleFile[0].thumbnail?(fileRoot + ArticleFile[0].thumbnail):imgurl">
@@ -145,7 +145,7 @@ export default {
 		padding: 0 .3rem;
 		.article-item{
 			border-bottom: .02rem solid @borderColor;
-			padding-top: .3rem;
+			padding-top: .2rem;
 			padding-bottom: .1rem;
 			.article-title{
 				// height: 1.3rem;
@@ -161,12 +161,11 @@ export default {
 			}
 			.float-img{
 				display: block;
-				width: 1.86rem;
-				height: 1.22rem;
+				width: 2rem;
+				height: 1.3rem;
 				margin-left: .3rem;
 				object-fit: cover;
 				padding: .02rem;
-				border: .02rem solid @borderColor;
 				float: right;
 			}
 			.multiple-img-wrap{
@@ -179,20 +178,14 @@ export default {
 					width: 100%;
 					height: 100%;
 					padding: .02rem;
-					border: .02rem solid @borderColor;
 					object-fit: cover;
 				}
 			}
 			.article-video{
 				position: relative;
 				width: 100%;
-				height: 3.24rem;
+				height: 4rem;
 				.article-play{
-					position: absolute;
-					top: 50%;
-					left: 50%;
-					margin-left: -.44rem;
-					margin-top: -.44rem;
 					width: .88rem;
 					height: .88rem;
 					line-height: .88rem;
@@ -211,7 +204,6 @@ export default {
 					width: 100%;
 					height: 100%;
 					padding: .02rem;
-					border: .02rem solid @borderColor;
 					object-fit: cover;
 				}
 			}
