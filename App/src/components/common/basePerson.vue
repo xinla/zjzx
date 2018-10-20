@@ -181,7 +181,7 @@ export default {
 	    	if (!vm.userId){
 	    		vm.userId = localStorage.id;
 	    	}
-    		vm.current = vm.$route.query.current;
+			vm.current = vm.$route.query.current || vm.current;	    		
 	      	vm.init();
 		});
 	},
@@ -281,5 +281,6 @@ export default {
 	.router-view{
 	    height: calc(100% - 190px);
 	    overflow-y: auto;
+		background: #fff;
 	}
 </style>

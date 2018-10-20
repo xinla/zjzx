@@ -7,7 +7,8 @@
 				<span class="fr" @click="ifDeleteAll = false;">完成</span>					
 			</div>
 		</div> -->
-		<multIT v-for="(item,index) in arcList" :article="item" :whi="index" detailType=1 :ifPublisher="false" :ifDel="true" @delete="deleteArticle" :key="index"></multIT>
+		<multIT v-for="(item,index) in arcList" :article="item" :whi="index" detailType=1 :ifPublisher="false" :ifDel="true" @delete="deleteArticle" :key="index">			
+		</multIT>
 			<!-- <bigIVT :article="item" v-else="item.type==2"></bigIVT>	 -->
 		<prompt-blank v-if="proIf" :mes="proMes"></prompt-blank>
 		<load-more :show-loading="ifLoad"></load-more>

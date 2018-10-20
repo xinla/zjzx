@@ -4,23 +4,27 @@
 			<div class="article-item clearfix">
 				
 
-				<!-- 浮动图片 -->
+				<!-- 浮动单图片 -->
 				<!-- <div class="float-img" v-if="imgList.length < 3 "> -->
-					<img class="float-img"v-for="(item,index) in imgList" v-if="[index == 0, imgList.length < 3]" :src="item?item:imgurl" >
-					<img class="float-img" v-if="1 == article.type && ArticleFile.length && ArticleFile.length < 3" :src="ArticleFile[0].url?(fileRoot+ArticleFile[0].url):imgurl">
+					<img class="float-img a" v-if="imgList.length == 1" :src="imgList[0] || imgurl" >
+					<img class="float-img" v-if="1 == article.type && ArticleFile.length == 1" :src="ArticleFile[0].url?(fileRoot+ArticleFile[0].url):imgurl">
 				<!-- </div> -->
 				<!-- 公共标题 -->
 				<h2 class="article-title">{{article.title}}</h2>
 
-				<!-- 上下图文大图 -->
-				<div class="normal-img clearfix" v-if="imgList.length > 3">
-					<img class="float-img" v-for="(item,index) in imgList" :src="item?item:imgurl">
+				<!-- 二或三图 -->
+				<div class="multiple-img-wrap" v-if="imgList.length > 1">
+					<div class="multiple-img" v-for="(item,index) in imgList">
+						<img :src="item?item:imgurl">
+					</div>
 				</div>
-				<div class="normal-img clearfix" v-else-if="1 == article.type && ArticleFile.length > 3">
-					<img :src="item.url?(fileRoot+item.url):imgurl" v-for="(item, index) in ArticleFile" v-if="index < 3">
+				<div class="multiple-img-wrap" v-else-if="1 == article.type && ArticleFile.length > 1">
+					<div class="multiple-img" v-for="(item, index) in ArticleFile" v-if="index < 3">
+						<img :src="item.url?(fileRoot+item.url):imgurl" >
+					</div>
 				</div>
 				
-				<!-- 视频 -->
+				<!-- 视频大图 -->
 				<div class="article-video" v-else-if="2 == article.type && ArticleFile.length">
 					<div class="article-play">
 						<i class="iconfont icon-bofang1"></i>
@@ -165,9 +169,10 @@ export default {
 				border: .02rem solid @borderColor;
 				float: right;
 			}
-			.normal-img{
+			.multiple-img-wrap{
+				display: flex;
 				width: 100%;
-				height: 3.26rem;
+				height: 1.6rem;
 				overflow: hidden;
 				img{
 					display: block;
@@ -232,5 +237,8 @@ export default {
 				}
 			}
 		}
+	}
+	.multiple-img{
+		flex: 1;
 	}
 </style>
