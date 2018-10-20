@@ -2,7 +2,6 @@
 	<div class="release">
 		<!-- 选择类型 -->
 		<div class="release-type clearfix" v-model="record.classify">
-			
 			<div class="release-select clearfix" @click="handleType">
 				<span class="release-keys fl" :value="defaultVal">{{defaultType}}</span>
 				<i class="iconfont icon-down fr"></i>	
@@ -20,7 +19,6 @@
 				</div>
 			</transition>
 		</div>	
-
 		<!-- 标题 -->
 		<div class="release-title">
 			<input type="text" v-model="record.title" placeholder="请输入标题" v-focus>
@@ -33,9 +31,8 @@
 			<!-- 上传图片 -->
 			<div class="release-upload-img clearfix">
 				<div class="release-img fl" v-for="(item,index) in record_file">
-					<i class="iconfont icon-remove" @click="handleRemoveImg(item)"></i>
-					<img :src="fileRoot+item.url">
-					<div class="release-img-mask"></div>
+					<i class="iconfont icon-remove" @click.stop="handleRemoveImg(item)"></i>
+					<img :src="fileRoot + item.url">
 				</div>
 				<div class="release-upload fl">
 					<label for="upImg"></label>
@@ -49,9 +46,8 @@
 		<!-- 上传视频 -->
 		<div class="release-upload-video clearfix" v-if="record.type==2">
 			<div class="release-video fl" v-for="(item,index) in record_file">
-				<i class="iconfont icon-remove" @click="handleRemoveVideo(item)"></i>
+				<i class="iconfont icon-remove" @click.stop="handleRemoveVideo(item)"></i>
 				<img :src="fileRoot + item.thumbnail" >
-				<div class="release-video-mask"></div>
 			</div>
 			<div class="release-upload fl" v-show="addShow">
 				<label for="upvideo"></label>
@@ -81,15 +77,19 @@ import mapService from '@/service/mapService'
 import fileService from '@/service/fileService'
 import articleService from '@/service/articleService'
 import articleClassifyService from '@/service/article_classifyService'
-
+import { Previewer, TransferDom } from 'vux'
 export default{
 	directives: {
+		TransferDom,
 	  focus: {
 	    // 指令的定义
 	    inserted: function (el) {
 	      el.focus()
 	    }
 	  }
+	},
+	components:{
+		Previewer
 	},
 	data(){
 		return {
@@ -111,7 +111,7 @@ export default{
 				type:{
 					type:Number,
 					default:1,
-				},   //1：图文，2:视屏
+				},   //1：图文，2:视频
 				publishtime:'',  // 后台设置
 				classify:1,
 				selectedpublishaddress:'',
@@ -141,6 +141,10 @@ export default{
 		})
 	},
 	methods:{
+		show(index){
+			 this.$refs.previewer.show(index);
+			 console.log(index);
+		},
 		handleType(){
 			this.optionShow = !this.optionShow;
 		},
@@ -159,8 +163,7 @@ export default{
 				onConfirm () {
 					thiz.$vux.loading.show();
 					setTimeout(()=>{
-
-						let aa = thiz.record_file.splice(item,1);
+						thiz.record_file.splice(item,1);
 						thiz.$vux.loading.hide();
 						thiz.$vux.toast.show({
 							text:'删除成功'
@@ -179,8 +182,7 @@ export default{
 				onConfirm () {
 					thiz.$vux.loading.show();
 					setTimeout(()=>{
-
-						let aa = thiz.record_file.splice(item,1);
+						thiz.record_file.splice(item,1);
 						thiz.$vux.loading.hide();
 						thiz.$vux.toast.show({
 							text:'删除成功'
@@ -397,16 +399,8 @@ export default{
 						display: block;
 						width: 100%;
 						height: 100%;
+						filter: brightness(0.50);
 						object-fit: cover;
-					}
-					.release-img-mask{
-						position: absolute;
-						left: 0;
-						top: 0;
-						width: 100%;
-						height: 100%;
-
-						background-color: rgba(0,0,0,.4);
 					}
 					.iconfont{
 						position: absolute;
@@ -459,15 +453,8 @@ export default{
 					border-radius: .05rem;
 					border: .02rem solid #ccc;
 					object-fit: cover;
+					filter: brightness(0.50);
 					box-sizing: border-box;
-				}
-				.release-video-mask{
-					position: absolute;
-					left: 0;
-					top: 0;
-					width: 100%;
-					height: 100%;
-					background-color: rgba(0,0,0,.4);
 				}
 				.iconfont{
 					position: absolute;

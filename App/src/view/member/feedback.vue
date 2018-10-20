@@ -150,6 +150,9 @@ export default{
 						thiz.imgShow = false;
 						if(thiz.uploadImg == "") {
 							thiz.$vux.loading.hide();
+							thiz.$vux.toast.show({
+								text:'删除成功'
+							});
 						}
 					},1000);
 				}
@@ -206,7 +209,7 @@ export default{
 		// 上传图片
 		handleUploadFile(e){
 			let file = e.target.files[0];
-			if(!file) retun;
+			if(!file) return;
 			if(!this.$Tool.checkPic(file.name)) {
 				this.$vux.alert.show({
 					content:'上传格式错误:仅限jpg、png、jpeg、gif格式'
@@ -368,6 +371,7 @@ export default{
 						width: 100%;
 						height: 100%;
 						border-radius: .2rem;
+						filter: brightness(0.7);
 						object-fit: cover;
 					}
 					.iconfont{
@@ -383,6 +387,7 @@ export default{
 						top: 0;
 						border-radius: 0 .2rem 0 .2rem;
 						right: 0;
+						z-index: 1;
 					}
 				}
 				.upload-input {
