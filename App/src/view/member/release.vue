@@ -24,7 +24,7 @@
 			<input type="text" v-model="record.title" placeholder="请输入标题" v-focus>
 		</div>
 		<!-- 内容 -->
-		<div class="release-content" v-if="record.type==1">
+		<div class="release-content" v-if="record.type==1 || record.type == 3">
 			<div class="content">
 				<textarea placeholder="请输入内容" v-model="record.content"></textarea>
 			</div>
@@ -122,8 +122,8 @@ export default{
 	},
 	activated(){
 		this.record.type = this.$route.query.sort;	
-		this.record.selectedpublishname = localStorage.position?localStorage.position:"不显示";
-		this.record.selectedpublishaddress = localStorage.selectedpublishaddress?localStorage.selectedpublishaddress:0;
+		this.record.selectedpublishname = localStorage.position || "不显示";
+		this.record.selectedpublishaddress = localStorage.selectedpublishaddress || 0;
 
 		let resArcClass = articleClassifyService.getArticleClassifyList();
 		this.classfyList = resArcClass.result.classfyList;
@@ -238,7 +238,7 @@ export default{
 
 			if(!localStorage.id){
 				this.$vux.alert.show({
-				  content:'你还未登录，亲先登录再发布',
+				  content:'你还未登录呢，亲先登录再发布哦',
 				})
 				return;
 			}
@@ -295,6 +295,13 @@ export default{
 		"$route"(){
 			this.record.type = this.$route.query.sort;	
 		}
+	},
+	beforeRouteEnter (to, from, next) {
+		if (!localStorage.id) { 
+            GoTruth.$Tool.loginPrompt(); 
+        }else{
+          next();
+        } 
 	}
 }
 </script>

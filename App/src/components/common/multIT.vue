@@ -2,28 +2,28 @@
 	<div class="bfc-o"  @click="$Tool.goPage({ name:'detail',query:{id:article.id,detailType,}})">
 		<div class="article-wrap">
 			<div class="article-item clearfix">
-				
 
 				<!-- 浮动单图片 -->
-				<!-- <div class="float-img" v-if="imgList.length < 3 "> -->
+				<template v-if="1 == article.type">
 					<img class="float-img a" v-if="imgList.length == 1" :src="imgList[0] || imgurl" >
-					<img class="float-img" v-if="1 == article.type && ArticleFile.length == 1" :src="ArticleFile[0].url?(fileRoot+ArticleFile[0].url):imgurl">
-				<!-- </div> -->
+					<img class="float-img" v-else-if="ArticleFile.length == 1" :src="ArticleFile[0].url?(fileRoot+ArticleFile[0].url):imgurl">					
+				</template>
 				<!-- 公共标题 -->
 				<h2 class="article-title">{{article.title}}</h2>
-
-				<!-- 二或三图 -->
-				<div class="multiple-img-wrap" v-if="imgList.length > 1">
-					<div class="multiple-img" v-for="(item,index) in imgList">
-						<img :src="item?item:imgurl">
-					</div>
-				</div>
-				<div class="multiple-img-wrap" v-else-if="1 == article.type && ArticleFile.length > 1">
-					<div class="multiple-img" v-for="(item, index) in ArticleFile" v-if="index < 3">
-						<img :src="item.url?(fileRoot+item.url):imgurl" >
-					</div>
-				</div>
 				
+				<template v-if="1 == article.type">
+					<!-- 二或三图 -->
+					<div class="multiple-img-wrap" v-if="imgList.length > 1">
+						<div class="multiple-img" v-for="(item,index) in imgList">
+							<img :src="item?item:imgurl">
+						</div>
+					</div>
+					<div class="multiple-img-wrap" v-else-if="ArticleFile.length > 1">
+						<div class="multiple-img" v-for="(item, index) in ArticleFile" v-if="index < 3">
+							<img :src="item.url?(fileRoot+item.url):imgurl" >
+						</div>
+					</div>
+				</template>
 				<!-- 视频大图 -->
 				<div class="article-video" v-else-if="2 == article.type && ArticleFile.length">
 					<div class="article-play cc">
@@ -145,19 +145,19 @@ export default {
 		padding: 0 .3rem;
 		.article-item{
 			border-bottom: .02rem solid @borderColor;
-			padding-top: .2rem;
-			padding-bottom: .1rem;
+			padding: .15rem 0;
 			.article-title{
 				// height: 1.3rem;
-				max-height: 1.3rem;
+				max-height: 1.4rem;
 				overflow: hidden;
 				text-overflow:ellipsis;
 				display:-webkit-box; 
 				-webkit-box-orient:vertical;
 				-webkit-line-clamp:3; 
-				font-size: .28rem;
-				line-height: .45rem;
+				font-size: .32rem;
+				line-height: .46rem;
 				font-weight: 500;
+				margin-bottom: 0.06rem;
 			}
 			.float-img{
 				display: block;

@@ -11,13 +11,13 @@ Vue.use(Router)
 export default new Router({
   // mode:'history',
   routes: [
-    {
-      path: '/test',
-      name: 'test',
-      component: (resolve)=>{
-        require(['@/view/test.vue'],resolve)
-      }
-    },
+    // {
+    //   path: '/test',
+    //   name: 'test',
+    //   component: (resolve)=>{
+    //     require(['@/view/test.vue'],resolve)
+    //   }
+    // },
     //首页
     {
       path: '/',
@@ -37,10 +37,10 @@ export default new Router({
         },
         //问答
         {
-          path: 'questAnswer',
-          name: 'questAnswer',
+          path: 'questionAnswer',
+          name: 'questionAnswer',
           component: (resolve)=>{
-            require(['@/view/questAnswer.vue'],resolve)
+            require(['@/view/questionAnswer.vue'],resolve)
           }
         },
         //视频
@@ -78,13 +78,13 @@ export default new Router({
       }
     },
     //会员中心首页
-    {
-      path:'/member',
-      name:'member',
-      component: (resolve)=>{
-        require(['@/view/member/index.vue'],resolve)
-      }      
-    },
+    // {
+    //   path:'/member',
+    //   name:'member',
+    //   component: (resolve)=>{
+    //     require(['@/view/member/index.vue'],resolve)
+    //   }      
+    // },
     {
       path:'/member/userCenter',
       name:'userCenter',
@@ -127,13 +127,13 @@ export default new Router({
             require(['@/view/member/release.vue'],resolve)
           }
         },
-        {
-          path:'focus',
-          name:'focus',
-          component: (resolve)=>{
-            require(['@/view/member/focus.vue'],resolve)
-          }
-        },
+        // {
+        //   path:'focus',
+        //   name:'focus',
+        //   component: (resolve)=>{
+        //     require(['@/view/member/focus.vue'],resolve)
+        //   }
+        // },
         {
           path:'messages',
           name:'messages',

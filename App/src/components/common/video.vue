@@ -6,7 +6,7 @@
 				ref="videoPlayer"
 			 	:playsinline="true"
 			  	:options="playerOptions"
-			  	@play="onPlayerPlay($event)"
+			  	@play="onPlayerPlay()"
 			  	>
 			</video-player>	
 		</div>

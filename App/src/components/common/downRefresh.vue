@@ -40,7 +40,7 @@ export default {
 		},
 		_touchMove(e){
 			let touch = e.changedTouches[0]; 
-			console.log(touch.clientX)
+			// console.log(touch.clientX)
 			let moveX = touch.clientX - this.startX;
 		    if (Math.abs(moveX) > 40) {
 				this.$el.style.overflow = "hidden";	
@@ -73,7 +73,6 @@ export default {
 			this.endX = touch.clientX;        
 			this.endY = touch.clientY;        
 			if (this.moveDistance > 50) {
-			console.log(1)          
 				this.tipText = '数据加载中...';
 				this.$emit("refresh");
 				this.tipText = "加载完毕";

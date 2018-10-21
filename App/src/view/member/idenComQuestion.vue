@@ -104,6 +104,7 @@ export default{
 	}
 	.iconfont{
 		color: #ccc;
+		font-weight: normal;
 	}
 	/*.dowm-up-enter-active,.dowm-up-leave-active{
 		transition: all 1s;

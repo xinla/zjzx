@@ -12,7 +12,7 @@
 							<tab-item :selected="currentClassiftyName == item.classifyname" v-for="(item,index) in classifyList" @click="currentClassiftyName = item.classifyname" :key="index">{{item.classifyname}}
 							</tab-item>
 						</tab>
-							<div class="nav-add" @click="handleMore" v-model="showMore">
+							<div class="nav-add" @click="handleMore" v-model="showMore" v-if="0">
 								<i class="iconfont icon-menu1"></i>
 							</div>
 						<div v-transfer-dom>
@@ -28,12 +28,12 @@
 						<loading-main v-show="ifLoad"></loading-main>
 						<swiper v-model="classifyIndex" :height="swiperHeight + 'px'" :show-dots="false" :threshold="150" >
 					        <swiper-item>
-					          	<articleList :show="0 == classifyIndex"></articleList>
+					          	<listArticle :show="0 == classifyIndex"></listArticle>
 					        </swiper-item>
 					         <swiper-item v-for="(item,index) in classifyList" :key="index">
-					          	<articleList :classify="item.classifycode" :show="item.classifycode == classifyIndex"></articleList>
+					          	<listArticle :classify="item.classifycode" :show="item.classifycode == classifyIndex"></listArticle>
 					        </swiper-item>
-				      </swiper>
+				      	</swiper>
 					</div>
 				</div>
 			</div>
@@ -45,7 +45,7 @@
 import { TransferDom,Swiper,SwiperItem, Popup } from 'vux'
 import homeHeader from '@/components/headerBar'
 import homeMore from'@/components/more'
-import articleList from '@/view/part/articleList'
+import listArticle from '@/view/part/listArticle'
 
 import homeService from '@/service/homeService'
 import articleService from '@/service/articleService'
@@ -60,14 +60,34 @@ import articleClassifyService from '@/service/article_classifyService'
 			homeMore,
 			Swiper, 
 			SwiperItem,
-			articleList,
+			listArticle,
 			Popup,
 		},
 		data(){
 			return {
 				showMore:false,
-				ifLoad:false,
-				classifyList:[],
+				ifLoad:true,
+				classifyList:[
+					{	
+						classifycode:1,
+						classifyname:"揭秘"
+					},{	
+						classifycode:2,
+						classifyname:"防骗"
+					},{	
+						classifycode:3,
+						classifyname:"打假"
+					},{	
+						classifycode:4,
+						classifyname:"寻亲"
+					},{	
+						classifycode:5,
+						classifyname:"普法"
+					},{	
+						classifycode:6,
+						classifyname:"聚焦"
+					}
+				],
 				classifyIndex:0,
 				currentClassiftyName:"推荐",
 				ifDetail:false,
@@ -83,13 +103,19 @@ import articleClassifyService from '@/service/article_classifyService'
 	    	// 
 	    	this.swiperHeight = document.body.clientHeight - $(this.$refs.main).offset().top;
 	    	this.$nextTick(()=>{
-	    		articleClassifyService.getArticleClassifyList(data=>{
-					if (data && data.status == "success") {
-						this.classifyList = data.result.classfyList;	
-					}
-				});
-	    		this.ifLoad = false;
+	    		//获取分类
+	    		if (!localStorage.classify) {
+		    		articleClassifyService.getArticleClassifyList(data=>{
+						if (data && data.status == "success") {
+							this.classifyList = data.result.classfyList;	
+							localStorage.classify = JSON.stringify(data.result.classfyList);
+						}
+					});
+	    		}else{
+	    			this.classifyList = JSON.parse(localStorage.classify);
+	    		}
 	    	})
+    		this.ifLoad = false;
 	    },
 		methods:{
 			//导航栏添加弹出popup
@@ -251,20 +277,25 @@ import articleClassifyService from '@/service/article_classifyService'
 		height: 100%;
 		overflow-y: auto;
 	}
-	/*vux 样式修改*/
-	.vux-tab-wrap{
-      	padding-top: 38px;
-	}
-	.vux-tab .vux-tab-item{
-		line-height: 38px;
-	}
-	.vux-tab-container{
-		height: 38px;
-	}
 	
 </style>
 <style>
+	/*vux tab 样式修改*/
+	.vux-tab-wrap{
+      	padding-top: .76rem !important;
+	}
+	.vux-tab .vux-tab-item{
+		line-height: .76rem !important;
+	}
+	.vux-tab-container{
+		height: .76rem !important;
+	}
 	.vux-tab{
-		height: 38px !important;
-	}	
+		height: .76rem !important;
+	}
+	.vux-tab .vux-tab-item{
+		font-size: 16px !important;
+		font-weight: 500;
+		flex: 0 0 18% !important;
+	}
 </style>

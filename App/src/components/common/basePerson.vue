@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<top @hrefTo="$Tool.goPage({name:'member',})">
+		<top @hrefTo="$Tool.goBack()">
 			<template slot="title">{{title}}</template>
 		</top>
 		<div class="member-msg">
@@ -46,12 +46,12 @@
 			</ul>
 			<tab bar-active-color="#d60139" active-color="#d60139" :line-width="2" v-model="current">
 		      <tab-item v-for="(item, index) in switchListPublic" :key="item.id">
-		      	<router-link :to="{path:item.path,query:{userId,}}">
+		      	<router-link :to="{path:item.path,query:{userId,}}" replace>
 		      		{{item.desc}}
 				</router-link>
 		      </tab-item>
 		      <tab-item v-if="loginUserId == userId" v-for="(item, index) in switchListPrivate" :key="item.id">
-		      	<router-link :to="{path:item.path,query:{userId:item.userId}}">
+		      	<router-link :to="{path:item.path,query:{userId:item.userId}}" replace>
 		      		{{item.desc}}
 				</router-link>
 		      </tab-item>

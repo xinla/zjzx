@@ -1222,5 +1222,12 @@ export default {
 	    font-size: 24px;
 	    color: #ccc;
 	}
-	.video-js .vjs-big-play-button{}
+	.video-js .vjs-big-play-button{
+		width: 2em;
+		height: 2em !important;
+	    font-size: 2.8em;
+		border-radius: 50%;
+		margin: 0 !important;
+		transform: translate(-50%,-50%);
+	}
 </style>

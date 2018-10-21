@@ -52,6 +52,9 @@ Vue.component('PromptBlank',PromptBlank);
 //单文章视图组件
 import multIT from '@/components/common/multIT'
 Vue.component('multIT',multIT);
+//单问答视图组件
+import question from '@/components/common/question'
+Vue.component('question',question);
 //Confirm插件
 // import Confirm from '@/plugins/confirm'
 // Vue.use(Confirm);
@@ -63,8 +66,8 @@ Vue.component('multIT',multIT);
 // 视频插件
 import VideoPlayer from 'vue-video-player'
 require('video.js/dist/video-js.css')
-Vue.use(VideoPlayer)
 require('vue-video-player/src/custom-theme.css')
+Vue.use(VideoPlayer)
 
 //Swiper组件
 import VueAwesomeSwiper from 'vue-awesome-swiper'

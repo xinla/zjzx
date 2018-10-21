@@ -11,7 +11,7 @@
 				</router-link>
 			</div>
 			<div class="footer-item">
-				<router-link :to="{path:'/questAnswer'}" exact>
+				<router-link :to="{path:'/questionAnswer'}" exact>
 					<i class="iconfont icon-xiaoxi footer-icon"></i>
 					<span class="footer-text">问答</span>
 				</router-link>

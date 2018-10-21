@@ -76,22 +76,23 @@ export default {
 		width: 100%;
 		height: @headerHeight;
 		background-color: @mainColor;
-		position: relative;
-		top: 0;
-		left: 0;
+		align-items: center;
+		// position: relative;
+		// top: 0;
+		// left: 0;
 		.header-logo {
-			float: left;
+			// float: left;
 			width: 1.9rem;
 			img{
 				width: 90%;
-				margin-top: .2rem;
+				// margin-top: .2rem;
 			}
 		}
 		.header-input {
 			flex: 1;
-			height: .56rem;
-			line-height: .56rem;
-			margin-top: .16rem;
+			height: .63rem;
+			line-height: .63rem;
+			// margin-top: .16rem;
 			padding-left: .2rem;
 			background-color: #fff;
 			border-radius: .1rem;
@@ -103,8 +104,8 @@ export default {
 		}
 		.header-menu {
 			min-width:1rem;
-			padding: .08rem 0 .1rem;
-			float: right;
+			// padding: .08rem 0 .1rem;
+			// float: right;
 			text-align: center;
 			color: #fff;
 			.menu-icon{
