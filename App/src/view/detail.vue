@@ -740,7 +740,7 @@ export default {
 				//评论点赞
 				let resDoPraise = praiseService.doPraise(itemid,2);
 				if (resDoPraise && resDoPraise.status == "success") {
-					if (resDosPraise.result.code == 1) {
+					if (resDoPraise.result.code == 1) {
 						this.curLike = index;
 						this.ifLike = true;
 						this.commentList[index].likeNum ++;

@@ -19,7 +19,7 @@
 			<div class="footer-item">
 				<router-link :to="{path:'/video'}" exact>
 					<i class="iconfont icon-shipin footer-icon"></i>
-					<span class="footer-text">视频</span>
+					<span class="footer-text">今日真相</span>
 				</router-link>
 			</div>
 			<div class="footer-item">

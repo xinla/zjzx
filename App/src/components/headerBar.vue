@@ -1,6 +1,6 @@
 <template>
 	<div class="header">
-		<div class="header-logo">
+		<div class="header-logo ac">
 			<img src="@/assets/images/logo.png" alt="直击真相">
 		</div>
 		<div class="header-input" @click="$Tool.goPage({ name:'search' })">

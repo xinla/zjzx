@@ -143,7 +143,7 @@ export default{
 				let resLogOut = userService.logOut();
 				if (resLogOut && resLogOut.status=="success") {
 					this.$store.dispatch("userLogout")
-					this.$Tool.goPage({name:"/"});
+					this.$Tool.goPage({name:"home"});
 					this.$vux.alert.show({
 						content:'退出成功',
 					});
