@@ -75,7 +75,7 @@ import 'swiper/dist/css/swiper.css';
 Vue.use(VueAwesomeSwiper);
 
 //vux
-import{ Cell,Group,Msg,Datetime,Confirm,Alert,Radio,Tab,TabItem,LoadMore,Badge  } from 'vux';
+import{ Cell,Group,Msg,Datetime,Confirm,Alert,Radio,Tab,TabItem,LoadMore,Badge,InlineLoading } from 'vux';
 Vue.component('group', Group);
 Vue.component('cell', Cell);
 Vue.component('msg', Msg);
@@ -87,6 +87,7 @@ Vue.component('tab', Tab)
 Vue.component('tab-item', TabItem)
 Vue.component('load-more', LoadMore)
 Vue.component('badge', Badge)
+Vue.component('inline-loading', InlineLoading)
 import { DatetimePlugin,AlertPlugin,ConfirmPlugin,LoadingPlugin,ToastPlugin  } from 'vux'
 Vue.use(DatetimePlugin)
 Vue.use(AlertPlugin)

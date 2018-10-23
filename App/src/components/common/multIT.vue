@@ -4,26 +4,21 @@
 			<div class="article-item clearfix">
 
 				<!-- 浮动单图片 -->
-				<template v-if="1 == article.type">
-					<img class="float-img a" v-if="imgList.length == 1" :src="imgList[0] || imgurl" >
-					<img class="float-img" v-else-if="ArticleFile.length == 1" :src="ArticleFile[0].url?(fileRoot+ArticleFile[0].url):imgurl">					
-				</template>
+				<img class="float-img a" v-if="3 == article.type && imgList.length == 1" :src="imgList[0] || imgurl" >
+				<img class="float-img" v-else-if="1 == article.type && ArticleFile.length == 1" :src="ArticleFile[0].url?(fileRoot+ArticleFile[0].url):imgurl">					
 				<!-- 公共标题 -->
 				<h2 class="article-title">{{article.title}}</h2>
-				
-				<template v-if="1 == article.type">
-					<!-- 二或三图 -->
-					<div class="multiple-img-wrap" v-if="imgList.length > 1">
-						<div class="multiple-img" v-for="(item,index) in imgList">
-							<img :src="item?item:imgurl">
-						</div>
+				<!-- 二或三图 -->
+				<div class="multiple-img-wrap" v-if="3 == article.type && imgList.length > 1">
+					<div class="multiple-img" v-for="(item,index) in imgList">
+						<img :src="item?item:imgurl">
 					</div>
-					<div class="multiple-img-wrap" v-else-if="ArticleFile.length > 1">
-						<div class="multiple-img" v-for="(item, index) in ArticleFile" v-if="index < 3">
-							<img :src="item.url?(fileRoot+item.url):imgurl" >
-						</div>
+				</div>
+				<div class="multiple-img-wrap" v-else-if="1 == article.type && ArticleFile.length > 1">
+					<div class="multiple-img" v-for="(item, index) in ArticleFile" v-if="index < 3">
+						<img :src="item.url?(fileRoot+item.url):imgurl" >
 					</div>
-				</template>
+				</div>
 				<!-- 视频大图 -->
 				<div class="article-video" v-else-if="2 == article.type && ArticleFile.length">
 					<div class="article-play cc">
@@ -126,23 +121,14 @@ export default {
 			// 获取文章评论数量
 			articleCommentService.getArticleCommentCount(this.article.id,data=>{
 				if (data.status == "success") {
-					this.CommentNum = data.result.count;	
-					let commentStr = String(this.CommentNum);
-					let commentLength = commentStr.length;
-					console.log(commentLength);
-					if(commentLength >= 5) {
-						let commentDie = commentStr/10000;
-						let commentResult = (commentDie.toFixed(1)) + 'w+';
-						this.CommentNum = commentResult;
-						console.log(commentResult);
-					}
+					this.CommentNum = data.result.count;		
 				}else{
 					this.CommentNum = 0;
 				}					
 			});
 
 			this.publishtime = this.$Tool.publishTimeFormat(this.article.publishtime);	
-			if (!this.article.type) {
+			if (this.article.type == 3) {
 				this.imgList = this.$Tool.extractImg(this.article.content,3);				
 			}
 		}

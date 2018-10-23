@@ -53,7 +53,7 @@
               <span>{{item.desc}}</span>
               <i class="iconfont icon-arrow-right arrow-item"></i>
               <div class="fr">
-              <badge></badge>              
+              <badge v-if="item.badge"></badge>              
               </div>
             </div>
           </router-link>
@@ -86,12 +86,12 @@ export default {
         { id: 3, desc: '夜间', class: 'icon-yejian' },
       ],
       menuArr: [
-        { id: 1, desc: '消息通知', class: 'icon-my-msg', path: '/topBase/messages' },
+        { id: 1, desc: '消息通知', class: 'icon-my-msg', path: '/topBase/messages',badge:true },
         { id: 2, desc: '我的关注', class: 'icon-zuji', path: '/personBase/focus' ,current:5},
         { id: 3, desc: '爱心邀请', class: 'icon-love-k', path: '/topBase/invite' },
         { id: 4, desc: '爱心榜单', class: 'icon-paihangbang', path: '/topBase/level' },
         { id: 5, desc: '意见反馈', class: 'icon-dfabu', path: '/topBase/feedback' },
-        { id: 6, desc: '系统设置', class: 'icon-setup', path: '/topBase/set' }
+        { id: 6, desc: '系统设置', class: 'icon-setup', path: '/topBase/set' ,badge:true}
       ],
       loginLink: '/topBase/login',
       userId:localStorage.id,

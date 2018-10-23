@@ -87,8 +87,7 @@
 							:maxlength="popList.length"
 							v-model.trim="popList.desc"
 							@input="handleDesc"
-							>
-								
+							>								
 						</textarea>
 						<span class="popup-num">{{this.popList.length - this.popList.desc.length}}</span>
 					</div>
@@ -413,12 +412,21 @@
 				this.popList.desc = this.user.username;
 				this.popList.placeholder = "请输入用户名";
 				this.popList.length = 20;
-				this.popList.tip = "支持英文、数字";
+				this.popList.tip = "支持中、英文，数字";
 				if(this.popList.desc.length > 0) {
 					this.popList.btnToggle = true;
 				}
 			},
 			handleSubmitOne(){
+				if (this.popList.desc == "" || !this.$Tool.checkInput(this.popList.desc) || this.popList.desc.
+					match(/直击真相/g)) {
+					this.popList.desc = this.$Tool.replaceNo(this.popList.desc);
+					this.popList.desc = this.popList.desc.replace(/直击真相/g,"");
+					this.$vux.alert.show({
+					  content:'内容不合法，已为您删除，请确认！',
+					})
+					return;
+				}
 				this.$data.user.username = this.popList.desc;
 				this.descfunc((data)=>{
 					if(data && data.status == "success") {
@@ -442,6 +450,15 @@
 			},
 			
 			handleSubmitTwo(){
+				if (this.popList.desc == "" || !this.$Tool.checkInput(this.popList.desc) || this.popList.desc.
+					match(/直击真相/g)) {
+					this.popList.desc = this.$Tool.replaceNo(this.popList.desc);
+					this.popList.desc = this.popList.desc.replace(/直击真相/g,"");
+					this.$vux.alert.show({
+					  content:'内容不合法，已为您删除，请确认！',
+					})
+					return;
+				}
 				this.$data.user.introduce = this.popList.desc;
 				this.descfunc(()=>{});	
 			},

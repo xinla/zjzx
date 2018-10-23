@@ -223,20 +223,18 @@ const tool = {
   //@num 图片最大数量
   extractImg(str,num){
     str = String(str);
-    let reg = /<img.*src=[\'\"]?([^\'\"]*)[\'\"]?/gi,
+    let reg = /<img[^(img)]*src=[\'\"]?([^\'\"]*)[\'\"]?/gi,
         arr = str.match(reg),
         srcList = [];
     if (arr && arr.length) {
-      if (arr.length > num) {arr.length = num}
+      if (arr.length > num) {arr.length = num;}
       arr.forEach((item,index)=>{
         srcList.push(item.replace(/<img.*src=[\'\"]|[\'\"]/ig,""));
       })
     }
     return srcList;     
   },
-  //////
   // 未登录提示 //
-  //////
   loginPrompt(back){
     GoTruth.$vux.confirm.show({
       content:"您还没登录哦！",

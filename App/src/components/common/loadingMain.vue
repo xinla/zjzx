@@ -15,7 +15,7 @@ export default{
 <style rel="stylesheet" scoped>
 	.test{
 	    font-size: 1.4em;
-	    height: 1em;
+	    /*height: 1em;*/
 	    width: 4.2em;
 	    color: #ddd;
 	    overflow: hidden;
@@ -23,7 +23,7 @@ export default{
 	.move{
 	    position: absolute;
 	    height: 100%;
-	    width: 0.3em;
+	    width: 0.25em;
 	    background: rgba(244, 245, 246,1);
 	    top: 0;
 	    animation: move 1.2s linear infinite;

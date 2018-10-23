@@ -1,7 +1,7 @@
 <template>
 	<div class="scroll-wrap" @scroll="$emit('scrolling',$event)">
 		<div class="refresh ac" :class="{animate:animate}" :style="{'height':lineHeight + 'px',lineHeight: lineHeight + 'px',}">
-			{{ tipText }}
+			<inline-loading v-show="'正在拼命加载' == tipText"></inline-loading>{{ tipText }}				
 		</div>
 		<slot ref="list"></slot>
 	</div>
@@ -73,13 +73,21 @@ export default {
 			this.endX = touch.clientX;        
 			this.endY = touch.clientY;        
 			if (this.moveDistance > 50) {
-				this.tipText = '数据加载中...';
-				this.$emit("refresh");
-				this.tipText = "加载完毕";
+				this.tipText = '正在拼命加载';
+				setTimeout(()=>{
+					this.$emit("refresh");
+				},100)
+				setTimeout(()=>{
+					this.tipText = "加载完毕";
+					this.animate = true;
+					this.lineHeight = 0;
+					this.moveDistance = 0;
+				},1000);
+			}else{
+				this.animate = true;
+				this.lineHeight = 0;
+				this.moveDistance = 0;				
 			}
-			this.animate = true;
-			this.lineHeight = 0;
-			this.moveDistance = 0;
 			// this.tipText = "";
 		},
 	}
