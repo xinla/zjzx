@@ -112,7 +112,7 @@
 				<div class="article-icon fr">
 					<div class="item msg-item" @click="handleComment">
 						<i class="iconfont icon-xiaoxi1"></i>
-						<span class="badge">{{commentNum}}</span>
+						<span class="badge" v-show="badgeShow">{{commentNum}}</span>
 					</div>
 					<div class="item">
 						<i class="iconfont" :class="{'icon-not-collection':collectToggle.notcollect,'icon-collected':collectToggle.collected}" @click="handleCollect(id)"></i>
@@ -343,6 +343,7 @@ export default {
 	},
 	data(){
 		return {
+			badgeShow:false,
 			sourceShow:false,
 			reportToggle:true,
 			reportShow:false,
@@ -423,7 +424,7 @@ export default {
 			//文章点赞量
 			likeNum:0,
 			//评论总量
-			commentNum:0,
+			commentNum:999,
 			//点赞状态
 			likeStatus:false,
 			//举报显隐
@@ -575,6 +576,23 @@ export default {
 			articleCommentService.getArticleCommentCount(this.id,(data)=>{
 				if (data.status == "success") {
 					this.commentNum = data.result.count;
+					if(this.commentNum == 0) {
+						this.badgeShow = false;
+					}else{
+						this.badgeShow = true;
+					}
+					// if(this.commentNum >= 1){
+					// 	this.commentNum = 19345;
+					// }
+					let commentStr = String(this.commentNum);
+					let commentLength = commentStr.length;
+					console.log(commentLength);
+					if(commentLength >= 5) {
+						let commentDie = commentStr/10000;
+						let commentResult = (commentDie.toFixed(1)) + 'w';
+						this.commentNum = commentResult;
+						console.log(commentResult);
+					}
 				}			
 			});
 			
@@ -721,6 +739,7 @@ export default {
 		},
 		// 发布评论
 		handleSend(type){
+			this.badgeShow = true;
 			if(!this.popList.desc) {
 				this.popList.show = false;
 				this.popMask = false;
@@ -733,6 +752,7 @@ export default {
 			let userId = localStorage.id;
 			if(this.popList.desc && this.$Tool.checkInput(this.popList.desc)) {
 				if(this.commentType == 1) {
+
 					// 执行发送评论
 					let resArticleComment = articleCommentService.articleComment(this.id,this.popList.desc,userId,this.article.author,1);	
 					if(resArticleComment && resArticleComment.status == "success") {
@@ -824,6 +844,7 @@ export default {
 								if(thiz.commentList.length <= 0) {
 									thiz.proFail2 = true;
 									thiz.ifLoadMore = false;
+									thiz.badgeShow = false;
 								}
 							}else{
 								thiz.replyList.splice(index,1);
@@ -957,7 +978,6 @@ export default {
 
 		// 提交举报
 		handleSendReport(itemid,reportuserid){
-			console.log(this.reportInfo.reportreasion);
 			if(!this.reportInfo.reportreasion){
 				this.reportShow = false;
 				this.popMask = false;
@@ -1443,16 +1463,21 @@ export default {
 			}
 			.msg-item {
 				position: relative;
-				.badge{
+				.iconfont{
 					position: absolute;
-					top: .15rem;
-					right: -.1rem;
-					height: .26rem;
-					line-height: .26rem;
-					padding: 0 .05rem;
-					border-radius: .15rem;
-					font-size: .24rem;
+					left: -.56rem;
+				}
+				.badge{
+					display: inline-block;
+					position: absolute;
+					top: .12rem;
+					left: -.42rem;
+					line-height: .3rem;
+					padding: 0.02rem .1rem;
+					border-radius: .18rem;
+					font-size: .2rem;
 					background-color: @mainColor;
+					transform: scale(.6);
 					color: #fff;
 				}
 			}

@@ -233,7 +233,7 @@
 					city:'',
 					mobile:Number
 				},
-				imgurl:require('@/assets/images/userPhoto.jpg'),
+				imgurl:require('@/assets/images/user_head.jpg'),
 				popList:{
 					show:false,
 					desc:'',

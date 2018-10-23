@@ -126,7 +126,16 @@ export default {
 			// 获取文章评论数量
 			articleCommentService.getArticleCommentCount(this.article.id,data=>{
 				if (data.status == "success") {
-					this.CommentNum = data.result.count;		
+					this.CommentNum = data.result.count;	
+					let commentStr = String(this.CommentNum);
+					let commentLength = commentStr.length;
+					console.log(commentLength);
+					if(commentLength >= 5) {
+						let commentDie = commentStr/10000;
+						let commentResult = (commentDie.toFixed(1)) + 'w+';
+						this.CommentNum = commentResult;
+						console.log(commentResult);
+					}
 				}else{
 					this.CommentNum = 0;
 				}					
