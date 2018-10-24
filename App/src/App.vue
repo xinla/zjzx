@@ -10,7 +10,7 @@
 </template>
 
 <script>
-
+import versionService from "@/service/versionService"
 export default {
   name: 'App',
   data() {
@@ -55,6 +55,22 @@ export default {
             _this.$Tool.goBack();
           }
         },false);
+
+        //版本更新检测
+        plus.runtime.getProperty(plus.runtime.appid, function (inf) {
+          let version = inf.version;
+          versionService.compareVersion(version,data=>{
+            if (data && !data.result.version) {
+              _this.$vux.confirm.show({
+                content:`升级提示`,
+              })
+            }
+          });
+         
+       });
+
+
+
       },false);  
     }catch(err){
 
