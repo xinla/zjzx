@@ -5,12 +5,15 @@
 		</top>
 		<div class="member-msg">
 			<div class="member-msg-header">
-				<div class="member-msg-image" v-for="(item, index) in list" @click="show(index)">
+				<!-- <div class="member-msg-image" v-for="(item, index) in list" @click="show(index)">
 					<img class="previewer-demo-img" :src="item.src">
 				</div>
 				<div v-transfer-dom>
 			      <previewer :list="list" ref="previewer" :options="options"></previewer>
-			    </div>
+			    </div> -->
+			    <div class="member-msg-image">
+					<img :src="userPhoto" preview >
+				</div>
 				<div class="member-msg-modal">
 					<ul class="member-msg-list">
 						<li class="member-msg-item" @click="$Tool.goPage({ name:'release',query:{'title':'发布图文',sort:1}})">
@@ -69,13 +72,9 @@ import config from '@/lib/config/config'
 import articleService from '@/service/articleService'
 import followService from '@/service/followService'
 import userService from '@/service/userService'
-import { Previewer, TransferDom, Tab,TabItem } from 'vux'
+import { Tab,TabItem } from 'vux'
 export default {
-	directives: {
-		TransferDom
-	},
 	components: {
-		Previewer,
 		Tab,
 		TabItem
 	},
@@ -85,19 +84,19 @@ export default {
 			userId:localStorage.id || 0,
 			current:0,
 			currentName:"全部",
-			list:[{
-				src:require('@/assets/images/userPhoto.jpg'),
-			}],
-			options: {
-				getThumbBoundsFn (index) {
-					let thumbnail = document.querySelectorAll('.previewer-demo-img')[index]
-					let pageYScroll = window.pageYOffset || document.documentElement.scrollTop
-					let rect = thumbnail.getBoundingClientRect()
-					return {x: rect.left, y: rect.top + pageYScroll, w: rect.width}
-				}
-			},
+			// list:[{
+			// 	src:require('@/assets/images/user_head.jpg'),
+			// }],
+			// options: {
+			// 	getThumbBoundsFn (index) {
+			// 		let thumbnail = document.querySelectorAll('.previewer-demo-img')[index]
+			// 		let pageYScroll = window.pageYOffset || document.documentElement.scrollTop
+			// 		let rect = thumbnail.getBoundingClientRect()
+			// 		return {x: rect.left, y: rect.top + pageYScroll, w: rect.width}
+			// 	}
+			// },
 			title:'',
-			userPhoto:require('@/assets/images/userPhoto.jpg'),
+			userPhoto:require('@/assets/images/user_head.jpg'),
 			focusNum:0,
 			fansNum:0,
 			publidsedNum:0,
@@ -115,21 +114,21 @@ export default {
 			]
 		}
 	},
-	// mounted(){
-	// 	this.$nextTick(()=>{
-	// 		if(this.list[0].src == ""){
-				
-	// 		}
-	// 	})
-	// },
 	methods:{
 		init(){
 			if (localStorage.id && localStorage.id == this.userId) {
 	    		let userImg = localStorage.userImg;	
 				this.title = localStorage.userName;
-				if( userImg ){
-					this.list[0].src = config.fileRoot + '/' + userImg;
-				}				
+
+				// if( userImg ){
+				// 	this.list[0].src = config.fileRoot + '/' + userImg;
+				// }			
+				 if(userImg == 'undefined') {
+			          this.userPhoto =  require('@/assets/images/user_head.jpg');
+			          return;
+			        }else{
+			        	this.userPhoto = config.fileRoot + '/' + userImg;
+			        }	
 			}else{
 				let res = userService.getUserById(this.userId);
 				if (res && res.status == "success") {

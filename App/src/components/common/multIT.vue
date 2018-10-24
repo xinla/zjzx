@@ -213,7 +213,7 @@ export default {
 				.article-remove{
 					width: .45rem;
 					height: .35rem;
-					line-height: .35rem;
+					line-height: .32rem;
 					margin-top: .125rem;
 					text-align: center;
 					border: .02rem solid @borderColor;

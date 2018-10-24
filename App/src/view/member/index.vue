@@ -98,7 +98,7 @@ export default {
       inviteCode:localStorage.inviteCode || 66,
       userName: '用户名',
       ifLogin: false,
-      userPhoto: require('@/assets/images/userPhoto.jpg'),
+      userPhoto: require('@/assets/images/user_head.jpg'),
       focusNum: 0,
       fansNum: 0,
       dayNight: 'day',
@@ -118,6 +118,9 @@ export default {
         try {
           this.userPhoto = config.fileRoot + '/' + userImg;
         } catch (err) {
+        }
+        if(userImg == 'undefined') {
+          this.userPhoto =  require('@/assets/images/user_head.jpg');
         }
       }
       //获取粉丝数量
@@ -268,14 +271,15 @@ export default {
       width: 1.4rem;
       height: 1.4rem;
       margin-right: .34rem;
-      border-radius: 50%;
       overflow: hidden;
       img {
+        overflow: hidden;
       	display: block;
       	width: 100%;
       	height: 100%;
         border-radius: 50%;
         border: .04rem solid @borderColor;
+
       }
     }
 
