@@ -1,7 +1,7 @@
 import config from '@/lib/config/config'
 import axios from 'axios'
 import commonUtil from '@/service/util/commonUtil'
-const controller =config.successServer+'/getQuestionPage';
+const controller =config.successServer+'/interlocution';
 const service ={}
 
 // 问题发布

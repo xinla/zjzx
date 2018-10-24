@@ -87,5 +87,11 @@ service.readMessage = function(messageid,call){
 	}
 	commonUtil.ajax(controller + "/readMessage",params,call)
 }
-
+//
+service.getMessageCount = function(call){
+	var params = {
+		userid,//:"用户id"
+	}
+	commonUtil.ajax(controller + "/getMessageCount",params,call)
+}
 export default service

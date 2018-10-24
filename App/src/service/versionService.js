@@ -4,7 +4,7 @@ import commonUtil from '@/service/util/commonUtil'
 const controller =config.successServer+'/version';
 const service ={}
 
-// 根据文章id获取附件信息
+// 版本比较
 service.compareVersion = function(historyVersion,call){
 	let params = {
 		historyVersion,//n:"比较的版本",

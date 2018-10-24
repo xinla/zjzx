@@ -11,6 +11,8 @@
 
 <script>
 import versionService from "@/service/versionService"
+import messageService from '@/service/messageService'
+
 export default {
   name: 'App',
   data() {
@@ -25,11 +27,13 @@ export default {
     setTimeout(()=>{
       this.ifLoad = false;
     },3000);
+    //html font-size 
     var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
     document.querySelector('html').setAttribute("data-dpr",1);
     // document.querySelector('meta[name="viewport"]').setAttribute("content","width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no");
     window.addEventListener(resizeEvt, this.subRecalc, false);
     document.addEventListener('DOMContentLoaded', this.subRecalc, false);
+    //监测物理返回键
     try{
       let _this = this;
       document.addEventListener('plusready', function() {
@@ -57,23 +61,58 @@ export default {
         },false);
 
         //版本更新检测
-        plus.runtime.getProperty(plus.runtime.appid, function (inf) {
-          let version = inf.version;
-          versionService.compareVersion(version,data=>{
-            if (data && !data.result.version) {
-              _this.$vux.confirm.show({
-                content:`升级提示`,
-              })
-            }
-          });
-         
-       });
-
-
-
+        //@ifmanual:是否手动更新
+        function appUpdate(ifmanual){
+          plus.runtime.getProperty(plus.runtime.appid, function (info) {
+            let version = info.version;
+            versionService.compareVersion(version,data=>{
+              if (data && data.status == "success") {
+                if (!data.result.version) {
+                  _this.$store.state.newVersion = 1;
+                  _this.$vux.confirm.show({
+                    title:"升级提示",
+                    content:`发现新版本${data.versionnum}`,
+                    onConfirm () {
+                      let dtask = plus.downloader.createDownload(data.newlink, {
+                      }, function (down, status) {
+                          if (status == 200) {
+                              let path = down.filename;//下载apk
+                              plus.runtime.install(path); // 自动安装apk文件
+                              localStorage.ifNewVersion = false;
+                          } else {
+                              _this.$vux.alert.show({
+                                title:'版本更新失败' + status,
+                              });
+                          }
+                      });
+                      dtask.start();
+                    }
+                  });
+                }else if(ifmanual){
+                  _this.$vux.alert.show({
+                    title:'当前已是最新版本',
+                  });
+                }                  
+              }else if(ifmanual){
+                _this.$vux.alert.show({
+                  title:'网络异常，请稍候再试',
+                });
+              }
+            });          
+         });          
+        }
+        appUpdate();
       },false);  
     }catch(err){
 
+    }
+    //获取是否有最新消息
+    if (localStorage.id) {
+      messageService.getMessageCount(data=>{
+        if (data && data.status == "success") {
+          this.$store.state.newMes = data.count;
+        }
+      })
     }
   },
   methods:{

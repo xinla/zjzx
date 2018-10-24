@@ -1,6 +1,6 @@
 <template>
 	<div class="header">
-		<div class="header-logo ac">
+		<div class="header-logo ac" @click="ss()">
 			<img src="@/assets/images/logo.png" alt="直击真相">
 		</div>
 		<div class="header-input" @click="$Tool.goPage({ name:'search' })">
@@ -61,6 +61,9 @@ export default {
 				}
 			});
 		},
+		ss(){
+			this.$store.commit('setNewMes',20);
+		}
 	},
 	watch:{
 		keywords(){

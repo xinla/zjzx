@@ -47,16 +47,36 @@
       </div>
       <div class="member-body">
         <ul class="member-body-list">
+          <!-- <li @click="toPage(1)">
+            <i class="iconfont icon-item" class="icon-my-msg"></i>
+            <div class="member-body-desc">
+              <span>消息通知</span>
+              <i class="iconfont icon-arrow-right arrow-item"></i>
+              <div class="fr">
+              <badge :text="$store.state.newMes" v-if="$store.state.newMes"></badge>              
+              </div>
+            </div>
+          </li> -->
           <router-link class="member-body-item" v-for="item in menuArr" :key="item.id" tag="li" :to="{path:item.path,query:{title:item.desc,current:item.current}}">
             <i class="iconfont icon-item" :class="item.class"></i>
             <div class="member-body-desc">
               <span>{{item.desc}}</span>
               <i class="iconfont icon-arrow-right arrow-item"></i>
               <div class="fr">
-              <badge v-if="item.badge"></badge>              
+              <!-- <badge :text="item.badge" v-if="item.badge"></badge> -->
               </div>
             </div>
           </router-link>
+          <!-- <li @click="toPage(2)">
+            <i class="iconfont icon-item" class="icon-setup"></i>
+            <div class="member-body-desc">
+              <span>系统设置</span>
+              <i class="iconfont icon-arrow-right arrow-item"></i>
+              <div class="fr">
+              <badge :text="$store.state.newVersion" v-if="$store.state.newVersion"></badge>              
+              </div>
+            </div>
+          </li> -->
         </ul>
       </div>
     </div>
@@ -86,12 +106,10 @@ export default {
         { id: 3, desc: '夜间', class: 'icon-yejian' },
       ],
       menuArr: [
-        { id: 1, desc: '消息通知', class: 'icon-my-msg', path: '/topBase/messages',badge:true },
-        { id: 2, desc: '我的关注', class: 'icon-zuji', path: '/personBase/focus' ,current:5},
-        { id: 3, desc: '爱心邀请', class: 'icon-love-k', path: '/topBase/invite' },
-        { id: 4, desc: '爱心榜单', class: 'icon-paihangbang', path: '/topBase/level' },
-        { id: 5, desc: '意见反馈', class: 'icon-dfabu', path: '/topBase/feedback' },
-        { id: 6, desc: '系统设置', class: 'icon-setup', path: '/topBase/set' ,badge:true}
+        { id: 1, desc: '我的关注', class: 'icon-zuji', path: '/personBase/focus' ,current:5},
+        { id: 2, desc: '爱心邀请', class: 'icon-love-k', path: '/topBase/invite' },
+        { id: 3, desc: '爱心榜单', class: 'icon-paihangbang', path: '/topBase/level' },
+        { id: 4, desc: '意见反馈', class: 'icon-dfabu', path: '/topBase/feedback' },
       ],
       loginLink: '/topBase/login',
       userId:localStorage.id,
@@ -176,6 +194,18 @@ export default {
           content:'登录失效,请重新登录！',
         })
       },800)
+    },
+    toPage(type){
+      if (type == 1) {
+        this.$Tool.goPage({name:"messages",query:{title:'消息通知'}});
+        this.$store.state.newMes = 0;
+        return;
+      }
+      if (type == 2) {
+        this.$Tool.goPage({name:"set",query:{title:'系统设置'}});
+        this.$store.state.newVersion = 0;
+        return;
+      }
     }
   },
   // watch:{

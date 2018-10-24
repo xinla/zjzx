@@ -1,4 +1,4 @@
-<!-- 首页新闻页面 -->
+<!-- 首页问答页面 -->
 <template>
 	<div>
 		<template v-show="!ifDetail">
@@ -29,9 +29,9 @@
 					        <swiper-item>
 					          	<listQuestion :show="0 == classifyIndex"></listQuestion>
 					        </swiper-item>
-					         <swiper-item v-for="(item,index) in classifyList" :key="index">
+					         <!-- <swiper-item v-for="(item,index) in classifyList" :key="index">
 					          	<listQuestion :classify="item.classifycode" :show="item.classifycode == classifyIndex"></listQuestion>
-					        </swiper-item>
+					        </swiper-item> -->
 				      	</swiper>
 					</div>
 				</div>
@@ -46,7 +46,7 @@ import homeHeader from '@/components/headerBar'
 import homeMore from'@/components/more'
 import listQuestion from '@/components/listQuestion'
 
-import homeService from '@/service/homeService'
+// import homeService from '@/service/homeService'
 import articleService from '@/service/articleService'
 import articleClassifyService from '@/service/article_classifyService'
 

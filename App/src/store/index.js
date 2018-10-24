@@ -11,7 +11,8 @@ function State(){
   this.userName = null;
   this.usetImg = "";
   this.userMobile = null;
-  this.swiperThreshold = 0;
+  this.newMes = 0;
+  this.newVersion = 0; //0 已最新 1有更新
 }
 // let state = {
 //   token:window.localStorage.getItem('token'),
@@ -55,8 +56,10 @@ const mutations = {
   },
   setSwiperThreshold(state,data){
     state.swiperThreshold = data;
+  },
+  setNewMes(state,data){
+    state.newMes =data; 
   }
-
 }
 //创建驱动action可以使得mutations得
 const actions = {

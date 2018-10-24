@@ -50,7 +50,7 @@ export default {
 				if(this.classify == 0){
 					resQuestionPage = interlocutionService.getQuestionPage(this.page,15);
 				}else{
-					resQuestionPage = interlocutionService.getQuestionPage(this.page,15,this.classify);
+					// resQuestionPage = interlocutionService.getQuestionPage(this.page,15,this.classify);
 				}
 				if (resQuestionPage && resQuestionPage.status == "success") {
 					this.arcList = resQuestionPage.recordPage.list;	
