@@ -370,7 +370,7 @@ export default {
 			ifLoad:true,
 			ifLoadMore:false,
 			userId:localStorage.id,
-			id:Number,//文章id =>article.id
+			id:0,//文章id =>article.id
 			detailType:0,
 			imgurl:require('@/assets/images/userPhoto.jpg'),
 			fileRoot:config.fileRoot+'/',
@@ -501,6 +501,7 @@ export default {
 	methods:{
 		// 页面加载后渲染函数
 		init(){
+			// debugger;
 			if (!this.id) {
 				this.$vux.alert.show({
 					  content: '获取出错，请返回！',
@@ -515,6 +516,7 @@ export default {
 			// }
 			//获取文章信息
 			let resArticleDetail = articleService.getArticleById(this.id);
+
 			if (resArticleDetail&&resArticleDetail.status == "success") {
 				this.article = resArticleDetail.record;
 				if(this.article.sourceurl == null) {
