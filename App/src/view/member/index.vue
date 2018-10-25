@@ -47,8 +47,8 @@
       </div>
       <div class="member-body">
         <ul class="member-body-list">
-          <!-- <li @click="toPage(1)">
-            <i class="iconfont icon-item" class="icon-my-msg"></i>
+          <li class="member-body-item" @click="toPage(1)">
+            <i class="iconfont icon-item icon-my-msg"></i>
             <div class="member-body-desc">
               <span>消息通知</span>
               <i class="iconfont icon-arrow-right arrow-item"></i>
@@ -56,7 +56,7 @@
               <badge :text="$store.state.newMes" v-if="$store.state.newMes"></badge>              
               </div>
             </div>
-          </li> -->
+          </li>
           <router-link class="member-body-item" v-for="item in menuArr" :key="item.id" tag="li" :to="{path:item.path,query:{title:item.desc,current:item.current}}">
             <i class="iconfont icon-item" :class="item.class"></i>
             <div class="member-body-desc">
@@ -67,8 +67,8 @@
               </div>
             </div>
           </router-link>
-          <!-- <li @click="toPage(2)">
-            <i class="iconfont icon-item" class="icon-setup"></i>
+          <li class="member-body-item" @click="toPage(2)">
+            <i class="iconfont icon-item icon-setup"></i>
             <div class="member-body-desc">
               <span>系统设置</span>
               <i class="iconfont icon-arrow-right arrow-item"></i>
@@ -76,7 +76,7 @@
               <badge :text="$store.state.newVersion" v-if="$store.state.newVersion"></badge>              
               </div>
             </div>
-          </li> -->
+          </li>
         </ul>
       </div>
     </div>

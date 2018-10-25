@@ -67,18 +67,18 @@ export default {
             let version = info.version;
             versionService.compareVersion(version,data=>{
               if (data && data.status == "success") {
-                if (!data.result.version) {
+                if (!data.result.version.isnew) {
                   _this.$store.state.newVersion = 1;
                   _this.$vux.confirm.show({
                     title:"升级提示",
-                    content:`发现新版本${data.versionnum}`,
+                    content:"发现新版本" + data.result.version.versionnum,
                     onConfirm () {
-                      let dtask = plus.downloader.createDownload(data.newlink, {
+                      let dtask = plus.downloader.createDownload(data.result.version.newlink, {
                       }, function (down, status) {
                           if (status == 200) {
                               let path = down.filename;//下载apk
                               plus.runtime.install(path); // 自动安装apk文件
-                              localStorage.ifNewVersion = false;
+                              _this.$store.state.newVersion = 0;
                           } else {
                               _this.$vux.alert.show({
                                 title:'版本更新失败' + status,
@@ -103,7 +103,7 @@ export default {
         }
         appUpdate();
       },false);  
-    }catch(err){
+    }catch(e){
 
     }
     //获取是否有最新消息
