@@ -160,8 +160,8 @@ export default {
 
 	},
 	mounted(){
-		this.replyCommentId = this.$route.query.id;
-		this.init();
+		// this.replyCommentId = this.$route.query.id;
+		// this.init();
 	},
 	methods:{
 		init(){

@@ -8,16 +8,18 @@
 			<section class="content-wrap" v-if="!proFail1">
 				<h1 class="article-title">{{ article.title }}</h1>
 				<div class="publisher bfc-o clearfix">
-					<img :src="artUser.imageurl?(fileRoot+artUser.imageurl):imgurl" alt="" class="uphoto uphoto-big fl">
-					<div class="article-time-name fl">
-						<div class="uname">
-							{{ artUser.username}}
+					<router-link :to="{name:'published',query:{userId:article.author}}">
+						<img :src="artUser.imageurl?(fileRoot+artUser.imageurl):imgurl" alt="" class="uphoto uphoto-big fl">
+						<div class="article-time-name fl">
+							<div class="uname">
+								{{ artUser.username}}
+							</div>
+							<div class="ts utime">
+								<time v-text="$Tool.publishTimeFormat(article.publishtime)"></time>
+								<!-- <span>{{ article.classify }}</span> -->
+							</div>
 						</div>
-						<div class="ts utime">
-							<time v-text="$Tool.publishTimeFormat(article.publishtime)"></time>
-							<!-- <span>{{ article.classify }}</span> -->
-						</div>
-					</div>
+					</router-link>
 					<button type="button" class="focus bfc-p fr" v-if="userId != article.author" @click="handleFocus(article.author,1)">{{focusState?'已关注':'关注'}}</button>
 				</div>
 				<div class="content">
@@ -510,6 +512,7 @@ export default {
 			}catch(err){
 
 			}
+			debugger
 			this.init();
 		})
 		
@@ -517,6 +520,8 @@ export default {
 	methods:{
 		// 页面加载后渲染函数
 		init(){
+			debugger
+
 			if (!this.id) {
 				this.$vux.alert.show({
 					  content: '获取出错，请返回！',
@@ -1195,6 +1200,8 @@ export default {
 	},
 	watch:{
 		id(){
+			console.log(this.id)
+			debugger
 			this.init();
 		}
 	},

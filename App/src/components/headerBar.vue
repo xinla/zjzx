@@ -1,6 +1,6 @@
 <template>
 	<div class="header">
-		<div class="header-logo ac" @click="ss()">
+		<div class="header-logo ac">
 			<img src="@/assets/images/logo.png" alt="直击真相">
 		</div>
 		<div class="header-input" @click="$Tool.goPage({ name:'search' })">
@@ -42,7 +42,7 @@ export default {
 			maskShow:false
 		}
 	},
-	created(){
+	mounted(){
 		this.getHotKeywords();
 	},
 	methods:{
@@ -61,9 +61,6 @@ export default {
 				}
 			});
 		},
-		ss(){
-			this.$store.commit('setNewMes',20);
-		}
 	},
 	watch:{
 		keywords(){

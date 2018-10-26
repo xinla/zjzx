@@ -108,7 +108,7 @@ export default {
 			}
 		},
 		loadMore(e){
-			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
+			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) >= e.target.scrollHeight) {
 				this.getMore();
 			}
 			this.scrollTop = $(e.target).scrollTop();
@@ -126,11 +126,11 @@ export default {
 <style rel="stylesheet" scoped>
 	.main-content{
 		position: relative;
-		height: calc(100vh - .63rem);
+		height: calc(100vh - 2.7rem);
 		overflow: hidden;
 		overflow-y: auto;
-		// padding: 0 .3rem;
-		// padding-bottom: .3rem;
+		/*// padding: 0 .3rem;
+		// padding-bottom: .3rem;*/
 	}
 	.refresh{
 		background: #fafafa;

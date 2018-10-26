@@ -197,13 +197,13 @@ export default {
     },
     toPage(type){
       if (type == 1) {
+        this.$store.dispatch("setNewMes",0);
         this.$Tool.goPage({name:"messages",query:{title:'消息通知'}});
-        this.$store.state.newMes = 0;
         return;
       }
       if (type == 2) {
+        this.$store.dispatch("setNewVersion",0);
         this.$Tool.goPage({name:"set",query:{title:'系统设置'}});
-        this.$store.state.newVersion = 0;
         return;
       }
     }

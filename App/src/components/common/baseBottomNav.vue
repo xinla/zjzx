@@ -25,7 +25,7 @@
 			<div class="footer-item">
 				<router-link :to="{path:'/member'}" exact>				
 					<i class="iconfont icon-wode footer-icon">
-						<badge :text="newMes" class=bfc-p v-if="newMes"></badge>
+						<badge :text="newMes" class="bfc-p" v-if="newMes"></badge>
 					</i>
 					<span class="footer-text">我的</span>
 				</router-link>
@@ -35,6 +35,11 @@
 </template>
 <script>
 export default{
+	// data(){
+	// 	return{
+	// 		newMes:''
+	// 	}
+	// }
 	computed:{
 		newMes(){
 			return this.$store.state.newMes || this.$store.state.newVersion;

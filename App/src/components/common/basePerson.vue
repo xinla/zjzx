@@ -163,11 +163,11 @@ export default {
 			 this.$refs.previewer.show(index);
 		},
 	},
-	// watch:{
-	// 	current(){
-	// 		this.init();
-	// 	}
-	// },
+	watch:{
+		userId(){
+			this.init();
+		}
+	},
 	beforeRouteEnter (to, from, next) {
     	if (!GoTruth.$route.query.userId && !localStorage.id) { 
             GoTruth.$vux.alert.show({
@@ -181,7 +181,7 @@ export default {
 	    		vm.userId = localStorage.id;
 	    	}
 			vm.current = vm.$route.query.current || vm.current;	    		
-	      	vm.init();
+	      	// vm.init();
 		});
 	},
 }

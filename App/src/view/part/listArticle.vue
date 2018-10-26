@@ -28,7 +28,9 @@ export default {
 	},
 	mounted () {
 		this.$nextTick(()=>{
-			this.init();			
+			if (!this.classify) {
+				this.init_();				
+			}
 		})
 	},
 	data(){
@@ -43,7 +45,7 @@ export default {
 		}
 	},
 	methods:{
-		init(){
+		init_(){
 			let resArticlePage;
 			try{
 				if(this.classify == 0){
@@ -107,7 +109,7 @@ export default {
 			}
 		},
 		loadMore(e){
-			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) > e.target.scrollHeight-350) {
+			if (!this.lock && ($(e.target).scrollTop() + $(e.target).height()) >= e.target.scrollHeight) {
 				this.getMore();
 			}
 			this.scrollTop = $(e.target).scrollTop();
@@ -117,6 +119,11 @@ export default {
 	watch:{
 		$route(){
 			$(".main-content").eq(this.classify).scrollTop(this.scrollTop);
+		},
+		show(){
+			if (this.show) {
+				this.init_();				
+			}
 		}
 	}
 }
@@ -125,7 +132,7 @@ export default {
 <style rel="stylesheet" scoped>
 	.main-content{
 		position: relative;
-		height: calc(100vh - .63rem);
+		height: calc(100vh - 2.7rem);
 		overflow: hidden;
 		overflow-y: auto;
 		// padding: 0 .3rem;

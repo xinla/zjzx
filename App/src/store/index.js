@@ -13,6 +13,7 @@ function State(){
   this.userMobile = null;
   this.newMes = 0;
   this.newVersion = 0; //0 已最新 1有更新
+  this.currentVersion = null;
 }
 // let state = {
 //   token:window.localStorage.getItem('token'),
@@ -58,8 +59,14 @@ const mutations = {
     state.swiperThreshold = data;
   },
   setNewMes(state,data){
-    state.newMes =data; 
-  }
+    state.newMes = data; 
+  },
+  setNewVersion(state,data){
+    state.newVersion = data; 
+  },
+  setCurrentVersion(state,data){
+    state.currentVersion = data; 
+  },
 }
 //创建驱动action可以使得mutations得
 const actions = {
@@ -83,7 +90,16 @@ const actions = {
   },
   userMobile({commit},data) {
     commit("USERMOBILE",data);
-  }
+  },
+  setNewMes({commit},data) {
+    commit("setNewMes",data);
+  },
+  setNewVersion({commit},data) {
+    commit("setNewVersion",data);
+  },
+  setCurrentVersion({commit},data) {
+    commit("setCurrentVersion",data);
+  },
 }
 
 const getters = {

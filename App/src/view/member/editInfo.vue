@@ -266,11 +266,12 @@
 				let data = userService.getCurentUser();
 				if(data&&data.status == 'success') {
 					this.user = data.result.user;
-					localStorage.userData = JSON.stringify(data.result.user);
+					// localStorage.userData = JSON.stringify(data.result.user);
 				}
 				//判断用户头像
-				if(this.$data.user.imageurl != null) {
+				if(this.user.imageurl != null) {
 					this.imgurl = config.fileRoot +'/'+ this.user.imageurl;
+					this.$store.dispatch('userImg',this.user.imageurl);
 				}
 				//个人介绍
 				if(this.$data.user.introduce == null) {

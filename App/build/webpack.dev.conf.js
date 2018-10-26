@@ -92,4 +92,7 @@ module.exports = new Promise((resolve, reject) => {
       resolve(devWebpackConfig)
     }
   })
+  entry: { 
+    app: ["babel-polyfill", "./src/main.js"] 
+  },
 })

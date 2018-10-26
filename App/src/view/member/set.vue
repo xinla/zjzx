@@ -79,7 +79,7 @@
 					<label class="system-tit fl">检查版本</label>
 					<div class="system-wrap fr clearfix">
 						<i class="iconfont icon-arrow-right fr"></i>
-						<span class="system-desc fr" style="color: #66b3ff; font-weight: bold;">V.1.0.0.1closeBate</span>
+						<span class="system-desc fr" style="color: #66b3ff; font-weight: bold;">{{$store.state.currentVersion}}</span>
 					</div>
 				</li>
 				<router-link class="system-item clearfix" :to="{path:'about',query:{title:'关于我们'}}" tag="li">
@@ -127,7 +127,6 @@ export default{
 				this.notlogin = false;
 				this.logined = true;
 			}
-			console.log(data);
 
 		});
 	},
@@ -161,9 +160,9 @@ export default{
 				}				
 			}
 		},
-		_appUpdate(){
+		appUpdate(){
 			this.$vux.loading.show({
-			 text: '正在检查更新...',
+			 text: '正在检查更新',
 			})
 			let _this = this;
 			try{
@@ -172,25 +171,33 @@ export default{
 	            versionService.compareVersion(version,data=>{
 	            	_this.$vux.loading.hide();
 	              if (data && data.status == "success") {
-	                if (!data.result.version.isnew) {
-	                  // _this.$store.state.newVersion = 1;
+	                if (data.result.isnew == 0) {
+	                  _this.$store.dispatch("setNewVersion",1);
 	                  _this.$vux.confirm.show({
 	                    title:"升级提示",
-	                    content:`发现新版本${data.result.version.versionnum}`,
-	                    onConfirm () {
-	                      let dtask = plus.downloader.createDownload(data.result.version.newlink, {
+	                    content:`发现新版本${data.result.versionnum}`,
+	                    onConfirm () {                    	
+	                      setTimeout(()=>{
+		                      _this.$vux.toast.show({
+		                        type:"text",
+		                        position:"middle",
+		                        text:"开始为您拼命下载...",
+		                        width:"auto",
+		                      },1000);       
+		                    })
+	                      dtask.start();
+	                      let dtask = plus.downloader.createDownload(data.result.newlink, {
 	                      }, function (down, status) {
 	                          if (status == 200) {
-	                              let path = down.filename;//下载apk
-	                              plus.runtime.install(path); // 自动安装apk文件
-				                  // _this.$store.state.newVersion = 0;
+                                let path = down.filename;//下载apk
+                                plus.runtime.install(path); // 自动安装apk文件
+	                            // _this.$store.dispatch("setNewVersion",0);
 	                          } else {
 	                              _this.$vux.alert.show({
 	                                title:'版本更新失败' + status,
 	                              });
 	                          }
 	                      });
-	                      dtask.start();
 	                    }
 	                  });
 	                }else {
@@ -210,14 +217,9 @@ export default{
               	_this.$vux.loading.hide();
               	_this.$vux.alert.show({
                   title:'手机配置太低，请稍候再试',
-                });			
+                });	
 			}
 		},
-		appUpdate(){
-			versionService.compareVersion("V.1.0.0.1closeBate",data=>{
-				console.log(data)
-			})
-		}
 	}
 	
 }
