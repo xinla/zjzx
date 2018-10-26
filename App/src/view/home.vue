@@ -285,16 +285,21 @@ import articleClassifyService from '@/service/article_classifyService'
       	padding-top: .76rem !important;
 	}
 	.vux-tab .vux-tab-item{
+    color: #000 !important;
 		line-height: .76rem !important;
+    font-size: .28rem !important;
 	}
 	.vux-tab-container{
 		height: .76rem !important;
 	}
+  .vux-tab .vux-tab-item.vux-tab-selected{
+    color: rgb(252, 55, 140) !important;
+  }
 	.vux-tab{
 		height: .76rem !important;
 	}
 	.vux-tab .vux-tab-item{
-		font-size: 16px !important;
+		font-size: 17 px !important;
 		font-weight: 500;
 		flex: 0 0 18% !important;
 	}

@@ -89,6 +89,7 @@ service.readMessage = function(messageid,call){
 }
 //
 service.getMessageCount = function(call){
+  // debugger;
 	var params = {
 		userid,//:"用户id"
 	}

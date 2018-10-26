@@ -24,25 +24,26 @@ export default {
   	}
   },
   mounted(){
-    setTimeout(()=>{
-      this.ifLoad = false;
-    },3000);
-    //html font-size 
-    var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
-    document.querySelector('html').setAttribute("data-dpr",1);
-    // document.querySelector('meta[name="viewport"]').setAttribute("content","width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no");
-    window.addEventListener(resizeEvt, this.subRecalc, false);
-    document.addEventListener('DOMContentLoaded', this.subRecalc, false);
-    //监测物理返回键
-    try{
-      let _this = this;
-      document.addEventListener('plusready', function() {
-        plus.key.addEventListener('backbutton', function() {
-          if (_this.mainRoute.includes(_this.$route.name)) {
-            _this.$Tool.goPage({name:"home",replace:true,});
-          }else if(_this.$route.name == "home") {
-            //首次按键，提示‘再按一次退出应用’
-            if (!_this.first) {
+    this.$nextTick(()=>{
+      setTimeout(()=>{
+        this.ifLoad = false;
+      },3000);
+      //html font-size
+      var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+      document.querySelector('html').setAttribute("data-dpr",1);
+      // document.querySelector('meta[name="viewport"]').setAttribute("content","width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no");
+      window.addEventListener(resizeEvt, this.subRecalc, false);
+      document.addEventListener('DOMContentLoaded', this.subRecalc, false);
+      //监测物理返回键
+      try{
+        let _this = this;
+        document.addEventListener('plusready', function() {
+          plus.key.addEventListener('backbutton', function() {
+            if (_this.mainRoute.includes(_this.$route.name)) {
+              _this.$Tool.goPage({name:"home",replace:true,});
+            }else if(_this.$route.name == "home") {
+              //首次按键，提示‘再按一次退出应用’
+              if (!_this.first) {
                 _this.first = new Date().getTime();
                 _this.$vux.toast.show({
                   type:"text",
@@ -50,70 +51,73 @@ export default {
                   width:"auto",
                 });
                 setTimeout(() => {
-                    _this.first = null;
+                  _this.first = null;
                 }, 1000);
-            } else if (new Date().getTime() - _this.first < 1500) {
+              } else if (new Date().getTime() - _this.first < 1500) {
                 plus.runtime.quit();
+              }
+            }else{
+              _this.$Tool.goBack();
             }
-          }else{
-            _this.$Tool.goBack();
-          }
-        },false);
+          },false);
 
-        //版本更新检测
-        //@ifmanual:是否手动更新
-        function appUpdate(ifmanual){
-          plus.runtime.getProperty(plus.runtime.appid, function (info) {
-            let version = info.version;
-            versionService.compareVersion(version,data=>{
-              if (data && data.status == "success") {
-                if (!data.result.version.isnew) {
-                  _this.$store.state.newVersion = 1;
-                  _this.$vux.confirm.show({
-                    title:"升级提示",
-                    content:"发现新版本" + data.result.version.versionnum,
-                    onConfirm () {
-                      let dtask = plus.downloader.createDownload(data.result.version.newlink, {
-                      }, function (down, status) {
+          //版本更新检测
+          //@ifmanual:是否手动更新
+          function appUpdate(ifmanual){
+            plus.runtime.getProperty(plus.runtime.appid, function (info) {
+              let version = info.version;
+              versionService.compareVersion(version,data=>{
+                if (data && data.status == "success") {
+                  if (!data.result.version.isnew) {
+                    _this.$store.state.newVersion = 1;
+                    _this.$vux.confirm.show({
+                      title:"升级提示",
+                      content:"发现新版本" + data.result.version.versionnum,
+                      onConfirm () {
+                        let dtask = plus.downloader.createDownload(data.result.version.newlink, {
+                        }, function (down, status) {
                           if (status == 200) {
-                              let path = down.filename;//下载apk
-                              plus.runtime.install(path); // 自动安装apk文件
-                              _this.$store.state.newVersion = 0;
+                            let path = down.filename;//下载apk
+                            plus.runtime.install(path); // 自动安装apk文件
+                            _this.$store.state.newVersion = 0;
                           } else {
-                              _this.$vux.alert.show({
-                                title:'版本更新失败' + status,
-                              });
+                            _this.$vux.alert.show({
+                              title:'版本更新失败' + status,
+                            });
                           }
-                      });
-                      dtask.start();
-                    }
-                  });
+                        });
+                        dtask.start();
+                      }
+                    });
+                  }else if(ifmanual){
+                    _this.$vux.alert.show({
+                      title:'当前已是最新版本',
+                    });
+                  }
                 }else if(ifmanual){
                   _this.$vux.alert.show({
-                    title:'当前已是最新版本',
+                    title:'网络异常，请稍候再试',
                   });
-                }                  
-              }else if(ifmanual){
-                _this.$vux.alert.show({
-                  title:'网络异常，请稍候再试',
-                });
-              }
-            });          
-         });          
-        }
-        appUpdate();
-      },false);  
-    }catch(e){
+                }
+              });
+            });
+          }
+          appUpdate();
+        },false);
+      }catch(e){
 
-    }
-    //获取是否有最新消息
-    if (localStorage.id) {
-      messageService.getMessageCount(data=>{
-        if (data && data.status == "success") {
-          this.$store.state.newMes = data.count;
-        }
-      })
-    }
+      }
+      // 获取是否有最新消息
+      if(localStorage.id) {
+        messageService.getMessageCount((data) =>{
+          if(data && data.status == "success") {
+            this.$store.state.newMes = data.count;
+          }
+        });
+      }
+
+    })
+
   },
   methods:{
     subRecalc(){

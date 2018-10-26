@@ -21,7 +21,9 @@
 					<button type="button" class="focus bfc-p fr" v-if="userId != article.author" @click="handleFocus(article.author,1)">{{focusState?'已关注':'关注'}}</button>
 				</div>
 				<div class="content">
-					<div class="article-content" v-html="article.content"></div>
+					<div class="article-content">
+            <p v-html="article.content"></p>
+          </div>
 					<div class="phone-content clearfix">
 						<div v-if="1 == article.type" v-for="(item,index) in ArticleFile" class="phone-img fl">
 							<img  :src="fileRoot + item.url" :alt="item.filename">							
@@ -1215,8 +1217,9 @@ export default {
 		background-color: #fff;
 		.content-wrap{
 			.article-title{
-				padding: .2rem 0;
-				font-size: .32rem;
+        padding-top: .4rem;
+        padding-bottom: .2rem;
+				font-size: .42rem;
 				line-height: .58rem;
 				letter-spacing: .02rem;
 				overflow: hidden;
@@ -1273,7 +1276,7 @@ export default {
 					padding-bottom: .4rem;
 					line-height: .5rem;
 					p{
-						background: yellow;
+            font-size: .34rem;
 						line-height: .5rem !important;
 						margin-bottom: .3rem !important;
 					}
