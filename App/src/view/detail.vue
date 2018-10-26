@@ -54,8 +54,8 @@
 			</ul>	
 
 			<ul class="article-menu" v-else>
-				<li :class="{current:current == 1}" @click="handleSwitch(1)">转发</li>
-				<li :class="{current:current == 2}" @click="handleSwitch(2)">评论</li>
+				<li :class="{current:current == 1}" @click="handleSwitch(1)">评论</li>
+				<li :class="{current:current == 2}" @click="handleSwitch(2)">转发</li>
 				<li :class="{current:current == 3}" @click="handleSwitch(3)">点赞</li>
 			</ul>
 
@@ -151,25 +151,25 @@
 			<popup v-model="shareShow" style="z-index: 999;">
 				<div class="share-wrap">
 					<ul class="share-list">
-						<li>
+						<li @click="handleGiveShare(1)">
 							<div class="share-img">
 								<img src="@/assets/images/icon-wechat.png" alt="">
 							</div>
 							<span class="share-desc">微信好友</span>
 						</li>
-						<li>
+						<li  @click="handleGiveShare(2)">
 							<div class="share-img">
 								<img src="@/assets/images/icon-friend.png" alt="">
 							</div>
 							<span class="share-desc">微信朋友圈</span>
 						</li>
-						<li>
+						<li  @click="handleGiveShare(3)">
 							<div class="share-img">
 								<img src="@/assets/images/icon-qq.png" alt="">
 							</div>
 							<span class="share-desc">手机QQ</span>
 						</li>
-						<li>
+						<li  @click="handleGiveShare(4)">
 							<div class="share-img">
 								<img src="@/assets/images/icon-weibo.png" alt="">
 							</div>
@@ -490,22 +490,35 @@ export default {
 			ifSwitchB:true,
 			//当前
 			current:1,
-			replyobj:{}
+			replyobj:{},
+			shareDesc:{
+				href:'',
+				title:'',
+				content:'',
+				thumbs:[]
+			}
 		}
 	},
 	mounted(){
-		this.id = this.$route.query.id;
-		this.detailType = this.$route.query.detailType || 0;
-		this.init();
+		this.$nextTick(()=>{
+			this.id = this.$route.query.id;
+			this.detailType = this.$route.query.detailType || 0;
+			try{
+				document.addEventListener('plusready',this.plusReady,false);
+			}catch(err){
+
+			}
+			this.init();
+		})
+		
 	},	
 	methods:{
 		// 页面加载后渲染函数
 		init(){
-			// debugger;
 			if (!this.id) {
 				this.$vux.alert.show({
 					  content: '获取出错，请返回！',
-					})
+					});
 				this.$Tool.goBack();
 				return;
 			}
@@ -906,6 +919,54 @@ export default {
 			if(this.replyShow){
 				this.popMask = true;
 			}
+
+			this.shareDesc = {
+				href:config.domain + location.href.substring(location.href.indexOf('/',10)),
+				title: this.article.title,
+				content: this.article.content.substring(0,100)
+			};
+			if(this.ArticleFile.length) {
+				this.shareDesc['thumbs'] = [this.fileRoot + this.ArticleFile[0]['url']];
+			}else{
+				this.shareDesc['thumbs'] = [this.fileRoot + this.playerOptions.poster];
+			}
+
+		}, 
+
+		//分享到第三方
+		handleGiveShare(type){
+			this.shareDesc = {
+				href:config.domain + location.href.substring(location.href.indexOf('/',10)),
+				title: this.article.title,
+				content: this.article.content.substring(0,100)
+			};
+			if(this.ArticleFile.length) {
+				this.shareDesc['thumbs'] = [this.fileRoot + this.ArticleFile[0]['url']];
+			}else{
+				this.shareDesc['thumbs'] = [this.fileRoot + this.playerOptions.poster];
+			}
+			if(type == 1) {
+				shareService.shareToWxHy(this.shareDesc,(data)=>{
+					console.log(this.shareDesc);
+
+				})
+			}
+			else if(type == 2) {
+				shareService.shareToWxPyq(this.shareDesc,(data)=>{
+					console.log(this.shareDesc);
+				})
+			}
+			else if(type == 3) {
+				shareService.shareToWxPyq(this.shareDesc,(data)=>{
+					console.log(this.shareDesc);
+				})
+			}
+			else{
+				shareService.shareToXl(this.shareDesc,data=>{
+					console.log(this.shareDesc);
+				})
+			}
+
 		},
 		//关闭分享弹框
 		handleCancelShare(){
@@ -1024,6 +1085,11 @@ export default {
 				}
 				return;
 			}
+		},
+
+		//调取分享plus
+		plusReady(){
+			shareService.init();
 		},
 
 		/*----------------加载-函数---------------------*/
