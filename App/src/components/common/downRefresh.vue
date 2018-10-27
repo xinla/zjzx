@@ -31,6 +31,7 @@ export default {
 		  this.$el.addEventListener('touchend', this._touchEnd);   
 		},
 		_touchStart(e){
+			// this.$store.dispatch("setForbidSwiper",false);
 			let touch = e.changedTouches[0];
 	        this.startX = touch.clientX;
 	        this.startY = touch.clientY;
@@ -65,7 +66,9 @@ export default {
 				}
 			}
 		},
-		_touchEnd(e){        
+		_touchEnd(e){       
+			// this.$store.dispatch("setForbidSwiper",true);
+
 			//解除禁止页面滚动
 			this.$el.style.overflow = "auto";
 			if (this.$el.scrollTop > 0) { return;}

@@ -121,9 +121,7 @@ export default {
 			$(".main-content").eq(this.classify).scrollTop(this.scrollTop);
 		},
 		show(){
-			if (this.show) {
-				this.init_();				
-			}
+			this.init_();				
 		}
 	}
 }
