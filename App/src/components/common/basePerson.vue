@@ -12,7 +12,7 @@
 			      <previewer :list="list" ref="previewer" :options="options"></previewer>
 			    </div> -->
 			    <div class="member-msg-image">
-					<img :src="userPhoto" preview >
+					<img :src="userPhoto" >
 				</div>
 				<div class="member-msg-modal">
 					<ul class="member-msg-list">
@@ -48,7 +48,7 @@
 				</router-link> -->
 			</ul>
 			<tab bar-active-color="#d60139" active-color="#d60139" :line-width="2" v-model="current">
-		      <tab-item v-for="(item, index) in switchListPublic" :key="item.id">
+		      <tab-item v-for="(item, index) in switchListPublic" :key="item.id+1">
 		      	<router-link :to="{path:item.path,query:{userId,}}" replace>
 		      		{{item.desc}}
 				</router-link>

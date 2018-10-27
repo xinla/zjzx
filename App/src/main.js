@@ -42,6 +42,10 @@ Vue.prototype.$http = axios
 // import 'vue-photo-preview/dist/skin.css'
 // Vue.use(preview);
 
+import vuePicturePreview from 'vue-picture-preview'
+Vue.use(vuePicturePreview)
+
+
 //Loading插件
 import {Loading,LoadText} from '@/plugins/loading'
 Vue.use(Loading);

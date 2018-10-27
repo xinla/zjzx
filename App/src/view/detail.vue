@@ -24,11 +24,12 @@
 				</div>
 				<div class="content">
 					<div class="article-content">
-            <p v-html="article.content"></p>
-          </div>
+		            <p v-html="article.content"></p>
+		          </div>
 					<div class="phone-content clearfix">
-						<div v-if="1 == article.type" v-for="(item,index) in ArticleFile" class="phone-img fl">
-							<img  :src="fileRoot + item.url" :alt="item.filename">							
+						<div v-if="1 == article.type"  class="phone-img fl">
+							<!-- <img  :src="fileRoot + item.url" :alt="item.filename">							 -->
+							<img v-for="(item,index) in ArticleFile"  :src="fileRoot + item.url" :alt="item.filename">							
 						</div>
 						<div v-else-if="2 == article.type">
 							<video-player class="video-player vjs-custom-skin" 
@@ -36,6 +37,7 @@
 							 	:playsinline="true"
 							  	:options="playerOptions">							  	
 							</video-player>	
+							<!-- :src="fileRoot + ArticleFile[0].url"			 -->
 						</div>
 					</div>
 					<a :href="article.sourceurl" class="see-text" v-if="sourceShow">查看原文</a>
@@ -466,7 +468,7 @@ export default {
 				sources: [
 					{
 						type: "video/mp4",
-						src: "http://www.w3cschool.cc/try/demo_source/mov_bbb.mp4" //url地址
+						src: "" //url地址
 					}
 				],
 				poster: "", //你的封面地址
@@ -1872,6 +1874,14 @@ export default {
 		transition: opacity 400ms
 
 	}
+	.video-js .vjs-big-play-button{
+		width: 2em;
+		height: 2em !important;
+	    font-size: 2.8em;
+		border-radius: 50%;
+		margin: 0 !important;
+		transform: translate(-50%,-50%);
+	}
 </style>
 
 <style scoped>
@@ -1890,4 +1900,5 @@ export default {
 	.vux-popup-show{
 		/*z-index: 999 !important;*/
 	}
+
 </style>	

@@ -71,11 +71,11 @@ export default {
 		},
 		doRefresh(){
 			this.page = 1;
-			this.init();
+			this.init_();
 			if (this.ifNew) {
 				this.$vux.toast.show({
 					type:"text",
-					text:"已经是最新啦，</br>不妨看看我隔壁的吧~",
+					text:"已加载全部内容",
 					width:"50%",
 				});				
 			}
