@@ -61,14 +61,17 @@ export default{
 			float: left;
 			width: 25%;
 			height: .88rem;
-			padding: .12rem 0;
-			color: #999;
+      color: #666;
 			.footer-icon {
+        padding-top: .08rem;
 				display: block;
 				font-size: .4rem;
 			}
 			.footer-text{
-				font-size: .2rem;
+        display: block;
+        margin-top: .05rem;
+				font-size: .24rem;
+
 			}
 		}
 		.footer-item a.router-link-active,.current{

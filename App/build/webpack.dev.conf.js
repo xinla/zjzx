@@ -94,5 +94,5 @@ module.exports = new Promise((resolve, reject) => {
   })
   entry: { 
     app: ["babel-polyfill", "./src/main.js"] 
-  },
+  }
 })

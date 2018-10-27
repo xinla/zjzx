@@ -512,7 +512,7 @@ export default {
 			}catch(err){
 
 			}
-			debugger
+			// debugger
 			this.init();
 		})
 		
@@ -520,7 +520,7 @@ export default {
 	methods:{
 		// 页面加载后渲染函数
 		init(){
-			debugger
+			// debugger
 
 			if (!this.id) {
 				this.$vux.alert.show({
@@ -1201,7 +1201,7 @@ export default {
 	watch:{
 		id(){
 			console.log(this.id)
-			debugger
+			// debugger
 			this.init();
 		}
 	},

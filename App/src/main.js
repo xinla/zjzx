@@ -38,9 +38,9 @@ import axios from 'axios'
 Vue.prototype.$http = axios
 
 // 预览大图
-import preview from 'vue-photo-preview'
-import 'vue-photo-preview/dist/skin.css'
-Vue.use(preview);
+// import preview from 'vue-photo-preview'
+// import 'vue-photo-preview/dist/skin.css'
+// Vue.use(preview);
 
 //Loading插件
 import {Loading,LoadText} from '@/plugins/loading'

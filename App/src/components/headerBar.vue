@@ -77,22 +77,16 @@ export default {
 		height: @headerHeight;
 		background-color: @mainColor;
 		align-items: center;
-		// position: relative;
-		// top: 0;
-		// left: 0;
 		.header-logo {
-			// float: left;
 			width: 1.9rem;
 			img{
-				width: 90%;
-				// margin-top: .2rem;
+				width: 92%;
 			}
 		}
 		.header-input {
 			flex: 1;
 			height: .63rem;
 			line-height: .63rem;
-			// margin-top: .16rem;
 			padding-left: .2rem;
 			background-color: #fff;
 			border-radius: .1rem;

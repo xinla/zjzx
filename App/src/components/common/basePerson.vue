@@ -101,16 +101,16 @@ export default {
 			fansNum:0,
 			publidsedNum:0,
 			switchListPublic:[
-				{id:0, desc:'全部', path:'/personBase/published',},
-				{id:1, desc:'文章', path:'/personBase/publishedArticle',},
-				{id:2, desc:'视频', path:'/personBase/publishedVideo',},
-				{id:3, desc:'问答', path:'/personBase/publishedQA',},
+				{id:1, desc:'全部', path:'/personBase/published',},
+				{id:2, desc:'文章', path:'/personBase/publishedArticle',},
+				{id:3, desc:'视频', path:'/personBase/publishedVideo',},
+				{id:4, desc:'问答', path:'/personBase/publishedQA',},
 			],
 			switchListPrivate:[
-				{id:4, desc:'粉丝', path:'/personBase/fans',},
-				{id:5, desc:'关注', path:'/personBase/focus',},
-				{id:6, desc:'收藏', path:'/personBase/collect',},
-				{id:7, desc:'历史', path:'/personBase/history',},
+				{id:6, desc:'粉丝', path:'/personBase/fans',},
+				{id:7, desc:'关注', path:'/personBase/focus',},
+				{id:8, desc:'收藏', path:'/personBase/collect',},
+				{id:9, desc:'历史', path:'/personBase/history',},
 			]
 		}
 	},
@@ -118,11 +118,7 @@ export default {
 		init(){
 			if (localStorage.id && localStorage.id == this.userId) {
 	    		let userImg = localStorage.userImg;	
-				this.title = localStorage.userName;
-
-				// if( userImg ){
-				// 	this.list[0].src = config.fileRoot + '/' + userImg;
-				// }			
+				this.title = localStorage.userName;	
 				 if(userImg == 'undefined') {
 			          this.userPhoto =  require('@/assets/images/user_head.jpg');
 			          return;
@@ -133,35 +129,32 @@ export default {
 				let res = userService.getUserById(this.userId);
 				if (res && res.status == "success") {
 					if (res.user.imageurl) {
-						this.list[0].src = config.fileRoot + '/' + res.imageurl;
+						this.userPhoto = config.fileRoot + '/' + res.imageurl;
 					}
 					this.title = res.user.username;
 				}
 			}
 			// console.log(userImg); 
 			//获取文章数量
-			articleService.getUserArticleCount(this.userId,data=>{
+			articleService.getUserArticleCount(this.userId,(data)=>{
 				if (data && data.status == "success" ) {
 					this.publidsedNum = data.result.count;			
 				}			
 			});
 			// console.log(resArticleCount)
 			//获取粉丝数量
-			followService.getUserVermicelliCount(this.userId,data=>{
+			followService.getUserVermicelliCount(this.userId,(data)=>{
 				if (data && data.status == "success" ) {
 					this.fansNum = data.result.count;
 				}
 			});		
 			//获取关注数量
-			followService.getUserFollowCount(this.userId,data=>{
+			followService.getUserFollowCount(this.userId,(data)=>{
 				if (data && data.status == "success" ) {
 					this.focusNum = data.result.count;
 				}
 			});
-		 },
-		 show(index){
-			 this.$refs.previewer.show(index);
-		},
+		 }
 	},
 	watch:{
 		userId(){
