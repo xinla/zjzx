@@ -299,7 +299,7 @@ import articleClassifyService from '@/service/article_classifyService'
 		height: .76rem !important;
 	}
 	.vux-tab .vux-tab-item{
-		font-size: 17 px !important;
+		font-size: 17px !important;
 		font-weight: 500;
 		flex: 0 0 18% !important;
 	}
