@@ -48,14 +48,14 @@ export default {
 				sources: [
 					{
 						type: "video/mp4",
-						src: "http://www.w3cschool.cc/try/demo_source/mov_bbb.mp4" //url地址
+						src: "" //url地址
 					}
 				],
 				poster: "", //你的封面地址 
 				notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
 				controlBar: {
-					timeDivider: true,
-					durationDisplay: true,
+					timeDivider: false,
+					durationDisplay: false,
 					remainingTimeDisplay: false,
 					fullscreenToggle: true //全屏按钮
 				}
@@ -168,11 +168,16 @@ export default {
 </style>
 <style>	
 	.vjs-custom-skin > .video-js .vjs-big-play-button{
-		width: 2em;
-		height: 2em !important;
-	    font-size: 2.8em;
+		width: 1rem;
+		height: 1rem !important;
+	    font-size: .5rem;
 		border-radius: 50%;
 		margin: 0 !important;
 		transform: translate(-50%,-50%);
+		border: 2px solid #fff;
+	}
+	/*去除音量按钮*/
+	.video-js .vjs-volume-panel{
+		display: none;
 	}
 </style>

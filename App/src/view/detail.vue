@@ -475,8 +475,8 @@ export default {
 				// width: document.documentElement.clientWidth,
 				notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
 				controlBar: {
-					timeDivider: true,
-					durationDisplay: true,
+					timeDivider: false,
+					durationDisplay: false,
 					remainingTimeDisplay: false,
 					fullscreenToggle: true //全屏按钮
 				}
@@ -610,12 +610,12 @@ export default {
 					// }
 					let commentStr = String(this.commentNum);
 					let commentLength = commentStr.length;
-					console.log(commentLength);
+					// console.log(commentLength);
 					if(commentLength >= 5) {
 						let commentDie = commentStr/10000;
 						let commentResult = (commentDie.toFixed(1)) + 'w';
 						this.commentNum = commentResult;
-						console.log(commentResult);
+						// console.log(commentResult);
 					}
 				}			
 			});

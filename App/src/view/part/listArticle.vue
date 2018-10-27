@@ -29,7 +29,7 @@ export default {
 	mounted () {
 		this.$nextTick(()=>{
 			if (!this.classify) {
-				this.init_();				
+				this.init();				
 			}
 		})
 	},
@@ -45,7 +45,7 @@ export default {
 		}
 	},
 	methods:{
-		init_(){
+		init(){
 			let resArticlePage;
 			try{
 				if(this.classify == 0){
@@ -71,11 +71,12 @@ export default {
 		},
 		doRefresh(){
 			this.page = 1;
-			this.init_();
+			this.init();
 			if (this.ifNew) {
 				this.$vux.toast.show({
 					type:"text",
-					text:"已加载全部内容",
+					time:800,
+					text:"已经是最新内容啦",
 					width:"50%",
 				});				
 			}
@@ -97,6 +98,7 @@ export default {
 					}else{
 						this.$vux.toast.show({
 							type:"text",
+							time:800,
 							text: '暂无更多，不妨到我隔壁去看看吧~',
 							width:"auto",
 						});						
@@ -121,7 +123,7 @@ export default {
 			$(".main-content").eq(this.classify).scrollTop(this.scrollTop);
 		},
 		show(){
-			this.init_();				
+			this.init();				
 		}
 	}
 }
@@ -133,8 +135,8 @@ export default {
 		height: calc(100vh - 2.7rem);
 		overflow: hidden;
 		overflow-y: auto;
-		// padding: 0 .3rem;
-		// padding-bottom: .3rem;
+		/*// padding: 0 .3rem;
+		// padding-bottom: .3rem;*/
 	}
 	.refresh{
 		background: #fafafa;

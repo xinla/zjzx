@@ -1,5 +1,5 @@
 <template>
-	<div class="bfc-o"  @click="$Tool.goPage({ name:'detail',query:{id:article.id,detailType,}})">
+	<div class="bfc-o" v-if="ArticleFile.length || imgList.length"  @click="$Tool.goPage({ name:'detail',query:{id:article.id,detailType,}})">
 		<div class="article-wrap">
 			<div class="article-item clearfix">
 

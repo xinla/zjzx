@@ -49,6 +49,7 @@ export default {
                 _this.first = new Date().getTime();
                 _this.$vux.toast.show({
                   type:"text",
+                  time:1000,                
                   position:"middle",
                   text: '再按一次退出应用',
                   width:"auto",
@@ -80,6 +81,7 @@ export default {
                       setTimeout(()=>{
                         _this.$vux.toast.show({
                           type:"text",
+                          time:1000,
                           position:"middle",
                           text:"开始拼命为您下载...",
                           width:"auto",

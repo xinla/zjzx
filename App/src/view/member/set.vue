@@ -180,6 +180,7 @@ export default{
 	                      setTimeout(()=>{
 		                      _this.$vux.toast.show({
 		                        type:"text",
+	                            time:1000,
 		                        position:"middle",
 		                        text:"开始为您拼命下载...",
 		                        width:"auto",
