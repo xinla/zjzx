@@ -159,7 +159,9 @@ export default {
     height: 100%;
     overflow-x: hidden;
   }
-
+  .status-bar{
+    padding-top: 22px;
+  }
 .router-view-app {
   position: absolute;
   transition: all .3s cubic-bezier(.55,0,.1,1);

@@ -224,7 +224,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .member-header {
-  padding: .3rem .4rem;
+  padding:@statusBarHeight + 0.3rem .4rem .3rem ;
   background-position: 0 0;
   background-size: 100% 100%;
   background-repeat: no-repeat;

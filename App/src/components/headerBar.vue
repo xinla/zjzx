@@ -74,9 +74,11 @@ export default {
 .header{
 		display: flex;
 		width: 100%;
+		padding-top:@statusBarHeight;
 		height: @headerHeight;
 		background-color: @mainColor;
 		align-items: center;
+		box-sizing: content-box;
 		.header-logo {
 			width: 1.9rem;
 			img{

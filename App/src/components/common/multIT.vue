@@ -140,7 +140,7 @@ export default {
 		padding: 0 .3rem;
 		.article-item{
 			border-bottom: .02rem solid @borderColor;
-			padding: .15rem 0;
+			padding: .15rem 0 .1rem;
 			.article-title{
 				// height: 1.3rem;
 				max-height: 1.4rem;

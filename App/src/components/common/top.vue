@@ -1,18 +1,21 @@
 <template>
-	<div class="top-back">
-		<div class="top-back-icon"  @click="$emit('hrefTo')">
-			<i class="iconfont icon-arrow-left">
-				<slot name="href"></slot>
-			</i>
-		</div>
-		<div class="top-back-title">
-			<slot name="title"></slot>
-		</div>		
-		<div class="top-back-nav">
-			<slot name="nav">
-				<i class="iconfont icon-more">
-				</i>				
-			</slot>				
+	<div>
+		<div class="status-bar"></div>
+		<div class="top-back">
+			<div class="top-back-icon"  @click="$emit('hrefTo')">
+				<i class="iconfont icon-arrow-left">
+					<slot name="href"></slot>
+				</i>
+			</div>
+			<div class="top-back-title">
+				<slot name="title"></slot>
+			</div>		
+			<div class="top-back-nav">
+				<slot name="nav">
+					<i class="iconfont icon-more">
+					</i>				
+				</slot>				
+			</div>
 		</div>
 	</div>
 </template>
@@ -32,6 +35,9 @@ export default {
 }	
 </script>
 <style lang="less" scoped>
+.status-bar{
+	background: @statusBarBg;
+}
 .top-back {
 	display: flex;
 	width: 100%;

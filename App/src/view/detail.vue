@@ -506,24 +506,14 @@ export default {
 		}
 	},
 	mounted(){
-		this.$nextTick(()=>{
-			this.id = this.$route.query.id;
-			this.detailType = this.$route.query.detailType || 0;
-			try{
-				document.addEventListener('plusready',this.plusReady,false);
-			}catch(err){
-
-			}
-			// debugger
-			this.init();
-		})
-		
+		shareService.init();
 	},	
+	activated(){
+		this.id = this.$route.query.id;
+		this.detailType = this.$route.query.detailType || 0;
+	},
 	methods:{
-		// 页面加载后渲染函数
 		init(){
-			// debugger
-
 			if (!this.id) {
 				this.$vux.alert.show({
 					  content: '获取出错，请返回！',
@@ -569,17 +559,19 @@ export default {
 				});
 			}
 			// 文章附件
-			articleFileService.getFileByArticle(this.article.id,data=>{
-				if (data && data.status == "success") {
-					if (this.article.type == 1) {
-						this.ArticleFile = data.result.filelist;				
-					}else if(this.article.type == 2){
-						this.playerOptions.sources[0].src = this.fileRoot + data.result.filelist[0].url;
-						this.playerOptions.poster = this.fileRoot + data.result.filelist[0].thumbnail;
-					}
+			if (this.article.type != 3) {
+				articleFileService.getFileByArticle(this.article.id,data=>{
+					if (data && data.status == "success") {
+						if (this.article.type == 1) {
+							this.ArticleFile = data.result.filelist;				
+						}else if(this.article.type == 2){
+							this.playerOptions.sources[0].src = this.fileRoot + data.result.filelist[0].url;
+							this.playerOptions.poster = this.fileRoot + data.result.filelist[0].thumbnail;
+						}
 
-				}				
-			});
+					}				
+				});				
+			}
 			//获取文章点赞量
 			praiseService.getPraiseCount(this.id,1,(data)=>{
 				if (data && data.status == "success") {
@@ -928,13 +920,18 @@ export default {
 			if(this.replyShow){
 				this.popMask = true;
 			}
-
+			//分享内容对象
+			let reg = /[^\u4e00-\u9fa5]+/g;
+			let tempContent = this.article.content.replace(reg,"");
 			this.shareDesc = {
 				href:config.domain + location.href.substring(location.href.indexOf('/',10)),
 				title: this.article.title,
-				content: this.article.content.substring(0,100)
+				content: tempContent.substring(0,80)
 			};
-			if(this.ArticleFile.length) {
+			if (this.article.type == 3) {
+				let temp = this.$Tool.extractImg(this.article.content,1);
+				this.shareDesc['thumbs'] = temp[0];
+			}else if(this.ArticleFile.length) {
 				this.shareDesc['thumbs'] = [this.fileRoot + this.ArticleFile[0]['url']];
 			}else{
 				this.shareDesc['thumbs'] = [this.fileRoot + this.playerOptions.poster];
@@ -944,16 +941,6 @@ export default {
 
 		//分享到第三方
 		handleGiveShare(type){
-			this.shareDesc = {
-				href:config.domain + location.href.substring(location.href.indexOf('/',10)),
-				title: this.article.title,
-				content: this.article.content.substring(0,100)
-			};
-			if(this.ArticleFile.length) {
-				this.shareDesc['thumbs'] = [this.fileRoot + this.ArticleFile[0]['url']];
-			}else{
-				this.shareDesc['thumbs'] = [this.fileRoot + this.playerOptions.poster];
-			}
 			if(type == 1) {
 				shareService.shareToWxHy(this.shareDesc,(data)=>{
 					console.log(this.shareDesc);
@@ -1096,11 +1083,6 @@ export default {
 			}
 		},
 
-		//调取分享plus
-		plusReady(){
-			shareService.init();
-		},
-
 		/*----------------加载-函数---------------------*/
 		// 加载评论
 		loadComment(){
@@ -1202,17 +1184,18 @@ export default {
 	},
 	watch:{
 		id(){
-			console.log(this.id)
 			// debugger
-			this.init();
+			this.$nextTick(()=>{
+				this.init();				
+			})
 		}
 	},
-	beforeRouteEnter(to,from,next){
-		next(vm=>{
-			vm.id = vm.$route.query.id;	
-			vm.detailType = vm.$route.query.detailType || 0;
-		})
-	}
+	// beforeRouteEnter(to,from,next){
+	// 	next(vm=>{
+	// 		vm.id = vm.$route.query.id;	
+	// 		vm.detailType = vm.$route.query.detailType || 0;
+	// 	})
+	// }
 }
 </script>
 
