@@ -170,11 +170,12 @@ export default {
 	.vjs-custom-skin > .video-js .vjs-big-play-button{
 		width: 1rem;
 		height: 1rem !important;
-	    font-size: .5rem;
+	    font-size: .6rem !important;
 		border-radius: 50%;
-		margin: 0 !important;
+		/*margin: 0 !important;*/
 		transform: translate(-50%,-50%);
-		border: 2px solid #fff;
+		line-height: 1rem !important;
+		border: 2px solid #eee;
 	}
 	/*去除音量按钮*/
 	.video-js .vjs-volume-panel{

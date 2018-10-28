@@ -34,7 +34,7 @@
 						<button class="btn btn-apply" @click="$Tool.goPage({ name:'identityIndex',query:{'title':'申请认证'}})">申请认证</button>
 					</div>
 					<div v-else>
-						访客所见
+						<!-- 访客所见 -->
 					</div>
 				</div>
 				
@@ -81,7 +81,7 @@ export default {
 	data(){
 		return {
 			loginUserId:localStorage.id || 0,
-			userId:localStorage.id || 0,
+			userId:0,
 			current:0,
 			currentName:"全部",
 			// list:[{
@@ -128,10 +128,10 @@ export default {
 			}else{
 				let res = userService.getUserById(this.userId);
 				if (res && res.status == "success") {
-					if (res.user.imageurl) {
-						this.userPhoto = config.fileRoot + '/' + res.imageurl;
+					if (res.result.user.imageurl) {
+						this.userPhoto = config.fileRoot + '/' + res.result.user.imageurl;
 					}
-					this.title = res.user.username;
+					this.title = res.result.user.username;
 				}
 			}
 			// console.log(userImg); 
@@ -173,7 +173,7 @@ export default {
 	    	if (!vm.userId){
 	    		vm.userId = localStorage.id;
 	    	}
-			vm.current = vm.$route.query.current || vm.current;	    		
+			vm.current = Number(vm.$route.query.current || vm.current);	    		
 	      	// vm.init();
 		});
 	},

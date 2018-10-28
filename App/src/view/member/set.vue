@@ -176,6 +176,8 @@ export default{
 	                  _this.$vux.confirm.show({
 	                    title:"升级提示",
 	                    content:`发现新版本${data.result.versionnum}`,
+	                    confirmText:"立即体验",
+	                    cancelText:"忍痛放弃",
 	                    onConfirm () {                    	
 	                      setTimeout(()=>{
 		                      _this.$vux.toast.show({

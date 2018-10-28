@@ -1,43 +1,39 @@
 <!-- 首页新闻页面 -->
 <template>
-	<div>
-		<template v-show="!ifDetail">
-			<div class="index">
-				<home-header></home-header>
-				<div class="main-wrap">
-					<div class="bfc-o">
-						<tab :line-width=2 active-color='#fc378c' v-model="classifyIndex">
-							<tab-item :selected="currentClassiftyName == '推荐'" @click="currentClassiftyName = '推荐'">推荐
-							</tab-item>
-							<tab-item :selected="currentClassiftyName == item.classifyname" v-for="(item,index) in classifyList" @click="currentClassiftyName = item.classifyname" :key="index">{{item.classifyname}}
-							</tab-item>
-						</tab>
-							<div class="nav-add" @click="handleMore" v-model="showMore" v-if="0">
-								<i class="iconfont icon-menu1"></i>
-							</div>
-						<div v-transfer-dom>
-							<popup v-model="showMore" position="bottom" height="100%">
-								<div class="more-title" @click="handleClose">
-									<i class="iconfont icon-close"></i>
-								</div>
-								<home-more></home-more>
-							</popup>	
+	<div class="index">
+		<home-header></home-header>
+		<div class="main-wrap">
+			<div class="bfc-o">
+				<tab :line-width=2 active-color='#fc378c' v-model="classifyIndex">
+					<tab-item :selected="currentClassiftyName == '推荐'" @click="currentClassiftyName = '推荐'">推荐
+					</tab-item>
+					<tab-item :selected="currentClassiftyName == item.classifyname" v-for="(item,index) in classifyList" @click="currentClassiftyName = item.classifyname" :key="index">{{item.classifyname}}
+					</tab-item>
+				</tab>
+					<div class="nav-add" @click="handleMore" v-model="showMore" v-if="0">
+						<i class="iconfont icon-menu1"></i>
+					</div>
+				<div v-transfer-dom>
+					<popup v-model="showMore" position="bottom" height="100%">
+						<div class="more-title" @click="handleClose">
+							<i class="iconfont icon-close"></i>
 						</div>
-					</div>
-					<div class="main" ref="main">
-						<loading-main v-show="ifLoad"></loading-main>
-						<swiper v-model="classifyIndex" :height="swiperHeight + 'px'" :show-dots="false" :threshold="150" >
-					        <swiper-item>
-					          	<listArticle :show="0 == classifyIndex"></listArticle>
-					        </swiper-item>
-					        <swiper-item v-for="(item,index) in classifyList" :key="index">
-					          	<listArticle :classify="item.classifycode" :show="item.classifycode == classifyIndex?showArr[classifyIndex]=true:showArr[item.classifycode]"></listArticle>
-					        </swiper-item>
-				      	</swiper>
-					</div>
+						<home-more></home-more>
+					</popup>	
 				</div>
 			</div>
-		</template>
+			<div class="main" ref="main">
+				<loading-main v-show="ifLoad"></loading-main>
+				<swiper v-model="classifyIndex" :height="swiperHeight + 'px'" :show-dots="false" :threshold="150" >
+			        <swiper-item>
+			          	<listArticle :show="0 == classifyIndex"></listArticle>
+			        </swiper-item>
+			        <swiper-item v-for="(item,index) in classifyList" :key="index">
+			          	<listArticle :classify="item.classifycode" :show="item.classifycode == classifyIndex?showArr[classifyIndex] = true:showArr[item.classifycode]"></listArticle>
+			        </swiper-item>
+		      	</swiper>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -45,7 +41,7 @@
 import { TransferDom,Swiper,SwiperItem, Popup } from 'vux'
 import homeHeader from '@/components/headerBar'
 import homeMore from'@/components/more'
-import listArticle from '@/view/part/listArticle'
+import listArticle from '@/components/listArticle'
 
 import homeService from '@/service/homeService'
 import articleService from '@/service/articleService'
@@ -90,7 +86,6 @@ import articleClassifyService from '@/service/article_classifyService'
 				],
 				classifyIndex:0,
 				currentClassiftyName:"推荐",
-				ifDetail:false,
 				swiperHeight:0,
 				showArr:[],
 			}
@@ -278,6 +273,11 @@ import articleClassifyService from '@/service/article_classifyService'
 		height: 100%;
 		overflow-y: auto;
 	}
+	.vux-tab .vux-tab-item{
+		font-size: 17px !important;
+		font-weight: 500;
+		flex: 0 0 18% !important;
+	}
 	
 </style>
 <style>
@@ -298,10 +298,5 @@ import articleClassifyService from '@/service/article_classifyService'
   }
 	.vux-tab{
 		height: .76rem !important;
-	}
-	.vux-tab .vux-tab-item{
-		font-size: 17px !important;
-		font-weight: 500;
-		flex: 0 0 18% !important;
 	}
 </style>

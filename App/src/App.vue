@@ -29,10 +29,19 @@ export default {
     },3000);
     //html font-size 
     var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
-    document.querySelector('html').setAttribute("data-dpr",1);
-    // document.querySelector('meta[name="viewport"]').setAttribute("content","width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no");
+    // document.querySelector('html').setAttribute("data-dpr",1);
+    // // document.querySelector('meta[name="viewport"]').setAttribute("content","width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no");
     window.addEventListener(resizeEvt, this.subRecalc, false);
     document.addEventListener('DOMContentLoaded', this.subRecalc, false);
+    //night
+    if (localStorage.dayNight&&localStorage.dayNight=='night') {
+        let head = document.getElementsByTagName("head")[0];
+        let link = document.createElement('link');
+        link.setAttribute('rel','stylesheet');
+        link.setAttribute('id','night');
+        link.setAttribute('href','./static/night.css');
+        head.appendChild(link);
+    }
 
   },
   mounted(){
@@ -51,7 +60,7 @@ export default {
                   type:"text",
                   time:1000,                
                   position:"middle",
-                  text: '再按一次退出应用',
+                  text: '再按一次退出直击真相',
                   width:"auto",
                 });
                 setTimeout(() => {
@@ -77,6 +86,8 @@ export default {
                   _this.$vux.confirm.show({
                     title:"升级提示",
                     content:`发现新版本${data.result.versionnum}`,
+                    confirmText:"立即体验",
+                    cancelText:"忍痛放弃",
                     onConfirm () {
                       setTimeout(()=>{
                         _this.$vux.toast.show({

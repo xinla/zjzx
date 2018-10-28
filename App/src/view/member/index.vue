@@ -43,6 +43,10 @@
             <i class="iconfont" :class="item.class"></i>
             <span class="member-desc-txt">{{item.desc}}</span>
           </router-link>
+          <li class="member-desc-item" @click="setDYModel">
+            <i class="iconfont icon-yejian"></i>
+            <span class="member-desc-txt">夜间</span>
+          </li>
         </ul>
       </div>
       <div class="member-body">
@@ -103,7 +107,6 @@ export default {
       tabArr: [
         { id: 1, desc: '收藏', class: 'icon-not-collection', path: '/personBase/collect', query: 6 },
         { id: 2, desc: '历史', class: 'icon-history', path: '/personBase/history', query: 7 },
-        { id: 3, desc: '夜间', class: 'icon-yejian' },
       ],
       menuArr: [
         { id: 1, desc: '我的关注', class: 'icon-zuji', path: '/personBase/focus' ,current:5},
@@ -119,8 +122,6 @@ export default {
       userPhoto: require('@/assets/images/user_head.jpg'),
       focusNum: 0,
       fansNum: 0,
-      dayNight: 'day',
-
     }
   },
   methods: {
@@ -154,15 +155,6 @@ export default {
         }
       });
     },
-    loadDayNight(){
-      if (localStorage.dayNight) {
-        if (localStorage.dayNight == 'day') {
-          this.dayNight = 'day';
-        } else {
-          this.dayNight = 'night';
-        }
-      }
-    },
     transArgs(link, title) {
       this.router.push({
         path: link,
@@ -171,16 +163,25 @@ export default {
         }
       });
     },
-    setDYNodel() {
-      if (this.dayNight == "day") {
+    setDYModel() {
+      if (!localStorage.dayNight || localStorage.dayNight =='day') {
+        let night = document.getElementById('night');
+        if (night) {
+          night.setAttribute('href','./static/night.css');
+        }else{
+          let head = document.getElementsByTagName("head")[0];
+          let link = document.createElement('link');
+          link.setAttribute('rel','stylesheet');
+          link.setAttribute('href','./static/night.css');
+          link.setAttribute('id','night');
+          head.appendChild(link);        
+        }
         localStorage.dayNight = "night";
-        this.dayNight = "night";
+        console.log(localStorage.dayNight)
       } else {
+        document.getElementById('night').removeAttribute('href');
         localStorage.dayNight = "day";
-        this.dayNight = "day";
       }
-      // location.reload();
-      history.go(0)
     },
     copyCode(e){
       this.$refs.inviteCode.select();
@@ -189,11 +190,7 @@ export default {
       this.$vux.alert.show({
         content:'复制成功！',
       })
-      setTimeout(()=>{
-        this.$vux.alert.hide({
-          content:'登录失效,请重新登录！',
-        })
-      },800)
+      setTimeout(()=>{this.$vux.alert.hide()},800);
     },
     toPage(type){
       if (type == 1) {
