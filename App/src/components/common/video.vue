@@ -173,9 +173,9 @@ export default {
 	    font-size: .6rem !important;
 		border-radius: 50%;
 		/*margin: 0 !important;*/
-		transform: translate(-50%,-50%);
+		transform: translate(30%,10%);
 		line-height: 1rem !important;
-		border: 2px solid #eee;
+		border: .04rem solid #eee;
 	}
 	/*去除音量按钮*/
 	.video-js .vjs-volume-panel{

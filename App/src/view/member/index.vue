@@ -88,7 +88,6 @@
 <script>
 import config from '@/lib/config/config'
 import followService from '@/service/followService'
-
 export default {
   activated() {
   	this.$nextTick(()=>{
@@ -238,24 +237,28 @@ export default {
     ul {
       padding: .5rem 0;
       display: flex;
-      flex-wrap: wrap;
-      align-content: center;
-      align-items: center;
+      // flex-wrap: wrap;
+      // align-content: center;
+      // align-items: center;
       justify-content: center;
-
       .icon-item {
-        flex: 1;
+        width: 1rem;
+        height: 1rem;
+        margin-right: .5rem;
+        background-color: #fff;
+        border-radius: 50%;
         text-align: center;
-
+        &:last-child{
+          margin-right: 0;
+        }
         .iconfont {
           font-size: .6rem;
-          background-color: #fff;
-          padding: .2rem;
-          border-radius: 50%;
+          line-height: 1rem;
         }
       }
 
       .icon-item:first-child i {
+
         color: #1ab2e8;
       }
 
@@ -264,6 +267,7 @@ export default {
       }
 
       .icon-item:nth-child(3) i {
+        line-height: 1.1rem;
         color: #06bb14;
       }
 
